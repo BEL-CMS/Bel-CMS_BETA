@@ -1,0 +1,62 @@
+<?php
+if (!defined('CHECK_INDEX')) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
+	exit(ERROR_INDEX);
+}
+?>
+<section class="padding-bottom-60">
+	<div class="">
+		<div class="headline">
+		<?php
+		foreach ($this->data as $k => $v):
+			if ($k == 0):
+				?>
+					<h4 class="no-padding-top"><?=$v->title?> <small><?=$v->subtitle?></small></h4>
+				</div>
+				<?php
+			else:
+				?>
+				<div class="headline margin-top-60">
+					<h4><?php echo $v->title; ?> <small><?=$v->subtitle?></small></h4>
+				</div>
+				<?php
+			endif;
+			if (!empty($v->threads)):
+			?>
+				<div class="forum">
+			<?php
+				foreach ($v->threads as $k_threads => $v_threads):
+					$lock = $v_threads->options['lock'] ? 'lock' : '';
+					$link = $v_threads->options['lock'] ? Common::CurrentPage() : 'Forum/Threads/'.$v_threads->title.'?id='.$v_threads->id;
+					$span_profil  = '<span>';
+					$span_profil .= '<a href="#"><i class="fa fa-user"></i> '.$v_threads->lastThreads->author.'</a> <i class="fa fa-clock-o"></i> '.$v_threads->lastThreads->date_post;
+					$span_profil .= '</span>';
+					$profil = $v_threads->lastThreads->author == UNKNOWN ? '' : $span_profil;
+					$none   = $v_threads->lastThreads->title == NO_POST ? '<h4 style="line-height:35px">'.NO_POST.'</h4>' : '<h4><a href="">'.$v_threads->lastThreads->title.'</a></h4>';
+					//$none   = line-height: 40px;
+				?>
+					<div class="forum-group <?=$lock?>">
+						<div class="forum-icon"><i class="<?=$v_threads->icon?>"></i></div>
+						<div class="forum-title">
+							<h4><a href="<?=$link?>"><?=$v_threads->title?></a></h4>
+							<p><?=$v_threads->subtitle?></p>
+						</div>
+						<div class="forum-activity">
+							<a href="#"><img src="<?=$v_threads->lastThreads->avatar?>" alt="avatar_user"></a>
+							<div>
+								<?=$none?>
+								<?=$profil?>
+							</div>
+						</div>
+						<div class="forum-meta"><?=$v_threads->count_post?> <?=THREADS?></div>
+					</div>
+				<?php
+				endforeach;
+				?>
+				</div>
+			<?php
+			endif;
+		endforeach;
+		?>
+	</div>
+</section>
