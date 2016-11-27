@@ -174,8 +174,8 @@ final class Template
 		$files[] = 'assets/plugins/animate/animate.delay.css';
 		$files[] = 'assets/plugins/summernote/summernote.css';
 
-		if (is_file(ROOT.'pages'.DS.GET_PAGE.DS.'styles.css')) {
-			$files[] = 'pages'.DS.GET_PAGE.DS.'styles.css';
+		if (is_file(ROOT.'pages'.DS.GET_PAGE.DS.'css'.DS.'styles.css')) {
+			$files[] = 'pages'.DS.GET_PAGE.DS.'css'.DS.'styles.css';
 		}
 
 		foreach ($files as $v) {
@@ -207,8 +207,8 @@ final class Template
 		$files[] = 'assets/plugins/summernote/summernote.min.js';
 		$files[] = 'assets/plugins/summernote/lang/summernote-fr-FR.min.js';
 
-		if (is_file(ROOT.'pages'.DS.GET_PAGE.DS.'javascripts.js')) {
-			$files[] = 'pages'.DS.GET_PAGE.DS.'javascripts.js';
+		if (is_file(ROOT.'pages'.DS.GET_PAGE.DS.'js'.DS.'javascripts.js')) {
+			$files[] = 'pages'.DS.GET_PAGE.DS.'js'.DS.'javascripts.js';
 		}
 
 		foreach ($files as $v) {
