@@ -25,4 +25,7 @@ Common::constant(array(
 	'THREAD'        => 'Sujet',
 	'NEW_THREAD'    => 'Nouveau sujet',
 	'NO_POST'       => 'Aucun sujet',
+	'LOCK_THREAD'   => 'Fermer le sujet',
+	'LIKE'          => 'Aimer',
+	'REPORT_POST'   => 'Reporter ce post',
 ));
