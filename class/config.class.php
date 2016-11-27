@@ -69,7 +69,7 @@ class Config
 			Notification::newPage('ERROR FILE', 'file ['.$fileLangBase.'] no found');
 		}
 		if (defined('GET_PAGE')) {
-			$fileLangPage = ROOT_LANG.GET_PAGE.'.lang.'.CMS_WEBSITE_LANG.'.php';
+			$fileLangPage = ROOT_PAGES.DS.mb_strtolower(GET_PAGE).DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
 			if (is_file($fileLangPage)) {
 				include $fileLangPage;
 			}

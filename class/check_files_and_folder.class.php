@@ -39,7 +39,6 @@ final class CheckFilesFolders
 			'assets',
 			'class',
 			'config',
-			'languages',
 			'management',
 			'pages',
 			'templates',
@@ -75,10 +74,6 @@ final class CheckFilesFolders
 								'config.define.php',
 								'config.inc.php',
 								'config.table.php',
-							),
-			'languages' =>	array(
-								'index.html',
-								'base.lang.fr.php'
 							),
 			'management'=> array('index.html',
 								 'login.php',
