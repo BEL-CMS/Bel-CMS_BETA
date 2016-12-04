@@ -712,4 +712,4 @@ function debug ($data = null, $exitAfter = false)
 }
 function cesure_href($d) { 
     return '<a href="' . $d[1] . '" title="' . $d[1] . '" >[Lien]</a>';      
-}  
+}

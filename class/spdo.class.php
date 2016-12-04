@@ -8,6 +8,23 @@
  * @copyright 2014 Bel-CMS
  * @author Stive - mail@stive.eu
  */
+
+if (!defined('CHECK_INDEX')) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
+	exit(ERROR_INDEX);
+}
+
+class pdoDbException extends PDOException {
+
+	public function __construct(PDOException $e) {
+		if(strstr($e->getMessage(), 'SQLSTATE[')) {
+			preg_match('/SQLSTATE\[(\w+)\] \[(\w+)\] (.*)/', $e->getMessage(), $matches);
+			$this->code = ($matches[1] == 'HT000' ? $matches[2] : $matches[1]);
+			$this->message = $matches[3];
+		}
+	}
+}
+
 class SqlConnection
 {
 	#########################################
@@ -27,21 +44,12 @@ class SqlConnection
 		$pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
 		$pdo_options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
 
-		#########################################
-		# Correctif de l'absence de caractère
-		#########################################
-		if (defined('DB_PREFIX')) { $DB_PREFIX = DB_PREFIX; } else { $DB_PREFIX = ''; }
-		#########################################
-		# End Correctif
-		#########################################
-
 		try {
-            $this->cnx = new PDO('mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.trim($DB_PREFIX.DB_NAME), DB_USER, DB_PASSWORD, $pdo_options);
-            $this->isConnected = true;
+			$this->cnx = new PDO('mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_NAME, DB_USER, DB_PASSWORD, $pdo_options);
+			$this->isConnected = true;
 		}
 		catch (PDOException $e) {
-			echo $e;
-			//throw new BelCMSException(CUSTOM_WARNING_PAGE, 'Aucune connexion possible avec la base de données: '.$e->getMessage(), CUSTOM_WARNING_PAGE);
+			throw new pdoDbException($e);
 		}
 	}
 	#########################################
@@ -234,14 +242,20 @@ class BDD
 			self::rowCount();
 			$GLOBALS['request_sql']++;
 			$return = true;
-		} catch (PDOException $error) {
-			echo '	<code style="background:#666666;color:#FFF;width:90%;margin:auto;display:block;padding:15px;line-height:20px;">
-						Le code de l\'exception est : '.$error->getCode().'<br>
-						Le fichier incriminé est le : '.$error->getFile().'<br>
-						L\'exception a été créée depuis la ligne : '.$error->getLine().'<br>
-						L\'erreur est le : '.$error->getMessage().'<br>
-						'.str_replace("\n", '<br>', $error->getTraceAsString()).'
-					</code>';
+		} catch (PDOException $e) {
+			$r  = '<pre>'.PHP_EOL;
+			$r .= str_pad('', 100, '-',STR_PAD_RIGHT).PHP_EOL;
+			$r .= str_pad('Date Time', 20, ' ',STR_PAD_RIGHT) .date("H:i:s").PHP_EOL;
+			$r .= str_pad('Error Type', 20, ' ',STR_PAD_RIGHT) .$e->getCode().PHP_EOL;
+			$r .= str_pad('Error Message', 20, ' ',STR_PAD_RIGHT) .$e->getMessage().PHP_EOL;
+			$r .= str_pad('Error Ligne', 20, ' ',STR_PAD_RIGHT) .$e->getLine().PHP_EOL;
+			$r .= str_pad('Error File', 20, ' ',STR_PAD_RIGHT) .$e->getFile().PHP_EOL;
+			$r .= str_pad('Error Previous', 20, ' ',STR_PAD_RIGHT) .$e->getPrevious().PHP_EOL;
+			$r .= str_pad('Error Trace', 20, ' ',STR_PAD_RIGHT) .PHP_EOL.$e->getTraceAsString().PHP_EOL;
+			$r .= str_pad('', 100, '-',STR_PAD_RIGHT).PHP_EOL;
+			$r .= '</pre>'.PHP_EOL;
+			echo $r;
+
 			$return = false;
 		}
 
@@ -270,9 +284,9 @@ class BDD
 			$prepare = '
 				SELECT '.$this->fields.'
 				FROM   '.$this->table.
-				         $this->where.
-				         $this->orderby.
-				         $this->limit.' ';
+						 $this->where.
+						 $this->orderby.
+						 $this->limit.' ';
 			$this->cnx = $this->cnx->prepare($prepare);
 
 			if ($this->cnx == self::sqlExecute()) {
@@ -298,9 +312,9 @@ class BDD
 			$prepare = '
 				SELECT '.$this->fields.'
 				FROM   '.$this->table.
-				         $this->where.
-				         $this->orderby.
-				         $this->limit.' ';
+						 $this->where.
+						 $this->orderby.
+						 $this->limit.' ';
 			$this->cnx = $this->cnx->prepare($prepare);
 
 			if ($this->cnx == self::sqlExecute()) {
@@ -324,7 +338,7 @@ class BDD
 			$prepare = '
 				SELECT count(id)
 				FROM   '.$this->table.
-				         $this->where.' ';
+						 $this->where.' ';
 			$this->cnx = $this->cnx->prepare($prepare);
 
 			if ($this->cnx == self::sqlExecute()) {
