@@ -79,6 +79,28 @@ class Dispatcher
 
 	}
 	#########################################
+	# Checks if it is a page in echo only
+	#########################################
+	protected function RequestEcho ()
+	{
+		$return = false;
+
+		$echo = array(
+			'Echo',
+			'echo'
+		);
+
+		foreach ($echo as $k) {
+			if (array_key_exists($k, $_REQUEST)) {
+				$return = (bool) true;
+				break;
+			}
+		}
+
+		return $return;
+
+	}
+	#########################################
 	# Set name module
 	#########################################
 	private function NamePage ()

@@ -338,7 +338,8 @@ function bel_cms_alert_box (objet) {
 		},
 		complete: function() {
 			$('textarea').val('');
-			bel_cms_alert_box_end(1);
+			$("input:text").val('');
+			bel_cms_alert_box_end(3);
 		}
 	});
 }

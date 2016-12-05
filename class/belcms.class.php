@@ -55,9 +55,17 @@ final class BelCMS extends dispatcher
 				}
 			} else {
 				$Template = New Template;
-				if ($this->RequestAjax() === true) {
+				if ($this->RequestEcho() === true) {
+					if (isset($_SESSION['ECHO'])) {
+						echo $_SESSION['ECHO'];
+						unset($_SESSION['ECHO']);
+					} else {
+						echo 'ERROR';
+					}
+				} else if ($this->RequestAjax() === true) {
 					if (isset($_SESSION['JQUERY'])) {
 						echo json_encode($_SESSION['JQUERY']);
+						unset($_SESSION['JQUERY']);
 					} else {
 						echo json_encode(array('type' => 'ERROR', 'text' => 'ERROR'));
 					}

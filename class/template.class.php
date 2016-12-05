@@ -192,6 +192,35 @@ final class Template
 	{
 		$files          = array();
 		$return         = '';
+		/* widgets */
+		/* BDD */
+		$BDD = New BDD();
+		$BDD->table('TABLE_WIDGETS');
+		$BDD->fields(array('name','title','groups_access'));
+		$BDD->queryAll();
+
+		$this->widgets = $BDD->data;
+
+		foreach ($this->widgets as $k => $v) {
+			if ($v->groups_access != 0) {
+				if ($_SESSION['user'] === false) {
+					unset($this->widgets[$k]);
+				} else {
+					$groups_access = explode('|', $v->groups_access);
+					$ok = false;
+					foreach ($groups_access as $key => $value) {
+						if (in_array($value, $_SESSION['user']->groups)) {
+							$ok = true;
+							break;
+						}
+					}
+					if ($ok === false) {
+						unset($this->widgets[$k]);
+					}
+				}
+			}
+		}
+		unset($BDD);
 		/* plugins js */
 		if (CMS_JQUERY == 'on') {
 			$files[] = 'assets/plugins/jquery/jquery-1.11.1.min.js';
@@ -209,6 +238,13 @@ final class Template
 
 		if (is_file(ROOT.'pages'.DS.GET_PAGE.DS.'js'.DS.'javascripts.js')) {
 			$files[] = 'pages'.DS.GET_PAGE.DS.'js'.DS.'javascripts.js';
+		}
+
+		foreach ($this->widgets as $k => $v) {
+			$file_widgets = ROOT_WIDGETS.$v->name.DS.'javascripts.js';
+			if (is_file($file_widgets)) {
+				$files[] = 'widgets/'.$v->name.'/javascripts.js';
+			}
 		}
 
 		foreach ($files as $v) {
