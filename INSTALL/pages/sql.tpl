@@ -8,7 +8,6 @@
  * @copyright 2014-2016 Bel-CMS
  * @author Stive - mail@stive.eu
  */
-
 ?>
 <form action="?page=checkslq_start" method="post">
 	<div class="row">

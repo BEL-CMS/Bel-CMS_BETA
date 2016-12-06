@@ -60,6 +60,12 @@
 							<td>PDO Driver</td>
 							<td><span class="<?=$pdo_ico?>"></span></td>
 						</tr>
+						<?php $pdo_class = checkWriteConfig() === false ? 'class="danger"' : ''; ?>
+						<?php $pdo_ico   = checkWriteConfig() === false ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'; ?>
+						<tr <?=$pdo_class?>>
+							<td>Write config/config.inc.php</td>
+							<td><span class="<?=$pdo_ico?>"></span></td>
+						</tr>
 					</tbody>
 				</table>
 			<hr>

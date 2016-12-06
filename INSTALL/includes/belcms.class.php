@@ -33,7 +33,7 @@ class BelCMS
 
 	public function HTML()
 	{
-		if ($_REQUEST['page'] == 'CreateSQL'):
+		if ($this->page == 'CreateSQL'):
 			$table = $_REQUEST['table'];
 			require_once ROOT.DS.'includes'.DS.'tables.php';
 			if ($error === true) {
@@ -152,5 +152,102 @@ function redirect ($url = null, $time = null)
 	}, <?php echo $time; ?>);
 	</script>
 	<?php
+}
+function insertUserBDD ()
+{
+	$sql = array();
+
+	if (!function_exists('password_hash')) {
+		require ROOTCMS.DS.'class'.DS.'password.php';
+	}
+
+	$users['username']	= $_POST['username'];
+	$users['password']	= password_hash($_POST['password'], PASSWORD_DEFAULT);
+	$users['email']		= $_POST['email'];
+	$users['hash_key']	= md5(uniqid(rand(), true));
+	$users['ip']		= getIp();
+
+	$sql[0]  = "INSERT INTO `".$_SESSION['prefix']."page_users` (
+				`id` ,
+				`username` ,
+				`password` ,
+				`email` ,
+				`avatar` ,
+				`hash_key` ,
+				`date_registration` ,
+				`last_visit` ,
+				`website` ,
+				`groups` ,
+				`main_groups` ,
+				`valid` ,
+				`ip` ,
+				`token`
+			) VALUES (
+				NULL , '".$users['username']."', '".$users['password']."', '".$users['email']."', '', '".$users['hash_key']."', NOW() , NOW() , '', '1', '1', '1', '".$users['ip']."', ''
+			);";
+
+	$sql[1]  = "INSERT INTO `".$_SESSION['prefix']."page_users_profils` (
+				`id` ,
+				`hash_key` ,
+				`gender` ,
+				`public_mail` ,
+				`websites` ,
+				`list_ip` ,
+				`list_avatar` ,
+				`config` ,
+				`info_text` ,
+				`birthday` ,
+				`country` ,
+				`hight_avatar` ,
+				`friends`
+				)
+			VALUES (
+				NULL , '".$users['hash_key']."', 'unisexual', '', '', '', '', '', '', '".date('Y-m-d')."' , '', '', ''
+			);";
+
+	$sql[2]  = "INSERT INTO `".$_SESSION['prefix']."page_users_social` (
+				`id` ,
+				`hash_key` ,
+				`facebook` ,
+				`linkedin` ,
+				`twitter` ,
+				`googleplus` ,
+				`pinterest`
+				)
+			VALUES (
+				NULL , '".$users['hash_key']."', '', '', '', '', ''
+			);";
+
+	$error = false;
+	foreach ($sql as $insert) {
+		if ($error === true) {
+			break;
+		}
+		try {
+			$cnx = new PDO('mysql:host='.$_SESSION['host'].';port='.$_SESSION['port'].';dbname='.$_SESSION['dbname'], $_SESSION['username'], $_SESSION['password']);
+			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$cnx->exec($insert);
+			$return = true;
+		} catch(PDOException $e) {
+			$error  = true;
+			$return = $e->getMessage();
+		}
+		unset($cnx);
+	}
+	return $return;
+}
+function getIp () {
+	if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+		$return = $_SERVER['HTTP_CLIENT_IP'];
+	}
+	else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		$return = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	} else {
+		$return = (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '');
+	}
+	if ($return == '::1') {
+		$return = '127.0.0.1';
+	}
+	return $return;
 }
 ?>

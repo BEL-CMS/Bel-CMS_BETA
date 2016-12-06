@@ -175,3 +175,6 @@ h3,h4,h5,.panel {
     transform: rotate(360deg);
   }
 }
+.input-group {
+  margin-bottom: 5px;
+}
