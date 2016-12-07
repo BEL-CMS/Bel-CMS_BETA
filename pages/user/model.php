@@ -43,7 +43,6 @@ class ModelPagesUser
 		'country',
 		'hight_avatar',
 		'friends'
-
 	);
 	#####################################
 	# Get data table users

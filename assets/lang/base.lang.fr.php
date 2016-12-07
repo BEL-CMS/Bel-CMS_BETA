@@ -1,20 +1,20 @@
-<?php
-/**
- * Bel-CMS [Content management system]
- * @version 0.0.1
- * @link http://www.bel-cms.be
- * @link http://www.stive.eu
- * @license http://opensource.org/licenses/GPL-3.0 copyleft
- * @copyright 2014-2016 Bel-CMS
- * @author Stive - mail@stive.eu
- */
-
-if (!defined('CHECK_INDEX')) {
+    <?php
+    /**
+    * Bel-CMS [Content management system]
+    * @version 0.0.1
+    * @link http://www.bel-cms.be
+    * @link http://www.stive.eu
+    * @license http://opensource.org/licenses/GPL-3.0 copyleft
+    * @copyright 2014-2016 Bel-CMS
+    * @author Stive - mail@stive.eu
+    */
+    
+    if (!defined('CHECK_INDEX')) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
     exit(ERROR_INDEX);
-}
-
-Common::constant(array(
+    }
+    
+    Common::constant(array(
     #####################################
     # Fichier lang en français - Erreur
     #####################################
@@ -61,6 +61,20 @@ Common::constant(array(
     'SAVE'                   => 'Enregister',
     'CANCEL'                 => 'Annuler',
     'LOGIN_REQUIRE'          => 'Login requis',
+    'SUBMIT'                 => 'Soumettre',
+    'EMPTY'                  => 'Vide',
+    'OTHER'                  => 'Autre',
+    'TITLE'                  => 'Titre',
+    'PUBLIC'                 => 'Public', 
+    'PRIVATE'                => 'Privé',
+    'SIGN_OUT'               => 'Se déconnecter',
+    'SIGN_IN'                => 'Se connecter',
+    'MAIL'                   => 'E-mail',
+    'UPDATE_NOW'             => 'Mettre à jour maintenant',
+    'FILE'                   => 'Fichier',
+    'FILES'                  => 'Fichiers',
+    'LINK'                   => 'Lien',
+    'LINKS'                  => 'Liens',
     #####################################
     # COLOR
     #####################################
@@ -99,8 +113,10 @@ Common::constant(array(
     'FEMALE'                 => 'Femme',
     'MALE'                   => 'Homme',
     'UNISEXUAL'              => 'Unisexe',
+    'MEMBER'                 => 'Membre',
+    'MEMBERS'                => 'Membres',
     #####################################
     # WIDGETS USERS
     # ###################################
     'CONNECTED'              => 'Connectés',
-));
+    ));

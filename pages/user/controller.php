@@ -101,7 +101,7 @@ class ControllerPagesUser extends ModelPagesUser
 		} else if ($_REQUEST['send'] == 'deleteavatar') {
 			self::deleteAvatar();
 		} else {
-			Common::redirect('/User', 0);
+			Common::redirect('User', 0);
 		}
 	}
 	private function sendAvatar ()
