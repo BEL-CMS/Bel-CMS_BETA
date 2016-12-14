@@ -212,12 +212,6 @@ class ModelPagesForum
 			$posts = $this->sql->data;
 			// Assemble les deux tableaux
 			$return = array_merge($firstPost, $posts);
-			// Récupère tout les utilisateurs qui ont poster
-			//foreach ($return as $k => $v) {
-			//	$users[] = $v->author;
-			//}
-			// Récupère tout le nom des utilisateurs depuis leurs ID
-			//User::getNameUsers($users);
 			foreach ($return as $k => $v) {
 				$authorId = $v->author;
 				$author = User::getNameAvatar($authorId);
@@ -225,6 +219,8 @@ class ModelPagesForum
 				$return[$k]->author = $author->username;
 				// Fait corrépondre leurs ID avec leur avatar
 				$return[$k]->avatar = $author->avatar;
+				// Fait corrépondre leurs ID avec leur date d'inscription
+				$return[$k]->registration = Common::TransformDate($author->date_registration);
 				// Récupère les options et les transformer en Booleen
 				// Les like sont transoformer en (int)
 				$options = explode('|', $v->options);
@@ -274,6 +270,18 @@ class ModelPagesForum
 			unset($_SESSION['REPLYPOST']);
 		}
 
+		$upload = Common::Upload('file', 'forum');
+		if ($upload == UPLOAD_FILE_SUCCESS) {
+			$insert['attachment'] = 'uploads/forum/'.Common::FormatName($_FILES['file']['name']);
+			$upload = '<br>'.$upload;
+		} else if ($upload == UPLOAD_NONE) {
+			$insert['attachment'] = '';
+			$upload = '';
+		} else {
+			$insert['attachment'] = '';
+			$upload = '';
+		}
+
 		$insert['content'] = Common::VarSecure($data['info_text']);
 		$insert['id_post'] = (int) $data['id'];
 		$insert['author']  = $user->hash_key;
@@ -286,7 +294,7 @@ class ModelPagesForum
 
 		if ($BDD->rowCount == 1) {
 			self::addPlusPost($BDD->sqlData['id_post']);
-			$return['msg']  = 'Enregistrement de la réponse en cours...';
+			$return['msg']  = 'Enregistrement de la réponse en cours...'.$upload;
 			$return['type'] = 'green';
 		} else {
 			$return['msg']  = ERROR_BDD;
