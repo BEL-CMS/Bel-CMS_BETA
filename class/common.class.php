@@ -333,7 +333,7 @@ final class Common
 			if (ctype_digit($data)) {
 				$return = intval($data);
 			} else {
-				$return = Common::makeConstant($data);
+				$return = Common::MakeConstant($data);
 			}
 		}
 
@@ -456,6 +456,97 @@ final class Common
 
 		return $return;
 	}
+	#########################################
+	# Security Upload
+	#########################################
+	public static function Upload ($name, $dir, $ext = false)
+	{
+		if ($_FILES[$name]['error'] != 4) {
+			$return  = '';
+			$dir     = ROOT_UPLOADS.$dir;
+			$file    = basename($_FILES[$name]['name']);
+			$sizeMax = self::GetMaximumFileUploadSize();
+			$size    = filesize($_FILES[$name]['tmp_name']);
+
+			if (!file_exists($dir)) {
+				mkdir($dir, 0777);
+			}
+
+			if (!is_writable($dir)) {
+				chmod($dir, 0777);
+			}
+
+			if ($ext !== false) {
+				$extensions = $ext;
+			} else {
+				$extensions = array('.png', '.gif', '.jpg', '.jpeg', '.doc', '.txt', '.pdf', '.rar', '.zip', '.7zip');
+			}
+
+			$extension = strrchr($_FILES[$name]['name'], '.'); 
+			if (!in_array($extension, $extensions)) {
+				$err = UPLOAD_ERROR_FILE;
+			}
+
+			if ($size>$sizeMax) {
+				$err = UPLOAD_ERROR_SIZE;
+			}
+
+			if (!isset($err)) {
+				if (move_uploaded_file($_FILES[$name]['tmp_name'], $dir .'/'. self::FormatName($file))) {
+					$return = UPLOAD_FILE_SUCCESS;
+				} else {
+					$return = UPLOAD_ERROR;
+				}
+			} else {
+				$return = $err;
+			}
+		} else {
+			$return = 'UPLOAD_NONE';
+		}
+		return $return;
+	}
+	public static function FormatName ($n)
+	{
+		$n = strtr($n, 
+			'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
+			'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+		$n = preg_replace('/([^.a-z0-9]+)/i', '-', $n);
+		return $n;
+	}
+	public static function SizeFile ($file = false)
+	{
+		$return = filesize($file);
+		$return = self::ConvertSize($return);
+		return $return;
+	}
+	public static function ConvertPHPSizeToBytes ($s)  
+	{  
+		if (is_numeric($s)) {
+			return $s;
+		}
+		$suffix = substr($s, -1);  
+		$r = substr($s, 0, -1);  
+		switch(strtoupper($suffix)) {  
+			case 'P':  
+				$r *= 1024;  
+			case 'T':  
+				$r *= 1024;  
+			case 'G':  
+				$r *= 1024;  
+			case 'M':  
+				$r *= 1024;  
+			case 'K':  
+				$r *= 1024;  
+			break;  
+		}  
+		return $r;  
+	}  
+
+	public static function GetMaximumFileUploadSize()  
+	{  
+		return min(self::ConvertPHPSizeToBytes(ini_get('post_max_size')), self::ConvertPHPSizeToBytes(ini_get('upload_max_filesize')));  
+	}
+
 	#########################################
 	# List Contry
 	#########################################
