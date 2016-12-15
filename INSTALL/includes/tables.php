@@ -128,6 +128,16 @@ switch ($table) {
 			(NULL, 'mailhazard'),
 			(NULL, 'mail');";
 	break;
+	case 'links':
+		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
+		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`link` varchar(255) NOT NULL,
+			`countck` int(11) NOT NULL,
+			PRIMARY KEY (`id`),
+			UNIQUE KEY `link` (`link`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+	break;
 	case 'page':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (

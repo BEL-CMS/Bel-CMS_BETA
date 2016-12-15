@@ -13,6 +13,7 @@ $(document).ready(function(){
 						'config_pages',
 						'groups',
 						'mails_blacklist',
+						'links',
 						'page',
 						'page_blog',
 						'page_blog_cat',
