@@ -45,8 +45,8 @@ class Management
 			$id,
 			$view,
 			$action,
-			$error = true;
-
+			$error = true,
+			$dirName = 'management';
 
 	public  $jquery,
 			$data = array();
@@ -119,22 +119,24 @@ class Management
 			if ($this->require == 'Dashboard') Common::Redirect('Dashboard?Management');
 
 			if ($this->page == 'dashboard' or $this->page == 'error') {
-				self::PageManagement('pages');
+				self::PageManagement(ROOT_MANAGEMENT.$this->page, true);
 			} else if ($this->page == 'logout') {
 				self::PageLogout();
 			} else {
 				if ($this->ExistsPages($this->page)) {
-					self::PageManagement('pages');
+					self::PageManagement(ROOT_PAGES.$this->page.DS.$this->dirName);
 				} else {
 					$error   = 1;
 					$existsPages = false;
 				}
-				if ($this->ExistsWidgets($this->page)) {
-					self::PageManagement('widgets');
-					unset($error);
-				} else {
-					$error = 3;
-					$existsWidgets = false;
+				if (isset($error)) {
+					if ($this->ExistsWidgets($this->page)) {
+						self::PageManagement(ROOT_WIDGETS.$this->page.DS.$this->dirName);
+						unset($error);
+					} else {
+						$error = 3;
+						$existsWidgets = false;
+					}
 				}
 				if (isset($existsPages) and isset($existsWidgets)) {
 					self::PageError(5);
@@ -143,29 +145,6 @@ class Management
 				if (isset($error)) {
 					self::PageError($error);
 				}
-				/*
-				$return = false;
-				foreach ($this->ExistsPages() as $name => $access) {
-					if ($name == $this->page) {
-						$return = true;
-						self::PageManagement();
-						break;
-					}
-				}
-				if ($return === false) {
-					foreach ($this->ExistsWidgets() as $name => $access) {
-						echo $this->page;
-						if ($name == $this->page) {
-							$return = true;
-							self::PageManagement();
-							break;
-						}
-					}
-				}
-				if ($return === false) {
-					self::PageError(1);
-				}
-				*/
 			}
 		}
 
@@ -186,6 +165,8 @@ class Management
 		// 4 = no access widgets
 		// 5 = no exist page or widgets
 		// 6 = no file exist
+		// controller = controller file no exist
+		// dashboard  = error file dashboard
 		// 404 default
 		if ($this->error === true) {
 			ob_start();
@@ -196,13 +177,17 @@ class Management
 			} else if ($error == 2) {
 				$title = 'The requested page does not access';
 			} else if ($error == 3) {
-				$title = 'The requested widgets does not access';
+				$title = 'The requested widgets does not exist';
 			} else if ($error == 4) {
 				$title = 'The requested widgets does not access';
 			} else if ($error == 5) {
 				$title = 'The requested widgets or page does not exist';
 			} else if ($error == 6) {
 				$title = 'The requested file does not exist';
+			} else if ($error == 'controller') {
+				$title = 'The requested controller does not exist';
+			} else if ($error == 'dashboard') {
+				$title = 'The requested dashboard does not exist';
 			} else {
 				$title = ERROR_UNKNOWN_MANAGEMENT;
 			}
@@ -214,44 +199,57 @@ class Management
 		}
 	}
 
-	private function PageManagement ($d)
+	private function PageManagement ($d, $m = false)
 	{
 		ob_start("ob_gzhandler");
+
 		$error = false;
 
-		$file = ROOT_MANAGEMENT.$d.DS.$this->require.DS.$this->view.'.php';
-		if (is_file($file)) {
-			$file_model      = ROOT_MANAGEMENT.$d.DS.$this->require.DS.'model.php';
-			$file_controller = ROOT_MANAGEMENT.$d.DS.$this->require.DS.'controller.php';
-			if (is_file($file_model)) require $file_model;
-			if (is_file($file_controller)) {
-				include_once $file_controller;
-				$NewClassController = 'ControllerManagement'.ucfirst($this->page);
-				if (class_exists($NewClassController)) {
-					$controller = New $NewClassController($this->id);
-					$methode    = $this->view;
-					if (method_exists($controller, $methode)) {
-						$controller->$methode();
-						if ($controller->error !== null) {
-							if ($controller->error == 1) {
-								self::PageError(1);
-							} else if ($controller->error == 2) {
-								self::PageError(1);
-							} else {
-								self::PageError(0);
-							}
-							$error = true;
-						}
-						$this->data = $controller->data;
-					}
-				}
-			}
-			if ($error === false) {
-				require $file;
+		if ($m) {
+			if (is_file($d.'.php')) {
+				require $d.'.php';
 				$this->buffer = ob_get_contents();
+			} else {
+				self::PageError('dashboard');
 			}
 		} else {
-			self::PageError(6);
+			$file = $d.DS.$this->view.'.php';
+			if (is_file($file)) {
+				$file_model      = $d.DS.'model.php';
+				$file_controller = $d.DS.'controller.php';
+				if (is_file($file_model)) require $file_model;
+				if (is_file($file_controller)) {
+					include_once $file_controller;
+					$NewClassController = 'ControllerManagement'.ucfirst($this->page);
+					if (class_exists($NewClassController)) {
+						$controller = New $NewClassController($this->id);
+						$methode    = $this->view;
+						if (method_exists($controller, $methode)) {
+							$controller->$methode();
+							if ($controller->error !== null) {
+								if ($controller->error == 1) {
+									self::PageError(1);
+								} else if ($controller->error == 2) {
+									self::PageError(1);
+								} else {
+									self::PageError(0);
+								}
+								$error = true;
+							}
+							$this->data = $controller->data;
+						}
+					}
+				} else {
+					$error = true;
+					self::PageError(7);
+				}
+				if ($error === false) {
+					require $file;
+					$this->buffer = ob_get_contents();
+				}
+			} else {
+				self::PageError(6);
+			}
 		}
 		ob_end_clean();
 		self::html();
@@ -401,8 +399,19 @@ class Management
 	}
 	private function ExistsPages($search = false) {
 
-		$dir    = ROOT_MANAGEMENT.'pages'.DS;
-		$pages  = Common::ScanDirectory($dir);
+		$scanDir = Common::ScanDirectory(ROOT_PAGES);
+		$pages	 = array();
+
+		foreach ($scanDir as $k => $v) {
+			if (
+				file_exists(ROOT_PAGES.$v.DS.$this->dirName) && 
+				file_exists(ROOT_PAGES.$v.DS.$this->dirName.DS.'index.php') &&
+				file_exists(ROOT_PAGES.$v.DS.$this->dirName.DS.'controller.php')
+			   ) {
+				$pages[] = $v;
+			}
+		}
+
 		$access = (object) array();
 
 		$BDD = New BDD;
@@ -442,8 +451,20 @@ class Management
 	}
 	private function ExistsWidgets($search = false) {
 
-		$dir     = ROOT_MANAGEMENT.'widgets'.DS;
-		$widgets = Common::ScanDirectory($dir);
+		$scanDir = Common::ScanDirectory(ROOT_WIDGETS);
+
+		$widgets = array();
+
+		foreach ($scanDir as $k => $v) {
+			if (
+				file_exists(ROOT_WIDGETS.$v.DS.$this->dirName) && 
+				file_exists(ROOT_WIDGETS.$v.DS.$this->dirName.DS.'index.php') &&
+				file_exists(ROOT_WIDGETS.$v.DS.$this->dirName.DS.'controller.php')
+			   ) {
+				$widgets[] = $v;
+			}
+		}
+
 		$access  = (object) array();
 
 		$BDD = New BDD;

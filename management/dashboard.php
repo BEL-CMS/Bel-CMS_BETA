@@ -56,6 +56,13 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 							</thead>
 							<tbody>
 							<?php
+							if (count(get_object_vars($this->ExistsPages())) == 0):
+							?>
+							<tr>
+								<td colspan="2">Aucune page d'administration disponible.</td>
+							</tr>
+							<?php
+							else:
 							foreach ($this->ExistsPages() as $name => $access):
 								$traduct = defined(strtoupper($name)) ? constant(strtoupper($name)) : $name;
 								if ($access === true) {
@@ -72,6 +79,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 								<?php
 								endif;
 							endforeach;
+							endif;
 							?>
 							</tbody>
 						  </table>
@@ -93,6 +101,13 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 							</thead>
 							<tbody>
 							<?php
+							if (count(get_object_vars($this->ExistsWidgets())) == 0):
+							?>
+							<tr>
+								<td colspan="2">Aucun widgets d'administration disponible.</td>
+							</tr>
+							<?php
+							else:
 							foreach ($this->ExistsWidgets() as $name => $access):
 								$traduct = defined(strtoupper($name)) ? constant(strtoupper($name)) : $name;
 								if ($access === true) {
@@ -109,6 +124,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 								<?php
 								endif;
 							endforeach;
+							endif;
 							?>
 							</tbody>
 						  </table>
