@@ -104,9 +104,11 @@ class Management
 	{
 		return ROOT_MANAGEMENT_TPL.'img'.DS;
 	}
-	private function Page ()
+	private function lang ($file = false)
 	{
-		$dir = ROOT_MANAGEMENT;
+		if (is_file($file)) {
+			include $file;
+		}
 	}
 	private function View ()
 	{
@@ -125,6 +127,7 @@ class Management
 			} else {
 				if ($this->ExistsPages($this->page)) {
 					self::PageManagement(ROOT_PAGES.$this->page.DS.$this->dirName);
+					self::lang(ROOT_PAGES.$this->page.DS.'lang'.CMS_WEBSITE_LANG.'php');
 				} else {
 					$error   = 1;
 					$existsPages = false;
@@ -132,6 +135,7 @@ class Management
 				if (isset($error)) {
 					if ($this->ExistsWidgets($this->page)) {
 						self::PageManagement(ROOT_WIDGETS.$this->page.DS.$this->dirName);
+						self::lang(ROOT_WIDGETS.$this->page.DS.'lang'.CMS_WEBSITE_LANG.'php');
 						unset($error);
 					} else {
 						$error = 3;
@@ -300,8 +304,8 @@ class Management
 										<i class="icon-user"></i> <?=CMS_WEBSITE_NAME?> <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="/Home">Retour</a></li>
-										<li><a class="alertAjaxLink" title="" href="/Logout?Management&ajax">Déconnexion</a></li>
+										<li><a href="/Home"><?=BACK?></a></li>
+										<li><a class="alertAjaxLink" title="" href="/Logout?Management&ajax"><?=SIGN_OUT?></a></li>
 									</ul>
 								</li>
 							</ul>
