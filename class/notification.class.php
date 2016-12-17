@@ -12,37 +12,36 @@
 final class Notification
 {
 
-	function __construct($title = null, $content = 'Unknow Error', $color = null, $ico = false, $die = false)
+	function __construct($title = null, $content = 'Unknow Error', $color = null, $custom = false, $die = false)
 	{
 		if ($die) {
-			$GLOBALS['ERROR'] = array($title, $content);
-		} else {
 			if ($GLOBALS['CSS_GLOBAL'] === false):
 			?>
-  			<style type="text/css">
-  			<?php
-			require_once(ROOT_ASSETS.'styles'.DS.'global.css');
+			<style type="text/css">
+			<?php
+				require_once(ROOT_ASSETS.'styles'.DS.'global.css');
 			?>
 			</style>
 			<?php
 			$GLOBALS['CSS_GLOBAL'] = true;
 			endif;
+			$GLOBALS['ERROR'] = array($title, $content);
+		} else {
 			?>
-		<div class="belcms_notification <?php echo $color; ?>">
-			<div class="info">
-				<h1><?php echo ucfirst($title); ?></h1>
-				<p><?php echo $content; ?></p>
+			<div class="belcms_notification <?=$color?>">
+				<div class="info">
+					<h1><?=ucfirst($title)?></h1>
+					<p><?=$content?></p>
+				</div>
+				<?php
+				$custom = $custom === false ? false  : $custom; 
+				?>
+				<div class="icon">
+					<i class="<?=self::ico($color, $custom)?>"></i>
+				</div>
+				<?php
+				?>
 			</div>
-			<?php
-			if ($ico):
-			?>
-			<div class="icon">
-				<i class="<?php self::ico($color, $custom = false); ?>"></i>
-			</div>
-			<?php
-			endif;
-			?>
-		</div>
 		<?php
 		}
 	}

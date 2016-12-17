@@ -60,6 +60,7 @@ class Page
 				self::PageController();
 			} else {
 				New Notification (ERROR, 'the controller is not found', 'red', false, false);
+				$this->error = true;
 			}
 			if ($this->access['view']) {
 				if (GET_PAGE != 'page') {
@@ -72,7 +73,9 @@ class Page
 					require ROOT_PAGES.$this->page.DS.'view.index.php';
 				}
 			} else {
-				New Notification (ERROR, 'the view is not found', 'red');
+				if ($this->error === false) {
+					New Notification (ERROR, 'the view is not found', 'red');
+				}
 			}
 		} else {
 			New Notification (ERROR, 'Unknown page', 'red');
@@ -135,6 +138,7 @@ class Page
 					}
 				} else {
 					New Notification ($this->page, 'Aucun sous-page existe pour cette categorie', 'red');
+					$this->error = true;
 				}
 			} else if (GET_PAGE == 'page') {
 				$this->data = $controller->data;
