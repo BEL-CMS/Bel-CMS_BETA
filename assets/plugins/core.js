@@ -273,6 +273,10 @@
 		}));
 	}
 
+	if ($("#bel_cms_copyleft").size() == 0) {
+		$('body').append('<a id="bel_cms_copyleft" style="display:none" href="https://bel-cms.be" title="BEL-CMS">Powered by Bel-CMS</a>');
+	}
+
 })(jQuery);
 
 /*###################################

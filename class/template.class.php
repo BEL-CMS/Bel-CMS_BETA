@@ -30,7 +30,8 @@ final class Template
 		'dir_html',
 		'breadcrumb',
 		'username',
-		'avatar'
+		'avatar',
+		'load'
 	);
 	public 	$view;
 
@@ -58,8 +59,8 @@ final class Template
 		$this->avatar          = 'assets/imagery/default_avatar.jpg';
 		$this->username        = UNKNOWN;
 		}
-
-		$this->view = self::View();
+		$this->load            = number_format(microtime(true)-$GLOBALS['timestart'], 3);
+		$this->view            = self::View();
 	}
 	#########################################
 	# Vérification de la disponibilite du nom
@@ -169,7 +170,6 @@ final class Template
 		}
 
 		$files[] = 'assets/plugins/font-awesome/css/font-awesome.min.css';
-		$files[] = 'assets/plugins/ionicons/css/ionicons.min.css';
 		$files[] = 'assets/plugins/animate/animate.min.css';
 		$files[] = 'assets/plugins/animate/animate.delay.css';
 		$files[] = 'assets/plugins/summernote/summernote.css';

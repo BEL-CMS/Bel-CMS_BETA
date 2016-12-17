@@ -28,6 +28,7 @@
 	'NO_ACCESS_PAGE'         => 'La page demandée est actuellement fermée',
 	'NO_ACCESS_GROUP_PAGE'   => 'Votre groupe d\'accès ne vous permet pas d\'accéder à cette page',
 	'DEFAULT_AVATAR'         => 'assets/imagery/default_avatar.jpg',
+	'COPYLEFT'               => '<a id="bel_cms_copyleft" href="https://bel-cms.be" title="BEL-CMS">Powered by Bel-CMS</a>',
 	#####################################
 	# COMMUN
 	#####################################

@@ -29,6 +29,7 @@ final class BelCMS extends dispatcher
 		if (!session_id()) {
 			session_start();
 		}
+		$GLOBALS['timestart'] = microtime(true);
 		#########################################
 		# Inclusion du fichier config
 		#########################################
