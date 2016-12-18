@@ -39,6 +39,8 @@ class Dispatcher
 			'GET_ID'         => self::RequestId(),
 			'GET_ID_SUPP'    => self::RequestIdSupp(),
 			'GET_PAGES'      => self::RequestPages(),
+			'REQUEST_AJAX'   => self::RequestAjax(),
+			'REQUEST_ECHO'   => self::RequestEcho()
 			)
 		);
 
@@ -71,6 +73,7 @@ class Dispatcher
 		foreach ($jquery as $k) {
 			if (array_key_exists($k, $_REQUEST)) {
 				$return = (bool) true;
+				$GLOBALS['REQUEST_AJAX'] = true;
 				break;
 			}
 		}
@@ -93,6 +96,7 @@ class Dispatcher
 		foreach ($echo as $k) {
 			if (array_key_exists($k, $_REQUEST)) {
 				$return = (bool) true;
+				$GLOBALS['REQUEST_ECHO'] = true;
 				break;
 			}
 		}

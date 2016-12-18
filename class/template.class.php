@@ -296,4 +296,29 @@ final class Template
 
 		return $return;
 	}
+	public static function isAdmin()
+	{
+		if (isset($_COOKIE['BEL-CMS-COOKIE'])) {
+			$cookie = explode('###', $_COOKIE['BEL-CMS-COOKIE']);
+
+			$sql = New BDD;
+			$sql->table('TABLE_MANAGEMENT');
+
+			$sql->where(array(
+				'name'  => 'hash_key',
+				'value' => $cookie[1]
+			));
+
+			$sql->queryOne();
+
+			if ($sql->rowCount != 0) {
+				$return = true;
+			} else {
+				$return = false;
+			}
+		} else {
+			$return = false;
+		}
+		return $return;
+	}
 }

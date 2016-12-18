@@ -19,34 +19,49 @@ final class Visitors
 
 	function __construct()
 	{
-		self::CheckCurrentIp();
+		self::DeleteOldVisitor();
+		self::UpdateVisit();
 		self::NbLastVisitor();
 		self::InsertIpVisitorDay();
 		self::NbVisitorMonth();
 	}
 
-	private function CheckCurrentIp ()
+	private function DeleteOldVisitor ()
+	{
+		$time = time() - (60 * CMS_VISITORS_TIME);
+		$sql = New BDD();
+		$sql->table('TABLE_VISITORS');
+		$sql->where(array('name' => 'date_page' , 'value' => $time, 'op' => '<'));
+		$sql->delete();
+	}
+
+	private function UpdateVisit ()
 	{
 		$sql = New BDD();
 		$sql->table('TABLE_VISITORS');
 		$sql->where(array('name' => 'ip' , 'value' => Common::GetIp()));
 		$sql->queryOne();
+		$count = $sql->rowCount;
+		unset($sql);
 
-		if ($sql->rowCount == 0) {
-			unset($sql);
+		if ($count == 0) {
 			$sql = New BDD();
 			$sql->table('TABLE_VISITORS');
 			$insert['date_page'] = time();
-			$insert['page']      = GET_PAGE;
-			$insert['ip']        = Common::GetIp();
-			$sql->sqlData($insert); unset($insert);
+			if (REQUEST_AJAX === false && REQUEST_ECHO === false) {
+				$insert['page'] = Common::translate(GET_PAGE);
+			}
+			$insert['ip'] = Common::GetIp();
+			$sql->sqlData($insert);
 			$sql->insert();
 		} else {
 			$sql = New BDD();
 			$sql->table('TABLE_VISITORS');
 			$sql->where(array('name' => 'ip' , 'value' => Common::GetIp()));
 			$update['date_page'] = time();
-			$update['page']      = GET_PAGE;
+			if (REQUEST_AJAX === false && REQUEST_ECHO === false) {
+				$update['page']  = Common::translate(GET_PAGE);
+			}
 			$sql->sqlData($update);
 			$sql->update();
 		}
@@ -112,4 +127,3 @@ final class Visitors
 		}
 	}
 }
-New Visitors;
