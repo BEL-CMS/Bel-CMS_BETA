@@ -36,3 +36,15 @@
 .widget {
 	margin-bottom: 50px;
 }
+.widget.widget-friends ul {
+	display: block;
+	list-style: none;
+	padding: 0;
+}
+.widget.widget-friends ul li {
+	display: inline-block;
+}
+.widget.widget-friends ul li a img {
+	width: 50px;
+	height: 50px;
+}

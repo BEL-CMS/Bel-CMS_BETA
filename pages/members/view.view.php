@@ -7,7 +7,7 @@ if (!defined('CHECK_INDEX')) {
 <section id="bel_cms_members_view" class="padding-top-60 padding-top-sm-30">
 	<div class="">
 		<div class="row">
-			<div class="col-md-3 col-sm-4">
+			<div class="col-xs-12 col-sm-4 col-md-3">
 
 				<div class="widget center">
 					<div id="bel_cms_members_view_avatar">
@@ -60,7 +60,7 @@ if (!defined('CHECK_INDEX')) {
 
 			</div>
 			
-			<div class="col-md-9 col-sm-8">
+			<div class="col-xs-12 col-sm-8 col-md-9">
 				<div class="widget">
 					<table class="table">
 						<tr>
