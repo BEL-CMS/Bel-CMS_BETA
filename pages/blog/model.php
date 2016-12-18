@@ -18,38 +18,52 @@ class ModelPagesBlog
 {
 	protected function GetBlog ($id = false)
 	{
-		$this->sql = New BDD();
-		$this->sql->table('TABLE_PAGES_BLOG');
+		if (isset($_REQUEST['id'])) {
+			$id = (int) $_REQUEST['id'];
+		}
+
+		$sql = New BDD();
+		$sql->table('TABLE_PAGES_BLOG');
 
 		if ($id) {
 			$request = Common::secureRequest($id);
-			if (ctype_digit($id)) {
-				$this->sql->where(array(
+			if (is_int($id)) {
+				$sql->where(array(
 					'name'  => 'id',
 					'value' => $request
 				));
 			} else {
-				$this->sql->where(array(
+				$sql->where(array(
 					'name'  => 'rewrite_name',
 					'value' => $request
 				));
 			}
-			$this->sql->queryOne();
-			if (!empty($this->sql->data)) {
-				$this->sql->data->link = '/blog/readmore/'.$this->sql->data->rewrite_name;
-				$this->sql->data->tags = explode(',', $this->sql->data->tags);
+			$sql->queryOne();
+			if (!empty($sql->data)) {
+				$sql->data->link = '/blog/readmore/'.$sql->data->rewrite_name.'?id='.$sql->data->id;
+				if (empty($sql->data->tags)) {
+					$sql->data->tags = array();
+				} else {
+					$sql->data->tags = explode(',', $sql->data->tags);
+				}
+				$author = $sql->data->author;
+				$sql->data->author = User::getInfosUser($author);
 			}
 		} else {
-			$this->sql->limit($this->config['MAX_NEWS']);
-			$this->sql->orderby(array(array('name' => 'id', 'type' => 'DESC')));
-			$this->sql->queryAll();
-			foreach ($this->sql->data as $k => $v) {
-				$this->sql->data[$k]->link = '/blog/readmore/'.$v->rewrite_name;
-				$this->sql->data[$k]->tags = explode(',', $this->sql->data[$k]->tags);
-				$author = $this->sql->data[$k]->author;
-				$this->sql->data[$k]->author = User::getInfosUser($author);
+			$sql->limit($this->config['MAX_NEWS']);
+			$sql->orderby(array(array('name' => 'id', 'type' => 'DESC')));
+			$sql->queryAll();
+			foreach ($sql->data as $k => $v) {
+				$sql->data[$k]->link = '/blog/readmore/'.$v->rewrite_name.'?id='.$v->id;
+				if (empty($sql->data[$k]->tags)) {
+					$sql->data[$k]->tags = array();
+				} else {
+					$sql->data[$k]->tags = explode(',', $sql->data[$k]->tags);
+				}
+				$author = $sql->data[$k]->author;
+				$sql->data[$k]->author = User::getInfosUser($author);
 			}
 		}
-		return $this->sql->data;
+		return $sql->data;
 	}
 }

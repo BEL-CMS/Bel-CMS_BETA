@@ -13,14 +13,22 @@ if (!defined('CHECK_INDEX')) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
 	exit(ERROR_INDEX);
 }
-
+?>
+<section id="bel_cms_blog_main">
+<?php
 foreach ($this->data as $k => $v):
 ?>
-<div class="blog-post">
-	<h2 class="blog-post-title"><?php echo $v->name; ?></h2>
-	<p class="blog-post-meta"><?php echo Common::transformDate($v->date_create, true, 'd-M-Y # H:i'); ?> by <a href="#"><?php echo $v->author['username']; ?></a></p>
-	<?php echo $v->content; ?>
-</div>
+<article class="padding-bottom-30">
+	<h3><?=$v->name?></h3>
+	<div class="infos_meta">
+		<span class="bel_cms_blog_main_tags">Battlefield</span>
+		<span class="bel_cms_blog_main_date">September 4, 2016</span>
+		<span class="bel_cms_blog_main_comment">0</span>
+		<span class="bel_cms_blog_main_view">0</span>
+	</div>
+<?=$v->content?>
+</article>
 <?php
 endforeach;
 ?>
+</section>

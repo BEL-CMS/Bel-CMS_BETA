@@ -13,11 +13,15 @@ if (!defined('CHECK_INDEX')) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
 	exit(ERROR_INDEX);
 }
-?>
-<section id="bel_cms_blog_readmore">
-	<div class="blog-post">
-		<h2 class="blog-post-title"><?=$this->data->name?></h2>
-		<p class="blog-post-meta"><?=Common::transformDate($this->data->date_create, true, 'd-M-Y # H:i')?> by <a href="#"><?=$this->data->author['username']?></a></p>
-		<?=$this->data->content?>
-	</div>
-</section>
+
+include ROOT_PAGES.'blog'.DS.'model.php';
+
+class ModelManagementBlog extends ModelPagesBlog
+{
+	public $page = 0;
+
+	function __construct()
+	{
+
+	}
+}

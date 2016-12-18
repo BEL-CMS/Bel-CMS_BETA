@@ -1,0 +1,7 @@
+#bel_cms_blog_main iframe,
+#bel_cms_blog_readmore iframe {
+	width: 100% !important;
+}
+#bel_cms_blog_main img {
+	margin: 0 5px;
+}
