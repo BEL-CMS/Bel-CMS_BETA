@@ -50,8 +50,8 @@ section#bel_cms_user_main {
 				border-bottom: 1px dotted;
 			}
 			#bel_cms_user_main_left_menu li.active a:after {
-				content:"\f10a";
-				font-family:"Ionicons";
+				content:"\f138";
+				font-family:"FontAwesome";
 				position: absolute;
 				right: 5px;
 			}
@@ -278,7 +278,7 @@ section#bel_cms_user_main {
 # BEL-CMS MODULE USER # MAIN CUSTOM COLOR
 ###################################*/
 #bel_cms_user_main_left {
-	background: #FFFFFF;
+	/*background: #FFFFFF;*/
 }
 .bel_cms_user_main_left_title {
 	font-size: 14px;
