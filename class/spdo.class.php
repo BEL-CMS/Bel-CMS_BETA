@@ -223,12 +223,12 @@ class BDD
 	{
 		if (is_array($data) && !empty($data)) {
 			foreach ($data as $k => $v) {
-				$retrun[$k] = $v;
+				$return[$k] = $v;
 			}
 		} else {
-			$retrun = ' ';
+			$return = ' ';
 		}
-		$this->sqlData = $retrun;
+		$this->sqlData = $return;
 	}
 	#########################################
 	# function execute and manage error
@@ -383,11 +383,13 @@ class BDD
 	public function update()
 	{
 		$update    = array();
-		$keys     = array_keys($this->sqlData);
+		$keys      = array_keys($this->sqlData);
+
 		foreach ($keys as $key)
 		{
 			$update[] = $key . ' = ' . $this->secureField($key);
 		}
+
 		if (is_array($this->sqlData) && !empty($this->sqlData)) {
 			$prepare = ' UPDATE '.$this->table.' SET '.trim(implode(', ', $update)).$this->where;
 			$this->cnx = $this->cnx->prepare($prepare);

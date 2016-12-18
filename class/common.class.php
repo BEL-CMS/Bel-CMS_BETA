@@ -61,7 +61,7 @@ final class Common
 	#########################################
 	# clear url and constant name
 	#########################################
-	public static function MakeConstant ($data) {
+	public static function MakeConstant ($d, $c = false) {
 		$chr = array(
 			'À' => 'a', 'Á' => 'a', 'Â' => 'a', 'Ä' => 'a', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ä' => 'a', '@' => 'a',
 			'È' => 'e', 'É' => 'e', 'Ê' => 'e', 'Ë' => 'e', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', '€' => 'e',
@@ -69,12 +69,15 @@ final class Common
 			'Ò' => 'o', 'Ó' => 'o', 'Ô' => 'o', 'Ö' => 'o', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'ö' => 'o',
 			'Ù' => 'u', 'Ú' => 'u', 'Û' => 'u', 'Ü' => 'u', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'µ' => 'u',
 			'Œ' => 'oe', 'œ' => 'oe',
-			'$' => 's');
-		$return = strtr($data, $chr);
+			'$' => 's', '&' => '_AND_');
+		$return = strtr($d, $chr);
 		$return = preg_replace('#[^A-Za-z0-9]+#', '_', $return);
 		$return = trim($return, '-');
-		$return = strtoupper($data);
-
+		if ($c == 'upper') {
+			$return = strtoupper($return);
+		} else if ($c == 'lower'){
+			$return = strtolower($return);
+		}
 		return $return;
 	}
 	#########################################
@@ -546,7 +549,6 @@ final class Common
 	{  
 		return min(self::ConvertPHPSizeToBytes(ini_get('post_max_size')), self::ConvertPHPSizeToBytes(ini_get('upload_max_filesize')));  
 	}
-
 	#########################################
 	# List Contry
 	#########################################

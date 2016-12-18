@@ -105,13 +105,12 @@ class Page
 
 	private function PageView ()
 	{
-		$customPage = ROOT_TPL.CMS_TPL_WEBSITE.DS.'pages'.DS.$this->page.'.'.$this->view.'.php';
+		$customPage = ROOT_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.$this->page.'.view.'.$this->view.'.php';
 		if (is_file($customPage)) {
 			require $customPage;
 		} else {
 			require ROOT_PAGES.$this->page.DS.'view.'.$this->view.'.php';
 		}
-
 	}
 
 	private function PageController ()

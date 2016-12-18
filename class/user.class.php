@@ -365,7 +365,7 @@ class User
 				'name'  => 'hash_key',
 				'value' => $hash_key
 			));
-			$BDD->fields(array('username','avatar'));
+			$BDD->fields(array('username','avatar', 'date_registration'));
 			$BDD->queryOne();
 			$result = $BDD->data;
 			if (empty($result)) {

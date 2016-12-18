@@ -16,7 +16,8 @@ if (!defined('CHECK_INDEX')) {
 
 final class BelCMS extends dispatcher
 {
-	private $error = false;
+	private $error = false,
+			$buffer;
 	#########################################
 	# Démarrage de la class
 	#########################################
@@ -29,6 +30,7 @@ final class BelCMS extends dispatcher
 		if (!session_id()) {
 			session_start();
 		}
+		ob_start();
 		$GLOBALS['timestart'] = microtime(true);
 		#########################################
 		# Inclusion du fichier config
@@ -39,8 +41,10 @@ final class BelCMS extends dispatcher
 		#########################################
 		try {
 			require_once ROOT_CLASS.'require_file.class.php';
+
 			New RequireFiles;
 			New User;
+			New Visitors;
 
 			if (defined('MANAGEMENT')) {
 				$Management = New Management;
@@ -77,5 +81,11 @@ final class BelCMS extends dispatcher
 		} catch (gestionDesErreurs $e) {
 			echo 'Exception : ',  $e->getMessage(), PHP_EOL;
 		}
+		$this->buffer = ob_get_contents();
+		ob_end_clean();
+	}
+	public function GetBuffer()
+	{
+		return $this->buffer;
 	}
 }
