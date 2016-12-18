@@ -4,7 +4,7 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 ?>
-<section class="padding-bottom-60">
+<section id="bel_cms_forum_main" class="padding-bottom-60">
 	<div class="">
 		<div class="headline">
 		<?php
@@ -17,7 +17,7 @@ if (!defined('CHECK_INDEX')) {
 			else:
 				?>
 				<div class="headline margin-top-60">
-					<h4><?php echo $v->title; ?> <small><?=$v->subtitle?></small></h4>
+					<h4><?=$v->title?> <small><?=$v->subtitle?></small></h4>
 				</div>
 				<?php
 			endif;
@@ -33,22 +33,21 @@ if (!defined('CHECK_INDEX')) {
 					$span_profil .= '</span>';
 					$profil = $v_threads->lastThreads->author == UNKNOWN ? '' : $span_profil;
 					$none   = $v_threads->lastThreads->title == NO_POST ? '<h4 style="line-height:35px">'.NO_POST.'</h4>' : '<h4><a href="">'.$v_threads->lastThreads->title.'</a></h4>';
-					//$none   = line-height: 40px;
 				?>
 					<div class="forum-group <?=$lock?>">
-						<div class="forum-icon"><i class="<?=$v_threads->icon?>"></i></div>
+						<div class="forum-icon hidden-xs"><i class="<?=$v_threads->icon?>"></i></div>
 						<div class="forum-title">
 							<h4><a href="<?=$link?>"><?=$v_threads->title?></a></h4>
 							<p><?=$v_threads->subtitle?></p>
 						</div>
-						<div class="forum-activity">
+						<div class="forum-activity visible-md visible-lg">
 							<a href="#"><img src="<?=$v_threads->lastThreads->avatar?>" alt="avatar_user"></a>
 							<div>
 								<?=$none?>
 								<?=$profil?>
 							</div>
 						</div>
-						<div class="forum-meta"><?=$v_threads->count_post?> <?=THREADS?></div>
+						<div class="forum-meta visible-lg"><?=$v_threads->count_post?> <?=THREADS?></div>
 					</div>
 				<?php
 				endforeach;

@@ -13,9 +13,9 @@ Common::constant(array(
 	#####################################
 	# Fichier lang en français - Forum
 	#####################################
-	'SUBMIT_THREAD' => 'Soumettre le post',
+	'SUBMIT_THREAD' => 'Soumettre le sujet',
 	'SUBMIT_POST'   => 'Soumettre une réponse',
-	'TITLE_POST'    => 'Titre du post',
+	'TITLE_POST'    => 'Titre du sujet',
 	'ADD_A_TITLE'   => 'Ajouter un titre',
 	'WRITE_A_REPLY' => 'Écrire une réponse',
 	'ERROR_LOGIN'   => 'L\'enregistrement de la réponse n\'a pas pu s\'effectuer : <strong>Login requis</strong>',
@@ -27,5 +27,9 @@ Common::constant(array(
 	'NO_POST'       => 'Aucun sujet',
 	'LOCK_THREAD'   => 'Fermer le sujet',
 	'LIKE'          => 'Aimer',
-	'REPORT_POST'   => 'Reporter ce post',
+	'REPORT_POST'   => 'Reporter ce sujet',
+	#####################################
+	# Erreur - Forum
+	#####################################
+	'ERROR_NO_POST' => 'Aucun sujet disponible dans la base de données',
 ));

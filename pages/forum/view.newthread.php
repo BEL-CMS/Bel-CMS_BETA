@@ -4,10 +4,10 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 ?>
-<section class="padding-bottom-60">
+<section id="bel_cms_forum_newthread" class="padding-bottom-60">
 	<div class="">
 		<div class="headline">
-			<h4 class="no-padding-top"><?php echo NEWTHREAD; ?></h4>
+			<h4 class="no-padding-top"><?php echo NEW_THREAD; ?></h4>
 		</div>
 
 		<form action="Forum/Send" method="post" enctype="multipart/form-data">

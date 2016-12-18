@@ -47,7 +47,7 @@ if (!defined('CHECK_INDEX')) {
 								?>
 							</div>
 						</div>
-						<div class="forum-footer">
+						<div class="forum-footer hidden-xs">
 							<ul class="post-action">
 								<li><a href="#"><i class="fa fa-heart"></i> <?=LIKE;?> (<?=$v->options['like']?>)</a></li>
 								<li><a href="#"><i class="fa fa-flag"></i> <?=REPORT_POST;?></a></li>

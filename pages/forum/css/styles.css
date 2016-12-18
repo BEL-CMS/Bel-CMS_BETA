@@ -83,7 +83,7 @@
 }
 .forum .forum-group .forum-activity {
 	float: right;
-	width: 210px;
+	width: 240px;
 	margin-left: 35px;
 	padding-top: 2px;
 }
@@ -296,11 +296,12 @@
 }
 .forum .forum-group .forum-activity div h4 {
     display: block;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500 !important;
     line-height: initial;
     margin: 0;
     margin-bottom: 3px;
+    white-space: nowrap;
 }
 .headline {
     border: 0 none;
