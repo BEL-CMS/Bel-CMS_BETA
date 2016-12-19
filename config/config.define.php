@@ -57,6 +57,7 @@ $define = array(
 	'ROOT_HTML'           => 'templates'.DS,
 	'ROOT_HTML_DFT'       => 'assets'.DS.'tpl'.DS,
 	'CMS_DEFAULT_TPL'     => 'default',
+	'CMS_VISITORS_TIME'   => 3
 );
 
 foreach ($define as $k => $v) {
@@ -65,6 +66,6 @@ foreach ($define as $k => $v) {
 
 unset($define);
 
-$GLOBALS['CONFIG'] = false;
-$GLOBALS['DISPATCHER'] = false;
-$GLOBALS['CSS_GLOBAL'] = false;
+$GLOBALS['CONFIG']       = false;
+$GLOBALS['DISPATCHER']   = false;
+$GLOBALS['CSS_GLOBAL']   = false;
