@@ -153,9 +153,9 @@ final class Template
 		}
 
 		foreach ($this->widgets as $k => $v) {
-			$file_widgets = ROOT_WIDGETS.$v->name.DS.'style.css';
+			$file_widgets = ROOT_WIDGETS.$v->name.DS.'css'.DS.'styles.css';
 			if (is_file($file_widgets)) {
-				$files[] = 'widgets/'.$v->name.'/style.css';
+				$files[] = 'widgets/'.$v->name.'/css'.DS.'styles.css';
 			}
 		}
 		unset($BDD);
@@ -241,9 +241,9 @@ final class Template
 		}
 
 		foreach ($this->widgets as $k => $v) {
-			$file_widgets = ROOT_WIDGETS.$v->name.DS.'javascripts.js';
+			$file_widgets = ROOT_WIDGETS.$v->name.DS.'js/javascripts.js';
 			if (is_file($file_widgets)) {
-				$files[] = 'widgets/'.$v->name.'/javascripts.js';
+				$files[] = 'widgets/'.$v->name.'/js/javascripts.js';
 			}
 		}
 
