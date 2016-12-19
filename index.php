@@ -17,6 +17,7 @@ setlocale(LC_TIME, 'fr','fr_FR','fr_FR@euro','fr_FR.utf8','fr-FR','fra');
 ################################################
 # Définition du ROOT & séparation & check index
 ################################################
+define ('BELCMS_DEBUG', true);
 define ('ROOT', str_replace('index.php', '', $_SERVER['SCRIPT_FILENAME']));
 define ('DS', '/');
 define ('CHECK_INDEX', true);
@@ -29,4 +30,5 @@ include ROOT.'class/error.class.php';
 include ROOT.'class/dispatcher.class.php';
 New CheckFilesFolders;
 require ROOT.DS.'class'.DS.'belcms.class.php';
-New BelCMS;
+$belcms = New BelCMS;
+echo $belcms->GetBuffer();
