@@ -337,8 +337,8 @@ function bel_cms_alert_box (objet) {
 			alert('Error function ajax');
 		},
 		beforeSend:function() {
-			//$('body').append('<div id="alrt_bel_cms">Loading...</div>');
-			//$('#alrt_bel_cms').animate({ top: 0 }, 500);
+			$('body').append('<div id="alrt_bel_cms">Loading...</div>');
+			$('#alrt_bel_cms').animate({ top: 0 }, 500);
 		},
 		complete: function() {
 			$('textarea').val('');
@@ -353,7 +353,17 @@ function bel_cms_alert_box (objet) {
 ###################################*/
 function bel_cms_alert_box_end (time) {
 	parseInt(time);
-	if (time <= 3) {
+
+	var time = time * 1000;
+
+	setTimeout(function() {
+		$('#alrt_bel_cms').animate({ top: '-35px' }, 300, function() {
+			$(this).remove();
+		});
+	}, time);
+
+	/*
+	if (time <= 1) {
 		setTimeout(function() {
 			bel_cms_alert_box_end(time+1);
 		}, 1000);
@@ -362,4 +372,5 @@ function bel_cms_alert_box_end (time) {
 			$(this).remove();
 		});
 	}
+	*/
 }
