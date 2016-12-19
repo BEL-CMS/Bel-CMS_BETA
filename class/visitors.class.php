@@ -21,9 +21,7 @@ final class Visitors
 	{
 		self::DeleteOldVisitor();
 		self::UpdateVisit();
-		self::NbLastVisitor();
 		self::InsertIpVisitorDay();
-		self::NbVisitorMonth();
 	}
 
 	private function DeleteOldVisitor ()
@@ -68,62 +66,32 @@ final class Visitors
 	}
 	private function InsertIpVisitorDay ()
 	{
-		$month = date('m');
-		$file = ROOT_VISITORS.'visitors.'.$month.'.ini';
-		$ini = New iniParser($file);
-		$date = date('d');
-		$ini->set($date, Common::GetIp());
+		$ip   = ip2long(Common::GetIp());
+		$date = date('d-m-Y');
+		$file = ROOT_VISITORS.'visitors_'.$date.'.php';
+		$ini  = New iniParser($file);
+		$ini->set('VISITORS', $ip);
 		$ini->save();
-		$get = $ini->get(date('d'));
-
-		$sql = New BDD();
-		$sql->table('TABLE_STATS');
-		$sql->where(array('name'=>'id','value'=> 3));
-		$sql->sqlData(array('value' => count($get)));
-		$sql->update();
-
 	}
 
-	private function NbLastVisitor ()
+	public static function GetVisitorsDay ()
 	{
-		$month = date('m');
-		$file = ROOT_VISITORS.'visitors.'.$month.'.ini';
-		$ini = New iniParser($file);
-		$date = date('d', strtotime('-1 days'));
-		$ini->set($date, '000.000.000.000');
-		$ini->save();
-		$get = $ini->get($date);
-
-		foreach ($get as $k => $v) {
-			if ('000.000.000.000' == $k) {
-				$count = true;
-			} else {
-				$count = false;
-			}
-		}
-
-		$sql = New BDD();
-		$sql->table('TABLE_STATS');
-		$sql->where(array('name'=>'id','value'=> 2));
-		if ($count) {
-			$get = count($get) -1;
+		$date = date('d-m-Y');
+		$file = ROOT_VISITORS.'visitors_'.$date.'.php';
+		$ini  = New iniParser($file);
+		$get = $ini->get('VISITORS');
+		return count($get);
+	}
+	public static function GetVisitorsLasterday()
+	{
+		$date = date('d-m-Y', strtotime(date('Y-m-d').' - 1 DAY'));
+		$file = ROOT_VISITORS.'visitors_'.$date.'.php';
+		if (is_file($file)) {
+			$ini  = New iniParser($file);
+			$get = $ini->get('VISITORS');
 		} else {
-			$get = count($get);
+			$get = null;
 		}
-		$sql->sqlData(array('value' => $get));
-		$sql->update();
-
-		return $get;
-
-	}
-	private function NbVisitorMonth ()
-	{
-		$allMonth = array(1,2,3,4,5,6,7,8,9,10,11,12);
-
-		foreach ($allMonth as $k => $v) {
-			$k = $k +1;
-			$file = ROOT_VISITORS.'visitors.'.$k.'.ini';
-			$ini = New iniParser($file);
-		}
+		return count($get);
 	}
 }
