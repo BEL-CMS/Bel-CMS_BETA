@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /management/
+Disallow: /INSTALL/
+Disallow: /uploads/
+Disallow: /config/
+Disallow: /class/
