@@ -32,7 +32,7 @@ if ($checkpdo === true):
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-6">
+	<div class="col-sm-6" id="error_bdd">
 		<div class="input-group">
 			<a id="submit_bdd" class="btn btn-primary" href="#">Installer</a>
 		</div>

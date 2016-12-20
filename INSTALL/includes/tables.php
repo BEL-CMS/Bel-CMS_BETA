@@ -53,10 +53,10 @@ switch ($table) {
 			UNIQUE KEY `name` (`name`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `active`, `access_groups`, `access_admin`, `config`) VALUES
-			(NULL, 'blog', 1, '#', '2|3', 'MAX_NEWS=3'),
-			(NULL, 'user', 1, '#', '2|4', 'MAX_USER=1|MAX_TEST=1'),
-			(NULL, 'forum', 1, '9', '3', NULL),
-			(NULL, 'shoutbox', 1, '1', '2|3', 'MAX_MSG=25');";
+			(NULL, 'blog', 1, '0', '2|3', 'MAX_NEWS=3'),
+			(NULL, 'user', 1, '0', '2|4', 'MAX_USER=1|MAX_TEST=1'),
+			(NULL, 'forum', 1, '0', '3', NULL),
+			(NULL, 'shoutbox', 1, '0', '2|3', 'MAX_MSG=25');";
 	break;
 	case 'groups':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
@@ -161,6 +161,8 @@ switch ($table) {
 			`cat` varchar(16) NOT NULL,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `rewrite_name`, `name`, `date_create`, `author`, `content`, `tags`, `cat`) VALUES
+			(NULL, 'FIRST_NEW_BEL_CMS', 'first news bel-cms', '".date('Y-m-d H:i:s')."', 'Administrateur', '<p>Bienvenue sur le C.M.S <a href=\"https://bel-cms.be\" title=\"BEL-CMS\">BEL-CMS</a>, votre installation s\'est, à priori, bien déroulée</p><p>Vous pouvez dès à présent administrer votre site web via l\'administration</p><p>Merci de nous signaler sur <a href=\"http://bel-cms.be\" title=\"BEL-CMS\">bel-cms.be</a> si vous avez rencontre le moindre souci ou si vous avez des suggestions à nous faire savoir.</p>', '', '');";
 	break;
 	case 'page_blog_cat':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
@@ -315,19 +317,7 @@ switch ($table) {
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `value`) VALUES
 			(NULL, 'record', '0'),
 			(NULL, 'last', '0'),
-			(NULL, 'today', '0'),
-			(NULL, '01', '0'),
-			(NULL, '02', '0'),
-			(NULL, '03', '0'),
-			(NULL, '04', '0'),
-			(NULL, '05', '0'),
-			(NULL, '06', '0'),
-			(NULL, '07', '0'),
-			(NULL, '08', '0'),
-			(NULL, '09', '0'),
-			(NULL, '10', '0'),
-			(NULL, '11', '0'),
-			(NULL, '12', '0');";
+			(NULL, 'today', '0');";
 	break;
 	case 'visitors':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
@@ -336,6 +326,7 @@ switch ($table) {
 			`date_page` varchar(12) NOT NULL,
 			`page` varchar(32) NOT NULL,
 			`ip` varchar(15) NOT NULL,
+			`main_group` int(11) NOT NULL,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
@@ -354,15 +345,25 @@ switch ($table) {
 			PRIMARY KEY (`id`),
 			UNIQUE KEY `name` (`name`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `title`, `groups_access`, `groups_admin`, `activate`, `pos`, `orderby`, `pages`) VALUES
+		 	(NULL, 'users', 'Dernier Utilisateurs', '0', '0', '1', 'right', '1', ''),
+		 	(NULL, 'shoutbox', 'Shoutobx', '0', '0', '1', 'top', '1', ''),
+		 	(NULL, 'infosusers', 'Information Utilisateurs', '0', '1', '1', 'right', '', '');";
 	break;
 }
 
+$pdo_options = array();
+$pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+$pdo_options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
+
 if (!is_null($sql)) {
 	try {
-		$cnx = new PDO('mysql:host='.$_SESSION['host'].';port='.$_SESSION['port'].';dbname='.$_SESSION['dbname'], $_SESSION['username'], $_SESSION['password']);
-		$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$cnx = new PDO('mysql:host='.$_SESSION['host'].';port='.$_SESSION['port'].';dbname='.$_SESSION['dbname'], $_SESSION['username'], $_SESSION['password'], $pdo_options);;
 		$cnx->exec($drop);
 	} catch(PDOException $Exception) {
+		$error = 'ERROR BDD INSERT DATA : '.$table.'<br>';
+		$error .= '<pre>'.($Exception->getMessage()).'</pre>';
+		echo $error;
 		$error = false;
 		$class = '<span class="glyphicon glyphicon-remove"></span>';
 	}
@@ -371,11 +372,13 @@ if (!is_null($sql)) {
 
 if ($error) {
 	try {
-		$cnx = new PDO('mysql:host='.$_SESSION['host'].';port='.$_SESSION['port'].';dbname='.$_SESSION['dbname'], $_SESSION['username'], $_SESSION['password']);
-		$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$cnx = new PDO('mysql:host='.$_SESSION['host'].';port='.$_SESSION['port'].';dbname='.$_SESSION['dbname'], $_SESSION['username'], $_SESSION['password'], $pdo_options);
 		$cnx->exec($sql);
 		$class = '<span class="glyphicon glyphicon-ok"></span>';
 	} catch(PDOException $Exception) {
+		$error = 'ERROR BDD INSERT DATA : '.$table.'<br>';
+		$error .= '<pre>'.($Exception->getMessage()).'</pre>';
+		echo $error;
 		$error = false;
 		$class = '<span class="glyphicon glyphicon-remove"></span>';
 	}
@@ -384,12 +387,13 @@ if ($error) {
 
 if ($error && !is_null($insert)) {
 	try {
-		$cnx = new PDO('mysql:host='.$_SESSION['host'].';port='.$_SESSION['port'].';dbname='.$_SESSION['dbname'], $_SESSION['username'], $_SESSION['password']);
-		$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$cnx = new PDO('mysql:host='.$_SESSION['host'].';port='.$_SESSION['port'].';dbname='.$_SESSION['dbname'], $_SESSION['username'], $_SESSION['password'], $pdo_options);
 		$cnx->exec($insert);
 		$class = '<span class="glyphicon glyphicon-ok"></span>';
 	} catch(PDOException $Exception) {
-		echo $Exception;
+		$error = 'ERROR BDD INSERT DATA : '.$table.'<br>';
+		$error .= '<pre>'.($Exception->getMessage()).'</pre>';
+		echo $error;
 		$error = false;
 		$class = '<span class="glyphicon glyphicon-remove"></span>';
 	}

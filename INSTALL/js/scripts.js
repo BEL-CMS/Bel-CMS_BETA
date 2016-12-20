@@ -33,22 +33,28 @@ $(document).ready(function(){
 	var nbTables = tables.length;
 
 	$("#submit_bdd").click( function() {	// à la soumission du formulaire	
+		var error = false;
 		$(tables).each(function(i, e) {
 
 			$.ajax({
 				type: "POST",
 				url: "?page=CreateSQL",
+				async: false,
 				data: "table="+e,
 				success: function(m) {
-					$('#' + e).empty().append(m);
-					if (m === false) {
-						return false;
+					if (m == '<span class="glyphicon glyphicon-ok"></span>') {
+						$('#' + e).empty().append(m);
+					} else {
+						$('#error_bdd').append(m);
+						error = true;
 					}
 					i = i+1;
-					if (i == nbTables) {
-						setTimeout(function() {
-							window.location.href = "?page=user"; 
-						}, 2000);
+					if (error === false) {
+						if (i == nbTables) {
+							setTimeout(function() {
+								window.location.href = "?page=user"; 
+							}, 2000);
+						}
 					}
 				},
 				beforeSend:function() {
