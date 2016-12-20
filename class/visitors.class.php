@@ -49,6 +49,11 @@ final class Visitors
 			if (REQUEST_AJAX === false && REQUEST_ECHO === false) {
 				$insert['page'] = Common::translate(GET_PAGE);
 			}
+			if (isset($_SESSION['user']->username)) {
+				$insert['main_group'] = (int) $_SESSION['user']->main_groups;
+			} else {
+				$insert['main_group'] = null;
+			}
 			$insert['ip'] = Common::GetIp();
 			$sql->sqlData($insert);
 			$sql->insert();
@@ -59,6 +64,11 @@ final class Visitors
 			$update['date_page'] = time();
 			if (REQUEST_AJAX === false && REQUEST_ECHO === false) {
 				$update['page']  = Common::translate(GET_PAGE);
+			}
+			if (isset($_SESSION['user']->username)) {
+				$update['main_group'] = (int) $_SESSION['user']->main_groups;
+			} else {
+				$update['main_group'] = null;
 			}
 			$sql->sqlData($update);
 			$sql->update();

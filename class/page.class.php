@@ -25,28 +25,67 @@ class Page
 
 	function __construct($page = null, $view = null, $id = null)
 	{
+		$page   = $page !== null ? trim($page) : constant('GET_PAGE');
+
 		if ($GLOBALS['CONFIG'] === false) {
 			New Config;
 		}
 
-		$this->view = $view ? trim($view) : trim(constant('GET_ACTION'));
-		$this->id   = $id   ? Common::secureRequest($id) : trim(constant('GET_ID'));
+		$sql = New BDD;
+		$sql->table('TABLE_PAGES_CONFIG');
+		$where[] = array(
+			'name'  => 'name',
+			'value' => $page
+		);
+		$sql->where($where);
+		$sql->queryOne();
+		$count  = $sql->rowCount;
+		$return = $sql->data;
 
-		if (defined('HOME_PAGE')) {
-			if (is_file(ROOT_TPL.CMS_TPL_WEBSITE.'home.tpl.php')) {
-				include ROOT_TPL.CMS_TPL_WEBSITE.'home.tpl.php';
+		if ($count == 1) {
+			$access_groups = explode('|', $return->access_groups);
+			if (in_array('#', $access_groups)) {
+				New Notification (ERROR, 'Désolé, cette page est actuellement fermée', 'red');
+				$break = true;
+			} else if (in_array(0, $access_groups)) {
+				$access = true;
 			} else {
-				if ($page == null) {
-					self::TestPage(constant('GET_PAGE'));
-				} else {
-					self::TestPage(trim($page));
+				$access = false;
+				$user = $_SESSION['user'] === false ? 0 : $_SESSION['user']->groups;
+				foreach ($user as $k => $user_group) {
+					if (in_array($user_group, $access_groups)) {
+						$access = true;
+						break;
+					}
 				}
 			}
 		} else {
-			Notification::newPage('ERROR', 'Error: Page no found');
+			$access = true;
 		}
+		if (!isset($break)) {
+			if ($access === false) {
+				New Notification (ERROR, 'Désolé, la page que vous avez demandée n\'est pas disponible pour votre groupe', 'red');
+			} else {
+				$this->view = $view ? trim($view) : trim(constant('GET_ACTION'));
+				$this->id   = $id   ? Common::secureRequest($id) : trim(constant('GET_ID'));
 
-		self::GetPage($page);
+				if (defined('HOME_PAGE')) {
+					if (is_file(ROOT_TPL.CMS_TPL_WEBSITE.'home.tpl.php')) {
+						include ROOT_TPL.CMS_TPL_WEBSITE.'home.tpl.php';
+					} else {
+						if ($page == null) {
+							self::TestPage($page);
+						} else {
+							self::TestPage($page);
+						}
+					}
+				} else {
+					Notification::newPage('ERROR', 'Error: Page no found');
+				}
+
+				self::GetPage($page);
+			}
+		}
 	}
 
 	private function TestPage ($page) {

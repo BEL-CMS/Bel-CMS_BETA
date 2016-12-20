@@ -55,9 +55,9 @@ final class Common
 	# Test Empty Var
 	#########################################
 	public static function IsEmpty($var)
-    {
-        return (is_array($var) && !count($var)) || (is_string($var) && $var == '') || is_null($var);
-    }
+	{
+		return (is_array($var) && !count($var)) || (is_string($var) && $var == '') || is_null($var);
+	}
 	#########################################
 	# clear url and constant name
 	#########################################
@@ -90,17 +90,17 @@ final class Common
 		$fullUrl = ($_SERVER['HTTP_HOST'].$scriptName);
 
 		if (!strpos($_SERVER['HTTP_HOST'], $scriptName)) {
-            $fullUrl = $_SERVER['HTTP_HOST'].$scriptName.$url;
+			$fullUrl = $_SERVER['HTTP_HOST'].$scriptName.$url;
 		}
 
 		if (!strpos($fullUrl, 'http://')) {
-		    if ($_SERVER['SERVER_PORT'] == 80) {
-			    $url = 'http://'.$fullUrl;
-		    } else if ($_SERVER['SERVER_PORT'] == 443) {
-			    $url = 'https://'.$fullUrl;
-		    } else {
-		        $url = 'http://'.$fullUrl;
-		    }
+			if ($_SERVER['SERVER_PORT'] == 80) {
+				$url = 'http://'.$fullUrl;
+			} else if ($_SERVER['SERVER_PORT'] == 443) {
+				$url = 'https://'.$fullUrl;
+			} else {
+				$url = 'http://'.$fullUrl;
+			}
 		}
 
 		$time = (empty($time)) ? 0 : (int) $time * 1000;
@@ -256,24 +256,24 @@ final class Common
 	#########################################
 	public static function ArrayChangeCaseUpper($arr)
 	{
-	    return array_map(function($item){
-	        if (is_array($item)) {
-	            $item = self::ArrayChangeCaseUpper($item, CASE_UPPER);
-	        }
-	        return $item;
-	    }, array_change_key_case($arr, CASE_UPPER));
+		return array_map(function($item){
+			if (is_array($item)) {
+				$item = self::ArrayChangeCaseUpper($item, CASE_UPPER);
+			}
+			return $item;
+		}, array_change_key_case($arr, CASE_UPPER));
 	}
 	#########################################
 	# Change all array to Lower
 	#########################################
 	public static function ArrayChangeCaseLower($arr)
 	{
-	    return array_map(function($item){
-	        if (is_array($item)) {
-	            $item = self::ArrayChangeCaseLower($item, CASE_LOWER);
-	        }
-	        return $item;
-	    }, array_change_key_case($arr, CASE_LOWER));
+		return array_map(function($item){
+			if (is_array($item)) {
+				$item = self::ArrayChangeCaseLower($item, CASE_LOWER);
+			}
+			return $item;
+		}, array_change_key_case($arr, CASE_LOWER));
 	}
 	#########################################
 	# Secure PHP - HTML Var
@@ -549,6 +549,34 @@ final class Common
 	{  
 		return min(self::ConvertPHPSizeToBytes(ini_get('post_max_size')), self::ConvertPHPSizeToBytes(ini_get('upload_max_filesize')));  
 	}
+	public static function SiteMap()
+	{
+		$fp = fopen(ROOT.'/sitemap.xml', 'w+');
+		if ($fp !== false){
+			$file = '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
+			$file .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'.PHP_EOL;
+
+			$scanDir = self::ScanDirectory(ROOT_PAGES);
+			$pages	 = array();
+
+			$file .= '<url>'.PHP_EOL;
+			$file .= '<loc>'.BASE_URL.'</loc>'.PHP_EOL;
+			$file .= '<changefreq>daily</changefreq>'.PHP_EOL;
+			$file .= '<priority>1</priority>'.PHP_EOL;
+			$file .= '</url>'.PHP_EOL;
+
+			foreach ($scanDir as $k => $v) {
+				$file .= '<url>'.PHP_EOL;
+				$file .= '<loc>'.BASE_URL.$v.'</loc>'.PHP_EOL;
+				$file .= '<changefreq>daily</changefreq>'.PHP_EOL;
+				$file .= '<priority>0.80</priority>'.PHP_EOL;
+				$file .= '</url>'.PHP_EOL;
+			}
+			$file .= '</urlset>'.PHP_EOL;
+			fwrite($fp, chr(0xEF) . chr(0xBB)  . chr(0xBF) . utf8_encode($file)); //Ajout de la marque d'Octet
+			fclose($fp);
+		}
+	}
 	#########################################
 	# List Contry
 	#########################################
@@ -804,5 +832,5 @@ function debug ($data = null, $exitAfter = false)
 	return Common::Debug($data, $exitAfter);
 }
 function cesure_href($d) { 
-    return '<a href="' . $d[1] . '" title="' . $d[1] . '" >[Lien]</a>';      
+	return '<a href="' . $d[1] . '" title="' . $d[1] . '" >[Lien]</a>';      
 }
