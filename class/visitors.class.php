@@ -52,7 +52,7 @@ final class Visitors
 			if (isset($_SESSION['user']->username)) {
 				$insert['main_group'] = (int) $_SESSION['user']->main_groups;
 			} else {
-				$insert['main_group'] = null;
+				$insert['main_group'] = 0;
 			}
 			$insert['ip'] = Common::GetIp();
 			$sql->sqlData($insert);
@@ -68,7 +68,7 @@ final class Visitors
 			if (isset($_SESSION['user']->username)) {
 				$update['main_group'] = (int) $_SESSION['user']->main_groups;
 			} else {
-				$update['main_group'] = null;
+				$update['main_group'] = 0;
 			}
 			$sql->sqlData($update);
 			$sql->update();

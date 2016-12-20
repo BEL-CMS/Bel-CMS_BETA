@@ -53,8 +53,16 @@ final class Template
 		if (User::ReturnUser() !== false) {
 			User::ResetSession();
 			$user = User::ReturnUser();
-		$this->avatar          = $user->avatar;
-		$this->username        = $user->username;
+			if (is_object($user)) {
+				$this->avatar          = $user->avatar;
+				$this->username        = $user->username;
+			} else if (is_array($user)) {
+				$this->avatar          = $user['avatar'];
+				$this->username        = $user['username'];
+			} else {
+				$this->avatar          = 'assets/imagery/default_avatar.jpg';
+				$this->username        = UNKNOWN;
+			}
 		} else {
 		$this->avatar          = 'assets/imagery/default_avatar.jpg';
 		$this->username        = UNKNOWN;
