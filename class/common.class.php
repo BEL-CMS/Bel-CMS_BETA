@@ -426,7 +426,7 @@ final class Common
 		}
 		return $return;
 	}
-	public static function Pagination ($nb, $table, $where = false)
+	public static function PaginationCount ($nb, $table, $where = false)
 	{
 		$return = 0;
 
@@ -436,29 +436,87 @@ final class Common
 			$sql->where($where);
 		}
 		$sql->count();
-		$total = $sql->data;
-		$return = ceil($total/$nb);
+		$return = $sql->data;
 
 		return $return;
 	}
-	public static function PaginationHtml ($nb, $table, $where = false)
+	public static function Pagination ($nbpp = 5, $page, $table, $where = false)
 	{
-		$count   = Common::Pagination($nb, $table, $where);
-		$current = GET_PAGES;
-		$return = '<ul class="pagination">';
-		for ($i=1; $i <= $count ; $i++):
-			if ($current +1 == $i) {
-				$active = 'class="active"';
-			} else {
-				$active = '';
-			}
-			$page = $i -1;
-			$return .= '<li '.$active.'><a href="'.GET_PAGE.'?page='.$page.'">'.$i.'</a></li>';
-		endfor;
-		$return .= '</ul>';
+		$management  = defined('MANAGEMENT') ? '?management&' : '?';
+		$current     = (int) GET_PAGES;
+		$page_url    = $page.$management;
+		$total       = self::PaginationCount($nbpp, $table, $where);
+		$adjacents   = 1; 
+		$current     = ($current == 0 ? 1 : $current);  
+		$start       = ($current - 1) * $nbpp;
+		$prev        = $current - 1;
+		$next        = $current + 1;
+		$setLastpage = ceil($total/$nbpp);
+		$lpm1        = $setLastpage - 1;
+		$setPaginate = "";
 
-		return $return;
-	}
+		if ($setLastpage > 1) {	
+			$setPaginate .= "<ul class='pagination'>";
+			// $setPaginate .= "<li>Page $current of $setLastpage</li>"; /* retirer: compteur de nombre de page
+			if ($setLastpage < 7 + ($adjacents * 2)) {	
+				for ($counter = 1; $counter <= $setLastpage; $counter++) {
+					if ($counter == $current) {
+						$setPaginate.= "<li class='active'><a>$counter</a></li>";
+					} else {
+						$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+					}
+				}
+			} else if($setLastpage > 5 + ($adjacents * 2)) {
+				if ($current < 1 + ($adjacents * 2)) {
+					for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++) {
+						if ($counter == $current) {
+							$setPaginate.= "<li class='active'><a>$counter</a></li>";
+						} else {
+							$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+						}
+					}
+					$setPaginate.= "<li><a href='{$page_url}page=$lpm1'>$lpm1</a></li>";
+					$setPaginate.= "<li><a href='{$page_url}page=$setLastpage'>$setLastpage</a></li>";
+				}
+				else if($setLastpage - ($adjacents * 2) > $current && $current > ($adjacents * 2)) {
+					$setPaginate.= "<li><a href='{$page_url}page=1'>1</a></li>";
+					$setPaginate.= "<li><a href='{$page_url}page=2'>2</a></li>";
+					for ($counter = $current - $adjacents; $counter <= $current + $adjacents; $counter++) {
+						if ($counter == $current) {
+							$setPaginate.= "<li class='active'><a>$counter</a></li>";
+						}
+						else {
+							$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+						}
+					}
+					$setPaginate.= "<li><a href='{$page_url}page=$lpm1'>$lpm1</a></li>";
+					$setPaginate.= "<li><a href='{$page_url}page=$setLastpage'>$setLastpage</a></li>";
+				} else {
+					$setPaginate.= "<li><a href='{$page_url}page=1'>1</a></li>";
+					$setPaginate.= "<li><a href='{$page_url}page=2'>2</a></li>";
+					for ($counter = $setLastpage - (2 + ($adjacents * 2)); $counter <= $setLastpage; $counter++) {
+						if ($counter == $current) {
+							$setPaginate.= "<li class='active'><a>$counter</a></li>";
+						} else {
+							$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+						}
+					}
+				}
+			}
+			
+			if ($current < $counter - 1) { 
+				$setPaginate .= "<li><a href='{$page_url}page=$next'>Next</a></li>";
+				$setPaginate .= "<li><a href='{$page_url}page=$setLastpage'>Last</a></li>";
+			} else{
+				$setPaginate .= "<li class='active'><a>Next</a></li>";
+				$setPaginate .= "<li class='active'><a>Last</a></li>";
+			}
+
+			$setPaginate.= "</ul>".PHP_EOL;
+		}
+
+		return $setPaginate;
+	} 
 	#########################################
 	# Security Upload
 	#########################################
