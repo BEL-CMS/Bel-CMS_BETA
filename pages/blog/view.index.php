@@ -21,8 +21,8 @@ foreach ($this->data as $k => $v):
 <article class="padding-bottom-30">
 	<h3><?=$v->name?></h3>
 	<div class="infos_meta">
-		<span class="bel_cms_blog_main_tags">Battlefield</span>
-		<span class="bel_cms_blog_main_date">September 4, 2016</span>
+		<span class="bel_cms_blog_main_tags"></span>
+		<span class="bel_cms_blog_main_date"><?=$v->date_create?></span>
 		<span class="bel_cms_blog_main_comment">0</span>
 		<span class="bel_cms_blog_main_view">0</span>
 	</div>
@@ -31,4 +31,5 @@ foreach ($this->data as $k => $v):
 <?php
 endforeach;
 ?>
+<?=$this->pagination?>
 </section>

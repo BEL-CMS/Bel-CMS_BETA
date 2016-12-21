@@ -18,14 +18,21 @@ class ControllerManagementBlog extends ModelManagementBlog
 {
 	public 	$data,
 			$view,
+			$pagination,
 			$error = null;
 
 	function __construct($id = null)
 	{
-		$this->config['MAX_NEWS'] = 999;
+
+		if (isset($_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'])) {
+			$this->nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'];
+		} else {
+			$this->nbpp = (int) 25;
+		}
 	}
 
 	public function index () {
+		$this->pagination = Common::Pagination($this->nbpp, GET_PAGE, TABLE_PAGES_BLOG);
 		$this->data = self::GetBlog();
 	}
 }

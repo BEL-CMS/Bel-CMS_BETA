@@ -18,6 +18,24 @@ class ModelPagesBlog
 {
 	protected function GetBlog ($id = false)
 	{
+		$management = defined('MANAGEMENT') ? true : false;
+
+		if ($management) {
+			if (isset($_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'])) {
+				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'];
+			} else {
+				$nbpp = (int) 25;
+			}
+		} else {
+			if (isset($_SESSION['pages']->blog->config['MAX_BLOG'])) {
+				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG'];
+			} else {
+				$nbpp = (int) 3;
+			}
+		}
+
+		$page = (GET_PAGES * $nbpp) - $nbpp;
+
 		if (isset($_REQUEST['id'])) {
 			$id = (int) $_REQUEST['id'];
 		}
@@ -50,8 +68,8 @@ class ModelPagesBlog
 				$sql->data->author = User::getInfosUser($author);
 			}
 		} else {
-			$sql->limit($this->config['MAX_NEWS']);
 			$sql->orderby(array(array('name' => 'id', 'type' => 'DESC')));
+			$sql->limit(array(0 => $page, 1 => $nbpp), true);
 			$sql->queryAll();
 			foreach ($sql->data as $k => $v) {
 				$sql->data[$k]->link = '/blog/readmore/'.$v->rewrite_name.'?id='.$v->id;

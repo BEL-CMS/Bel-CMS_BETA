@@ -18,8 +18,6 @@ include ROOT_PAGES.'blog'.DS.'model.php';
 
 class ModelManagementBlog extends ModelPagesBlog
 {
-	public $page = 0;
-
 	function __construct()
 	{
 

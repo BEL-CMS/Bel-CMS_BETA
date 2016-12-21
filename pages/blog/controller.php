@@ -41,6 +41,12 @@ class ControllerPagesBlog extends ModelPagesBlog
 	}
 	public function Index ()
 	{
+		if (isset($_SESSION['pages']->blog->config['MAX_BLOG'])) {
+			$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG'];
+		} else {
+			$nbpp = (int) 3;
+		}
+		$this->pagination = Common::Pagination($nbpp, GET_PAGE, TABLE_PAGES_BLOG);
 		$this->data = self::GetBlog($this->id);
 		if (!is_array($this->data)) {
 			$return[] = $this->data;
