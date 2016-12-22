@@ -13,6 +13,10 @@ Common::constant(array(
 	#####################################
 	# Fichier lang en français - Users
 	#####################################
-	'MEMBERS'           => 'Membres',
-	'LAST_FORUM'        => 'Dernier Topic'
+	'MEMBERS'            => 'Membres',
+	'LAST_FORUM'         => 'Dernier Topic',
+	'UNKNOW_GROUP'       => 'Groupe inconnu',
+	'UNKNOW_MEMBER'      => 'Cet utilisateur n\'exsite pas',
+	'ADD_FRIEND_SUCCESS' => 'utilisateur ajouter en ami avec succès',
+	'ADD_FRIEND_ERROR'   => 'Impossible d\'ajouter l\'ami',
 )); 

@@ -61,6 +61,37 @@ class ModelPagesMembers
 		unset($sql);
 
 		return $return;
-
+	}
+	protected function addFriendSQL ($hash_key = false)
+	{
+		if ($hash_key !== false && ctype_alnum($hash_key)) {
+			$sql = New BDD;
+			$sql->table(TABLE_USERS_PROFILS);
+			$where = array('name' => 'hash_key', 'value' => $_SESSION['user']->hash_key);
+			$sql->where($where);
+			$sql->queryOne();
+			$count  = $sql->rowCount;
+			$data   = $sql->data;
+			unset($sql);
+			if ($count == 0) {
+				return null;
+			} else {
+				$friends = explode('|', $data->friends);
+				if (!in_array($hash_key, $friends)) {
+					$friends[] = $hash_key;
+					$implode   = implode('|', $friends);
+					$sql = New BDD;
+					$sql->table(TABLE_USERS_PROFILS);
+					$where = array('name' => 'hash_key', 'value' => $_SESSION['user']->hash_key);
+					$sql->where($where);
+					$update['friends'] = $implode;
+					$sql->sqlData($update);
+					$sql->update();
+					return $sql->rowCount;
+				}
+			}
+		} else {
+			return null;
+		}
 	}
 }

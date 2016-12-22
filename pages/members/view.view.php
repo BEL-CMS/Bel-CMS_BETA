@@ -4,7 +4,6 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 ?>
-
 <section id="bel_cms_members_view" class="padding-top-60 padding-top-sm-30">
 	<div class="">
 		<div class="row">
@@ -15,6 +14,16 @@ if (!defined('CHECK_INDEX')) {
 						<img data-toggle="tooltip" title="<?=$this->data['username']?>" src="<?=$this->data['avatar']?>" alt="Avatar_<?=$this->data['username']?>">
 					</div>
 				</div>
+
+				<?php
+				if ($this->data['hash_key'] != $_SESSION['user']->hash_key):
+					?>
+					<div class="widget center">
+						<a href="Members/AddFriend/<?=$this->data['username']?>?jquery" class="btn btn-primary alertAjaxLink">Ajouter en ami</a>
+					</div>
+					<?php
+				endif;
+				?>
 
 				<div class="widget">
 					<div class="panel panel-default">
@@ -99,12 +108,9 @@ if (!defined('CHECK_INDEX')) {
 							<div class="post-header post-author">
 								<div class="post-title">
 									<h3><?=$v->title?></h3>
-									<ul class="post-meta">
-										<li><i class="fa fa-calendar-o"></i> <?=$v->date_post?></li>
-									</ul>
+									<span><i class="fa fa-calendar-o"></i> <?=$v->date_post?></span>
 								</div>
 							</div>
-							<?=$v->content?>
 						</div>
 					</div>
 				</div>
