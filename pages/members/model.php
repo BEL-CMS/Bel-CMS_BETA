@@ -13,8 +13,12 @@ class ModelPagesMembers
 {
 	protected function GetUsers ($where)
 	{
-		$nbpp = 15;
-		$page = GET_PAGES * $nbpp;
+		if (isset($_SESSION['pages']->blog->config['MAX_MEMBERS'])) {
+			$nbpp = (int) $_SESSION['pages']->blog->config['MAX_MEMBERS'];
+		} else {
+			$nbpp = (int) 10;
+		}
+		$page = (GET_PAGES * $nbpp) - $nbpp;
 
 		$return = array();
 

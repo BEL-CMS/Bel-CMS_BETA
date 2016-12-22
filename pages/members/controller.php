@@ -17,8 +17,13 @@ class ControllerPagesMembers extends ModelPagesMembers
 
 	public function index ()
 	{
+		if (isset($_SESSION['pages']->blog->config['MAX_MEMBERS'])) {
+			$nbpp = (int) $_SESSION['pages']->blog->config['MAX_MEMBERS'];
+		} else {
+			$nbpp = (int) 10;
+		}
 		$where = "WHERE `groups` LIKE '%3%'";
-		$this->pagination = Common::PaginationHtml(15, TABLE_USERS, $where);
+		$this->pagination = Common::Pagination($nbpp, GET_PAGE, TABLE_USERS, $where);
 		$this->data = parent::GetUsers(3);
 	}
 	public function view ()
