@@ -33,7 +33,8 @@ class ControllerPagesMembers extends ModelPagesMembers
 			$user = User::getInfosUser($id, true);
 			$groups = (array) $GLOBALS['GROUPS'];
 			foreach ($user['groups'] as $k => $v) {
-				$user['groups'][$k] = $groups[$v];
+				$group = isset($groups[$v]) ? $groups[$v] : UNKNOW_GROUP;
+				$user['groups'][$k] = $group;
 			}
 			$this->data = $user;
 			$this->data['forum'] = parent::GetLastPost($this->data['hash_key']);

@@ -198,9 +198,9 @@ class Dispatcher
 	private function RequestPages ()
 	{
 		if (isset($_REQUEST['page']) AND is_numeric($_REQUEST['page']) ) {
-			$return = (int) $_REQUEST['page'];
+			$return = intval($_REQUEST['page']);
 		} else {
-			$return = 0;
+			$return = 1;
 		}
 		return $return;
 	}

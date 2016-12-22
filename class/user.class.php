@@ -186,6 +186,7 @@ class User
 				'value' => Common::SecureRequest($hash_key)
 			));
 
+
 			$sql_user->queryOne();
 			$results = $sql_user->data;
 
@@ -294,7 +295,8 @@ class User
 			} else {
 				$return = array(
 					'username' => DELETE,
-					'avatar'   => DEFAULT_AVATAR
+					'avatar'   => DEFAULT_AVATAR,
+					'groups'   => array()
 				);
 			}
 

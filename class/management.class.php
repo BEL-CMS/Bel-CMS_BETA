@@ -199,6 +199,9 @@ class Management
 							$error = true;
 						}
 						$this->data = $controller->data;
+						if (isset($controller->pagination)) {
+							$this->pagination = $controller->pagination;
+						}
 					}
 				}
 			} else {

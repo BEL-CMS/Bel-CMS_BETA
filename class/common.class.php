@@ -336,7 +336,7 @@ final class Common
 			if (ctype_digit($data)) {
 				$return = intval($data);
 			} else {
-				$return = Common::MakeConstant($data);
+				$return = Common::VarSecure($data, '');
 			}
 		}
 
