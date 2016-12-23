@@ -21,3 +21,4 @@ if (!defined('CHECK_INDEX')) {
 		<?=$this->data->content?>
 	</div>
 </section>
+<?php New Comments; ?>

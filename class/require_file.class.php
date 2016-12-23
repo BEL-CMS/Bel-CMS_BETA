@@ -42,6 +42,7 @@ final class RequireFiles
 			ROOT_CLASS.'page.class.php',
 			ROOT_CLASS.'management.class.php',
 			ROOT_CLASS.'visitors.class.php',
+			ROOT_CLASS.'comments.class.php',
 			ROOT_CLASS.'template.class.php',
 		);
 		self::TestExistFiles();

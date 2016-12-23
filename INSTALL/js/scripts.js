@@ -9,6 +9,7 @@ $(document).ready(function(){
 
 	var i = 1;
 	var tables 	=	new Array(
+						'comments',
 						'config',
 						'config_pages',
 						'groups',

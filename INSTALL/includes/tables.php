@@ -15,6 +15,17 @@ $insert     = null;
 $sql        = null;
 
 switch ($table) {
+	case 'comments':
+		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
+		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`link` varchar(255) NOT NULL,
+			`comment` text NOT NULL,
+  			`hash_key` varchar(32) NOT NULL,
+  			`date_com` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			PRIMARY KEY (`id`),
+			UNIQUE KEY `name` (`name`)
+		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 	case 'config':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (

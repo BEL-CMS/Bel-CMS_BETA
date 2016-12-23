@@ -87,6 +87,7 @@ class BelCMS
 	public static function TABLES () {
 
 		$tables = array(
+			'comments',
 			'config',
 			'config_pages',
 			'groups',

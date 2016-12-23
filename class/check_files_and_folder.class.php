@@ -57,17 +57,22 @@ final class CheckFilesFolders
 								'access.class.php',
 								'belcms.class.php',
 								'check_files_and_folder.class.php',
+								'comments.class.php',
 								'common.class.php',
 								'config.class.php',
 								'dispatcher.class.php',
 								'error.class.php',
 								'ini.class.php',
+								'management.class.php',
 								'notification.class.php',
 								'page.class.php',
 								'password.php',
 								'require_file.class.php',
 								'spdo.class.php',
-								'template.class.php'
+								'template.class.php',
+								'user.class.php',
+								'visitors.class.php',
+								'widgets.class.php'
 						   	),
 			'config'    => 	array(
 								'index.html',
@@ -76,9 +81,12 @@ final class CheckFilesFolders
 								'config.table.php',
 							),
 			'management'=> array('index.html',
+								 'dashboard.php',
+								 'error.php',
 								 'login.php',
 								 'lang.php',
-								 'model.class.php'
+								 'model.class.php',
+								 'parameter.php'
 							),
 			'pages'     => array('index.html'),
 			'templates' => array('index.html'),

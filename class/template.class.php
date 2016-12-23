@@ -258,7 +258,6 @@ final class Template
 		foreach ($files as $v) {
 			$return .= '	<script type="text/javascript" src="'.$v.'"></script>'.PHP_EOL;
 		}
-
 		return trim($return);
 
 	}
