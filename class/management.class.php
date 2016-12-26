@@ -227,13 +227,15 @@ class Management
 			<!DOCTYPE html>
 			<html lang="en">
 			<head>
-			<meta charset="utf-8">
 			<title><?=ucfirst(GET_PAGE)?> - BEL-CMS - MANAGEMENT</title>
+			<base href="<?=BASE_URL?>">
+			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 			<meta name="apple-mobile-web-app-capable" content="yes">
 			<link href="/{css}bootstrap.min.css" rel="stylesheet">
 			<link href="/{css}bootstrap-responsive.min.css" rel="stylesheet">
-			<link href="/{css}font-awesome.css" rel="stylesheet">
+			<link href="/{css}font-awesome.min.css" rel="stylesheet">
+			<link href="../../assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 			<link href="/{css}style.css" rel="stylesheet">
 			<link href="/{css}pages/dashboard.css" rel="stylesheet">
 			<!--[if lt IE 9]>
@@ -343,13 +345,13 @@ class Management
 				</div>
 			</div>
 
-			<script src="/{js}jquery-1.7.2.min.js"></script>
-			<script src="/{js}excanvas.min.js"></script>
-			<script src="/{js}chart.min.js" type="text/javascript"></script>
-			<script src="/{js}bootstrap.js"></script>
+			<script src="../../assets/plugins/jquery/jquery-1.11.1.min.js"></script>
+			<script src="../../assets/plugins/jquery_ui/jquery-ui.min.js"></script>
+			<script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+			<script src="../../assets/plugins/tinymce/jquery.tinymce.min.js"></script>
+			<script src="../../assets/plugins/tinymce/tinymce.min.js"></script>
 			<script src="/{js}base.js"></script>
 			<script src="../../assets/plugins/core.js"></script>
-
 			</body>
 			</html>
 		<?php
@@ -551,8 +553,10 @@ class Management
 				'CMS_BOOTSTRAP'   => array('on', 'off'),
 				'CMS_TPL_WEBSITE' => self::getTpl()
 			);
+			$cms_tpl_full   = Common::ScanDirectory(ROOT_PAGES);
+			$cms_tpl_full[] = 'readmore';
 			$formCheckbox = array(
-				'CMS_TPL_FULL'    => Common::ScanDirectory(ROOT_PAGES)
+				'CMS_TPL_FULL'    => $cms_tpl_full
 			);
 
 			$sql = New BDD();

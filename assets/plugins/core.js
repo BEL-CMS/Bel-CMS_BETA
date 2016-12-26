@@ -279,7 +279,52 @@
 		$('body').append('<a id="bel_cms_copyleft" style="display:none" href="https://bel-cms.be" title="BEL-CMS">Powered by Bel-CMS</a>');
 	}
 
+	if ($("textarea").hasClass("bel_cms_textarea_simple")) {
+		_initTinymceSimple();
+	}
+
+	if ($("textarea").hasClass("bel_cms_textarea_full")) {
+		_initTinymceFull();
+	}
 })(jQuery);
+
+function _initTinymceSimple () {
+	tinymce.init({
+		selector: 'textarea.bel_cms_textarea_simple',
+		browser_spellcheck: true,
+		language: 'fr_FR',
+		menubar: true,
+		plugins: [
+			'advlist autolink lists link image charmap print preview anchor',
+			'searchreplace visualblocks code fullscreen',
+			'insertdatetime media table contextmenu paste code'
+		],
+		toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+		content_css: '//www.tinymce.com/css/codepen.min.css'
+	});
+}
+function _initTinymceFull () {
+	tinymce.init({
+		selector: 'textarea.bel_cms_textarea_full',
+		browser_spellcheck: true,
+		height: 300,
+		language: 'fr_FR',
+		theme: 'modern',
+		plugins: [
+			'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+			'searchreplace wordcount visualblocks visualchars code fullscreen',
+			'insertdatetime media nonbreaking save table contextmenu directionality',
+			'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
+		],
+		toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+		toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+		image_advtab: true,
+		content_css: [
+			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+			'//www.tinymce.com/css/codepen.min.css'
+		]
+	});
+}
 
 /*###################################
 # Function Alert box
@@ -363,18 +408,6 @@ function bel_cms_alert_box_end (time) {
 			$(this).remove();
 		});
 	}, time);
-
-	/*
-	if (time <= 1) {
-		setTimeout(function() {
-			bel_cms_alert_box_end(time+1);
-		}, 1000);
-	} else {
-		$('#alrt_bel_cms').animate({ top: '-35px' }, 300, function() {
-			$(this).remove();
-		});
-	}
-	*/
 }
 function _initFacebook() {
 	var $body = $('body');
@@ -400,7 +433,7 @@ function _initFacebook() {
     // resize on facebook widget loaded
     window.fbAsyncInit = function () {
         FB.Event.subscribe('xfbml.render', function () {
-            self.debounceResize();
+           // self.debounceResize(); annuler manque jQuery ui  
         });
     };
 }

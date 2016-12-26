@@ -180,7 +180,6 @@ final class Template
 		$files[] = 'assets/plugins/font-awesome/css/font-awesome.min.css';
 		$files[] = 'assets/plugins/animate/animate.min.css';
 		$files[] = 'assets/plugins/animate/animate.delay.css';
-		$files[] = 'assets/plugins/summernote/summernote.css';
 
 		if (is_file(ROOT.'pages'.DS.GET_PAGE.DS.'css'.DS.'styles.css')) {
 			$files[] = 'pages'.DS.GET_PAGE.DS.'css'.DS.'styles.css';
@@ -239,10 +238,10 @@ final class Template
 		if (CMS_BOOTSTRAP == 'on') {
 			$files[] = 'assets/plugins/bootstrap/js/bootstrap.min.js';
 		}
-		$files[] = 'assets/plugins/core.js';
 
-		$files[] = 'assets/plugins/summernote/summernote.min.js';
-		$files[] = 'assets/plugins/summernote/lang/summernote-fr-FR.min.js';
+		$files[] = 'assets/plugins/tinymce/jquery.tinymce.min.js';
+		$files[] = 'assets/plugins/tinymce/tinymce.min.js';
+		$files[] = 'assets/plugins/core.js';
 
 		if (is_file(ROOT.'pages'.DS.GET_PAGE.DS.'js'.DS.'javascripts.js')) {
 			$files[] = 'pages'.DS.GET_PAGE.DS.'js'.DS.'javascripts.js';
