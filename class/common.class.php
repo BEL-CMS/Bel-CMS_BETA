@@ -280,7 +280,7 @@ final class Common
 	#########################################
 	public static function VarSecure ($data = null, $authorised = null) {
 		$return = null;
-		$base_secure = '<p><hr><a><b><u><i><div><img><pre><br><ul><li><ol><tr><table><tbody><thead><tfoot><colgroup><span><strong><blockquote><iframe><font>';
+		$base_secure = '<p><hr><em><big><a><b><u><s><i><div><img><pre><br><ul><li><ol><tr><th><table><tbody><thead><tfoot><colgroup><span><strong><blockquote><iframe><font><h1><h2><h3><h4><h5><h6><font><sup><sub>';
 		$authorised = ($authorised == null) ? $base_secure : $authorised;
 
 		if ($data != null) {
@@ -333,7 +333,7 @@ final class Common
 		$return = false;
 
 		if ($data) {
-			if (ctype_digit($data)) {
+			if (is_numeric($data)) {
 				$return = intval($data);
 			} else {
 				$return = Common::VarSecure($data, '');
