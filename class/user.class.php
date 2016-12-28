@@ -110,6 +110,12 @@ class User
 					$_SESSION['user'] = self::getInfosUser($results['hash_key']);
 					$return['msg']  = 'La connexion a été éffectuée avec succès';
 					$return['type'] = 'green';
+					// UPDATE LAST VISIT AND LAST IP
+					$sql = New BDD();
+					$sql->table('TABLE_USERS');
+					$sql->where(array('name' => 'hash_key', 'value' => $hash_key));
+					$sql->sqlData(array('last_visit' => date('Y-m-d H:i:s'), 'ip' => Common::GetIp()));
+					$sql->update();
 				} else {
 					$return['msg']  = 'Mauvaise combinaison de Pseudonyme/mail et mot de passe';
 					$return['type'] = 'red';
