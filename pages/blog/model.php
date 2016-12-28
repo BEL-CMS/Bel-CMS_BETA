@@ -45,7 +45,7 @@ class ModelPagesBlog
 
 		if ($id) {
 			$request = Common::secureRequest($id);
-			if (is_int($id)) {
+			if (is_numeric($id)) {
 				$sql->where(array(
 					'name'  => 'id',
 					'value' => $request

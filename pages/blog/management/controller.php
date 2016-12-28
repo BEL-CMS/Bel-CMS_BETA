@@ -23,7 +23,6 @@ class ControllerManagementBlog extends ModelManagementBlog
 
 	function __construct($id = null)
 	{
-
 		if (isset($_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'])) {
 			$this->nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'];
 		} else {
@@ -31,8 +30,33 @@ class ControllerManagementBlog extends ModelManagementBlog
 		}
 	}
 
-	public function index () {
+	public function index ()
+	{
 		$this->pagination = Common::Pagination($this->nbpp, GET_PAGE, TABLE_PAGES_BLOG);
 		$this->data = self::GetBlog();
+	}
+
+	public function send ()
+	{
+		if ($_POST['send'] == 'blog') {
+			$return = parent::SendNew($_POST);
+		} else if ($_POST['send'] == 'edit') {
+			$return = parent::SendEdit($_POST);
+		} else if ($_POST['send'] == 'parameter') {
+			$return = parent::UpdateParameter($_POST);
+		}
+		$this->data = $return;
+		Common::Redirect('Blog?management', 2);
+	}
+	public function del ()
+	{
+		$return = parent::DelNew(GET_ID);
+		$this->data = $return;
+		Common::Redirect('Blog?management', 2);
+	}
+	public function edit ()
+	{
+		$return = parent::GetBlog(GET_ID);
+		$this->data = $return;
 	}
 }

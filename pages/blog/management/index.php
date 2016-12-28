@@ -32,9 +32,9 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 						<div class="widget-content">
 							<!-- debut des boutton action -->
 							<div class="form-actions">
-								<button class="btn"><i class="icon-home"></i> <?=HOME?></button>
-								<button class="btn"><i class="icon-plus"></i> <?=ADD?></button>
-								<button class="btn"><i class="icon-wrench"></i> <?=PARAMETER?></button>
+								<button class="btn active"><i class="icon-home"></i> <?=HOME?></button>
+								<button class="btn" onclick="window.location.href='Blog/New?management'"><i class="icon-plus"></i> <?=ADD?></button>
+								<button class="btn" onclick="window.location.href='Blog/parameter?management'"><i class="icon-wrench"></i> <?=PARAMETER?></button>
 							</div>
 							<!-- fin des boutton action -->
 							<table class="table table-striped table-bordered">
@@ -57,12 +57,25 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<td><?=$v->date_create?></td>
 											<td><?=$v->author['username']?></td>
 											<td class="td-actions">
-												<a href="javascript:;" class="btn btn-small btn-success">
-													<i class="btn-icon-only icon-ok"> </i>
+												<a href="Blog/Edit/<?=$v->id?>?management" class="btn btn-small btn-success">
+													<i class="btn-icon-only icon-edit"> </i>
 												</a>
-												<a href="javascript:;" class="btn btn-danger btn-small">
+												<a href="#modal_<?=$v->id?>" role="button" data-toggle="modal" class="btn btn-danger btn-small">
 													<i class="btn-icon-only icon-remove"> </i>
 												</a>
+												<div id="modal_<?=$v->id?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+														<h3 id="myModalLabel">Suppression du blog</h3>
+													</div>
+													<div class="modal-body">
+														<p>Etes vous certain de supprimer le blog : <?=$v->name?></p>
+													</div>
+													<div class="modal-footer">
+														<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
+														<a href="Blog/Del/<?=$v->id?>?management" class="btn btn-primary">Supprimer</a>
+													</div>
+												</div>
 											</td>
 										</tr>
 										<?php
@@ -73,7 +86,6 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 							<!-- debut pagination -->
 							<?=$this->pagination?>
 							<!-- debut pagination -->
-
 						</div>
 						<!-- fin du contenue -->
 					</div>
