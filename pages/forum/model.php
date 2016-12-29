@@ -51,7 +51,7 @@ class ModelPagesForum
 					break;
 				} else {
 					if (User::ReturnUser() !== false) {
-						if (in_array($v_access, $_SESSION['USER']['groups'])) {
+						if (in_array($v_access, $_SESSION['user']->groups)) {
 							$access = true;
 							break;
 						}

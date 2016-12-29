@@ -28,6 +28,8 @@ Common::constant(array(
 	'LOCK_THREAD'   => 'Fermer le sujet',
 	'LIKE'          => 'Aimer',
 	'REPORT_POST'   => 'Reporter ce sujet',
+	'LAST_POST'     => 'Dernier message',
+	'BY'            => 'par',
 	#####################################
 	# Erreur - Forum
 	#####################################

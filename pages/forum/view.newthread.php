@@ -23,7 +23,7 @@ if (!defined('CHECK_INDEX')) {
 						<label class="col-md-2"><?php echo MESSAGE; ?></label>
 						<div class="col-md-10">
 							<div class="forum-post no-margin no-shadow">
-								<textarea class="text-forum" name="info_text"></textarea>
+								<textarea class="bel_cms_textarea_simple" name="info_text"></textarea>
 							</div>
 						</div>
 					</div>

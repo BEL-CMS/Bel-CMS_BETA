@@ -29,10 +29,10 @@ if (!defined('CHECK_INDEX')) {
 					$lock = $v_threads->options['lock'] ? 'lock' : '';
 					$link = $v_threads->options['lock'] ? Common::CurrentPage() : 'Forum/Threads/'.$v_threads->title.'?id='.$v_threads->id;
 					$span_profil  = '<span>';
-					$span_profil .= '<a href="#"><i class="fa fa-user"></i> '.$v_threads->lastThreads->author.'</a> <i class="fa fa-clock-o"></i> '.$v_threads->lastThreads->date_post;
+					$span_profil .= '<a href="Members/View/'.$v_threads->lastThreads->author.'"><i class="fa fa-user"></i> '.$v_threads->lastThreads->author.'</a> <i class="fa fa-clock-o"></i> '.$v_threads->lastThreads->date_post;
 					$span_profil .= '</span>';
 					$profil = $v_threads->lastThreads->author == UNKNOWN ? '' : $span_profil;
-					$none   = $v_threads->lastThreads->title == NO_POST ? '<h4 style="line-height:35px">'.NO_POST.'</h4>' : '<h4><a href="">'.$v_threads->lastThreads->title.'</a></h4>';
+					$none   = $v_threads->lastThreads->title == NO_POST ? '<h4 style="line-height:35px">'.NO_POST.'</h4>' : '<h4><a href="Forum/Post/'.$v_threads->lastThreads->title.'?id='.$v_threads->lastThreads->id.'">'.$v_threads->lastThreads->title.'</a></h4>';
 				?>
 					<div class="forum-group <?=$lock?>">
 						<div class="forum-icon hidden-xs"><i class="<?=$v_threads->icon?>"></i></div>
@@ -41,7 +41,7 @@ if (!defined('CHECK_INDEX')) {
 							<p><?=$v_threads->subtitle?></p>
 						</div>
 						<div class="forum-activity visible-md visible-lg">
-							<a href="#"><img src="<?=$v_threads->lastThreads->avatar?>" alt="avatar_user"></a>
+							<img src="<?=$v_threads->lastThreads->avatar?>" alt="avatar_user">
 							<div>
 								<?=$none?>
 								<?=$profil?>

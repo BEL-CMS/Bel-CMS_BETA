@@ -66,7 +66,7 @@ if (!defined('CHECK_INDEX')) {
 				</div>
 				<form action="Forum/Send" method="post" enctype="multipart/form-data">
 					<div class="forum-post">
-						<textarea class="text-forum" name="info_text"></textarea>
+						<textarea class="bel_cms_textarea_simple" name="info_text"></textarea>
 					</div>
 					<div class="form-group">
 					<label class="btn btn-default btn-file">File attachment

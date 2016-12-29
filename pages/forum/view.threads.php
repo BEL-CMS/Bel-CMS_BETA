@@ -28,14 +28,14 @@ $new  = (User::ReturnUser() !== false) ? '<a href="Forum/NewThread/'.GET_ID_SUPP
 				<div class="forum-icon hidden-xs"><i class="fa fa-comments"></i><?=$labelWarning?></div>
 				<div class="forum-title">
 					<h4><a href="<?php echo $link; ?>"><?php echo $v->title; ?></a></h4>
-					<p>by <a data-toggle="popuser" title="<?php echo $v->author; ?>"><?=$v->author?></a> <?php echo ON; ?> <?=Common::transformDate($v->date_post, true, 'd M Y # H:i'); ?></p>
+					<p><?=BY?> <a data-toggle="popuser" title="<?php echo $v->author; ?>"><?=$v->author?></a> <?php echo ON; ?> <?=Common::transformDate($v->date_post, true, 'd M Y # H:i'); ?></p>
 				</div>
 				<div class="forum-activity hidden-xs">
 					<a href="User/Profil/<?=$v->lastpost->author?>" data-toggle="tooltip" title="<?php echo $v->lastpost->author; ?>">
 						<img src="<?php echo $v->lastpost->avatar; ?>" alt="">
 					</a>
 					<div>
-						<h4><a href="<?php echo $link; ?>">Last post by <?=$v->lastpost->author?></a></h4>
+						<h4><a href="<?php echo $link; ?>"><?=LAST_POST?> <?=BY?> <?=$v->lastpost->author?></a></h4>
 						<span><a href="#"><?=ON?></a> <?=$v->lastpost->date_post?></span>
 					</div>
 				</div>

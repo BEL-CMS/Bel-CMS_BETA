@@ -285,14 +285,15 @@
     text-decoration: none;
     transition: all 0.25s ease 0s;
 }
-.forum-post h1,
-.forum-post h2,
-.forum-post h3,
-.forum-post h4,
-.forum-post h5,
-.forum-post h6 {
+.forum h1,
+.forum h2,
+.forum h3,
+.forum h4,
+.forum h5,
+.forum h6 {
 	margin: 0 !important;
 	margin-bottom: 20px;
+	text-transform: none !important;
 }
 .forum .forum-group .forum-activity div h4 {
     display: block;
