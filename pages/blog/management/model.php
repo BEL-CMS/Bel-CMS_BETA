@@ -65,14 +65,14 @@ class ModelManagementBlog extends ModelPagesBlog
 			$edit['author']       = strlen($data['author']) == 32 ? $data['author'] : null;
 			$edit['tags']         = Common::VarSecure($data['tags'], ''); // autorise que du texte
 			$edit['cat']          = ''; // à implanter
-			// SQL INSERT
+			// SQL UPDATE
 			$sql = New BDD();
 			$sql->table('TABLE_PAGES_BLOG');
 			$id = Common::SecureRequest($data['id']);
 			$sql->where(array('name' => 'id', 'value' => $id));
 			$sql->sqlData($edit);
 			$sql->update();
-			// SQL RETURN NB INSERT 
+			// SQL RETURN NB UPDATE 
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',
@@ -130,12 +130,12 @@ class ModelManagementBlog extends ModelPagesBlog
 		if ($data !== false) {
 			// SECURE DATA
 			$delete = (int) $data;
-			// SQL UPDATE
+			// SQL DELETE
 			$sql = New BDD();
 			$sql->table('TABLE_PAGES_BLOG');
 			$sql->where(array('name'=>'id','value' => $delete));
 			$sql->delete();
-			// SQL RETURN NB UPDATE 
+			// SQL RETURN NB DELETE 
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',

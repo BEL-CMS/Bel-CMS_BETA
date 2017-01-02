@@ -20,13 +20,10 @@ Common::constant(array(
 	#####################################
 	'NEW_BLOG_ERROR'        => 'Une erreur est survenue durant l\'enregistrement en BDD.',
 	'NEW_BLOG_SUCCESS'      => 'Ajout du blog ajouter avec succès.',
-	'NEW_PARAMETER_SUCCESS' => 'Mise à jour de la configuration du BLOG avec succès.',
-	'NEW_PARAMETER_ERROR'   => 'Erreur durant la mise à jour de la configuration du BLOG.',
 	'DEL_BLOG_SUCCESS'      => 'Suppression du blog avec succès',
 	'DEL_BLOG_ERROR'        => 'Erreur lors de la suppresion du blog',
 	'EDIT_BLOG_SUCCESS'     => 'Edition du blog avec succès',
 	'EDIT_BLOG_ERROR'       => 'Erreur durant l\'edition du blog',
 	'NB_BLOG'               => 'Maximum de blog à afficher',
-	'NB_BLOG_ADMIN'         => 'Maximum de blog à afficher (Admin)',
-	'ERROR_NO_DATA'         => 'Erreur aucune données !'
+	'NB_BLOG_ADMIN'         => 'Maximum de blog à afficher (Admin)'
 ));

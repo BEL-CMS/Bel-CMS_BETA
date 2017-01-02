@@ -68,4 +68,3 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 </div>
 <?php
 endif;
-// rewrite_name 	name 	date_create 	author 	content 	tags 	cat 
