@@ -108,6 +108,9 @@
 	# Management
 	#####################################
 	'PREFGEN'                => 'Préférences Générales',
+	'ERROR_NO_DATA'          => 'Erreur aucune données !',
+	'NEW_PARAMETER_SUCCESS'  => 'Mise à jour de la configuration avec succès.',
+	'NEW_PARAMETER_ERROR'    => 'Erreur durant la mise à jour de la configuration.',
 	#####################################
 	# Nom des modules
 	#####################################
