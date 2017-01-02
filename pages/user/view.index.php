@@ -45,7 +45,7 @@ if ($this->data):
 			editAvatar ($this->data);
 			?>
 		</div>
-
+	</div>
 </section>
 <?php
 endif;
@@ -175,7 +175,7 @@ function editProfilInfos ($data) {
 
 				<div class="form-group">
 					<label>Description :</label>
-					<textarea class="info_text" name="info_text"><?=$data->info_text?></textarea>
+					<textarea class="bel_cms_textarea_simple" name="info_text" placeholder="Votre description..."><?php echo $data->info_text; ?></textarea>
 				</div>
 
 				<div class="form-group input-icon-left">

@@ -264,7 +264,7 @@ class ModelPagesUser
 				$return['text']  = 'Le nom d\'utilisateur est trop court, minimum 4 caractères'; ++$error;
 				$return['type']  = 'danger';
 			} else if (strlen($data['username']) > 32) {
-				$return['text']  = 'Le mot de passe est trop long, maximum 32 caractères'; ++$error;
+				$return['text']  = 'Le nom d\'utilisateur est trop long, maximum 32 caractères'; ++$error;
 				$return['type']  = 'danger';
 			} else if (strlen($data['password']) < 6) {
 				$return['text']  = 'Le mot de passe est trop court, minimum 6 caractères'; ++$error;
