@@ -57,7 +57,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<td><?=$v->email?></td>
 											<td><?=$v->last_visit?></td>
 											<td class="td-actions">
-												<a href="Blog/Edit/<?=$v->id?>?management" class="btn btn-small btn-success">
+												<a href="User/Edit/<?=$v->hash_key?>?management" class="btn btn-small btn-success">
 													<i class="btn-icon-only icon-edit"> </i>
 												</a>
 												<a href="#modal_<?=$v->id?>" role="button" data-toggle="modal" class="btn btn-danger btn-small">

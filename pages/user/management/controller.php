@@ -36,6 +36,14 @@ class ControllerManagementUser extends ModelManagementUser
 		$this->data = self::GetUsers();
 	}
 
+	public function edit ()
+	{
+		$this->data['listSocial'] = parent::ListSocial();
+		$this->data['social']     = parent::GetUsersSocial(GET_ID);
+		$this->data['private']    = parent::GetUsers(GET_ID);
+		$this->data['profil']     = parent::GetUsersProfil(GET_ID);
+	}
+
 	public function del ()
 	{
 		$return = parent::DelUser(GET_ID);

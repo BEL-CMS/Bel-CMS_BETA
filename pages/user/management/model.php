@@ -28,22 +28,81 @@ class ModelManagementUser
 		$page = (GET_PAGES * $nbpp) - $nbpp;
 		$sql = New BDD();
 		$sql->table('TABLE_USERS');
-		if ($hash_key AND strlen($hash_key) == 32) {
+		if ($hash_key && strlen($hash_key) == 32) {
 			$where = array('name' => 'hash_key', 'value' => $hash_key);
 			$sql->where($where);
 		}
 		$sql->orderby(array(array('name' => 'username', 'type' => 'ASC')));
 		$sql->limit(array(0 => $page, 1 => $nbpp), true);
-		$sql->queryAll();
+		if ($hash_key && strlen($hash_key) == 32) {
+			$sql->queryOne();
+		} else {
+			$sql->queryAll();
+		}
 		$return = $sql->data;
 		unset($sql);
 
 		return $return;
 	}
 
+	protected function GetUsersProfil ($hash_key = false)
+	{
+		$return = array();
+
+		if ($hash_key && strlen($hash_key) == 32) {
+			$sql = New BDD();
+			$sql->table('TABLE_USERS_PROFILS');
+			$where = array('name' => 'hash_key', 'value' => $hash_key);
+			$sql->where($where);
+			$sql->queryOne();
+			$return = $sql->data;
+		}
+
+		return $return;
+	}
+
+	protected function GetUsersSocial ($hash_key = false)
+	{
+		$return = array();
+
+		if ($hash_key && strlen($hash_key) == 32) {
+			$sql = New BDD();
+			$sql->table('TABLE_USERS_SOCIAL');
+			$where = array('name' => 'hash_key', 'value' => $hash_key);
+			$sql->where($where);
+			$sql->queryOne();
+			$return = $sql->data;
+		}
+
+		return $return;
+	}
+
+	protected function ListSocial ()
+	{
+		$return = array();
+
+		$list = Common::ShowColumns(TABLE_USERS_SOCIAL);
+
+		foreach ($list as $name) {
+			if ($name != 'id' && $name != 'hash_key') {
+				$return[] = $name;
+			}
+		}
+
+		return $return;
+	}
+
+	protected function SendEdit ($data)
+	{
+		$hash_key = GET_ID;
+		if ($hash_key && strlen($hash_key) == 32) {
+			$users = array();
+		}
+	}
+
 	protected function DelUser ($hash_key = false)
 	{
-		if ($hash_key AND strlen($hash_key) == 32) {
+		if ($hash_key && strlen($hash_key) == 32) {
 			// SECURE DATA
 			$del = (int) $hash_key;
 			// SQL DELETE USER
@@ -60,7 +119,7 @@ class ModelManagementUser
 				$sql->table('TABLE_USERS_PROFILS');
 				$sql->where($where);
 				$sql->delete();
-				// SQL DELETE PROFILS
+				// SQL DELETE SOCIAL
 				unset($sql);
 				$sql = New BDD();
 				$sql->table('TABLE_USERS_SOCIAL');

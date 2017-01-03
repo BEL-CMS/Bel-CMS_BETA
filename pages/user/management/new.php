@@ -32,7 +32,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 						<div class="widget-content">
 							<!-- debut des boutton action -->
 							<div class="form-actions">
-								<button class="btn" onclick="window.location.href='/User?management'"><i class="icon-home"></i> <?=HOME?></button>
+								<button class="btn" onclick="window.location.href='User?management'"><i class="icon-home"></i> <?=HOME?></button>
 								<button class="btn active"><i class="icon-plus"></i> <?=ADD?></button>
 								<button class="btn" onclick="window.location.href='User/parameter?management'"><i class="icon-wrench"></i> <?=PARAMETER?></button>
 							</div>
