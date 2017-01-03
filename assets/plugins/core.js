@@ -236,6 +236,7 @@
         });
     });
 
+    $(".datepicker" ).datepicker();
 
 	if (typeof datepicker !== "undefined") {
 		(function( factory ) {
@@ -293,6 +294,7 @@ function _initTinymceSimple () {
 		selector: 'textarea.bel_cms_textarea_simple',
 		browser_spellcheck: true,
 		language: 'fr_FR',
+		theme: 'modern',
 		menubar: true,
 		plugins: [
 			'advlist autolink lists link image charmap print preview anchor',

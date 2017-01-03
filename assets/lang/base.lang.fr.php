@@ -59,6 +59,8 @@
 	'VIEW'                   => 'Voir',
 	'USERNAME'               => 'Nom d\'utilisateur',
 	'BIRTHDAY'               => 'Anniversaire',
+	'COUNTRY'                => 'Pays',
+	'DESCRIPTION'            => 'Description',
 	'LOCATION'               => 'Emplacement',
 	'GENDER'                 => 'Genre',
 	'WEBSITE'                => 'Site Internet',

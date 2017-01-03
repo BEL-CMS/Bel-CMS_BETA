@@ -301,7 +301,6 @@ final class Common
 	{
 
 		$cnx = SqlConnection::getInstance();
-
 		$cnx = $cnx->cnx;
 
 		if ($full) {
@@ -324,6 +323,19 @@ final class Common
 		}
 
 		return $return;
+	}
+
+	public static function ShowColumns ($table)
+	{
+		$cnx = SqlConnection::getInstance();
+		$cnx = $cnx->cnx;
+		$query = $cnx->prepare("SHOW COLUMNS FROM ".$table."");
+		$query->execute();
+		if ($query === false)
+			return false;
+		$list = $query->fetchAll(PDO::FETCH_COLUMN, 0);
+
+		return $list;
 	}
 	#########################################
 	# Request ID or rewrite_name secure
