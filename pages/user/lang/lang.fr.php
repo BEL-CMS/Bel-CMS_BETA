@@ -39,4 +39,8 @@ Common::constant(array(
 	'NB_USER_ADMIN'         => 'Maximum d\'utilisateur à afficher (Admin)',
 	'DEL_USER_SUCCESS'      => 'Suppression de l\'utilisateur avec succès',
 	'DEL_USER_ERROR'        => 'Erreur lors de la suppresion de l\'utilisateur',
+	'MAIN_GROUP'            => 'Groupe principal',
+	'GROUPS'                => 'Groups',
+	'PRIVATE'               => 'Priver',
+	'SOCIAL'                => 'Social',
 ));

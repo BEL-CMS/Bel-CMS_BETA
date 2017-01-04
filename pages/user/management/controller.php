@@ -51,12 +51,16 @@ class ControllerManagementUser extends ModelManagementUser
 		Common::Redirect('User?management', 2);
 	}
 
+	public function senduser ()
+	{
+		$return = parent::SendEdit($_POST);
+		$this->data = $return;
+	}
+
 	public function send ()
 	{
 		if ($_POST['send'] == 'new') {
 			$return = parent::SendNew($_POST);
-		} else if ($_POST['send'] == 'edit') {
-			$return = parent::SendEdit($_POST);
 		} else if ($_POST['send'] == 'parameter') {
 			$return = parent::UpdateParameter($_POST);
 		}

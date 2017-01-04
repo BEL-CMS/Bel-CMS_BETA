@@ -95,9 +95,125 @@ class ModelManagementUser
 	protected function SendEdit ($data)
 	{
 		$hash_key = GET_ID;
+		$return   = array();
+
 		if ($hash_key && strlen($hash_key) == 32) {
-			$users = array();
+			$user = array();
+			// TEST USERNAME
+			$getUser = self::GetUsers($hash_key);
+			if ($getUser->username != $data['username']) {
+				// SQL CHECK USERNAME EXIST
+				$sql = New BDD();
+				$sql->table('TABLE_USERS');
+				$sql->where(array('name'=>'username','value'=>$data['username']));
+				$sql->count();
+				$returnCheckName = (int) $sql->data;
+				if ($returnCheckName >= 1) {
+					$return[] = array(
+						'type' => 'alert',
+						'text' => 'Ce nom d\'utilisateur existe déjà.'
+					);
+				} else {
+					$user['username'] = $data['username'];
+				}
+			}
+			// TEST PASSWORD != EMPTY
+			if (!empty($data['password'])) {
+				$user['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+			}
+			// TEST PRIVATE MAIL
+			if ($getUser->email != $data['email']) {
+				// TEST BLACKLIST MAIL
+				$sql = New BDD();
+				$sql->table('TABLE_MAIL_BLACKLIST');
+				$sql->isObject(false);
+				$sql->queryAll();
+				$results = $sql->data;
+				$arrayBlackList = array();
+				foreach ($results as $k => $v) {
+					$arrayBlackList[$v['id']] = $v['name'];
+				}
+				if (!empty($data['email'])) {
+					$tmpMailSplit = explode('@', $data['email']);
+					$tmpNdd =  explode('.', $tmpMailSplit[1]);
+				}
+				if (in_array($tmpNdd[0], $arrayBlackList)) {
+					$return[] = array(
+						'type' => 'alert',
+						'text' => 'Les e-mails jetables ne sont pas autorisé.'
+					);
+				}
+				// TEST MAIL VALID
+				if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
+					$return[] = array(
+						'type' => 'alert',
+						'text' => 'L\'adresse e-mail n\'est pas valide.'
+					);
+				} else {
+					$user['email'] = $data['email'];
+				}
+			}
+			$user['main_groups'] = (int) $data['main_groups'];
+			$user['groups']      = implode('|', $data['groups']);
+			// SQL UPDATE USER
+			$sql = New BDD();
+			$sql->table('TABLE_USERS');
+			$sql->where(array('name'=>'hash_key','value' => $hash_key));
+			$sql->sqlData($user);
+			$sql->update();
+			$userProfil = array();
+			// TEST MAIL VALID
+			if (!empty($data['public_mail'])) {
+				if (filter_var($data['public_mail'], FILTER_VALIDATE_EMAIL) === false) {
+					$return[] = array(
+						'type' => 'alert',
+						'text' => 'L\'adresse e-mail public n\'est pas valide.'
+					);
+				} else {
+					$userProfil['public_mail'] = $data['public_mail'];
+				}
+			} else {
+				$userProfil['public_mail'] = '';
+			}
+			if (!empty($data['websites'])) {
+				if (filter_var($data['websites'], FILTER_VALIDATE_URL) === false) {
+					$return[] = array(
+						'type' => 'alert',
+						'text' => $data['websites'].' n\'est pas valide'
+					);
+				} else {
+					$userProfil['websites'] = $data['websites'];
+				}
+			} else {
+				$userProfil['websites'] = '';
+			}
+			$userProfil['birthday']  = Common::transformDate($data['birthday'], false, 'Y-m-d');
+			$userProfil['country']   = $data['country'];
+			$userProfil['gender']    = $data['gender'];
+			$userProfil['info_text'] = Common::VarSecure($data['info_text']);
+			// SQL UPDATE USER PROFIL
+			$sql = New BDD();
+			$sql->table('TABLE_USERS_PROFILS');
+			$sql->where(array('name'=>'hash_key','value' => $hash_key));
+			$sql->sqlData($userProfil);
+			$sql->update();
+			$userSocial = array();
+			foreach (self::ListSocial() as $name) {
+				$userSocial[$name] = Common::VarSecure($data[$name], '');
+			}
+			// SQL UPDATE USER SOCIAL
+			$sql = New BDD();
+			$sql->table('TABLE_USERS_SOCIAL');
+			$sql->where(array('name'=>'hash_key','value' => $hash_key));
+			$sql->sqlData($userSocial);
+			$sql->update();
 		}
+		// RETURN
+		$return[] = array(
+			'type' => 'success',
+			'text' => 'Enregistrement effecté avec succès'
+		);
+		return $return;
 	}
 
 	protected function DelUser ($hash_key = false)

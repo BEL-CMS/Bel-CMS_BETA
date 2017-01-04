@@ -337,16 +337,6 @@ class ModelPagesUser
 
 					User::login($_POST['username'],$_POST['password']);
 
-					/*
-					$dataAction = array(
-						'name' => $data['name'],
-						'ip' => Common::getIp(),
-						'date_insert' => date('Y-m-d H:i:s'),
-						'text' => 'S\'est enregistrer',
-						'modules' => 'User'
-					);
-					*/
-
 					$return['text']     = 'Enregistrement en cours...';
 					$return['type']     = 'success';
 					$return['redirect'] = 'User';

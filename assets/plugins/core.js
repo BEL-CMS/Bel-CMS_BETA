@@ -264,7 +264,7 @@
 			dayNamesShort: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],
 			dayNamesMin: ['D','L','M','M','J','V','S'],
 			weekHeader: 'Sem.',
-			dateFormat: 'dd/mm/yy',
+			dateFormat: 'dd-mm-yy',
 			firstDay: 1,
 			isRTL: false,
 			showMonthAfterYear: false,

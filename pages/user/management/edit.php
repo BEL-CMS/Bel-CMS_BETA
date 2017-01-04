@@ -48,7 +48,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 								</li>
 							</ul>
 							
-							<form action="User/send<?=$this->data['private']->hash_key?>?management" method="post" class="form-horizontal tab-content">
+							<form action="User/senduser/<?=$this->data['private']->hash_key?>?management" method="post" class="form-horizontal tab-content">
 								<div id="private" class="tab-pane active">
 									<fieldset>
 										<div class="control-group">
@@ -99,7 +99,6 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											</div>
 										</div>
 										<div class="control-group" style="margin-top: 15px;">
-											<input type="hidden" name="send" value="edit">
 											<input class="btn btn-primary" type="submit" value="<?=EDIT?>">
 										</div>
 									<fieldset>
@@ -121,7 +120,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 										<div class="control-group">
 											<label class="control-label" for="label_birthday"><?=BIRTHDAY?> :</label>
 											<div class="controls">
-												<input id="label_birthday" class="span6 datepicker" name="birthday" type="text" value="<?=$this->data['profil']->birthday?>" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}">
+												<input id="label_birthday" class="span6 datepicker" name="birthday" type="text" value="<?=$this->data['profil']->birthday?>">
 											</div>
 										</div>
 										<div class="control-group">
@@ -160,7 +159,6 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<textarea class="bel_cms_textarea_simple" name="info_text" placeholder="Votre description..."><?=$this->data['profil']->info_text; ?></textarea>
 										</div>
 										<div class="control-group" style="margin-top: 15px;">
-											<input type="hidden" name="send" value="edit">
 											<input class="btn btn-primary" type="submit" value="<?=EDIT?>">
 										</div>
 									</fieldset>
@@ -181,7 +179,6 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 										endforeach;
 										?>
 										<div class="control-group" style="margin-top: 15px;">
-											<input type="hidden" name="send" value="edit">
 											<input class="btn btn-primary" type="submit" value="<?=EDIT?>">
 										</div>
 									</fieldset>
