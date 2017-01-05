@@ -14,20 +14,5 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
-?>
-<div class="main">
-	<div class="main-inner">
-		<div class="container">
-			<div class="row">
-				<div class="span12">
-					<div class="alert alert-<?=$this->data['type']?>">
-						<?=$this->data['text']?>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<?php
+	include 'send.php';
 endif;
-?>

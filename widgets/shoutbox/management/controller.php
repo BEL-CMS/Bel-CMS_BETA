@@ -20,11 +20,6 @@ class ControllerManagementShoutbox extends ModelManagementShoutobx
 			$view,
 			$error = null;
 
-	function __construct($id = null)
-	{
-
-	}
-
 	public function index ()
 	{
 		$this->data = parent::getMsg();
@@ -39,5 +34,12 @@ class ControllerManagementShoutbox extends ModelManagementShoutobx
 	{
 		$this->data = parent::sendEditMsg(GET_ID, $_REQUEST['msg']);
 		Common::Redirect('shoutbox?Management', 2);
+	}
+
+	public function del ()
+	{
+		$return = parent::DelMsg(GET_ID);
+		$this->data = $return;
+		Common::Redirect('Shoutbox?management', 2);
 	}
 }

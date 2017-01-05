@@ -38,4 +38,35 @@ class ModelManagementShoutobx extends ModelPagesShoutbox
 
 		return $return;
 	}
+
+	protected function DelMsg ($data = false)
+	{
+		if ($data !== false) {
+			// SECURE DATA
+			$delete = (int) $data;
+			// SQL DELETE
+			$sql = New BDD();
+			$sql->table('TABLE_SHOUTBOX');
+			$sql->where(array('name'=>'id','value' => $delete));
+			$sql->delete();
+			// SQL RETURN NB DELETE 
+			if ($sql->rowCount == 1) {
+				$return = array(
+					'type' => 'success',
+					'text' => DEL_SHOUTBOX_SUCCESS
+				);
+			} else {
+				$return = array(
+					'type' => 'alert',
+					'text' => DEL_SHOUTBOX_ERROR
+				);
+			}
+		} else {
+			$return = array(
+				'type' => 'alert',
+				'text' => ERROR_NO_DATA
+			);
+		}
+		return $return;
+	}
 }

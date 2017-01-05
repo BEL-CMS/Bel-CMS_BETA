@@ -47,7 +47,22 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<td><?=$v->date_msg?></td>
 											<td style="text-align: center;">
 												<a href="shoutbox/edit/<?=$v->id?>?management" class="btn btn-small btn-info"><i class="icon-large icon-edit"></i></a>
-												<a href="shoutbox/remove/<?=$v->id?>?management" class="btn btn-small btn-danger"><i class="icon-large icon-remove-sign"></i></a>
+												<a href="#modal_<?=$v->id?>" role="button" data-toggle="modal" class="btn btn-danger btn-small">
+													<i class="btn-icon-only icon-remove"> </i>
+												</a>
+												<div id="modal_<?=$v->id?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+														<h3 id="myModalLabel">Suppression du message</h3>
+													</div>
+													<div class="modal-body">
+														<p>Etes vous certain de supprimer le message</p>
+													</div>
+													<div class="modal-footer">
+														<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
+														<a href="shoutbox/del/<?=$v->id?>?management" class="btn btn-primary">Supprimer</a>
+													</div>
+												</div>
 											</td>
 										</tr>
 										<?php
