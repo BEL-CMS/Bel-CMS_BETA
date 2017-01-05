@@ -109,7 +109,7 @@ class Management
 	private function lang ($file = false)
 	{
 		if (is_file($file)) {
-			include $file;
+			include_once $file;
 		}
 	}
 	#####################################
@@ -130,16 +130,16 @@ class Management
 				self::$page();
 			} else {
 				if ($this->ExistsPages($this->page)) {
+					self::lang(ROOT_PAGES.$this->page.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php');
 					self::PageManagement(ROOT_PAGES.$this->page.DS.$this->dirName);
-					self::lang(ROOT_PAGES.$this->page.DS.'lang'.CMS_WEBSITE_LANG.'php');
 				} else {
 					$error   = 1;
 					$existsPages = false;
 				}
 				if (isset($error)) {
 					if ($this->ExistsWidgets($this->page)) {
+						self::lang(ROOT_WIDGETS.$this->page.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php');
 						self::PageManagement(ROOT_WIDGETS.$this->page.DS.$this->dirName);
-						self::lang(ROOT_WIDGETS.$this->page.DS.'lang'.CMS_WEBSITE_LANG.'php');
 						unset($error);
 					} else {
 						$error = 3;
