@@ -24,7 +24,6 @@ $(document).ready(function(){
 						'page_forum_threads',
 						'page_shoutbox',
 						'page_users',
-						'page_users_management',
 						'page_users_profils',
 						'page_users_social',
 						'stats',

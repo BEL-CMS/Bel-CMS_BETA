@@ -271,17 +271,6 @@ switch ($table) {
 			UNIQUE KEY `name` (`username`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
-	case 'page_users_management':
-		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
-		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
-			`hash_key` varchar(32) NOT NULL,
-			`pages` text,
-			`widgets` text NOT NULL,
-			PRIMARY KEY (`id`),
-			UNIQUE KEY `hash_key` (`hash_key`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-	break;
 	case 'page_users_profils':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
