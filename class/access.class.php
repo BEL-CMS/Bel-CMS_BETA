@@ -148,4 +148,60 @@ class Access
 
 	}
 
+	public static function AccessManagementWidgets ($name = false)
+	{
+		$access = (bool) false;
+
+		if ($name !== false) {
+			$access = (object) array();
+
+			$sql = New BDD;
+			$sql->table('TABLE_WIDGETS');
+			$sql->queryAll();
+			foreach ($sql->data as $k => $v) {
+				$accessPages[$v->name] = explode('|', $v->groups_admin);
+			}
+
+			foreach ($accessPages[$name] as $k => $v) {
+				if (in_array($v, $_SESSION['user']->groups)) {
+					$access = (bool) true;
+					break;
+				} else {
+					$access = (bool) false;
+				}
+			}
+
+		}
+		return $access;
+	}
+
+	public static function AccessManagementPage ($name = false)
+	{
+		$access = (bool) false;
+
+		if ($name !== false) {
+			$access = (object) array();
+
+			$sql = New BDD;
+			$sql->table('TABLE_PAGES_CONFIG');
+			$sql->queryAll();
+			foreach ($sql->data as $k => $v) {
+				$accessPages[$v->name] = explode('|', $v->access_admin);
+			}
+
+			if ($name == 'dashboard') {
+				$access = (bool) true;
+			} else {
+				foreach ($accessPages[$name] as $k => $v) {
+					if (in_array($v, $_SESSION['user']->groups)) {
+						$access = (bool) true;
+						break;
+					} else {
+						$access = (bool) false;
+					}
+				}
+			}
+		}
+		return $access;
+	}
 }

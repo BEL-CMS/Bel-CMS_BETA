@@ -22,7 +22,7 @@ class WidgetsModelShoutbox
 		$this->sql = New BDD();
 		$this->sql->table('TABLE_SHOUTBOX');
 		$this->sql->orderby(array(array('name' => 'id', 'type' => 'DESC')));
-		$this->sql->limit($_SESSION['pages']->shoutbox->config['MAX_MSG']);
+		$this->sql->limit($_SESSION['pages']->shoutbox->config['MAX_SHOUTBOX']);
 		$this->sql->queryAll();
 		if (!empty($this->sql->data)) {
 			$return = $this->sql->data;

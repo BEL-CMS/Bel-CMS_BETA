@@ -53,7 +53,8 @@
 	'UNKNOWN'                => 'Inconnu',
 	'MESSAGE'                => 'Message',
 	'MESSAGES'               => 'Messages',
-	'ON'                     => 'Le',
+	'ON'                     => 'Sur',
+	'THE'                    => 'Le',
 	'SEND'                   => 'Envoyer',
 	'ABOUT_ME'               => 'À propos de moi',
 	'VIEW'                   => 'Voir',
@@ -109,10 +110,30 @@
 	#####################################
 	# Management
 	#####################################
+	'TITLE_MANAGEMENT'       => 'Management',
 	'PREFGEN'                => 'Préférences Générales',
 	'ERROR_NO_DATA'          => 'Erreur aucune données !',
 	'NEW_PARAMETER_SUCCESS'  => 'Mise à jour de la configuration avec succès.',
 	'NEW_PARAMETER_ERROR'    => 'Erreur durant la mise à jour de la configuration.',
+	'ACTIVE'                 => 'Actif',
+	'ACTIVATE'               => 'Activer',
+	'DISABLE'                => 'Désactiver',
+	'GROUPS'                 => 'Groupes',
+	'PAGE'                   => 'Page',
+	'PAGES'                  => 'Pages',
+	'WIDGET'                 => 'Widget',
+	'WIDGETS'                => 'Widgets',
+	'MAX_SHOUTBOX'           => 'Maximum de message',
+	'MAX_SHOUTBOX_ADMIN'     => 'Maximum de message management',
+	'MAX_USER'               => 'Maximum d\'utilisateur à affiché',
+	'MAX_USER_ADMIN'         => 'Maximum d\'utilisateur à affiché (admin)',
+	'MAX_BLOG'               => 'Maximum de blog à affiché',
+	'MAX_BLOG_ADMIN'         => 'Maximum de blog à affiché (admin)',
+	'CUSTOM_NAME'            => 'Nom personnalisé',
+	'POSITION'               => 'Position',
+	'ORDER'                  => 'Ordre',
+	'ACCESS_PAGE'            => 'Accès page',
+	'CONFIG'                 => 'Configuration',
 	#####################################
 	# Nom des modules
 	#####################################

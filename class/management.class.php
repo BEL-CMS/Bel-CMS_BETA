@@ -82,7 +82,9 @@ class Management
 
 		$this->pageManagement = ROOT_MANAGEMENT.'page'.DS;
 	}
-
+	#####################################
+	# Login
+	#####################################
 	private function loginManagement () {
 		if (GET_PAGE == 'login') {
 			if (!empty($_POST['privatemail']) && !empty($_POST['password'])) {
@@ -124,22 +126,81 @@ class Management
 		} else {
 			$this->require = GET_PAGE == 'login' ? 'Dashboard' : GET_PAGE;
 			if ($this->require == 'Dashboard') Common::Redirect('Dashboard?Management');
-			$pageSelf = array('dashboard', 'logout', 'parameter');
+			$pageSelf = array('dashboard', 'logout', 'parameter', 'access');
 			if (in_array($this->page, $pageSelf)) {
-				$page = $this->page;
-				self::$page();
+				if ($this->page == 'parameter' or $this->page == 'access') {
+					if (in_array(1, $_SESSION['user']->groups)) {
+						$page = $this->page;
+						self::$page();
+					} else {
+						ob_start("ob_gzhandler");
+						?>
+						<div class="container">
+							<div class="row">
+								<div class="span12">
+									<div class="alert">
+										<?=NO_ACCESS_GROUP_PAGE?>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php
+						$this->buffer = ob_get_contents();
+						ob_end_clean();
+						self::html();
+					}
+				} else {
+					$page = $this->page;
+					self::$page();			
+				}
 			} else {
 				if ($this->ExistsPages($this->page)) {
+					if (Access::AccessManagementPage($this->page) === false):
+						ob_start("ob_gzhandler");
+						?>
+						<div class="container">
+							<div class="row">
+								<div class="span12">
+									<div class="alert">
+										<?=NO_ACCESS_GROUP_PAGE?>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php
+						$this->buffer = ob_get_contents();
+						ob_end_clean();
+						self::html();
+					else:
 					self::lang(ROOT_PAGES.$this->page.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php');
 					self::PageManagement(ROOT_PAGES.$this->page.DS.$this->dirName);
+					endif;
 				} else {
 					$error   = 1;
 					$existsPages = false;
 				}
 				if (isset($error)) {
 					if ($this->ExistsWidgets($this->page)) {
+						if (Access::AccessManagementWidgets($this->page) === false):
+							ob_start("ob_gzhandler");
+							?>
+							<div class="container">
+								<div class="row">
+									<div class="span12">
+										<div class="alert">
+											<?=NO_ACCESS_GROUP_PAGE?>
+										</div>
+									</div>
+								</div>
+							</div>
+							<?php
+							$this->buffer = ob_get_contents();
+							ob_end_clean();
+							self::html();
+						else:
 						self::lang(ROOT_WIDGETS.$this->page.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php');
 						self::PageManagement(ROOT_WIDGETS.$this->page.DS.$this->dirName);
+						endif;
 						unset($error);
 					} else {
 						$error = 3;
@@ -273,23 +334,14 @@ class Management
 				<div class="subnavbar-inner">
 					<div class="container">
 						<ul class="mainnav">
-							<li class="active">
+							<li>
 								<a href="dashboard?management"><i class="icon-home"></i><span>Dashboard</span></a>
 							</li>
 							<li>
 								<a href="Blog?management"><i class="icon-pencil"></i><span>Blog</span> </a>
 							</li>
 							<li>
-								<a href="Downloads?management"><i class="icon-download-alt "></i><span>Downloads</span> </a>
-							</li>
-							<li>
-								<a href="Video?management"><i class="icon-facetime-video"></i><span>Video</span> </a>
-							</li>
-							<li>
-								<a href="Links?management"><i class="icon-link"></i><span>Links</span> </a>
-							</li>
-							<li>
-								<a href="Gallery?management"><i class="icon-picture"></i><span>Gallery</span> </a>
+								<a href="Access?management"><i class="icon-lock"></i><span>Accès</span> </a>
 							</li>
 							<li class="dropdown">
 								<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i>
@@ -376,21 +428,21 @@ class Management
 
 		$access = (object) array();
 
-		$BDD = New BDD;
-		$BDD->table('TABLE_MANAGEMENT');
-		$BDD->where(array('name' => 'hash_key', 'value' => $_SESSION['user']->hash_key));
-		$BDD->fields(array('pages'));
-		$BDD->queryOne();
-		$results = $BDD->data;
+		$sql = New BDD;
+		$sql->table('TABLE_PAGES_CONFIG');
+		$sql->queryAll();
+		foreach ($sql->data as $k => $v) {
+			$accessPages[$v->name] = explode('|', $v->access_admin);
+		}
 
-		if ($results) {
-			$returnPage = explode('|', $results->pages);
-			foreach ($pages as $p) {
-				if ($p == 'dashboard') {
-					$access->$p = (bool) true;
-				} else {
-					if (in_array($p, $returnPage)) {
+		foreach ($pages as $p) {
+			if ($p == 'dashboard') {
+				$access->$p = (bool) true;
+			} else {
+				foreach ($accessPages[$p] as $k => $v) {
+					if (in_array($v, $_SESSION['user']->groups)) {
 						$access->$p = (bool) true;
+						break;
 					} else {
 						$access->$p = (bool) false;
 					}
@@ -429,18 +481,18 @@ class Management
 
 		$access  = (object) array();
 
-		$BDD = New BDD;
-		$BDD->table('TABLE_MANAGEMENT');
-		$BDD->where(array('name' => 'hash_key', 'value' => $_SESSION['user']->hash_key));
-		$BDD->fields(array('widgets'));
-		$BDD->queryOne();
-		$results = $BDD->data;
+		$sql = New BDD;
+		$sql->table('TABLE_WIDGETS');
+		$sql->queryAll();
+		foreach ($sql->data as $k => $v) {
+			$accessPages[$v->name] = explode('|', $v->groups_admin);
+		}
 
-		if ($results) {
-			$returnWidgets = explode('|', $results->widgets);
-			foreach ($widgets as $p) {
-				if (in_array($p, $returnWidgets)) {
+		foreach ($widgets as $p) {
+			foreach ($accessPages[$p] as $k => $v) {
+				if (in_array($v, $_SESSION['user']->groups)) {
 					$access->$p = (bool) true;
+					break;
 				} else {
 					$access->$p = (bool) false;
 				}
@@ -614,6 +666,185 @@ class Management
 		ob_end_clean();
 		self::html();
 	}
+	private function access()
+	{
+		if (GET_ACTION == 'index') {
+			$page = ROOT_MANAGEMENT.'pages.php';
+			$sql = New BDD();
+			$sql->table('TABLE_PAGES_CONFIG');
+			$sql->orderby(array(array('name' => 'name', 'type' => 'DESC')));
+			$sql->queryAll();
+			foreach ($sql->data as $k => $v) {
+				$v->name = defined(strtoupper($v->name)) ? constant(strtoupper($v->name)) : ucfirst($v->name);
+				if ($v->active == 1) {
+					$v->active = ACTIVATE;
+				} else {
+					$v->active = DISABLE;
+				}
+				$formPages[$k] = $v;
+			} unset($sql);
+
+			$sql = New BDD();
+			$sql->table('TABLE_WIDGETS');
+			$sql->orderby(array(array('name' => 'name', 'type' => 'DESC')));
+			$sql->queryAll();
+			foreach ($sql->data as $k => $v) {
+				$v->name = defined(strtoupper($v->name)) ? constant(strtoupper($v->name)) : ucfirst($v->name);
+				if ($v->activate == 1) {
+					$v->activate = ACTIVATE;
+				} else {
+					$v->activate = DISABLE;
+				}
+				$formWidgets[$k] = $v;
+			} unset($sql);	
+		} else if (GET_ACTION == 'page_access') {
+			$page = ROOT_MANAGEMENT.'page_access.php';
+			$sql = New BDD();
+			$sql->table('TABLE_PAGES_CONFIG');
+			$sql->where(array('name' => 'id', 'value' => (int) GET_ID));
+			$sql->queryOne();
+			$pageName = defined(strtoupper($sql->data->name)) ? constant(strtoupper($sql->data->name)) : ucfirst($sql->data->name);
+			$sql->data->access_groups = explode('|', $sql->data->access_groups);
+			$groups = (array) $GLOBALS['GROUPS'];
+			$groups[0] = GUEST;
+			asort($groups);
+			foreach ($sql->data->access_groups as $k => $v) {
+				if ($v == 0) {
+					$access_groups[0] = GUEST;
+				} else if (array_key_exists($v, $groups)) {
+					$access_groups[$v] = $groups[$v];
+				}
+			}
+			$sql->data->access_admin  = explode('|', $sql->data->access_admin);
+			foreach ($sql->data->access_admin as $k => $v) {
+				if ($v == 0) {
+					$access_admin[0] = GUEST;
+				} else if (array_key_exists($v, $groups)) {
+					$access_admin[$v] = $groups[$v];
+				}
+			}
+			if ($sql->data->config !== null) {
+				$config = Common::transformOpt($sql->data->config);
+			}
+		} else if (GET_ACTION == 'widgets_access') {
+			$page = ROOT_MANAGEMENT.'widgets_access.php';
+			$sql = New BDD();
+			$sql->table('TABLE_WIDGETS');
+			$sql->where(array('name' => 'id', 'value' => (int) GET_ID));
+			$sql->queryOne();
+			$pageName = defined(strtoupper($sql->data->name)) ? constant(strtoupper($sql->data->name)) : ucfirst($sql->data->name);
+			$sql->data->groups_access = explode('|', $sql->data->groups_access);
+			$groups = (array) $GLOBALS['GROUPS'];
+			$groups[0] = GUEST;
+			asort($groups);
+			foreach ($sql->data->groups_access as $k => $v) {
+				if ($v == 0) {
+					$groups_access[0] = GUEST;
+				} else if (array_key_exists($v, $groups)) {
+					$groups_access[$v] = $groups[$v];
+				}
+			}
+			$sql->data->groups_admin  = explode('|', $sql->data->groups_admin);
+			foreach ($sql->data->groups_admin as $k => $v) {
+				if ($v == 0) {
+					$groups_admin[0] = GUEST;
+				} else if (array_key_exists($v, $groups)) {
+					$groups_admin[$v] = $groups[$v];
+				}
+			}
+			$pages = explode('|', $sql->data->pages);
+		} else if (GET_ACTION == 'send_page_access') {
+			$page = ROOT_MANAGEMENT.'send.php';
+			$data['active'] = (int) $_POST['active'];
+			if (in_array(0, $_POST['access_groups'])) {
+				$data['access_groups'] = 0;
+			} else {
+				$data['access_groups'] = implode('|', $_POST['access_groups']);
+			}
+			if (isset($_POST['access_admin'])) {
+				$data['access_admin'] = implode('|', $_POST['access_admin']);
+			} else {
+				$data['access_admin'] = 1;
+			}
+			if (isset($_POST['config'])) {
+				$data['config'] = Common::transformOpt($_POST['config'], true);
+			}
+			$sql = New BDD();
+			$sql->table('TABLE_PAGES_CONFIG');
+			$sql->where(array('name'=>'name', 'value' => $_POST['page']));
+			$sql->sqlData($data);
+			$sql->update();
+
+			if ($sql->rowCount == 1) {
+				$alert = array(
+					'type' => 'success',
+					'text' => NEW_PARAMETER_SUCCESS
+				);
+			} else {
+				$alert = array(
+					'type' => 'alert',
+					'text' => NEW_PARAMETER_ERROR
+				);
+			}
+			Common::redirect('access?management', 2);
+		} else if (GET_ACTION == 'send_widgets_access') {
+			$page = ROOT_MANAGEMENT.'send.php';
+			$data['activate'] = (int) $_POST['activate'];
+			if (isset($_POST['groups_access'])) {
+				if (in_array(0, $_POST['groups_access'])) {
+					$data['groups_access'] = 0;
+				} else {
+					$data['groups_access'] = implode('|', $_POST['groups_access']);
+				}
+			} else {
+				$data['groups_access'] = 0;
+			}
+			$data['title']        = Common::VarSecure($_POST['title'], '');
+			if (isset($_POST['groups_admin'])) {
+				$data['groups_admin'] = implode('|', $_POST['groups_admin']);
+			} else {
+				$data['groups_admin'] = 1; 
+			}
+			$data['pos']          = $_POST['pos'];
+			$data['orderby']      = (int) $_POST['orderby'];
+			if (isset($_POST['pages'])) {
+				$data['pages'] = implode('|', $_POST['pages']);
+			} else {
+				$data['pages'] = '';
+			}
+			$sql = New BDD();
+			$sql->table('TABLE_WIDGETS');
+			$sql->where(array('name'=>'name', 'value' => $_POST['page']));
+			$sql->sqlData($data);
+			$sql->update();
+
+			if ($sql->rowCount == 1) {
+				$alert = array(
+					'type' => 'success',
+					'text' => NEW_PARAMETER_SUCCESS
+				);
+			} else {
+				$alert = array(
+					'type' => 'alert',
+					'text' => NEW_PARAMETER_ERROR
+				);
+			}
+			Common::redirect('access?management', 2);
+		}
+
+		ob_start("ob_gzhandler");
+
+		if (is_file($page)) {
+			require $page;
+			$this->buffer = ob_get_contents();
+		} else {
+			self::PageError('inner');
+		}
+
+		ob_end_clean();
+		self::html();
+	}
+
 	private function getTpl ()
 	{
 		$return = Common::ScanDirectory(ROOT_TPL);
