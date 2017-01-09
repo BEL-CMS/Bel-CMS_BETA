@@ -126,16 +126,14 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 										<div class="control-group">
 											<label class="control-label" for="label_country"><?=COUNTRY?> :</label>
 											<div class="controls">
-												<input value="<?=$this->data['profil']->country?>" class="span6" name="country" type="text" list="country">
-												<datalist id="country">
+												<select name="country" class="span6">
 													<?php
-													foreach (Common::contryList() as $country):
-														?>
-														<option value="<?=$country?>"><?=$country?></option>
-														<?php
+													foreach (Common::contryList() as $k => $v):
+														$selected = $this->data['profil']->country == $v ? 'selected="selected"' : '';
+														echo '<option '.$selected.' value="'.$v.'">'.$v.'</option>';
 													endforeach;
 													?>
-												</datalist>
+												</select>
 											</div>
 										</div>
 										<div class="control-group">

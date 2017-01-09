@@ -161,16 +161,14 @@ function editProfilInfos ($data) {
 
 				<div class="form-group input-icon-left">
 					<i class="fa fa-map-signs"></i>
-					<input value="<?=$data->country?>" class="form-control" name="country" type="text" list="country">
-					<datalist id="country">
+					<select name="country" class="form-control">
 						<?php
-						foreach (Common::contryList() as $country):
-							?>
-							<option value="<?=$country?>"><?=$country?></option>
-							<?php
+						foreach (Common::contryList() as $k => $v):
+							$selected = $data->country == $v ? 'selected="selected"' : '';
+							echo '<option '.$selected.' value="'.$v.'">'.$v.'</option>';
 						endforeach;
 						?>
-					</datalist>
+					</select>
 				</div>
 
 				<div class="form-group">
