@@ -38,19 +38,22 @@ if (!defined('CHECK_INDEX')) {
 							}	
 							$birthday = Common::TransformDate($v->profils->birthday);
 							$country  = $v->profils->country;
-							$websites = $v->profils->websites;
+							$websites = empty($v->profils->websites) ? '<i class="fa fa-link"></i>' : '<a href="'.$v->profils->websites.'"><i class="fa fa-link"></i></a>';
+							$flag = array_search($country, Common::contryList());
+							$flag = 'flag-icon flag-icon-'.strtolower($flag);
 						} else {
-							$gender   = '.';
-							$birthday = '.';
-							$country  = '.';
-							$websites = '.';
+							$gender   = '-';
+							$birthday = '-';
+							$country  = '-';
+							$websites = '<i class="fa fa-link"></i>';
+							$flag     = '';
 						}
 						?>
 						<tr>
 							<td class="hidden-xs"></td>
-							<td><a href="Members/View/<?=$v->username?>"><?=$v->username?></td>
+							<td><a href="Members/View/<?=$v->username?>"><?=$v->username?></a></td>
 							<td class="hidden-xs"><?=$birthday?></td>
-							<td class="hidden-xs"><?=$country?></td>
+							<td><span class="<?=$flag?>"></span><span class="hidden-xs" style="padding-left: 10px;"><?=$country?></span></td>
 							<td class="hidden-xs"><?=$gender?></td>
 							<td><?=$websites?></td>
 						</tr>
