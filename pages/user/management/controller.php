@@ -55,6 +55,7 @@ class ControllerManagementUser extends ModelManagementUser
 	{
 		$return = parent::SendEdit($_POST);
 		$this->data = $return;
+		Common::Redirect('User?management', 2);
 	}
 
 	public function send ()
