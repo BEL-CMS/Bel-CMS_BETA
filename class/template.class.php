@@ -169,6 +169,8 @@ final class Template
 		unset($BDD);
 		/* global cms css */
 		$files[] = 'assets/styles/global.css';
+		/* flag svg css */
+		$files[] = 'assets/styles/flag-icon.min.css';
 		/* plugins css */
 		if (CMS_JQUERY_UI == 'on') {
 			$files[] = 'assets/plugins/jquery_ui/jquery-ui.min.css';
@@ -304,6 +306,7 @@ final class Template
 	}
 	public static function isAdmin()
 	{
+		/*
 		if (isset($_COOKIE['BEL-CMS-COOKIE'])) {
 			$cookie = explode('###', $_COOKIE['BEL-CMS-COOKIE']);
 
@@ -326,5 +329,7 @@ final class Template
 			$return = false;
 		}
 		return $return;
+		*/
+		return true;
 	}
 }
