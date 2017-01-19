@@ -16,7 +16,7 @@ if (!defined('CHECK_INDEX')) {
 				</div>
 
 				<?php
-				if ($this->data['hash_key'] != $_SESSION['user']->hash_key):
+				if ($_SESSION['user'] !== false && $this->data['hash_key'] != $_SESSION['user']->hash_key):
 					?>
 					<div class="widget center">
 						<a href="Members/AddFriend/<?=$this->data['username']?>?jquery" class="btn btn-primary alertAjaxLink">Ajouter en ami</a>
