@@ -139,7 +139,7 @@ switch ($table) {
 			(NULL, 'mailhazard'),
 			(NULL, 'mail');";
 	break;
-	case 'links':
+	case 'links_click':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
 			`id` int(11) NOT NULL AUTO_INCREMENT,

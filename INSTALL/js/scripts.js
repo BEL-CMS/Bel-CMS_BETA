@@ -14,7 +14,7 @@ $(document).ready(function(){
 						'config_pages',
 						'groups',
 						'mails_blacklist',
-						'links',
+						'links_click',
 						'page',
 						'page_blog',
 						'page_blog_cat',

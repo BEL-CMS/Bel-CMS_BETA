@@ -91,6 +91,7 @@ class BelCMS
 			'config',
 			'config_pages',
 			'groups',
+			'links_click',
 			'mails_blacklist',
 			'page',
 			'page_blog',
