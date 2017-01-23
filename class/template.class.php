@@ -105,22 +105,28 @@ final class Template
 		return $buffer;
 
 	}
-
+	#########################################
+	# Récupère le TPL ou Celui par défaut
+	#########################################
 	private function GetTemplate () {
 		$scan = Common::ScanDirectory(ROOT_TPL);
-		foreach ($scan as $nameTpl) {
-			if (in_array($this->name, $scan, true)) {
-				$file = ROOT_TPL.$this->name.DS.'template.php';
-			} else {
-				$file = null;
-			}
-			if (is_file($file)) {
-				require_once $file;
-			} else {
-				if (!empty($this->name)) {
-					new Notification('ERROR', 'require file '.$this->name.' no found', 'red');
+		if (count($scan) == 0) {
+			require_once ROOT_HTML_DFT.CMS_DEFAULT_TPL.DS.'template.php';
+		} else {
+			foreach ($scan as $nameTpl) {
+				if (in_array($this->name, $scan, true)) {
+					$file = ROOT_TPL.$this->name.DS.'template.php';
+				} else {
+					$file = null;
 				}
-				require_once ROOT_TPL_DFT.'default'.DS.'template.php';
+				if (is_file($file)) {
+					require_once $file;
+				} else {
+					if (!empty($this->name)) {
+						new Notification('ERROR', 'require file '.$this->name.' no found', 'red');
+					}
+					require_once ROOT_HTML_DFT.CMS_DEFAULT_TPL.DS.'template.php';
+				}
 			}
 		}
 	}
