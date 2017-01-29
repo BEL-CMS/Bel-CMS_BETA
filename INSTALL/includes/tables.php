@@ -346,9 +346,8 @@ switch ($table) {
 			UNIQUE KEY `name` (`name`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `title`, `groups_access`, `groups_admin`, `activate`, `pos`, `orderby`, `pages`) VALUES
-		 	(NULL, 'users', 'Dernier Utilisateurs', '0', '0', '1', 'right', '1', ''),
-		 	(NULL, 'shoutbox', 'Shoutobx', '0', '0', '1', 'top', '1', ''),
-		 	(NULL, 'infosusers', 'Information Utilisateurs', '0', '1', '1', 'right', '', '');";
+		 	(NULL, 'user', 'Utilisateurs', '0', '3', '1', 'right', '1', ''),
+		 	(NULL, 'shoutbox', 'T\'chat', '0', '3', '1', 'top', '1', '');";
 	break;
 }
 
