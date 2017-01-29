@@ -43,7 +43,7 @@ else:
 		</li>
 	</ul>
 	<?php
-	if (!empty($user->info_text));
+	if (!empty($user->info_text)):
 	?>
 	<span id="bel_cms_widgets_user_desc">
 		<?=$user->info_text?>
