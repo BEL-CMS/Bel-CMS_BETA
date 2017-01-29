@@ -42,9 +42,13 @@ else:
 			</a>
 		</li>
 	</ul>
+	<?php
+	if (!empty($user->info_text));
+	?>
 	<span id="bel_cms_widgets_user_desc">
 		<?=$user->info_text?>
 	</span>
+	<?php endif; ?>
 	<div id="bel_cms_widgets_use_log">
 		<a href="User/Logout" title="Log-out">
 			<i class="fa fa-sign-out" aria-hidden="true"></i>
