@@ -68,6 +68,7 @@ final class BelCMS extends dispatcher
 						echo 'ERROR';
 					}
 				} else if ($this->RequestAjax() === true) {
+					//header('Content-Type: application/json');
 					if (isset($_SESSION['JQUERY'])) {
 						echo json_encode($_SESSION['JQUERY']);
 						unset($_SESSION['JQUERY']);

@@ -38,7 +38,7 @@ class Widgets
 				'value' => $name
 			);
 		}
-		if ($name !== false) {
+		if ($name === false) {
 			$tmp_where[] = array(
 				'name'  => 'activate',
 				'value' => 1
@@ -83,14 +83,17 @@ class Widgets
 
 		foreach ($this->widgets as $k => $v) {
 			$access_pages = explode('|', $v->pages);
-			if (!in_array(GET_PAGE, $access_pages)) {
-				unset($this->widgets[$k]);
+			if (!empty($v->pages)) {
+				if (!in_array(GET_PAGE, $access_pages)) {
+					unset($this->widgets[$k]);
+				}
 			}
 			unset($access_pages);
 		}
 
 		unset($BDD);
 		/* END BDD */
+		self::getLang();
 		$this->ajax = $ajax;
 		self::view($name);
 	}
@@ -144,6 +147,17 @@ class Widgets
 		ob_end_clean();
 		return $view;
 	}
+
+	private function getLang ()
+	{
+		foreach ($this->widgets as $v) {
+			$dir = ROOT_WIDGETS.$v->name.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
+			if (is_file($dir)) {
+				include $dir;
+			}
+		}
+	}
+
 	private function content ($name = false, $custom = false) {
 		ob_start();
 		$dir = ROOT_WIDGETS.$name.DS.'index.php';
@@ -160,6 +174,7 @@ class Widgets
 		ob_clean();
 		return $content;
 	}
+
 	private function GetController ($name) {
 		$dir = ROOT_WIDGETS.$name.DS.'controller.php';
 		if (is_file($dir)) {
@@ -176,6 +191,7 @@ class Widgets
 			return $controller->data;
 		}
 	}
+
 	private function GetModel ($name) {
 		$dir = ROOT_WIDGETS.$name.DS.'model.php';
 		if (is_file($dir)) {
