@@ -1,0 +1,195 @@
+<?php
+
+class Pages
+{
+	var $vars = array();
+	var $page = null;
+
+	function __construct () {
+		if (isset($_POST)) {
+			$this->data = $_POST;
+		}
+		if (isset($this->models)){
+			foreach($this->models as $v){
+				$this->loadModel($v); 
+			}
+		}
+	}
+
+	function set ($d) {
+		$this->vars = array_merge($this->vars,$d);
+	}
+
+	function jquery ($d) {
+		$this->jquery = $d;
+	}
+	function affiche ($d) {
+		$this->affiche = $d;
+	}
+
+	function render($filename) {
+		extract($this->vars);
+		ob_start();
+		$dir = DIR_PAGES.get_class($this).DS.$filename.'.php';
+		$custom = DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.lcfirst(get_class($this)).'.'.$filename.'.php';
+		if (is_file($custom)) {
+			require_once $custom;
+		} else if (is_file($dir)) {
+			require_once $dir;
+		} else {
+			$error_name    = 'file no found';
+			$error_content = '<strong>file : '.$filename.' no found : </strong>';
+			require DIR_ASSET_TPL.'error'.DS.'404.php';
+		}
+		$this->page = ob_get_contents();
+		if (ob_get_length() != 0) { 
+			ob_end_clean();
+		}
+	}
+
+	function error ($title, $msg, $type, $debug = null)
+	{
+		ob_start();
+		new notification ($title, $msg, $type, $debug);
+		$this->page = ob_get_contents();
+		ob_end_clean();
+	}
+
+	function loadModel ($name)
+	{
+		if (is_file(DIR_PAGES.get_class($this).DS.'models.php')) {
+			require_once DIR_PAGES.get_class($this).DS.'models.php';
+			$this->$name = new $name();
+		} else {
+			ob_start();
+			$error_name    = 'file no found';
+			$error_content = '<strong>file models no found</strong> : <br>'.DIR_PAGES.get_class($this).DS.'models.php';
+			require DIR_ASSET_TPL.'error'.DS.'404.php';
+			$this->page = ob_get_contents();
+			ob_end_clean();
+		}
+	}
+
+	function paginationCount ($nb, $table, $where = false)
+	{
+		$return = 0;
+
+		$sql = New BDD();
+		$sql->table($table);
+		if ($where !== false) {
+			$sql->where($where);
+		}
+		$sql->count();
+		$return = $sql->data;
+
+		return $return;
+	}
+
+	function pagination ($nbpp = 5, $page, $table, $where = false)
+	{
+		$management  = defined('MANAGEMENT') ? '?management&' : '?';
+		$current     = (int) Dispatcher::RequestPages();
+		$page_url    = $page.$management;
+		$total       = self::paginationCount($nbpp, $table, $where);
+		$adjacents   = 1; 
+		$current     = ($current == 0 ? 1 : $current);  
+		$start       = ($current - 1) * $nbpp;
+		$prev        = $current - 1;
+		$next        = $current + 1;
+		$setLastpage = ceil($total/$nbpp);
+		$lpm1        = $setLastpage - 1;
+		$setPaginate = "";
+
+		if ($setLastpage > 1) {	
+			$setPaginate .= "<ul class='pagination'>";
+			// $setPaginate .= "<li>Page $current of $setLastpage</li>"; /* retirer: compteur de nombre de page
+			if ($setLastpage < 7 + ($adjacents * 2)) {	
+				for ($counter = 1; $counter <= $setLastpage; $counter++) {
+					if ($counter == $current) {
+						$setPaginate.= "<li class='active'><a>$counter</a></li>";
+					} else {
+						$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+					}
+				}
+			} else if($setLastpage > 5 + ($adjacents * 2)) {
+				if ($current < 1 + ($adjacents * 2)) {
+					for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++) {
+						if ($counter == $current) {
+							$setPaginate.= "<li class='active'><a>$counter</a></li>";
+						} else {
+							$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+						}
+					}
+					$setPaginate.= "<li><a href='{$page_url}page=$lpm1'>$lpm1</a></li>";
+					$setPaginate.= "<li><a href='{$page_url}page=$setLastpage'>$setLastpage</a></li>";
+				}
+				else if($setLastpage - ($adjacents * 2) > $current && $current > ($adjacents * 2)) {
+					$setPaginate.= "<li><a href='{$page_url}page=1'>1</a></li>";
+					$setPaginate.= "<li><a href='{$page_url}page=2'>2</a></li>";
+					for ($counter = $current - $adjacents; $counter <= $current + $adjacents; $counter++) {
+						if ($counter == $current) {
+							$setPaginate.= "<li class='active'><a>$counter</a></li>";
+						}
+						else {
+							$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+						}
+					}
+					$setPaginate.= "<li><a href='{$page_url}page=$lpm1'>$lpm1</a></li>";
+					$setPaginate.= "<li><a href='{$page_url}page=$setLastpage'>$setLastpage</a></li>";
+				} else {
+					$setPaginate.= "<li><a href='{$page_url}page=1'>1</a></li>";
+					$setPaginate.= "<li><a href='{$page_url}page=2'>2</a></li>";
+					for ($counter = $setLastpage - (2 + ($adjacents * 2)); $counter <= $setLastpage; $counter++) {
+						if ($counter == $current) {
+							$setPaginate.= "<li class='active'><a>$counter</a></li>";
+						} else {
+							$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+						}
+					}
+				}
+			}
+			
+			if ($current < $counter - 1) { 
+				$setPaginate .= "<li><a href='{$page_url}page=$next'>Next</a></li>";
+				$setPaginate .= "<li><a href='{$page_url}page=$setLastpage'>Last</a></li>";
+			} else{
+				$setPaginate .= "<li class='active'><a>Next</a></li>";
+				$setPaginate .= "<li class='active'><a>Last</a></li>";
+			}
+
+			$setPaginate.= "</ul>".PHP_EOL;
+		}
+
+		$this->pagination = $setPaginate;
+	}
+
+	#########################################
+	# Redirect
+	#########################################
+	function redirect ($url = null, $time = null)
+	{
+		if ( $url === true) {
+			$url = $_SERVER['HTTP_REFERER'];
+			header("refresh:$time;url='$url'");
+		}
+
+		$scriptName = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
+
+		$fullUrl = ($_SERVER['HTTP_HOST'].$scriptName);
+
+		if (!strpos($_SERVER['HTTP_HOST'], $scriptName)) {
+			$fullUrl = $_SERVER['HTTP_HOST'].$scriptName.$url;
+		}
+
+		if (!strpos($fullUrl, 'http://')) {
+			if ($_SERVER['SERVER_PORT'] == 80) {
+				$url = 'http://'.$fullUrl;
+			} else if ($_SERVER['SERVER_PORT'] == 443) {
+				$url = 'https://'.$fullUrl;
+			} else {
+				$url = 'http://'.$fullUrl;
+			}
+		}
+		header("refresh:$time;url='$url'");
+	}
+}

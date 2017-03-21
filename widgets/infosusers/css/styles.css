@@ -1,0 +1,29 @@
+#widgets_infos_users {
+
+}
+	.widgets_infos_users_title {
+		display: block;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+		line-height: 30px;
+		margin-bottom: 10px;
+		font-weight: bold;
+	}
+
+	#widgets_infos_users > ul {
+		display: block;
+		list-style: none;
+		border: none !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		margin-bottom: 15px;
+	}
+		#widgets_infos_users > ul li {
+			display: block;
+			overflow: hidden;
+			border: none !important;
+			padding: 0 !important;
+			line-height: 25px;
+		}
+		#widgets_infos_users > ul li span:nth-child(2) {
+			text-align: right;
+		}

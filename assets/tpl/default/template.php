@@ -37,19 +37,19 @@
 				{breadcrumb}
 				</div>
 
-				<?php if (Template::full()): ?>
+				<?php if (Template::fullPage()): ?>
 				<div class="col-lg-12">
-					<?php New Page; ?>
+					
 				</div>
 				<?php else: ?>
 
 				<div class="col-sm-8 blog-main">
-					<?php New widgets ('top'); ?>
-					<?php New Page; ?>
+
+
 				</div>
 
 				<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-					<?php New widgets ('right'); ?>
+
 				</div>
 				<?php endif; ?>
 

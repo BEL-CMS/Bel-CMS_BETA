@@ -16,11 +16,11 @@ $databases['local'] = array(
 	# Réglages MySQL - LOCAL
 	#####################################
 	'DB_DRIVER'   => 'mysql',
-	'DB_NAME'     => '',
+	'DB_NAME'     => 'new',
 	'DB_USER'     => 'root',
-	'DB_PASSWORD' => '',
+	'DB_PASSWORD' => 'usbw',
 	'DB_HOST'     => 'localhost',
-	'DB_PREFIX'   => ' ',
+	'DB_PREFIX'   => 'belcms_',
 	'DB_PORT'     => '3307'
 );
 
@@ -29,9 +29,9 @@ $databases['server'] = array(
 	# Réglages MySQL - SERVEUR
 	#####################################
 	'DB_DRIVER'   => 'mysql',
-	'DB_NAME'     => '',
-	'DB_USER'     => 'root',
-	'DB_PASSWORD' => '',
+	'DB_NAME'     => 'demopwr',
+	'DB_USER'     => 'demopwr',
+	'DB_PASSWORD' => 'rphm86sf',
 	'DB_HOST'     => 'localhost',
 	'DB_PREFIX'   => ' ',
 	'DB_PORT'     => '3306'

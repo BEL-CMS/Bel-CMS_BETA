@@ -9,185 +9,196 @@
  * @author Stive - mail@stive.eu
  */
 
-class ControllerPagesUser extends ModelPagesUser
+class User extends Pages
 {
-	public 	$data,
-			$jquery,
-			$view;
-	private $id,
-			$user;
+	var $models = array('ModelsForum');
 	#####################################
 	# Start Class
 	#####################################
 	public function __construct()
 	{
-		User::ResetSession();
-		$this->user = User::ReturnUser();
+		parent::__construct();
 	}
 
 	public function index ()
 	{
-		if ($this->user !== false) {
-			$this->data = $this->user;
-		} else {
-			Common::redirect('/user/login');
-		}
+		if (AutoUser::isLogged() === true) {
+			$d = array();
+			$d['user'] = AutoUser::ReturnUser();
+			$this->set($d);
+			$this->render('index');
+			} else {
+				$this->redirect('User/login', 3);
+				$this->error('LOGIN', LOGIN_REQUIRE, 'info');
+			}
 	}
 	public function login ()
 	{
-		if ($this->user === false) {
-			$this->data = (bool) true;
+		if (AutoUser::isLogged() === false) {
+			$this->render('Login');
 		} else {
-			$this->data = (bool) false;
-			Common::redirect('User');
+			$d = array();
+			$d['user'] = AutoUser::ReturnUser();
+			$this->set($d);
+			$this->render('index');
 		}
-
 	}
 	public function register ()
 	{
-		if ($this->user === false) {
+		if (AutoUser::isLogged() === false) {
 			$_SESSION['TMP_QUERY_REGISTER'] = array();
 			$_SESSION['TMP_QUERY_REGISTER']['number_1'] = rand(1, 9);
 			$_SESSION['TMP_QUERY_REGISTER']['number_2'] = rand(1, 9);
 			$_SESSION['TMP_QUERY_REGISTER']['overall']  = $_SESSION['TMP_QUERY_REGISTER']['number_1'] + $_SESSION['TMP_QUERY_REGISTER']['number_2'];
 			$_SESSION['TMP_QUERY_REGISTER'] = Common::arrayChangeCaseUpper($_SESSION['TMP_QUERY_REGISTER']);
-
 			$this->data = (bool) true;
+			$this->render('register');
 		} else {
-			Common::redirect('User');
+			$this->redirect('user', 0);
 		}
 	}
 	public function logout ()
 	{
-		$return = User::logout();
-		$this->view = array('Logout', $return['msg'], $return['type']);
-		Common::redirect('User/Login', 2);
+		$return = AutoUser::logout();
+		$this->error('Logout', $return['msg'], $return['type']);
+		$this->redirect('user', 3);
 	}
 	public function lostpassword ()
 	{
-		if ($this->user === false) {
+		if (AutoUser::isLogged() === false) {
 			$this->data = (bool) true;
+			$this->render('lostpassword');
 		}
 	}
-	private function sendLostPassword ($data)
+	private function sendLostPassword ()
 	{
-		unset($data['send']);
+		unset($this->data['send']);
 		$return = parent::checkToken($data);
 		if (!isset($return['pass'])) {
-			$this->view = array('Password', $return['msg'], $return['type']);
-			Common::redirect('User/LostPassword', 3);
+			$this->error('Password', $return['msg'], $return['type']);
+			$this->redirect('User/LostPassword', 3);
 		} else {
-			$this->view = array('Password', $return['msg'], $return['type']);
+			$this->error('Password', $return['msg'], $return['type']);
 		}
 	}
 	public function send ()
 	{
-		if ($_REQUEST['send'] == 'register') {
-			self::sendRegister($_REQUEST);
-		} else if ($_REQUEST['send'] == 'login') {
-			self::sendLogin($_REQUEST);
-		} else if ($_REQUEST['send'] == 'mailpassword') {
-			self::mailpassword($_REQUEST);
-		} else if ($_REQUEST['send'] == 'editsocial') {
-			self::editsocial($_REQUEST);
-		} else if ($_REQUEST['send'] == 'editprofile') {
-			self::editprofil($_REQUEST);
-		} else if ($_REQUEST['send'] == 'lostpassword') {
-			self::sendLostPassword($_REQUEST);
-		} else if ($_REQUEST['send'] == 'sendavatar') {
+		if ($this->data['send'] == 'register') {
+			self::sendRegister();
+		} else if ($this->data['send'] == 'login') {
+			self::sendLogin();
+		} else if ($this->data['send'] == 'mailpassword') {
+			self::mailpassword();
+		} else if ($this->data['send'] == 'editsocial') {
+			self::editsocial();
+		} else if ($this->data['send'] == 'editprofile') {
+			self::editprofil();
+		} else if ($this->data['send'] == 'lostpassword') {
+			self::sendLostPassword();
+		} else if ($this->data['send'] == 'sendavatar') {
 			self::sendAvatar();
-		} else if ($_REQUEST['send'] == 'changeavatar') {
+		} else if ($this->data['send'] == 'changeavatar') {
 			self::changeAvatar();
-		} else if ($_REQUEST['send'] == 'deleteavatar') {
+		} else if ($this->data['send'] == 'deleteavatar') {
 			self::deleteAvatar();
 		} else {
-			Common::redirect('User', 0);
+			$this->redirect('user', 3);
 		}
 	}
 	private function sendAvatar ()
 	{
-		$return = parent::sendAvatarUpload();
-		if ($return['type'] == 'green') {
-			$this->view = array('Avatar Upload', $return['msg'], $return['type']);
-			Common::redirect('User', 2);
+		$return = $this->ModelsForum->sendAvatarUpload();
+		if ($return['type'] == 'success') {
+			$this->error('Avatar Upload', $return['msg'], $return['type']);
+			AutoUser::ResetSession();
+			$this->redirect('user', 3);
 		} else {
-			$this->view = array('Avatar Upload', $return['msg'], $return['type']);
-			Common::redirect('User', 2);
+			$this->error('Avatar Upload', $return['msg'], $return['type']);
+			$this->redirect('user', 3);
 		}
 	}
 	private function changeAvatar ()
 	{
 		unset($_REQUEST['send']);
-		$return = parent::sendChangeAvatar($_REQUEST['value']);
-		$_SESSION['JQUERY'] = array('type' => $return['type'], 'text' => $return['msg']);
-		$this->view = array('Avatar Upload', $return['msg'], $return['type']);
+		$return = $this->ModelsForum->sendChangeAvatar($_REQUEST['value']);
+
+			$d = array();
+			$d['type'] = $return['type'];
+			$d['text'] = $return['msg'];
+			$this->ajax($d);
+
+		//$this->error('Avatar Upload', $return['msg'], $return['type']);
+		AutoUser::ResetSession();
+		$this->redirect('user', 3);
 	}
 
 	private function deleteAvatar ()
 	{
 		unset($_REQUEST['send']);
-		$return = parent::sendDeleteAvatar($_REQUEST['value']);
-		$this->view = array('Delete Avatar', $return['msg'], $return['type']);
+		$return = $this->ModelsForum->sendDeleteAvatar($_REQUEST['value']);
+		$this->error('Delete Avatar', $return['msg'], $return['type']);
+		$this->redirect('user', 3);
 	}
 
-	private function sendRegister ($data = false)
+	private function sendRegister ()
 	{
-		if (empty($data)) {
-			$this->view = array(ERROR, 'Field empty', 'red');
+		if (empty($this->data)){
+			$this->error(ERROR, 'Field Empty', 'error');
+			$this->redirect('user/register', 3);
 		} else {
-			$return = parent::sendRegistration($data);
-			$this->view = true;
-			if ($return['type'] != 'danger') {
-				$_SESSION['JQUERY'] ='user';
-			}
-			$_SESSION['JQUERY'] = $return;
+			$return = $this->ModelsForum->sendRegistration($this->data);
+			$this->redirect('user', 2);
+			$this->error('Registration', $return['msg'], $return['type']);
 		}
 	}
-	private function sendLogin ($data = false)
+	private function sendLogin ()
 	{
-		if (empty($data)) {
-			$this->view = array(ERROR, 'Field Empty', 'red');
-			//Common::redirect('user/login', 3);
+		if (empty($this->data)){
+			$this->error(ERROR, 'Field Empty', 'error');
+			$this->redirect('user/login', 3);
 		} else {
-			$return = User::login($_REQUEST['username'], $_REQUEST['password']);
-			$this->view = array('Login', $return['msg'], $return['type']);
-			Common::redirect('user/login', 2);
+			$return = AutoUser::login($this->data['username'], $this->data['password']);
+			$this->redirect('user/login', 2);
+			$this->error('Login', $return['msg'], $return['type']);
 		}
 	}
-	private function editprofil ($data = false)
+	private function editprofil ()
 	{
-		if (empty($data)) {
-			$this->view = array(ERROR, 'Field Empty', 'red');
-			Common::redirect('user/login', 3);
+		if (empty($this->data)) {
+			$this->error(ERROR, 'Field Empty');
+			$this->redirect('user/login', 3);
 		} else {
-			unset($data['send']);
-			$return = parent::sendEditProfil($data);
-			$this->view = array('Edition Profile Information', $return['msg'], $return['type']);
-			Common::redirect('User', 2);
+			unset($this->data['send']);
+			$return = $this->ModelsForum->sendEditProfil($this->data);
+			$this->error('Edition Profile Information', $return['msg'], $return['type']);
+			AutoUser::ResetSession();
+			$this->redirect('User', 2);
 		}
 	}
-	private function editsocial ($data = false)
+	private function editsocial ()
 	{
-		if (empty($data)) {
-			$this->view = array(ERROR, 'Field Empty', 'red');
-			Common::redirect('user/login', 3);
+		if (empty($this->data)) {
+			$this->error(ERROR, 'Field Empty');
+			$this->redirect('user/login', 3);
 		} else {
-			unset($data['send']);
-			$return = parent::sendEditSocial($data);
-			$this->view = array('Edit social media', $return['msg'], $return['type']);
-			Common::redirect('User', 2);
+			unset($this->data['send']);
+			$return = $this->ModelsForum->sendEditSocial($this->data);
+			$this->error('Edit social media', $return['msg'], $return['type']);
+			AutoUser::ResetSession();
+			$this->redirect('User', 2);
 		}
 	}
-	private function mailpassword ($data = false)
+	private function mailpassword ()
 	{
-		if (empty($data)) {
-			$this->view = array(ERROR, 'Field Empty', 'red');
-			Common::redirect('user/login', 3);
+		if (empty($this->data)) {
+			$this->error(ERROR, 'Field Empty');
+			$this->redirect('user/login', 3);
 		} else {
-			unset($data['send']);
-			$return = parent::sendEditPassword($data);
+			unset($this->data['send']);
+			$return = $this->ModelsForum->sendEditPassword($this->data);
 			$this->view = array('Change email and password', $return['msg'], $return['type']);
-			Common::redirect('User', 2);
+			AutoUser::ResetSession();
+			$this->redirect('User', 2);
 		}
 	}
 }

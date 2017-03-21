@@ -55,7 +55,7 @@ function getLastshoutbox(time) {
 					$('#bel_cms_widgets_shoutbox_msg').prepend(html);
 				},
 				complete: function() {
-					getLastshoutbox(15000);
+					getLastshoutbox(time);
 				}
 			});
 		}, time);

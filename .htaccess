@@ -1,5 +1,5 @@
 <Files ~ "^\.(htaccess)$">
-    deny from all
+	deny from all
 </Files>
 
 # RewriteRule ^managements/.*$ - [F]
@@ -9,4 +9,4 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !=/index.php
-RewriteRule ^(.+)$ index.php?param=$0 [L,QSA]
+RewriteRule ^(.*)$ index.php?params=$1 [L,QSA]

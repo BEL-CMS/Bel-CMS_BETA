@@ -1,52 +1,11 @@
-/* --- Reset  --- */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
 /* --- Commun --- */
 .center {
 	display: block;
 	margin: auto;
 	text-align: center;
+}
+.clear {
+	clear: both;
 }
 /* --- Notification --- */
 .belcms_notification {
@@ -117,34 +76,34 @@ table {
 	z-index: 99999;
 	line-height: 35px;
 	color: rgba(255, 255, 255, .95);
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.2);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 1px 2px rgba(0, 0, 0, 0.1);
-    color: rgba(255, 255, 255, .95);
-    font-size: 12px;
-    transition: background-color 0.2s ease 0s;
-    vertical-align: middle;
-    top: -35px;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.2);
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 1px 2px rgba(0, 0, 0, 0.1);
+	color: rgba(255, 255, 255, .95);
+	font-size: 12px;
+	transition: background-color 0.2s ease 0s;
+	vertical-align: middle;
+	top: -35px;
 }
 #alrt_bel_cms.danger {
-    background-color: #db3325;
-    background-image: linear-gradient(rgba(219, 51, 37, 0), rgba(1, 0, 0, 0.1));
-    border-color: rgba(0, 0, 0, 0.05) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.15);
-    color: white;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+	background-color: #db3325;
+	background-image: linear-gradient(rgba(219, 51, 37, 0), rgba(1, 0, 0, 0.1));
+	border-color: rgba(0, 0, 0, 0.05) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.15);
+	color: white;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
 }
 #alrt_bel_cms.warning {
-    background-color: #f5a732;
-    background-image: linear-gradient(rgba(245, 167, 50, 0), rgba(38, 24, 2, 0.1));
-    border-color: rgba(0, 0, 0, 0.05) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.15);
-    color: white;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+	background-color: #f5a732;
+	background-image: linear-gradient(rgba(245, 167, 50, 0), rgba(38, 24, 2, 0.1));
+	border-color: rgba(0, 0, 0, 0.05) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.15);
+	color: white;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
 }
 #alrt_bel_cms.success {
-    background-color: #7eb216;
-    background-image: linear-gradient(rgba(126, 178, 22, 0), rgba(0, 0, 0, 0.1));
-    border-color: rgba(0, 0, 0, 0.05) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.15);
-    color: white;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+	background-color: #7eb216;
+	background-image: linear-gradient(rgba(126, 178, 22, 0), rgba(0, 0, 0, 0.1));
+	border-color: rgba(0, 0, 0, 0.05) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.15);
+	color: white;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
 }
 
 /* --- Popup --- */
@@ -164,9 +123,9 @@ table {
 	line-height: 22px;
 	border-bottom: 1px solid;
 	border-color: #eaeaea; !important;
-    margin-bottom: 5px;
-    font-size: 13px;
-    font-weight: bold;
+	margin-bottom: 5px;
+	font-size: 13px;
+	font-weight: bold;
 }
 #belcms_popup_user_img {
 	display: block;
@@ -177,7 +136,7 @@ table {
 		width: 85px;
 		height: 85px;
 		border-color: #eaeaea !important;
-    	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.07);
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.07);
 	}
 #belcms_popup_user_data {
 	display: block;
@@ -208,29 +167,29 @@ table {
 }
 /* --- Form input --- */
 .form-control {
-    background: #fbfbfb none repeat scroll 0 0;
-    border: 1px solid #e8e8e8;
-    border-radius: 2px;
-    box-shadow: none;
-    color: #6d6d6d;
-    font-size: 15px;
-    height: 45px;
-    line-height: 1.33333;
-    padding: 10px 16px;
+	background: #fbfbfb none repeat scroll 0 0;
+	border: 1px solid #e8e8e8;
+	border-radius: 2px;
+	box-shadow: none;
+	color: #6d6d6d;
+	font-size: 15px;
+	height: 45px;
+	line-height: 1.33333;
+	padding: 10px 16px;
 }
 .form-actions {
-    margin-top: 30px;
+	margin-top: 30px;
 }
 /* --- Button circle --- */
 .btn.btn-primary {
-    background-color: #2776dc;
+	background-color: #2776dc;
 }
 .btn-circle {
-    border-radius: 50%;
-    height: 45px;
-    padding: 0;
-    text-align: center !important;
-    width: 45px;
+	border-radius: 50%;
+	height: 45px;
+	padding: 0;
+	text-align: center !important;
+	width: 45px;
 }
 /* --- Checkbox --- */
 .checkbox-inline, .radio-inline {
@@ -438,6 +397,26 @@ table {
 .radio-success input[type=radio]:checked + label:before {
 	border-color: #27ae60;
 }
+/* --- Input file --- */
+.btn-file {
+	position: relative;
+	overflow: hidden;
+}
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: right;
+	filter: alpha(opacity=0);
+	opacity: 0;
+	outline: none;
+	background: white;
+	cursor: inherit;
+	display: block;
+}
 /* --- Widgets --- */
 .bel_cms_aside_widgets {
 	display: block;
@@ -445,46 +424,130 @@ table {
 	overflow: hidden;
 }
 .bel_cms_aside_widgets > h2 {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    border-color: -moz-use-text-color -moz-use-text-color -moz-use-text-color rgba(0, 0, 0, .3);
-    border-image: none;
-    border-style: none none none solid;
-    border-width: 0 0 0 4px;
-    color: rgba(0, 0, 0, 0.7);
-    font-size: 16px;
-    font-weight: 700;
-    margin: 0 0 25px;
-    padding: 2px 0 2px 20px;
-    text-align: left;
-    text-transform: uppercase;
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	border-color: -moz-use-text-color -moz-use-text-color -moz-use-text-color rgba(0, 0, 0, .3);
+	border-image: none;
+	border-style: none none none solid;
+	border-width: 0 0 0 4px;
+	color: rgba(0, 0, 0, 0.7);
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0 0 25px;
+	padding: 2px 0 2px 20px;
+	text-align: left;
+	text-transform: uppercase;
 }
 .bel_cms_aside_widgets_content {
 	padding: 15px 20px;
 }
 /* --- Tooltip --- */
 .tooltip-inner {
-    background-color: #000 !important;
-    border-radius: 0.25rem;
-    color: #fff;
-    max-width: 200px;
-    padding: 3px 8px;
-    text-align: center;
+	background-color: #000 !important;
+	border-radius: 0.25rem;
+	color: #fff;
+	max-width: 200px;
+	padding: 3px 8px;
+	text-align: center;
 }
 .tooltip.bs-tether-element-attached-bottom .tooltip-inner::before, .tooltip.tooltip-top .tooltip-inner::before {
-    border-top-color: #000;
-    border-width: 5px 5px 0;
-    bottom: 0;
-    content: "";
-    left: 50%;
-    margin-left: -5px;
+	border-top-color: #000;
+	border-width: 5px 5px 0;
+	bottom: 0;
+	content: "";
+	left: 50%;
+	margin-left: -5px;
 }
 .tooltip-inner::before {
-    border-color: transparent;
-    border-style: solid;
-    height: 0;
-    position: absolute;
-    width: 0;
+	border-color: transparent;
+	border-style: solid;
+	height: 0;
+	position: absolute;
+	width: 0;
+}
+.modal-backdrop {
+	z-index: -1 !important;
+}
+
+/* --- Comments --- */
+.bel_cms_comments {
+	display: block;
+	margin: 15px auto;
+}
+.bel_cms_comments_tabs_in {
+	display: block;
+	overflow: hidden;
+}
+.bel_cms_comments_tabs_in ul {
+	display: block;
+	list-style: none;
+	padding: 0; margin: 0;
+}
+.bel_cms_comments_tabs_in ul li {
+	display: block;
+	padding: 0;
+	margin-top: 10px;
+}
+a.bel_cms_comments_tabs_user {
+	display: block;
+	float: left;
+	vertical-align: middle;
+	background: rgba(0, 0, 0, .05);
+	padding: 1px;
+	-moz-box-shadow: 0px 0px 5px 0px #656565;
+	-webkit-box-shadow: 0px 0px 5px 0px #656565;
+	-o-box-shadow: 0px 0px 5px 0px #656565;
+	box-shadow: 0px 0px 5px 0px #656565;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px; 
+	margin-right: 10px;
+	margin-left: 5px;
+}
+.bel_cms_comments_tabs_user img {
+	width: 48px;
+	height: 48px;
+}
+.bel_cms_comments_tabs_post {
+	float: left;
+	width: calc(100% - 65px);
+}
+.bel_cms_comments_tabs_post li {
+	margin-top: 10px;
+}
+.bel_cms_comments_tabs_post a {
+	display: block;
+	float: left;
+}
+.bel_cms_comments_tabs_post span {
+	display: block;
+	float: right;
+	margin-right: 5px;
+}
+.bel_cms_comments_tabs_post p {
+	display: block;
+	text-align: justify;
+	clear: both;
+}
+.bel_cms_comments_tabs_in form {
+    border-bottom: 1px solid #ccc;
+    margin: 15px auto;
+    overflow: hidden;
+    padding: 15px 0;
+}
+.bel_cms_comments_tabs_post textarea {
+	display: block;
+	border: 1px solid #ccc;
+	margin-bottom: 10px;
+	margin-top: 5px;
+	padding: 5px;
+	width: 100%;
+	clear: both;
+}
+.bel_cms_comments_tabs_post button {
+	float: right;
+	margin-right: 5px;
 }

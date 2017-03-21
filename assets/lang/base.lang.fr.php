@@ -40,7 +40,7 @@
 	#####################################
 	'VALIDATE_MEMBER'        => 'Membre validé',
 	'VALIDATE_MEMBER'        => 'Membre en actif',
-	'PENDINNG_MEMBER'        => 'Membre en attente',
+	'PENDING_MEMBER'         => 'Membre en attente',
 	'GUEST'                  => 'Visiteur',
 	'VALID'                  => 'Valider',
 	'SEE'                    => 'Voir',
@@ -85,7 +85,10 @@
 	'FILES'                  => 'Fichiers',
 	'LINK'                   => 'Lien',
 	'LINKS'                  => 'Liens',
-	'PROFIL'                 => 'Profil',
+	'PROFIL'                 => 'Profile',
+	'LAST'                   => 'Hier',
+	'TODAY'                  => 'Aujourd\'hui',
+	'NOW'                    => 'Maintenant',
 	#####################################
 	# UPLOAD
 	#####################################

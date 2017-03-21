@@ -1,63 +1,27 @@
 <?php
-/**
- * Bel-CMS [Content management system]
- * @version 0.0.1
- * @link http://www.bel-cms.be
- * @link http://www.stive.eu
- * @license http://opensource.org/licenses/GPL-3.0 copyleft
- * @copyright 2014-2016 Bel-CMS
- * @author Stive - mail@stive.eu
- */
 
-if (!defined('CHECK_INDEX')) {
-	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
-	exit(ERROR_INDEX);
-}
-
-class ControllerPagesBlog extends ModelPagesBlog
+class Blog extends Pages
 {
-	public 	$data,
-			$view;
-	private $id;
-	#####################################
-	# Start Class
-	#####################################
-	public function __construct($id = null)
+	var $models = array('ModelsBlog');
+
+	function __construct()
 	{
-		if ($id === null) {
-			$this->id = Common::SecureRequest(constant('GET_ID'));
-		} else {
-			$this->id = Common::SecureRequest($id);
-		}
-		self::GetConfig();
-		User::getAccessPage();
+		parent::__construct();
 	}
-	protected function GetConfig ()
+
+	function index ()
 	{
-		$config = Access::GetConfigPages('blog');
-		foreach ($config as $k => $v) {
-			$this->$k = $v;
-		}
+		$name['blog'] = $this->ModelsBlog->GetBlog();
+		$this->set($name);
+		$this->pagination($GLOBALS['CONFIG_PAGES']['blog']['config']['MAX_BLOG'], 'blog', TABLE_PAGES_BLOG);
+		$this->render('index');
 	}
-	public function Index ()
+
+	function readmore ($name = false, $id = false)
 	{
-		if (isset($_SESSION['pages']->blog->config['MAX_BLOG'])) {
-			$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG'];
-		} else {
-			$nbpp = (int) 3;
-		}
-		$this->pagination = Common::Pagination($nbpp, GET_PAGE, TABLE_PAGES_BLOG);
-		$this->data = self::GetBlog($this->id);
-		if (!is_array($this->data)) {
-			$return[] = $this->data;
-			$this->data = $return;
-		}
-	}
-	public function ReadMore ()
-	{
-		$this->data = self::GetBlog($this->id);
-		if (empty($this->data)) {
-			$this->view = array(ERROR, 'Aucun Blog portant ce nom', 'red');
-		}
+		$name = array();
+		$name['blog'] = $this->ModelsBlog->GetBlog($id);
+		$this->set($name);
+		$this->render('readmore');
 	}
 }

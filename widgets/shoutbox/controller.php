@@ -14,16 +14,20 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class WidgetsControllerShoutbox extends WidgetsModelShoutbox
+class Shoutbox extends Widgets
 {
-	public $data;
+	var $models = array('ModelsShoutbox');
 
-	function __construct($name = false)
+	public function __construct()
 	{
-		self::$name();
+		parent::__construct();
+
 	}
-	private function shoutbox ()
+	public function index()
 	{
-		$this->data = parent::getMsg();
+		$d = array();
+		$d['shoutbox'] = $this->ModelsShoutbox->getMsg();
+		$this->set($d);
+		$this->render('index');
 	}
 }

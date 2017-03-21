@@ -9,77 +9,91 @@
  * @author Stive - mail@stive.eu
  */
 
-class ControllerPagesForum extends ModelPagesForum
+class Forum extends Pages
 {
-	public 	$data,
-			$view,
-			$access = false;
+	var $models = array('ModelsForum');
+
 	#####################################
 	# Start Class
 	#####################################
-	public function __construct()
+	function __construct()
 	{
-		User::getAccessPage();
+		parent::__construct();
 	}
-	public function index ()
+
+	function index ()
 	{
-		$this->data = parent::GetForum();
-		if (empty($this->data)) {
+		$name['forum'] = $this->ModelsForum->GetForum();
+		if (empty($name['forum'])) {
 			$this->view = array(ERROR, 'Aucun Forum de disponible', 'blue');
 		} else {
-			foreach ($this->data as $k => $v) {
+			foreach ($name['forum'] as $k => $v) {
 				$tmp_threads[] = $v->id;
 			}
-			$threads = parent::GetThreads($tmp_threads);
+			$name['threads'] = $this->ModelsForum->GetThreads($tmp_threads);
 
-			foreach ($this->data as $k => $v) {
-				foreach ($threads as $k_t => $v_t) {
+			foreach ($name['forum'] as $k => $v) {
+				foreach ($name['threads'] as $k_t => $v_t) {
 					if ($v_t->id_forum == $v->id) {
-						$this->data[$k]->threads[] = $v_t;
+						$name['forum'][$k]->threads[] = $v_t;
 					}
 				}
 			}
+			$this->set($name);
 		}
+		$this->render('index');
 	}
-	public function threads ()
+
+	public function threads ($name, $id = null)
 	{
-		$data = parent::GetPost(GET_ID, GET_ID_SUPP);
-		if (NO_ACCESS_GROUP_PAGE == $data) {
-			$this->view = array(ERROR, NO_ACCESS_GROUP_PAGE, 'red');
+		$d = array();
+		$id = (int) $id; 
+		$d['id'] = $id;
+		$d['threads'] = $this->ModelsForum->GetPost($name, $id);
+		if (NO_ACCESS_GROUP_PAGE == $name) {
+			$this->error(ERROR, NO_ACCESS_GROUP_PAGE, 'danger');
 		} else {
-			$this->data = $data;
+			$this->set($d);
+			$this->render('threads');
 		}
 	}
+
 	public function post ()
 	{
-		$_SESSION['REPLYPOST']   = GET_ID_SUPP;
+		$d = array();
+		$id = (int) $data['id'];
+		$_SESSION['REPLYPOST']   = $id;
 		$_SESSION['FORUM']       = uniqid('forum_');
 		$_SESSION['FORUM_CHECK'] = $_SESSION['FORUM'];
-		parent::addView(GET_ID_SUPP);
-		$this->data = parent::GetPosts(GET_ID, GET_ID_SUPP);
+		$this->ModelsForum->addView($id);
+		$d['post'] = $this->ModelsForum->GetPosts($data);
+		$this->set($d);
+		$this->render('post');
 	}
-	public function NewThread ()
+	public function NewThread ($name)
 	{
-		$_SESSION['NEWTHREADS'] = GET_ID;
+		$_SESSION['NEWTHREADS'] = $name;
+		$this->render('newthread');
 	}
 	public function send ()
 	{
 		if ($_REQUEST['send'] == 'SubmitReply') {
-			self::SubmitReply($_POST);
+			self::SubmitReply($this->data);
 		} else if ($_REQUEST['send'] == 'NewThread') {
-			self::NewPostThread($_POST);
+			self::NewPostThread($this->data);
 		}
 	}
 	private function NewPostThread ($data)
 	{
-		$insert = parent::SubmitThread($data);
-		$this->view = array('Forum : Nouveau Post', $insert['msg'], $insert['type']);
-		Common::redirect('Forum', 2);
+		$insert = $this->ModelsForum->SubmitThread($data['id'], $data);
+		$this->error ('Forum', $insert['msg'], $insert['type']);
+		$this->redirect(true, 2);
 	}
-	private function SubmitReply ($data = false)
+	private function SubmitReply ($data)
 	{
-		$insert = parent::SubmitPost($data);
-		$this->view = array('Forum : Réponse', $insert['msg'], $insert['type']);
-		Common::redirect('Forum', 2);
+		$referer = (!empty($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : 'Forum';
+		$insert  = $this->ModelsForum->SubmitPost($data);
+		$this->error ('Forum : Réponse', $insert['msg'], $insert['type']);
+		$this->redirect(true, 2);
 	}
 }

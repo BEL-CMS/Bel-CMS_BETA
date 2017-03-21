@@ -93,4 +93,40 @@ class ModelManagementForum
 		}
 		return $return;
 	}
+
+	protected function SendAddCat ($data = false)
+	{
+		if ($data !== false) {
+			// SECURE DATA
+			$insert['title']    = Common::VarSecure($data['title'], '');
+			$insert['subtitle'] = Common::VarSecure($data['subtitle'], '');
+			$insert['orderby']  = (int) $data['orderby'];
+			$insert['activate'] = (int) $data['activate'];
+			$insert['groups']   = isset($data['groups']) ? implode('|', $data['groups']) : 0;
+			// SQL INSERT
+			$sql = New BDD();
+			$sql->table('TABLE_FORUM');
+			$sql->sqlData($insert);
+			$sql->insert();
+			// SQL RETURN NB INSERT 
+			if ($sql->rowCount == 1) {
+				$return = array(
+					'type' => 'success',
+					'text' => NEW_CAT_SUCCESS
+				);
+			} else {
+				$return = array(
+					'type' => 'alert',
+					'text' => NEW_CAT_ERROR
+				);
+			}
+		} else {
+			$return = array(
+				'type' => 'alert',
+				'text' => ERROR_NO_DATA
+			);
+		}
+		return $return;
+	}
+
 }

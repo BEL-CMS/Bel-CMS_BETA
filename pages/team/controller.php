@@ -9,25 +9,26 @@
  * @author Stive - mail@stive.eu
  */
 
-class ControllerPagesTeam extends ModelPagesTeam
+class Team extends Pages
 {
-	public 	$data,
-			$view,
-			$access = false;
+	var $models = array('ModelsTeam');
+
 	#####################################
 	# Start Class
 	#####################################
 	function __construct()
 	{
-
+		parent::__construct();
 	}
 	public function index ()
 	{
-		foreach (parent::GetGroups() as $k => $v) {
+		foreach ($this->ModelsTeam->GetGroups() as $k => $v) {
 			if ($v->id_group != 3) {
-				$members[$v->name] = parent::GetUsers($v->id_group);
+				$members[$v->name] = $this->ModelsTeam->GetUsers($v->id_group);
 			}
 		}
-		$this->data = $members;
+		$data['members'] = $members;
+		$this->set($data);
+		$this->render('index');
 	}
 }
