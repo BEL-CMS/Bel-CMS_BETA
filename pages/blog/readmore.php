@@ -13,6 +13,7 @@ if (!defined('CHECK_INDEX')) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
 	exit(ERROR_INDEX);
 }
+
 ?>
 <section id="bel_cms_blog_readmore">
 	<div class="blog-post">
@@ -21,4 +22,4 @@ if (!defined('CHECK_INDEX')) {
 		<?=$blog->content?>
 	</div>
 </section>
-<?php New Comments; ?>
+<?php New Comment; ?>

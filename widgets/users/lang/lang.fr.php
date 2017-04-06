@@ -15,5 +15,5 @@ Common::constant(array(
 	#####################################
 	'GREAT_HAVE_BACK'    => 'Ravi de vous revoir',
 	'NEW_HERE'           => 'Nouveau ici ?',
-	'CREATE_USER_TO_WEB' => 'Créée un compte sur ',
+	'CREATE_USER_TO_WEB' => 'Créée un compte sur '.CMS_WEBSITE_NAME,
 ));

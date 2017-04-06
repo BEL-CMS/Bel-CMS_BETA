@@ -1,4 +1,18 @@
 <?php
+/**
+ * Bel-CMS [Content management system]
+ * @version 0.0.1
+ * @link http://www.bel-cms.be
+ * @link http://www.stive.eu
+ * @license http://opensource.org/licenses/GPL-3.0 copyleft
+ * @copyright 2014-2016 Bel-CMS
+ * @author Stive - mail@stive.eu
+ */
+
+if (!defined('CHECK_INDEX')) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
+	exit(ERROR_INDEX);
+}
 
 final class Config extends Dispatcher
 {
@@ -7,7 +21,7 @@ final class Config extends Dispatcher
 		parent::__construct();
 		$return = array();
 
-		$sql = New BDD();
+		$sql = New BDD;
 		$sql->table('TABLE_CONFIG');
 		$sql->fields(array('name', 'value'));
 		$sql->queryAll();
@@ -17,7 +31,8 @@ final class Config extends Dispatcher
 			$return[mb_strtoupper($v->name)] = (string) $v->value;
 		}
 		Common::Constant($return);
-		self::GetLangs();
+		self::GetLangsPages();
+		self::GetLangsWidgets();
 		self::getConfigPages();
 	}
 
@@ -26,7 +41,7 @@ final class Config extends Dispatcher
 		if (defined('CONFIG_PAGES')) {
 			return;
 		} else {
-			$sql = New BDD();
+			$sql = New BDD;
 			$sql->table('TABLE_PAGES_CONFIG');
 			$sql->fields(array('name', 'active', 'access_groups', 'access_admin', 'config'));
 			$sql->queryAll();
@@ -43,12 +58,12 @@ final class Config extends Dispatcher
 		}
 	}
 
-	private function GetLangs ()
+	private function GetLangsPages ()
 	{
 		if (defined('CMS_WEBSITE_LANG')) {
 			$return = CMS_WEBSITE_LANG;
 		} else {
-			$sql = New BDD();
+			$sql = New BDD;
 			$sql->table('TABLE_CONFIG');
 			$sql->where(array('name' => 'name', 'value' => 'CMS_WEBSITE_LANG'));
 			$sql->fields(array('name', 'value'));
@@ -65,6 +80,35 @@ final class Config extends Dispatcher
 		$fileLangPage = DIR_PAGES.mb_strtolower($this->controller).DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
 		if (is_file($fileLangPage)) {
 			include $fileLangPage;
+		}
+	}
+
+	private function GetLangsWidgets ()
+	{
+		if (defined('CMS_WEBSITE_LANG')) {
+			$return = CMS_WEBSITE_LANG;
+		} else {
+			$sql = New BDD;
+			$sql->table('TABLE_CONFIG');
+			$sql->where(array('name' => 'name', 'value' => 'CMS_WEBSITE_LANG'));
+			$sql->fields(array('name', 'value'));
+			$sql->queryOne();
+			Common::Constant($sql->data->name, $sql->data->value);
+			unset($sql);
+		}
+
+		$sql = New BDD;
+		$sql->table('TABLE_WIDGETS');
+		$sql->where(array('name' => 'activate', 'value' => 1 ));
+		$sql->queryAll();
+		$data = $sql->data;
+		if (count($data) != 0) {
+			foreach ($data as $k => $v) {
+				$dir = DIR_WIDGETS.mb_strtolower($v->name).DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
+				if (is_file($dir)) {
+					include $dir;
+				}
+			}
 		}
 	}
 

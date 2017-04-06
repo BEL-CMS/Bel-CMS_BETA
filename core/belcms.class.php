@@ -1,4 +1,18 @@
 <?php
+/**
+ * Bel-CMS [Content management system]
+ * @version 0.0.1
+ * @link http://www.bel-cms.be
+ * @link http://www.stive.eu
+ * @license http://opensource.org/licenses/GPL-3.0 copyleft
+ * @copyright 2014-2016 Bel-CMS
+ * @author Stive - mail@stive.eu
+ */
+
+if (!defined('CHECK_INDEX')) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
+	exit(ERROR_INDEX);
+}
 
 final class BelCMS extends Dispatcher
 {
@@ -53,7 +67,7 @@ final class BelCMS extends Dispatcher
 			}
 		} else {
 			ob_start();
-			$error_name    = 'file no found';
+			$error_name    = 'Page no found';
 			$error_content = '<strong>file controller and view no found : </strong>';
 			require DIR_ASSET_TPL.'error'.DS.'404.php';
 			$buffer = ob_get_contents();
@@ -64,7 +78,7 @@ final class BelCMS extends Dispatcher
 
 	private function getTemplate ($page = null)
 	{
-		$template = new Template(); // tpl perso en param
+		$template = new Template(); // tpl perso en param (futur)
 		$template->page($page);
 		$this->_template = $template->render();
 	}

@@ -14,34 +14,30 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-final class ControllerPagesComments extends ModelPagesComments
+class Comments extends Pages
 {
-	public 	$data,
-			$view;
-	private $error = false;
+	var $models = array('ModelsComments');
 
 	function __construct()
 	{
-		$this->user = User::ReturnUser();
+		parent::__construct();
 	}
 	public function send ()
 	{
-		if ($this->user !== false) {
+		if (AutoUser::ReturnUser() !== false) {
 			if (empty($_POST['text'])) {
-				$_SESSION['JQUERY'] = array('type' => 'dander', 'text' => COMMENT_EMPTY);
-				$this->error = true;
+				$this->jquery = array('type' => 'danger', 'text' => COMMENT_EMPTY );
+				return;
 			}
-			if ($this->error === false && empty($_POST['url'])) {
-				$_SESSION['JQUERY'] = array('type' => 'dander', 'text' => URL_EMPTY);
-				$this->error = true;
+			if (empty($_POST['url'])) {
+				$this->jquery = array('type' => 'danger', 'text' => URL_EMPTY );
+				return;
 			}
-			if ($this->error === false) {
-				$insert = parent::insertComment($_POST);
-				if ($insert === false) {
-					$_SESSION['JQUERY'] = array('type' => 'danger', 'text' => COMMENT_SEND_FALSE);
-				} else {
-					$_SESSION['JQUERY'] = array('type' => $insert['type'], 'text' => $insert['text']);
-				}
+			$insert = $this->ModelsComments->insertComment($_POST);
+			if ($insert === false) {
+				$this->jquery = array('type' => $insert['type'], 'text' => $insert['text'] );
+			} else {
+				$this->jquery = array('type' => $insert['type'], 'text' => $insert['text'] );
 			}
 		}
 	}

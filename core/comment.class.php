@@ -14,7 +14,7 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-final class Comments extends Dispatcher
+final class Comment extends Dispatcher
 {
 	function __construct($action = 'view', $url = false, $nb = 5)
 	{
@@ -58,7 +58,7 @@ final class Comments extends Dispatcher
 		if ($comments !== null) {
 			$li = '';
 			foreach ($comments as $k => $v) {
-				$user = User::getNameAvatar($v->hash_key);
+				$user = AutoUser::getNameAvatar($v->hash_key);
 				$li .= '<li>';
 				$li .= '<a href="Members/View/'.$user->username.'" class="bel_cms_comments_tabs_user">';
 				$li .= '<img class="commentsAvatar" alt="avatar_'.$user->username.'" src="'.$user->avatar.'">';

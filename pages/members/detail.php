@@ -1,8 +1,19 @@
 <?php
+/**
+ * Bel-CMS [Content management system]
+ * @version 0.0.1
+ * @link http://www.bel-cms.be
+ * @link http://www.stive.eu
+ * @license http://opensource.org/licenses/GPL-3.0 copyleft
+ * @copyright 2014-2016 Bel-CMS
+ * @author Stive - mail@stive.eu
+ */
+
 if (!defined('CHECK_INDEX')) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
 	exit(ERROR_INDEX);
 }
+
 ?>
 <section id="bel_cms_members_view" class="padding-top-60 padding-top-sm-30">
 	<div class="">
@@ -16,13 +27,15 @@ if (!defined('CHECK_INDEX')) {
 				</div>
 
 				<?php
-				if (AutoUser::isLogged() === true):
-					?>
-					<div class="widget center">
-						<a href="Members/AddFriend/<?=$members->username?>?jquery" class="btn btn-primary alertAjaxLink">Ajouter en ami</a>
-					</div>
-					<?php
-				endif;
+				if (AutoUser::isLogged()) {
+					if ($members->username != $_SESSION['user']->username):
+						?>
+						<div class="widget center">
+							<a href="Members/AddFriend/<?=$members->username?>?jquery" class="btn btn-primary alertAjaxLink">Ajouter en ami</a>
+						</div>
+						<?php
+					endif;
+				}
 				?>
 
 				<div class="widget">

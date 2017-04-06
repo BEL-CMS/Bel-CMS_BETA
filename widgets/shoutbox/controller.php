@@ -21,8 +21,8 @@ class Shoutbox extends Widgets
 	public function __construct()
 	{
 		parent::__construct();
-
 	}
+
 	public function index()
 	{
 		$d = array();

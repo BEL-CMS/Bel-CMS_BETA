@@ -5,9 +5,14 @@
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
- * @copyright 2014 Bel-CMS
+ * @copyright 2014-2016 Bel-CMS
  * @author Stive - mail@stive.eu
  */
+
+if (!defined('CHECK_INDEX')) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
+	exit(ERROR_INDEX);
+}
 
 class ModelsForum
 {
@@ -418,15 +423,17 @@ class ModelsForum
 			$get->queryOne();
 			$data = $get->data;
 
-			$options = Common::transformOpt($data->options);
-			$options['view'] = (int) $options['view'] + 1;
-			$options = Common::transformOpt($options, true);
+			if ($get->rowCount != 0) {
+				$options = Common::transformOpt($data->options);
+				$options['view'] = (int) $options['view'] + 1;
+				$options = Common::transformOpt($options, true);
 
-			$update = New BDD();
-			$update->table('TABLE_FORUM_POST');
-			$update->where($where);
-			$update->sqlData(array('options' => $options));
-			$update->update();
+				$update = New BDD();
+				$update->table('TABLE_FORUM_POST');
+				$update->where($where);
+				$update->sqlData(array('options' => $options));
+				$update->update();
+			}
 		}
 	}
 

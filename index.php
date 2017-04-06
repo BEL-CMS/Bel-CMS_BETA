@@ -25,6 +25,9 @@ define ('DIR_WIDGETS', ROOT.'widgets'.DS);
 define ('DIR_VISITORS', ROOT.'visitors'.DS);
 define ('DIR_UPLOADS', ROOT.'uploads'.DS);
 define ('ERROR_INDEX', '<!DOCTYPE html>\r\n<html><head>\r\n<title>403 Direct access forbidden</title>\r\n</head><body>\r\n<h1>Direct access forbidden</h1>\r\n<p>The requested URL '.$_SERVER['SCRIPT_NAME'].' is prohibited.</p>\r\n</body></html>');
+/* TMP Futur reset management ) */
+define ('ROOT_MANAGEMENT',ROOT.'management'.DS);
+define ('ROOT_MANAGEMENT_TPL','management'.DS);
 #########################################
 # Require Files
 #########################################
