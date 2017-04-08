@@ -16,7 +16,7 @@ if (!defined('CHECK_INDEX')) {
 
 class User extends Pages
 {
-	var $models = array('ModelsForum');
+	var $models = array('ModelsUser');
 	#####################################
 	# Start Class
 	#####################################
@@ -112,7 +112,7 @@ class User extends Pages
 	}
 	private function sendAvatar ()
 	{
-		$return = $this->ModelsForum->sendAvatarUpload();
+		$return = $this->ModelsUser->sendAvatarUpload();
 		if ($return['type'] == 'success') {
 			$this->error('Avatar Upload', $return['msg'], $return['type']);
 			AutoUser::ResetSession();
@@ -125,22 +125,16 @@ class User extends Pages
 	private function changeAvatar ()
 	{
 		unset($_REQUEST['send']);
-		$return = $this->ModelsForum->sendChangeAvatar($_REQUEST['value']);
-
-			$d = array();
-			$d['type'] = $return['type'];
-			$d['text'] = $return['msg'];
-			$this->ajax($d);
-
-		//$this->error('Avatar Upload', $return['msg'], $return['type']);
-		AutoUser::ResetSession();
-		$this->redirect('user', 3);
+			$return = $this->ModelsUser->sendChangeAvatar($_REQUEST['value']);
+			$this->jquery = array('type' => $return['type'], 'text' => $return['msg'] );
+			AutoUser::ResetSession();
+			$this->redirect('user', 3);
 	}
 
 	private function deleteAvatar ()
 	{
 		unset($_REQUEST['send']);
-		$return = $this->ModelsForum->sendDeleteAvatar($_REQUEST['value']);
+		$return = $this->ModelsUser->sendDeleteAvatar($_REQUEST['value']);
 		$this->error('Delete Avatar', $return['msg'], $return['type']);
 		$this->redirect('user', 3);
 	}
@@ -151,9 +145,9 @@ class User extends Pages
 			$this->error(ERROR, 'Field Empty', 'error');
 			$this->redirect('user/register', 3);
 		} else {
-			$return = $this->ModelsForum->sendRegistration($this->data);
-			$this->redirect('user', 2);
+			$return = $this->ModelsUser->sendRegistration($this->data);
 			$this->error('Registration', $return['msg'], $return['type']);
+			$this->redirect('user', 2);
 		}
 	}
 	private function sendLogin ()
@@ -174,7 +168,7 @@ class User extends Pages
 			$this->redirect('user/login', 3);
 		} else {
 			unset($this->data['send']);
-			$return = $this->ModelsForum->sendEditProfil($this->data);
+			$return = $this->ModelsUser->sendEditProfil($this->data);
 			$this->error('Edition Profile Information', $return['msg'], $return['type']);
 			AutoUser::ResetSession();
 			$this->redirect('User', 2);
@@ -187,7 +181,7 @@ class User extends Pages
 			$this->redirect('user/login', 3);
 		} else {
 			unset($this->data['send']);
-			$return = $this->ModelsForum->sendEditSocial($this->data);
+			$return = $this->ModelsUser->sendEditSocial($this->data);
 			$this->error('Edit social media', $return['msg'], $return['type']);
 			AutoUser::ResetSession();
 			$this->redirect('User', 2);
@@ -200,7 +194,7 @@ class User extends Pages
 			$this->redirect('user/login', 3);
 		} else {
 			unset($this->data['send']);
-			$return = $this->ModelsForum->sendEditPassword($this->data);
+			$return = $this->ModelsUser->sendEditPassword($this->data);
 			$this->view = array('Change email and password', $return['msg'], $return['type']);
 			AutoUser::ResetSession();
 			$this->redirect('User', 2);

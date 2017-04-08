@@ -15,9 +15,9 @@ if (!defined('CHECK_INDEX')) {
 }
 
 ?>
-<aside class="bel_cms_aside_widgets">
-	<h2><?=$widget_title?></h2>
-	<div class="bel_cms_aside_widgets_content">
+<div class="panel panel-default">
+	<div class="panel-heading"><?=$widget_title?></div>
+	<div class="panel-body">
 		<?=$widget_content?>
 	</div>
-</aside>
+</div>

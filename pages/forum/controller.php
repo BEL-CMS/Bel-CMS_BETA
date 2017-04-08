@@ -30,7 +30,8 @@ class Forum extends Pages
 	{
 		$name['forum'] = $this->ModelsForum->GetForum();
 		if (empty($name['forum'])) {
-			$this->view = array(ERROR, 'Aucun Forum de disponible', 'blue');
+			$this->error(ERROR, 'Aucun Forum de disponible', 'info');
+			return;
 		} else {
 			foreach ($name['forum'] as $k => $v) {
 				$tmp_threads[] = $v->id;

@@ -16,6 +16,7 @@ if (!defined('CHECK_INDEX')) {
 
 if (AutoUser::isLogged() === true):
 ?>
+<div id="teste"></div>
 <section id="bel_cms_user_main">
 	<div class="row">
 		<div id="bel_cms_user_main_left" class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
@@ -103,7 +104,7 @@ function profilInfos($data) {
 						$alt = str_replace('uploads/users/'.$data->hash_key.'/', '', $value);
 					?>
 					<li>
-						<a href="<?=$value?>?ajax">
+						<a href="#<?=$value?>" class="bel_cms_jquery_avatar_sel">
 							<img width="100" height="100" src="<?=$value?>" alt="<?=$alt?>">
 							<span>Selectionner</span>
 						</a>

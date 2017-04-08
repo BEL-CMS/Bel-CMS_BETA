@@ -1,14 +1,16 @@
 jQuery(document).ready(function($){
 	changePage ();
-	changeAvatar ();
 	deleteAvatar ();
 	$( "#datepicker" ).datepicker({
 		inline: true
 	});
-});
 
-function changeAvatar() {
-	$('#bel_cms_user_ul_avatar li a, .bel_cms_jquery_avatar_sel').click(function(event) {
+	$('#teste').click(function(e) {
+		alert('ok');
+		return false;
+	});
+
+	$('.bel_cms_jquery_avatar_sel').click(function(event) {
 		event.preventDefault();
 		var href = $(this).attr('href').replace('#', '');
 
@@ -44,9 +46,9 @@ function changeAvatar() {
 				bel_cms_alert_box_end(1);
 			}
 		});
+		return false;
 	});
-}
-
+});
 
 function deleteAvatar() {
 	$('.bel_cms_jquery_avatar_del').click(function(event) {

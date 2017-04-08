@@ -14,7 +14,7 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ModelsForum
+class ModelsUser
 {
 	#####################################
 	# Variable declaration
@@ -257,28 +257,28 @@ class ModelsForum
 			}
 
 			if (empty($data['username']) OR empty($data['email']) OR empty($data['password'])) {
-				$return['text']  = 'Les champs nom d\'utilisateur & e-mail & mot de passe doivent être rempli'; ++$error;
+				$return['msg']  = 'Les champs nom d\'utilisateur & e-mail & mot de passe doivent être rempli'; ++$error;
 				$return['type']  = 'danger';
 			} else if (in_array($tmpNdd[0], $arrayBlackList)) {
-				$return['text']  = 'Les e-mails jetables ne sont pas autorise'; ++$error;
+				$return['msg']  = 'Les e-mails jetables ne sont pas autorise'; ++$error;
 				$return['type']  = 'warning';
 			} else if ($_REQUEST['query_register'] != $_SESSION['TMP_QUERY_REGISTER']['OVERALL'])  {
-				$return['text']  = 'Le code de sécurité est incorrect'; ++$error;
+				$return['msg']  = 'Le code de sécurité est incorrect'; ++$error;
 				$return['type']  = 'warning';
 			} else if (strlen($data['username']) < 4) {
-				$return['text']  = 'Le nom d\'utilisateur est trop court, minimum 4 caractères'; ++$error;
+				$return['msg']  = 'Le nom d\'utilisateur est trop court, minimum 4 caractères'; ++$error;
 				$return['type']  = 'warning';
 			} else if (strlen($data['username']) > 32) {
-				$return['text']  = 'Le nom d\'utilisateur est trop long, maximum 32 caractères'; ++$error;
+				$return['msg']  = 'Le nom d\'utilisateur est trop long, maximum 32 caractères'; ++$error;
 				$return['type']  = 'warning';
 			} else if (strlen($data['password']) < 6) {
-				$return['text']  = 'Le mot de passe est trop court, minimum 6 caractères'; ++$error;
+				$return['msg']  = 'Le mot de passe est trop court, minimum 6 caractères'; ++$error;
 				$return['type']  = 'warning';
 			} else if ($data['password'] != $_REQUEST['password_repeat']) {
-				$return['text']  = 'Le mot de passe et la confirmation ne sont pas identiques'; ++$error;
+				$return['msg']  = 'Le mot de passe et la confirmation ne sont pas identiques'; ++$error;
 				$return['type']  = 'warning';
 			} else if ($_REQUEST['terms'] == 'off') {
-				$return['text']  = 'Les termes n\'ont pas été acceptés'; ++$error;
+				$return['msg']  = 'Les termes n\'ont pas été acceptés'; ++$error;
 				$return['type']  = 'warning';
 			}
 
@@ -297,10 +297,10 @@ class ModelsForum
 				$checkMail = (int) $sql->data;
 
 				if ($returnCheckName >= 1) {
-					$return['text']  = 'ce Nom / Pseudo est déjà réservé.';
+					$return['msg']  = 'ce Nom / Pseudo est déjà réservé.';
 					$return['type']  = 'warning';
 				} elseif ($checkMail >= 1) {
-					$return['text']  = 'ce courriel est déjà réservé.';
+					$return['msg']  = 'ce courriel est déjà réservé.';
 					$return['type']  = 'warning';
 				} else {
 
@@ -340,9 +340,9 @@ class ModelsForum
 					$insert->sqlData(array('hash_key'=> $data['hash_key']));
 					$insert->insert();
 
-					User::login($_POST['username'],$_POST['password']);
+					AutoUser::login($_POST['username'],$_POST['password']);
 
-					$return['text']     = 'Enregistrement en cours...';
+					$return['msg']      = 'Enregistrement en cours...';
 					$return['type']     = 'success';
 					$return['redirect'] = 'User';
 				}

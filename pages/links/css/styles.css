@@ -1,8 +1,0 @@
-#bel_cms_links_main table thead tr {
-	font-weight: bold;
-}
-#bel_cms_links_main table thead tr th:first-child,
-#bel_cms_links_main table tbody tr td:first-child {
-
-	text-align: center;
-}
