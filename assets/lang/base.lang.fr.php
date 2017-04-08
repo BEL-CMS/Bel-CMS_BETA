@@ -1,18 +1,18 @@
-	<?php
-	/**
-	* Bel-CMS [Content management system]
-	* @version 0.0.1
-	* @link http://www.bel-cms.be
-	* @link http://www.stive.eu
-	* @license http://opensource.org/licenses/GPL-3.0 copyleft
-	* @copyright 2014-2016 Bel-CMS
-	* @author Stive - mail@stive.eu
-	*/
-	
-	if (!defined('CHECK_INDEX')) {
+<?php
+/**
+ * Bel-CMS [Content management system]
+ * @version 0.0.1
+ * @link http://www.bel-cms.be
+ * @link http://www.stive.eu
+ * @license http://opensource.org/licenses/GPL-3.0 copyleft
+ * @copyright 2014-2016 Bel-CMS
+ * @author Stive - mail@stive.eu
+ */
+
+if (!defined('CHECK_INDEX')) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
 	exit(ERROR_INDEX);
-	}
+}
 	
 	Common::constant(array(
 	#####################################
@@ -40,7 +40,7 @@
 	#####################################
 	'VALIDATE_MEMBER'        => 'Membre validé',
 	'VALIDATE_MEMBER'        => 'Membre en actif',
-	'PENDINNG_MEMBER'        => 'Membre en attente',
+	'PENDING_MEMBER'         => 'Membre en attente',
 	'GUEST'                  => 'Visiteur',
 	'VALID'                  => 'Valider',
 	'SEE'                    => 'Voir',
@@ -85,7 +85,10 @@
 	'FILES'                  => 'Fichiers',
 	'LINK'                   => 'Lien',
 	'LINKS'                  => 'Liens',
-	'PROFIL'                 => 'Profil',
+	'PROFIL'                 => 'Profile',
+	'LAST'                   => 'Hier',
+	'TODAY'                  => 'Aujourd\'hui',
+	'NOW'                    => 'Maintenant',
 	#####################################
 	# UPLOAD
 	#####################################

@@ -14,50 +14,32 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ControllerPagesBlog extends ModelPagesBlog
+class Blog extends Pages
 {
-	public 	$data,
-			$view;
-	private $id;
-	#####################################
-	# Start Class
-	#####################################
-	public function __construct($id = null)
+	var $models = array('ModelsBlog');
+
+	function __construct()
 	{
-		if ($id === null) {
-			$this->id = Common::SecureRequest(constant('GET_ID'));
-		} else {
-			$this->id = Common::SecureRequest($id);
-		}
-		self::GetConfig();
-		User::getAccessPage();
+		parent::__construct();
 	}
-	protected function GetConfig ()
+
+	function index ()
 	{
-		$config = Access::GetConfigPages('blog');
-		foreach ($config as $k => $v) {
-			$this->$k = $v;
-		}
+		$name['blog'] = $this->ModelsBlog->GetBlog();
+		$this->set($name);
+		$this->pagination($GLOBALS['CONFIG_PAGES']['blog']['config']['MAX_BLOG'], 'blog', TABLE_PAGES_BLOG);
+		$this->render('index');
 	}
-	public function Index ()
+
+	function readmore ($name = false, $id = false)
 	{
-		if (isset($_SESSION['pages']->blog->config['MAX_BLOG'])) {
-			$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG'];
-		} else {
-			$nbpp = (int) 3;
+		$name = array();
+		$name['blog'] = $this->ModelsBlog->GetBlog($id);
+		if (count($name['blog']) == 0) {
+			$this->error('Forum', 'Page inconnu...', 'danger');
+			return;
 		}
-		$this->pagination = Common::Pagination($nbpp, GET_PAGE, TABLE_PAGES_BLOG);
-		$this->data = self::GetBlog($this->id);
-		if (!is_array($this->data)) {
-			$return[] = $this->data;
-			$this->data = $return;
-		}
-	}
-	public function ReadMore ()
-	{
-		$this->data = self::GetBlog($this->id);
-		if (empty($this->data)) {
-			$this->view = array(ERROR, 'Aucun Blog portant ce nom', 'red');
-		}
+		$this->set($name);
+		$this->render('readmore');
 	}
 }

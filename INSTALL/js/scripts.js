@@ -14,10 +14,7 @@ $(document).ready(function(){
 						'config_pages',
 						'groups',
 						'mails_blacklist',
-						'links_click',
-						'page',
 						'page_blog',
-						'page_blog_cat',
 						'page_forum',
 						'page_forum_post',
 						'page_forum_posts',
@@ -26,8 +23,6 @@ $(document).ready(function(){
 						'page_users',
 						'page_users_profils',
 						'page_users_social',
-						'stats',
-						'visitors',
 						'widgets'
 					);
 	var nbTables = tables.length;

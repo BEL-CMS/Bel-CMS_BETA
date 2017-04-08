@@ -33,8 +33,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 							<!-- debut des boutton action -->
 							<div class="form-actions">
 								<button class="btn active"><i class="icon-home"></i> <?=HOME?></button>
-								<button class="btn" onclick="window.location.href='Forum/AddForum?management'"><i class="icon-plus"></i> <?=ADD?></button>
-								<button class="btn" onclick="window.location.href='Forum/parameter?management'"><i class="fa fa-object-group"></i> <?=CATEGORY?></button>
+								<button class="btn" onclick="window.location.href='Forum/Category?management'"><i class="fa fa-object-group"></i> <?=CATEGORY?></button>
 							</div>
 							<!-- fin des boutton action -->
 							<table class="table table-striped table-bordered">
@@ -81,6 +80,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 									?>
 								</tbody>
 							</table>
+							<button class="btn" onclick="window.location.href='Forum/AddForum?management'"><i class="icon-plus"></i> <?=ADD?></button>
 						</div>
 						<!-- fin du contenue -->
 					</div>

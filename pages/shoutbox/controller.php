@@ -5,35 +5,52 @@
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
- * @copyright 2014 Bel-CMS
+ * @copyright 2014-2016 Bel-CMS
  * @author Stive - mail@stive.eu
  */
 
-class ControllerPagesShoutbox extends ModelPagesShoutbox
+if (!defined('CHECK_INDEX')) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
+	exit(ERROR_INDEX);
+}
+
+class Shoutbox extends Pages
 {
-	public 	$data,
-			$view;
-	private $id;
+	var $models = 'ModelsShoutbox';
 	#####################################
 	# Start Class
 	#####################################
 	public function __construct($id = null)
 	{
+		parent::__construct();
 	}
-	public function index ()
-	{
-		$this->data = '';
-	}
+
 	public function send ()
 	{
-		$return = parent::insertMsg();
-		$_SESSION['JQUERY'] = array('type' => $return['type'], 'text' => $return['text'] );
+		$return = self::insertMsg();
+		$this->jquery = array('type' => $return['type'], 'text' => $return['text'] );
+	}
+	public function getLast ()
+	{
+		$id = (int) $_GET['id'];
+		$return = null;
+		$sql = New BDD();
+		$sql->table('TABLE_SHOUTBOX');
+		$sql->orderby(array(array('name' => 'id', 'type' => 'DESC')));
+		$where = array('name' => 'id', 'value' => $id, 'op' => '>');
+		$sql->where($where);
+		$sql->queryAll();
+		if (!empty($sql->data)) {
+			$return = $sql->data;
+		} else {
+			$return = array();
+		}
+		return $return;
 	}
 	public function get()
 	{
 		$return = '';
-		$get = parent::getLast();
-
+			$get = self::getLast();
 		$i = 1;
 		foreach ($get as $k => $v):
 			$i++;
@@ -42,7 +59,7 @@ class ControllerPagesShoutbox extends ModelPagesShoutbox
 			} else {
 				$left_right =  'from_user left';
 			}
-			$username = User::getNameAvatar($v->hash_key);
+			$username = AutoUser::getNameAvatar($v->hash_key);
 			$msg = ' ' . $v->msg;
 			$msg = preg_replace("#([\t\r\n ])(www|ftp)\.(([\w\-]+\.)*[\w]+(:[0-9]+)?(/[^ \"\n\r\t<]*)?)#i", '\1<a href="http://\2.\3" onclick="window.open(this.href); return false;">\2.\3</a>', $msg);
 			$msg = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $msg);
@@ -60,6 +77,42 @@ class ControllerPagesShoutbox extends ModelPagesShoutbox
 			</li>';
 		endforeach;
 
-		$_SESSION['ECHO'] = $return;
+		$this->affiche = $return;
+	}
+
+	public function insertMsg()
+	{
+		if (strlen($_SESSION['user']->hash_key) != 32) {
+			$return['text'] = 'Erreur HashKey';
+			$return['type'] = 'danger';
+			return $return;
+		} else {
+			$data['hash_key'] = $_SESSION['user']->hash_key;
+		}
+
+		if (empty($_SESSION['user']->avatar) OR !is_file($_SESSION['user']->avatar)) {
+			$data['avatar'] = DEFAULT_AVATAR;
+		} else {
+			$data['avatar'] = $_SESSION['user']->avatar;
+		}
+
+		if (empty($_REQUEST['text'])) {
+			$return['text'] = 'Erreur Message Vide';
+			$return['type'] = 'danger';
+			return $return;
+		} else {
+			$data['msg'] = Common::VarSecure($_REQUEST['text'], '<a><b><p><strong>');
+		}
+
+		$this->sql = New BDD();
+		$this->sql->table('TABLE_SHOUTBOX');
+		$this->sql->sqldata($data);
+		$this->sql->insert();
+
+		$return['text']	= 'Message envoyer avec succès';
+		$return['type']	= 'success';
+
+		return $return;
+
 	}
 }

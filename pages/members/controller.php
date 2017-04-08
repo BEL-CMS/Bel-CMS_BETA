@@ -5,46 +5,56 @@
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
- * @copyright 2014 Bel-CMS
+ * @copyright 2014-2016 Bel-CMS
  * @author Stive - mail@stive.eu
  */
 
-class ControllerPagesMembers extends ModelPagesMembers
+if (!defined('CHECK_INDEX')) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
+	exit(ERROR_INDEX);
+}
+
+class Members extends Pages
 {
-	public 	$data,
-			$view,
-			$access = false;
+	var $models = array('ModelsMembers');
 
 	public function __construct()
 	{
-		if (isset($_SESSION['pages']->blog->config['MAX_MEMBERS'])) {
-			$this->nbpp = (int) $_SESSION['pages']->blog->config['MAX_MEMBERS'];
+		parent::__construct();
+		if (isset($GLOBALS['CONFIG_PAGES']['members']['config']['MAX_USER'])) {
+			$nbpp = (int) $GLOBALS['CONFIG_PAGES']['members']['config']['MAX_USER'];
 		} else {
-			$this->nbpp = (int) 10;
+			$nbpp = (int) 10;
 		}
 	}
 
 	public function index ()
 	{
+		$name = array();
 		$where = "WHERE `groups` LIKE '%3%'";
-		$this->pagination = Common::Pagination($this->nbpp, GET_PAGE, TABLE_USERS, $where);
-		$this->data = parent::GetUsers(3);
+		$this->pagination($this->nbpp, GET_PAGE, TABLE_USERS, $where);
+		$name['members'] = $this->ModelsMembers->GetUsers(3);
+		$this->set($name);
+		$this->render('index');
 	}
-	public function view ()
+	public function detail ($name)
 	{
-		$id = constant('GET_ID');
+		$id = Common::VarSecure($name);
 		if ($id !== false) {
-			$user = User::getInfosUser($id, true);
-			if ($user['username'] == DELETE) {
-				$this->view = array(ERROR, UNKNOW_MEMBER, 'red');
+			$user = AutoUser::getInfosUser($id, true);
+			if ($user->username == DELETE) {
+				$this->error(ERROR, UNKNOW_MEMBER);
 			} else {
-				$groups = (array) $GLOBALS['GROUPS'];
-				foreach ($user['groups'] as $k => $v) {
+				$groups = (array) Config::GetGroups();
+				foreach ($user->groups as $k => $v) {
 					$group = isset($groups[$v]) ? $groups[$v] : UNKNOW_GROUP;
-					$user['groups'][$k] = $group;
+					$user->groups[$k] = $group;
 				}
-				$this->data = $user;
-				$this->data['forum'] = parent::GetLastPost($this->data['hash_key']);
+				$set['members'] = $user;
+				$st2['forum'] = $this->ModelsMembers->GetLastPost($user->hash_key);
+				$this->set($set);
+				$this->set($st2);
+				$this->render('detail');
 			}
 		} else {
 			Common::Redirect('Members', 2);

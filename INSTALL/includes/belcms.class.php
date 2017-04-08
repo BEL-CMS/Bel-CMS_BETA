@@ -91,11 +91,8 @@ class BelCMS
 			'config',
 			'config_pages',
 			'groups',
-			'links_click',
 			'mails_blacklist',
-			'page',
 			'page_blog',
-			'page_blog_cat',
 			'page_forum',
 			'page_forum_post',
 			'page_forum_posts',
@@ -104,8 +101,6 @@ class BelCMS
 			'page_users',
 			'page_users_profils',
 			'page_users_social',
-			'stats',
-			'visitors',
 			'widgets'
 		);
 
@@ -159,7 +154,7 @@ function insertUserBDD ()
 	$sql = array();
 
 	if (!function_exists('password_hash')) {
-		require ROOTCMS.DS.'class'.DS.'password.php';
+		require ROOTCMS.DS.'core.'.DS.'password.php';
 	}
 
 	$users['username']	= $_POST['username'];

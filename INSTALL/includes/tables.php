@@ -23,9 +23,10 @@ switch ($table) {
 			`comment` text NOT NULL,
   			`hash_key` varchar(32) NOT NULL,
   			`date_com` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (`id`),
-			UNIQUE KEY `name` (`name`)
+			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
+	break;
+
 	case 'config':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -64,10 +65,10 @@ switch ($table) {
 			UNIQUE KEY `name` (`name`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `active`, `access_groups`, `access_admin`, `config`) VALUES
-			(NULL, 'blog', 1, '0', '2|3', 'MAX_NEWS=3'),
-			(NULL, 'user', 1, '0', '2|4', 'MAX_USER=1|MAX_TEST=1'),
-			(NULL, 'forum', 1, '0', '3', NULL),
-			(NULL, 'shoutbox', 1, '0', '2|3', 'MAX_MSG=25');";
+			(NULL, 'blog', 1, '0', '2|3', 'MAX_BLOG=2|MAX_BLOG_ADMIN=25'),
+			(NULL, 'members', 1, '0', '2|4', 'MAX_USER=10'),
+			(NULL, 'team', 1, '0', '3', 'MAX_USER=10'),
+			(NULL, 'shoutbox', 1, '0', '2|3', 'MAX_MSG=15');";
 	break;
 	case 'groups':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
@@ -139,26 +140,6 @@ switch ($table) {
 			(NULL, 'mailhazard'),
 			(NULL, 'mail');";
 	break;
-	case 'links_click':
-		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
-		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
-			`link` varchar(255) NOT NULL,
-			`countck` int(11) NOT NULL,
-			PRIMARY KEY (`id`),
-			UNIQUE KEY `link` (`link`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-	break;
-	case 'page':
-		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
-		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
-			`name` varchar(32) NOT NULL,
-			`content` longtext,
-			PRIMARY KEY (`id`),
-			UNIQUE KEY `name` (`name`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-	break;
 	case 'page_blog':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -174,15 +155,6 @@ switch ($table) {
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `rewrite_name`, `name`, `date_create`, `author`, `content`, `tags`, `cat`) VALUES
 			(NULL, 'FIRST_NEW_BEL_CMS', 'first news bel-cms', '".date('Y-m-d H:i:s')."', 'Administrateur', '<p>Bienvenue sur le C.M.S <a href=\"https://bel-cms.be\" title=\"BEL-CMS\">BEL-CMS</a>, votre installation s\'est, à priori, bien déroulée</p><p>Vous pouvez dès à présent administrer votre site web via l\'administration</p><p>Merci de nous signaler sur <a href=\"http://bel-cms.be\" title=\"BEL-CMS\">bel-cms.be</a> si vous avez rencontre le moindre souci ou si vous avez des suggestions à nous faire savoir.</p>', '', '');";
-	break;
-	case 'page_blog_cat':
-		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
-		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
-			`id` int(11) NOT NULL,
-			`name` varchar(16) CHARACTER SET latin1 NOT NULL,
-			PRIMARY KEY (`id`),
-			UNIQUE KEY `name` (`name`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
 	case 'page_forum':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
@@ -305,31 +277,6 @@ switch ($table) {
 			UNIQUE KEY `hash_key` (`hash_key`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
-	case 'stats':
-		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
-		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
-			`name` varchar(32) NOT NULL,
-			`value` text NOT NULL,
-			PRIMARY KEY (`id`),
-			UNIQUE KEY `name` (`name`)
-		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
-		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `value`) VALUES
-			(NULL, 'record', '0'),
-			(NULL, 'last', '0'),
-			(NULL, 'today', '0');";
-	break;
-	case 'visitors':
-		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
-		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
-			`date_page` varchar(12) NOT NULL,
-			`page` varchar(32) NOT NULL,
-			`ip` varchar(15) NOT NULL,
-			`main_group` int(11) NOT NULL,
-			PRIMARY KEY (`id`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-	break;
 	case 'widgets':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -346,7 +293,7 @@ switch ($table) {
 			UNIQUE KEY `name` (`name`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `title`, `groups_access`, `groups_admin`, `activate`, `pos`, `orderby`, `pages`) VALUES
-		 	(NULL, 'user', 'Utilisateurs', '0', '3', '1', 'right', '1', ''),
+		 	(NULL, 'users', 'Utilisateurs', '0', '3', '1', 'right', '1', ''),
 		 	(NULL, 'shoutbox', 'T\'chat', '0', '3', '1', 'top', '1', '');";
 	break;
 }

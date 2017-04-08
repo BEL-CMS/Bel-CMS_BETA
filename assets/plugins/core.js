@@ -5,12 +5,12 @@
 
 	$('.alertAjaxForm').submit(function(event) {
 		event.preventDefault();
-		bel_cms_alert_box($(this));
+		bel_cms_alert_box($(this), 'POST');
 	});
 
 	$('.alertAjaxLink').click(function(event) {
 		event.preventDefault();
-		bel_cms_alert_box($(this));
+		bel_cms_alert_box($(this), 'GET');
 	});
 
 	$.fn.alrt_bel_cms = function(type, text) {
@@ -331,7 +331,7 @@ function _initTinymceFull () {
 /*###################################
 # Function Alert box
 ###################################*/
-function bel_cms_alert_box (objet) {
+function bel_cms_alert_box (objet, type) {
 	/* Get Url */
 	if (objet.attr('href')) {
 		var url = objet.attr('href');
@@ -356,11 +356,12 @@ function bel_cms_alert_box (objet) {
 	$('#alrt_bel_cms').animate({ top: 0 }, 500);
 	/* start ajax */
 	$.ajax({
-		type: 'POST',
+		type: type,
 		url: url,
 		data: dataValue,
 		success: function(data) {
 			var data = $.parseJSON(data);
+			console.log(data);
 			/* refresh page */
 			if (data.redirect == undefined) {
 				var redirect = false;
@@ -391,7 +392,7 @@ function bel_cms_alert_box (objet) {
 		},
 		complete: function() {
 			$('textarea').val('');
-			$("input:text").val('');
+			$('input:text').val('');
 			bel_cms_alert_box_end(3);
 		}
 	});

@@ -21,14 +21,14 @@ class ControllerManagementForum extends ModelManagementForum
 			$pagination,
 			$error = null;
 
-	function __construct()
-	{
-
-	}
-
 	public function index ()
 	{
 		$this->data = parent::GetThreads();
+	}
+
+	public function category ()
+	{
+		$this->data = parent::GetForum();
 	}
 
 	public function addforum ()
@@ -40,6 +40,8 @@ class ControllerManagementForum extends ModelManagementForum
 	{
 		if ($_POST['send'] == 'addforum') {
 			$return = parent::SendAddForum($_POST);
+		} else if ($_POST['send'] == 'addcat') {
+			$return = parent::SendAddCat($_POST);
 		}
 		$this->data = $return;
 		Common::Redirect('Forum?management', 2);

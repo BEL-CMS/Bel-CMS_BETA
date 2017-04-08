@@ -49,4 +49,3 @@ $insert = insertUserBDD();
 <?php
 redirect('http://'.$_SERVER['SERVER_NAME'], 5);
 endif;
-?>

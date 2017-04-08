@@ -1,16 +1,32 @@
+<?php
+/**
+ * Bel-CMS [Content management system]
+ * @version 0.0.1
+ * @link http://www.bel-cms.be
+ * @link http://www.stive.eu
+ * @license http://opensource.org/licenses/GPL-3.0 copyleft
+ * @copyright 2014-2016 Bel-CMS
+ * @author Stive - mail@stive.eu
+ */
+
+if (!defined('CHECK_INDEX')) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
+	exit(ERROR_INDEX);
+}
 <div id="bel_cms_widgets_shoutbox" class="widget">
 	<div class="widget-content">
 		<ul id="bel_cms_widgets_shoutbox_msg">
 			<?php
 			$i = 1;
-			foreach ($this->data as $k => $v):
+			foreach ($shoutbox as $k => $v):
+				if (count($v->msg) != 0):
 				$i++;
 				if ($i & 1) {
 					$left_right =  'by_myself right';
 				} else {
 					$left_right =  'from_user left';
 				}
-				$username = User::getNameAvatar($v->hash_key);
+				$username = AutoUser::getNameAvatar($v->hash_key);
 				$msg = ' ' . $v->msg;
 				$msg = preg_replace("#([\t\r\n ])(www|ftp)\.(([\w\-]+\.)*[\w]+(:[0-9]+)?(/[^ \"\n\r\t<]*)?)#i", '\1<a href="http://\2.\3" onclick="window.open(this.href); return false;">\2.\3</a>', $msg);
 				$msg = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $msg);
@@ -27,6 +43,7 @@
 					</div>
 				</li>
 				<?php
+				endif;
 			endforeach;
 			?>
 		</ul>
