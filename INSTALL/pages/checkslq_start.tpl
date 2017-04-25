@@ -8,6 +8,7 @@
  * @copyright 2014-2016 Bel-CMS
  * @author Stive - mail@stive.eu
  */
+
 $checkpdo = checkPDOConnect($_POST);
 if ($checkpdo === true):
 	BelCMS::TABLES();
@@ -33,9 +34,7 @@ if ($checkpdo === true):
 		</div>
 	</div>
 	<div class="col-sm-6" id="error_bdd">
-		<div class="input-group">
-			<a id="submit_bdd" class="btn btn-primary" href="#">Installer</a>
-		</div>
+		<a id="submit_bdd" class="btn btn-primary" href="#">Installer</a>
 	</div>
 </div>
 <?php

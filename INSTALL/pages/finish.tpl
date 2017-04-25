@@ -47,5 +47,6 @@ $insert = insertUserBDD();
 	</div>
 </div>
 <?php
-redirect('http://'.$_SERVER['SERVER_NAME'], 5);
+$_SESSION['INSTALL'] = true;
+redirect(GetHost::getBaseUrl(), 5);
 endif;

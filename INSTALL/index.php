@@ -17,12 +17,10 @@ ini_set('default_charset', 'utf-8');
 #########################################
 date_default_timezone_set("Europe/Brussels");
 setlocale(LC_TIME, 'fr','fr_FR','fr_FR@euro','fr_FR.utf8','fr-FR','fra');
-
-define ('ROOT', str_replace('index.php', '', $_SERVER['SCRIPT_FILENAME']));
-define ('ROOTCMS', str_replace('INSTALL/index.php', '', $_SERVER['SCRIPT_FILENAME']));
+define ('ROOT', str_replace('INSTALL/index.php', '', $_SERVER['SCRIPT_FILENAME']));
 define ('DS', '/');
 
-require ROOT.DS.'includes'.DS.'belcms.class.php';
+require ROOT.DS.'INSTALL'.DS.'includes'.DS.'belcms.class.php';
 
 $install = New BelCMS;
 echo $install->HTML();

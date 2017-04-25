@@ -19,13 +19,13 @@ class BelCMS
 			session_start();
 		}
 		$this->page = (!isset($_REQUEST['page'])) ? 'home' : $_REQUEST['page'];
-		require_once ROOT.DS.'includes'.DS.'checkCompatibility.php';
+		require_once ROOT.'INSTALL'.DS.'includes'.DS.'checkCompatibility.php';
 	}
 
 	public function VIEW()
 	{
 		ob_start();
-		require ROOT.DS.'pages'.DS.$this->page.'.tpl';
+		require ROOT.'INSTALL'.DS.'pages'.DS.$this->page.'.tpl';
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -33,15 +33,15 @@ class BelCMS
 
 	public function HTML()
 	{
-		if ($this->page == 'CreateSQL'):
+		if ($this->page == 'create_sql') {
 			$table = $_REQUEST['table'];
-			require_once ROOT.DS.'includes'.DS.'tables.php';
+			require_once ROOT.'INSTALL'.DS.'includes'.DS.'tables.php';
 			if ($error === true) {
 				echo $class;
 			} else {
 				echo false;
 			}
-		else:
+		} else {
 			ob_start("ob_gzhandler");
 			?>
 			<!DOCTYPE html>
@@ -51,7 +51,9 @@ class BelCMS
 			<meta charset="utf-8">
 			<title>BEL-CMS # Install</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+			<!-- Latest compiled and minified CSS -->
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+			<!-- Optional theme -->
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 			<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,7 +63,7 @@ class BelCMS
 			<body>
 				<div class="page-container">
 
-					<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+					<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="position: relative;">
 						<div class="navbar-header">
 							<a class="navbar-brand" href="#">BEL-CMS Installation</a>
 						</div>
@@ -73,7 +75,6 @@ class BelCMS
 				</div>
 
 				<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-				<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 				<script src="js/scripts.js"></script>
 			</body>
 			</html>
@@ -81,7 +82,7 @@ class BelCMS
 			$buffer = ob_get_contents();
 			ob_end_clean();
 			return $buffer;
-		endif;
+		}
 	}
 
 	public static function TABLES () {
@@ -154,7 +155,7 @@ function insertUserBDD ()
 	$sql = array();
 
 	if (!function_exists('password_hash')) {
-		require ROOTCMS.DS.'core.'.DS.'password.php';
+		require ROOT.'core.'.DS.'password.php';
 	}
 
 	$users['username']	= $_POST['username'];

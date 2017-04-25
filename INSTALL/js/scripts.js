@@ -1,4 +1,5 @@
-$(document).ready(function(){
+jQuery.noConflict();
+(function($) {
 	$('[data-toggle=offcanvas]').click(function() {
 		$('.row-offcanvas').toggleClass('active');
 	});
@@ -33,7 +34,8 @@ $(document).ready(function(){
 
 			$.ajax({
 				type: "POST",
-				url: "?page=CreateSQL",
+				//dataType: "html",
+				url: "?page=create_sql",
 				async: false,
 				data: "table="+e,
 				success: function(m) {
@@ -62,4 +64,4 @@ $(document).ready(function(){
 		return false;
 	});
 
-});
+})(jQuery);

@@ -36,7 +36,7 @@ hr {
 }
 
 body {
-  padding-top: 51px; 
+  padding-top: 0; 
   background: rgb(242,242,242);
   color: rgb(24,114,197);;
 }

@@ -9,6 +9,8 @@
  * @author Stive - mail@stive.eu
  */
 
+require_once ROOT.'INSTALL'.DS.'includes'.DS.'checkCompatibility.php';
+
 function checkPhp ()
 {
 	$return = false;
@@ -43,7 +45,7 @@ function checkPDO ()
 }
 function checkWriteConfig ()
 {
-	return isWritable(ROOTCMS.DS.'config');
+	return isWritable(ROOT.DS.'config');
 }
 function checkPDOConnect ($d)
 {
@@ -70,17 +72,19 @@ function checkPDOConnect ($d)
 
 function createConfig ()
 {
-	if (isWritable(ROOTCMS.DS.'config') === false) {
-		trigger_error("No Writable dir : ".ROOT.DS."config", E_USER_ERROR);
+	if (isWritable(ROOT.'config') === false) {
+		trigger_error("No Writable dir : ".ROOT."config", E_USER_ERROR);
 	}
-	$dirFile = ROOTCMS.DS.'config'.DS.'config.inc.php';
+	$dirFile = ROOT.'config'.DS.'config.inc.php';
 	if (is_file($dirFile)) {
+		@chmod($dirFile, 0777);
+		@copy($dirFile, $dirFile.'_'.date('d-m-Y-H-i'));
 		unlink($dirFile);
 	}
 	$fp = fopen ($dirFile, "w+");
 	fwrite($fp,configIncPhp());
 	fclose($fp);
-	chmod($dirFile, 0644);
+	@chmod($dirFile, 0644);
 }
 function configIncPhp ()
 {
@@ -125,4 +129,29 @@ function isWritable($path) {
     if (!$rm)
         unlink($path);
     return true;
+}
+final class GetHost {
+
+	public static function isHttps() {
+		return (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ||
+			$_SERVER['SERVER_PORT'] == 443;
+	}
+
+	public static function getBaseUrl() {
+		$protocol = self::isHttps() ? 'https' : 'http';
+		if (isset($_SERVER["SERVER_PORT"])) {
+			$port = ':' . $_SERVER["SERVER_PORT"];
+		} else {
+			$port = '';
+		}
+		if ($port == ':80' || $port == ':443') {
+			$port = '';
+		}
+		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+		$cutoff = strpos($uri, 'index.php');
+		$uri = substr($uri, 0, $cutoff);
+		$serverName = getenv('HOSTNAME')!==false ? getenv('HOSTNAME') : (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '');
+		$serverName = str_replace('INSTALL/','',$serverName);
+		return "$protocol://{$serverName}$port";	
+	}
 }

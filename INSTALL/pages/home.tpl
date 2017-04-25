@@ -8,6 +8,7 @@
  * @copyright 2014-2016 Bel-CMS
  * @author Stive - mail@stive.eu
  */
+
 ?>
 <div class="row">
 	<div class="col-sm-6">
@@ -60,11 +61,11 @@
 							<td>PDO Driver</td>
 							<td><span class="<?=$pdo_ico?>"></span></td>
 						</tr>
-						<?php $pdo_class = checkWriteConfig() === false ? 'class="danger"' : ''; ?>
-						<?php $pdo_ico   = checkWriteConfig() === false ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'; ?>
-						<tr <?=$pdo_class?>>
+						<?php $config = checkWriteConfig() === false ? 'class="danger"' : ''; ?>
+						<?php $config_ico   = checkWriteConfig() === false ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'; ?>
+						<tr <?=$config?>>
 							<td>Write config/config.inc.php</td>
-							<td><span class="<?=$pdo_ico?>"></span></td>
+							<td><span class="<?=$config_ico?>"></span></td>
 						</tr>
 					</tbody>
 				</table>
