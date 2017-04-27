@@ -44,7 +44,7 @@ class Pages
 	function render($filename) {
 		extract($this->vars);
 		ob_start();
-		$dir = DIR_PAGES.get_class($this).DS.$filename.'.php';
+		$dir = DIR_PAGES.strtolower(get_class($this)).DS.$filename.'.php';
 		$custom = DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.lcfirst(get_class($this)).'.'.$filename.'.php';
 		if (is_file($custom)) {
 			require_once $custom;
@@ -72,13 +72,13 @@ class Pages
 
 	function loadModel ($name)
 	{
-		if (is_file(DIR_PAGES.get_class($this).DS.'models.php')) {
-			require_once DIR_PAGES.get_class($this).DS.'models.php';
+		if (is_file(DIR_PAGES.strtolower(get_class($this)).DS.'models.php')) {
+			require_once DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
 			$this->$name = new $name();
 		} else {
 			ob_start();
 			$error_name    = 'file no found';
-			$error_content = '<strong>file models no found</strong> : <br>'.DIR_PAGES.get_class($this).DS.'models.php';
+			$error_content = '<strong>file models no found</strong> : <br>'.DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
 			require DIR_ASSET_TPL.'error'.DS.'404.php';
 			$this->page = ob_get_contents();
 			ob_end_clean();

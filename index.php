@@ -29,17 +29,22 @@ define ('ERROR_INDEX', '<!DOCTYPE html>\r\n<html><head>\r\n<title>403 Direct acc
 define ('ROOT_MANAGEMENT',ROOT.'management'.DS);
 define ('ROOT_MANAGEMENT_TPL','management'.DS);
 #########################################
+# Inisialize session
+#########################################
+require_once DIR_CORE.'session.class.php';
+#########################################
 # Install
 #########################################
-if (isset($_SESSION['INSTALL'])) {
+if (!isset($_SESSION['INSTALL'])) {
 	header('Location: INSTALL/index.php');
-	return;
+	die();
 }
 #########################################
 # Require Files
 #########################################
 require DIR_CORE.'require_files.class.php';
 New RequireFiles;
+
 $bel_cms = New BelCMS;
 $bel_cms->_init();
 echo $bel_cms->render;

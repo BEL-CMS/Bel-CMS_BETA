@@ -42,7 +42,7 @@ class Widgets
 	function render($filename) {
 		extract($this->vars);
 		ob_start();
-		$dir = DIR_WIDGETS.get_class($this).DS.$filename.'.php';
+		$dir = DIR_WIDGETS.strtolower(get_class($this)).DS.$filename.'.php';
 		$custom = DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.'widgets.'.lcfirst(get_class($this)).'.php';
 		if (is_file($custom)) {
 			require_once $custom;

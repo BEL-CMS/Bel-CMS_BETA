@@ -20,10 +20,8 @@ class RequireFiles
 
 	function __construct ()
 	{
-		$file_password = function_exists('password_hash') ? '' : DIR_CORE.'password.php';
-
 		$this->files = array(
-			$file_password,
+			function_exists('password_hash') ? '' : DIR_CORE.'password.php',
 			DIR_CORE.'error.class.php',
 			DIR_CORE.'common.class.php',
 			DIR_CORE.'notification.class.php',
@@ -31,7 +29,6 @@ class RequireFiles
 			DIR_CONFIG.'config.inc.php',
 			DIR_CONFIG.'config.table.php',
 			DIR_CORE.'spdo.class.php',
-			DIR_CORE.'session.class.php',
 			DIR_CORE.'ini.class.php',
 			DIR_CORE.'visitors.class.php',
 			DIR_CORE.'user.class.php',
@@ -44,17 +41,23 @@ class RequireFiles
 			DIR_CORE.'belcms.class.php',
 		);
 
-		self::getFiles ();
+		self::getFiles();
 	}
-	function getFiles ()
+	private function getFiles ()
 	{
-		foreach ($this->files as $file):
-			if (!is_file($file)) {
+		require DIR_CORE.'common.class.php';
+		// fix bogue : array(0)
+		if (function_exists('password_hash')) {
+			unset($this->files[0]);
+		}
+		foreach ($this->files as $file) {
+			if (is_file($file)) {
+				require_once $file;
+			} else {
 				throw new Exception ('Fichier '.$file.' manquant.');
 				break;
-			} else {
-				require $file;
 			}
-		endforeach;
+		}
+
 	}
 }
