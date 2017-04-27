@@ -29,11 +29,11 @@ function checkMysqli ()
 }
 function checkRewrite ()
 {
-	$return = false;
-	if (in_array('mod_rewrite', apache_get_modules())) {
-		$return = true;
+	if ($_SERVER['HTTP_MOD_REWRITE'] == 'On') {
+		return true;
+	} else {
+		return false;
 	}
-	return $return;
 }
 function checkPDO ()
 {

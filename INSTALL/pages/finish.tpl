@@ -47,6 +47,12 @@ $insert = insertUserBDD();
 	</div>
 </div>
 <?php
+if (!isset($_SESSION)) {
+	session_start(); 
+} else {
+	$_SESSION = array();
+}
+$_SESSION = array();
 $_SESSION['INSTALL'] = true;
 redirect(GetHost::getBaseUrl(), 5);
 endif;

@@ -8,7 +8,6 @@
  * @copyright 2014-2016 Bel-CMS
  * @author Stive - mail@stive.eu
  */
-
 ?>
 <div class="row">
 	<div class="col-sm-6">
@@ -19,6 +18,9 @@
 				<p>Bienvenue sur l'installation de BEL-CMS 0.0.1</p>
 				<p>Nous vous remercions d'avoir choisis notre CMS et nous espérons qu'il va vous plaire</p>
 				<hr>
+				<?php
+
+				?>
 				<hr>
 			</div>
 		</div>
@@ -81,6 +83,7 @@
 			echo '<p><a class="btn btn-primary btn-lg" href="?page=sql" role="button">Installer</a></p>';
 		} else {
 			echo '<div class="alert alert-danger" role="alert">Votre Hébérgeur n\'est pas compatible avec le C.M.S</div>';
+			echo '<p><a class="btn btn-primary btn-lg" href="?page=sql" role="button">Forcer Installalation</a></p>';
 		}
 		?>
 	</div>

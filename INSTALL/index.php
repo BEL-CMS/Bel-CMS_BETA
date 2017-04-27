@@ -10,8 +10,7 @@
  */
 
 ini_set('default_charset', 'utf-8');
-//error_reporting (0);
-
+error_reporting (E_ALL);
 #########################################
 # Initialise TimeZone
 #########################################
