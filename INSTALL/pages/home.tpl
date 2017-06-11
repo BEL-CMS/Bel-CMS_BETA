@@ -66,9 +66,20 @@
 						<?php $config = checkWriteConfig() === false ? 'class="danger"' : ''; ?>
 						<?php $config_ico   = checkWriteConfig() === false ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'; ?>
 						<tr <?=$config?>>
-							<td>Write config/config.inc.php</td>
+							<td>Write /config</td>
 							<td><span class="<?=$config_ico?>"></span></td>
 						</tr>
+						<?php
+						if (checkWriteConfig() === false) {
+						?>
+						<tr>
+							<td colspan="2">
+								<div class="alert alert-danger" role="alert">Veuillez mettre le dossier /config && /uploads en chmod 777</div>
+							</td>
+						</tr>
+						<?php
+						}
+						?>
 					</tbody>
 				</table>
 			<hr>
@@ -79,7 +90,7 @@
 <div class="row">
 	<div class="col-sm-12">
 		<?php
-		if (checkPhp() && checkPhp() && checkRewrite() && checkPDO()) {
+		if (checkPhp() && checkRewrite() && checkPDO()) {
 			echo '<p><a class="btn btn-primary btn-lg" href="?page=sql" role="button">Installer</a></p>';
 		} else {
 			echo '<div class="alert alert-danger" role="alert">Votre Hébérgeur n\'est pas compatible avec le C.M.S</div>';

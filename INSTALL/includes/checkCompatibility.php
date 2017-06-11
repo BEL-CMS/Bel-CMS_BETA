@@ -29,10 +29,12 @@ function checkMysqli ()
 }
 function checkRewrite ()
 {
-	if ($_SERVER['HTTP_MOD_REWRITE'] == 'On') {
-		return true;
-	} else {
-		return false;
+	if (function_exists("apache_get_modules")) {
+		$modules = apache_get_modules();
+		$mod_rewrite = in_array("mod_rewrite",$modules);
+	}
+	if (!isset($mod_rewrite) && isset($_SERVER["HTTP_MOD_REWRITE"])) {
+		return $_SERVER["HTTP_MOD_REWRITE"]=="on" ? true : false; 
 	}
 }
 function checkPDO ()
@@ -45,7 +47,16 @@ function checkPDO ()
 }
 function checkWriteConfig ()
 {
-	return isWritable(ROOT.DS.'config');
+	$write = substr(sprintf('%o', fileperms(ROOT.'config')), -4);
+	if ($write == 0777) {
+		return true;
+	} else {
+		if (is_writable(ROOT.'config') === true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 function checkPDOConnect ($d)
 {
@@ -72,12 +83,12 @@ function checkPDOConnect ($d)
 
 function createConfig ()
 {
-	if (isWritable(ROOT.'config') === false) {
+	if (is_writable(ROOT.'config') === false) {
 		trigger_error("No Writable dir : ".ROOT."config", E_USER_ERROR);
 	}
 	$dirFile = ROOT.'config'.DS.'config.inc.php';
 	if (is_file($dirFile)) {
-		@chmod($dirFile, 0777);
+		@chmod($dirFile, 0700);
 		@copy($dirFile, $dirFile.'_'.date('d-m-Y-H-i'));
 		unlink($dirFile);
 	}
