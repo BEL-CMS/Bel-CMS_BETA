@@ -35,7 +35,7 @@ require_once DIR_CORE.'session.class.php';
 #########################################
 # Install
 #########################################
-if (!isset($_SESSION['INSTALL'])) {
+if (is_file(ROOT.'INSTALL'.DS.'index.php')) {
 	header('Location: INSTALL/index.php');
 	die();
 }
