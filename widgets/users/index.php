@@ -57,7 +57,7 @@ else:
 				<?=$user->info_text?>
 			</span>
 			<?php endif; ?>
-			<div id="bel_cms_widgets_use_log">
+			<div id="bel_cms_widgets_user_log">
 				<a href="User/Logout" title="Log-out">
 					<i class="fa fa-sign-out" aria-hidden="true"></i>
 					<?=SIGN_OUT?>
