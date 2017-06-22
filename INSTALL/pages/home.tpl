@@ -90,7 +90,7 @@
 <div class="row">
 	<div class="col-sm-12">
 		<?php
-		if (checkPhp() && checkRewrite() && checkPDO()) {
+		if (checkPhp() && checkRewrite() !== false && checkPDO()) {
 			echo '<p><a class="btn btn-primary btn-lg" href="?page=sql" role="button">Installer</a></p>';
 		} else {
 			echo '<div class="alert alert-danger" role="alert">Votre Hébérgeur n\'est pas compatible avec le C.M.S</div>';

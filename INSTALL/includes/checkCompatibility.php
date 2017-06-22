@@ -34,7 +34,7 @@ function checkRewrite ()
 		$mod_rewrite = in_array("mod_rewrite",$modules);
 	}
 	if (!isset($mod_rewrite) && isset($_SERVER["HTTP_MOD_REWRITE"])) {
-		return $_SERVER["HTTP_MOD_REWRITE"]=="on" ? true : false; 
+		return $_SERVER["HTTP_MOD_REWRITE"] == 'on' ? true : false; 
 	}
 }
 function checkPDO ()
