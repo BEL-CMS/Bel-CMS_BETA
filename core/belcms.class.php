@@ -31,25 +31,49 @@ final class BelCMS extends Dispatcher
 	function _init ()
 	{
 		ob_start();
-		self::loadController();
-		if ($this->IsJquery === true) {
-			echo json_encode($this->controller->jquery);
-		} else if ($this->IsEcho() === true) {
-			echo $this->controller->affiche;
-		} else {
-			self::getTemplate($this->_page);
-			echo $this->_template;			
+
+		if ($_SESSION['MANAGEMENT'] === true && AutoUser::isLogged() === false) {
+			common::Redirect('User/Login');
+			return;
 		}
-		$this->render = ob_get_contents();
-		$this->load = number_format(microtime(true)-$GLOBALS['timestart'], 3);
-		if (ob_get_length() != 0) { 
-			ob_end_clean();
+		if (defined('MANAGEMENT')) {
+			$managements = New Managements;
+			if ($this->IsJquery === true) {
+				if (isset($managements->jquery['redirect'])) {
+					$data['redirect'] = $managements->jquery['redirect'];
+				}
+				$data['type'] = $managements->jquery['type'];
+				$data['text'] = $managements->jquery['text'];
+				echo json_encode($data);
+			} else {
+				echo $managements->return;
+			}
+		} else {
+			self::loadController();
+
+			if ($this->IsJquery === true) {
+				echo json_encode($this->controller->jquery);
+			} else if ($this->IsEcho() === true) {
+				echo $this->controller->affiche;
+			} else {
+				self::getTemplate($this->_page);
+				echo $this->_template;
+			}
+
+			$this->render = ob_get_contents();
+			$this->load = number_format(microtime(true)-$GLOBALS['timestart'], 3);
+
+			if (ob_get_length() != 0) { 
+				ob_end_clean();
+			}
 		}
 	}
 
-	function loadController ()
+
+	private function loadController ()
 	{
 		ob_start();
+
 		$dir = DIR_PAGES.$this->controller.DS.'controller.php';
 		if (is_file($dir)) {
 			require $dir;
@@ -58,7 +82,7 @@ final class BelCMS extends Dispatcher
 				unset($this->links[0], $this->links[1]);
 				call_user_func_array(array($this->controller,$this->view),$this->links);
 				$this->_page = $this->controller->page;
-			} else{
+			} else {
 				$error_name    = 'Methode of controller no found';
 				$error_content = 'function <strong>'.$this->view.'</strong> in controller no found';
 				require DIR_ASSET_TPL.'error'.DS.'404.php';
@@ -73,12 +97,13 @@ final class BelCMS extends Dispatcher
 			$buffer = ob_get_contents();
 			$this->_page = $buffer;
 		}
+
 		ob_end_clean();
 	}
 
 	private function getTemplate ($page = null)
 	{
-		$template = new Template(); // tpl perso en param (futur)
+		$template = new template(); // tpl perso en param (futur)
 		$template->page($page);
 		$this->_template = $template->render();
 	}
