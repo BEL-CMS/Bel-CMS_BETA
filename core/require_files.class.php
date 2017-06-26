@@ -34,6 +34,7 @@ class RequireFiles
 			DIR_CORE.'user.class.php',
 			DIR_CORE.'dispatcher.class.php',
 			DIR_CORE.'config.class.php',
+			DIR_CORE.'managements.class.php',
 			DIR_CORE.'widgets.class.php',
 			DIR_CORE.'comment.class.php',
 			DIR_CORE.'pages.class.php',
