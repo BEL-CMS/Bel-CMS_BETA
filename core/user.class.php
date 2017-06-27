@@ -236,7 +236,7 @@ class AutoUser
 					}
 
 					if (!is_array($v)) {
-						$return[$k] = empty($v) ? UNKNOWN : $v;
+						$return[$k] = empty($v) ? '' : $v;
 					} else {
 						$return[$k] = $v;
 					}

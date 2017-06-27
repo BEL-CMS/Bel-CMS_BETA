@@ -27,6 +27,20 @@ class Dispatcher
 		$this->view       = isset($this->links[1]) && !empty($this->links[1]) ? $this->links[1] : 'index';
 		$this->IsJquery   = self::IsJquery();
 		$this->IsEcho     = self::IsEcho();
+
+		if (!defined('GET_ACTION'))  {
+			define('GET_ACTION', $this->view);
+		}
+		if (!defined('GET_ID'))  {
+			define('GET_ID', self::RequestId());
+		}
+		if (!defined('GET_PAGE'))  {
+			define('GET_PAGE', $this->controller);
+		}
+		if (!defined('GET_PAGES'))  {
+			define('GET_PAGES', self::RequestPages());
+		}
+
 	}
 
 	private function controller ()
@@ -132,5 +146,10 @@ class Dispatcher
 			$return = true;
 		}
 		return $return;
+	}
+
+	function RequestId ()
+	{
+		return isset($this->links[2]) && !empty($this->links[2]) ? $this->links[2] : false;
 	}
 }

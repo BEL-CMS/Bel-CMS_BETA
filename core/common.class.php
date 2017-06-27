@@ -117,7 +117,6 @@ final class Common
 	# Scan directory
 	#########################################
 	public static function ScanDirectory ($dir = false) {
-
 		$return = array();
 		if ($dir) {
 			$myDirectory = @opendir($dir);

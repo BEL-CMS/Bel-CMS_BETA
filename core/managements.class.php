@@ -709,19 +709,20 @@ class Managements
 			$groups = (array) config::GetGroups();
 			$groups[0] = GUEST;
 			asort($groups);
+			$groupsObj = config::GetGroups();
 			foreach ($sql->data->access_groups as $k => $v) {
 				if ($v == 0) {
 					$access_groups[0] = GUEST;
-				} else if (array_key_exists($v, $groups)) {
-					$access_groups[$v] = $groups[$v];
+				} else if (isset($groupsObj->{$v})) {
+					$access_groups[$v] = $groupsObj->{$v};;
 				}
 			}
 			$sql->data->access_admin  = explode('|', $sql->data->access_admin);
 			foreach ($sql->data->access_admin as $k => $v) {
 				if ($v == 0) {
 					$access_admin[0] = GUEST;
-				} else if (array_key_exists($v, $groups)) {
-					$access_admin[$v] = $groups[$v];
+				} else if (isset($groupsObj->{$v})) {
+					$access_admin[$v] = $groupsObj->{$v};
 				}
 			}
 			if ($sql->data->config !== null) {
@@ -738,25 +739,38 @@ class Managements
 			$groups = (array) config::GetGroups();
 			$groups[0] = GUEST;
 			asort($groups);
+			$groups_access = array();
+			$groupsObj = config::GetGroups();
 			foreach ($sql->data->groups_access as $k => $v) {
 				if ($v == 0) {
 					$groups_access[0] = GUEST;
-				} else if (array_key_exists($v, $groups)) {
-					$groups_access[$v] = $groups[$v];
+				} else if (isset($groupsObj->{$v})) {
+					$groups_access[$v] = $groupsObj->{$v};
 				}
 			}
+			### évite une erreur si un groupe est faux
+			//$groups_access = isset($groups_access) ? $groups_access : array();
+			###
+			$groups_admin = array();
 			$sql->data->groups_admin  = explode('|', $sql->data->groups_admin);
 			foreach ($sql->data->groups_admin as $k => $v) {
 				if ($v == 0) {
 					$groups_admin[0] = GUEST;
-				} else if (array_key_exists($v, $groups)) {
-					$groups_admin[$v] = $groups[$v];
+				} else if (isset($groupsObj->{$v})) {
+					$groups_admin[$v] = $groupsObj->{$v};
 				}
 			}
+			### évite une erreur si un groupe est faux
+			//$groups_admin = isset($groups_admin) ? $groups_admin : array();
+			###
 			$pages = explode('|', $sql->data->pages);
 		} else if (GET_ACTION == 'send_page_access') {
 			$page = ROOT_MANAGEMENT.'send.php';
-			$data['active'] = (int) $_POST['active'];
+			if (isset($_POST['active'])) {
+				$data['active'] = (int) $_POST['active'];
+			} else {
+				$data['active'] = 0;
+			}
 			if (in_array(0, $_POST['access_groups'])) {
 				$data['access_groups'] = 0;
 			} else {

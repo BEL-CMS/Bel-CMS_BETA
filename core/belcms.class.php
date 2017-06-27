@@ -32,7 +32,7 @@ final class BelCMS extends Dispatcher
 	{
 		ob_start();
 
-		if ($_SESSION['MANAGEMENT'] === true && AutoUser::isLogged() === false) {
+		if (isset($_SESSION['MANAGEMENT']) && $_SESSION['MANAGEMENT'] === true && AutoUser::isLogged() === false) {
 			common::Redirect('User/Login');
 			return;
 		}

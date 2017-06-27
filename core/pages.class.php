@@ -44,8 +44,11 @@ class Pages
 	function render($filename) {
 		extract($this->vars);
 		ob_start();
-		$dir = DIR_PAGES.strtolower(get_class($this)).DS.$filename.'.php';
-		$custom = DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.lcfirst(get_class($this)).'.'.$filename.'.php';
+		$dir = defined('MANAGEMENT') ?
+			DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.$filename.'.php' : 
+			DIR_PAGES.strtolower(get_class($this)).DS.$filename.'.php';
+		$custom = defined('MANAGEMENT') ? null :
+			DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.lcfirst(get_class($this)).'.'.$filename.'.php';
 		if (is_file($custom)) {
 			require_once $custom;
 		} else if (is_file($dir)) {
@@ -55,7 +58,9 @@ class Pages
 			$error_content = '<strong>file : '.$filename.' no found : </strong>';
 			require DIR_ASSET_TPL.'error'.DS.'404.php';
 		}
+
 		$this->page = ob_get_contents();
+
 		if (ob_get_length() != 0) { 
 			ob_end_clean();
 		}
@@ -72,8 +77,11 @@ class Pages
 
 	function loadModel ($name)
 	{
-		if (is_file(DIR_PAGES.strtolower(get_class($this)).DS.'models.php')) {
-			require_once DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
+		$dir = defined('MANAGEMENT') ?
+			DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.'models.php' : 
+			DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
+		if ($dir) {
+			require_once $dir;
 			$this->$name = new $name();
 		} else {
 			ob_start();
