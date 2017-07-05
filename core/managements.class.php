@@ -316,7 +316,7 @@ class Managements
 							<ul class="nav pull-right">
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										<i class="icon-user"></i> <?=CMS_WEBSITE_NAME?> <b class="caret"></b>
+										<i class="icon-user"></i> <?=$_SESSION['user']->email?> <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
 										<li><a href="/Home"><?=BACK?></a></li>
@@ -804,7 +804,11 @@ class Managements
 			Common::redirect('access?management', 2);
 		} else if (GET_ACTION == 'send_widgets_access') {
 			$page = ROOT_MANAGEMENT.'send.php';
-			$data['activate'] = (int) $_POST['activate'];
+			if (isset($_POST['activate'])) {
+				$data['activate'] = (int) $_POST['activate'];
+			} else {
+				$data['activate'] = 0;
+			}
 			if (isset($_POST['groups_access'])) {
 				if (in_array(0, $_POST['groups_access'])) {
 					$data['groups_access'] = 0;
@@ -845,6 +849,109 @@ class Managements
 				);
 			}
 			Common::redirect('access?management', 2);
+		} else if (GET_ACTION === 'main_groups') {
+			$page = ROOT_MANAGEMENT.'main_groups.php';
+			$sql = New BDD();
+			$sql->table('TABLE_GROUPS');
+			$sql->queryAll();
+			$table = $sql->data;
+		} else if (GET_ACTION == 'edit_groups') {
+			$page = ROOT_MANAGEMENT.'edit_group.php';
+			$sql = New BDD();
+			$sql->table('TABLE_GROUPS');
+			$sql->where(array('name'=>'id', 'value'=> GET_ID));
+			$sql->queryOne();
+			$input = $sql->data;
+		} else if (GET_ACTION == 'send_edit_groups') {
+			$page = ROOT_MANAGEMENT.'send.php';
+			if (empty($_POST['name'])) {
+				$alert = array(
+					'type' => 'alert',
+					'text' => NEW_PARAMETER_ERROR
+				);
+			} else {
+				$_POST['name'] = Common::VarSecure($_POST['name'], null);
+			}
+
+			$sql = New BDD();
+			$sql->table('TABLE_GROUPS');
+			$sql->where(array('name'=>'id', 'value' => GET_ID));
+			$sql->sqlData($_POST);
+			$sql->update();
+
+			if ($sql->rowCount == 1) {
+				$alert = array(
+					'type' => 'success',
+					'text' => NEW_PARAMETER_SUCCESS
+				);
+				if (isset($_SESSION['groups'])) {
+					# Mise à jour des groups
+					unset($_SESSION['groups']);
+					Config::GetGroups();
+				}
+			} else {
+				$alert = array(
+					'type' => 'alert',
+					'text' => NEW_PARAMETER_ERROR
+				);
+			}
+			
+			Common::redirect('Access/main_groups?management', 2);
+		} else if (GET_ACTION == 'add_group') {
+			$page = ROOT_MANAGEMENT.'add_group.php';
+		} else if (GET_ACTION == 'send_add_group') {
+			$page = ROOT_MANAGEMENT.'send.php';
+
+			if (empty($_POST['name'])) {
+				$alert = array(
+					'type' => 'alert',
+					'text' => NEW_PARAMETER_ERROR
+				);
+			} else {
+				$_POST['name'] = Common::VarSecure($_POST['name'], null);
+			}
+
+			$sql = New BDD();
+			$sql->table('TABLE_GROUPS');
+			$sql->where(array('name'=>'name', 'value' => $_POST['name']));
+			$sql->queryAll();
+			if ($sql->rowCount < 0) {
+				$alert = array(
+					'type' => 'alert',
+					'text' => 'Ce nom <u>'.$_POST['name'].'</u> est déjà utilisé'
+				);
+
+				Common::redirect('Access/add_group?management', 2);
+			} else {
+				if (isset($sql)) {
+					unset($sql);
+				}
+
+				$uniqueId = self::uniqueId('TABLE_GROUPS', 'id_group');
+				$_POST['id_group'] = $uniqueId;
+
+				$sql = New BDD();
+				$sql->table('TABLE_GROUPS');
+				$sql->sqldata($_POST);
+				$sql->insert();
+
+				if ($sql->rowCount == 1) {
+					$alert = array(
+						'type' => 'success',
+						'text' => NEW_PARAMETER_SUCCESS
+					);
+					# Mise à jour des groups
+					unset($_SESSION['groups']);
+					Config::GetGroups();
+				} else {
+					$alert = array(
+						'type' => 'alert',
+						'text' => NEW_PARAMETER_ERROR
+					);
+				}
+
+				Common::redirect('Access/main_groups?management', 2);
+			}
 		}
 
 		ob_start("ob_gzhandler");
@@ -873,6 +980,19 @@ class Managements
 		}
 
 		return $return;
+	}
+
+	private function uniqueId ($table, $search_name) {
+		$search_value = rand(1, 65535);
+		$sql = New BDD();
+		$sql->table($table);
+		$sql->where(array('name'=> $search_name, 'value'=> $search_value));
+		$sql->queryAll();
+		if ($sql->rowCount == 0) {
+			return $search_value;
+		} else {
+			return self::uniqueId($table, $search_name, rand(1,65535));
+		}
 	}
 }
 class Access

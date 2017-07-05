@@ -31,6 +31,8 @@ final class Config extends Dispatcher
 			$return[mb_strtoupper($v->name)] = (string) $v->value;
 		}
 		Common::Constant($return);
+
+		self::GetGroups();
 		self::GetLangsPages();
 		self::GetLangsWidgets();
 		self::getConfigPages();

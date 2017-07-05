@@ -281,7 +281,11 @@ final class Common
 		$return = null;
 		$base_html = '<p><hr><em><big><a><b><u><s><i><div><img><pre><br><ul><li><ol><tr><th><table><tbody><thead><tfoot><colgroup><span><strong><blockquote><iframe><font><h1><h2><h3><h4><h5><h6><font><sup><sub>';
 	
-		$authorised = ($authorised == 'html') ? $base_html : '';
+		if ($authorised == 'html') {
+			$authorised = $base_html;
+		} else if ($authorised == null) {
+			$authorised = '';
+		}
 
 		if ($data != null) {
 			if (is_array($data)) {
