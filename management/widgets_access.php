@@ -106,7 +106,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 										<label class="control-label" for="label_name"><?=PAGES?></label>
 										<div class="controls">
 											<?php
-											foreach (Common::ScanDirectory(ROOT_PAGES) as $k => $v):
+											foreach (Common::ScanDirectory(DIR_PAGES) as $k => $v):
 												$checked = in_array($v, $pages) ? 'checked="cheked"' : '';
 											?>
 												<label class="checkbox">

@@ -63,7 +63,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 										<div class="controls">
 											<?php
 											foreach ($groups as $k => $v):
-												//$checked = in_array($v, $access_admin) ? 'checked="cheked"' : '';
+												$checked = in_array($v, $access_admin) ? 'checked="cheked"' : '';
 											?>
 												<label class="checkbox">
 													<input <?=$checked?> name="access_admin[]" id="label_<?=$k?>" value="<?=$k?>" type="checkbox"><?=$v?>

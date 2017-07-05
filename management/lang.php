@@ -40,4 +40,8 @@ Common::constant(array(
 	'ADMIN_CMS_JQUERY'               => 'jQuery CMS',
 	'ADMIN_CMS_JQUERY_UI'            => 'jQuery UI CMS',
 	'ADMIN_CMS_BOOTSTRAP'            => 'Bootstrap CMS',
+	#####################################
+	# _access - Admin
+	#####################################
+	'ID_GROUP'                       => 'ID : Groupe',
 ));

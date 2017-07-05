@@ -26,7 +26,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 						<!-- debut Titre full -->
 						<div class="widget-header">
 							<i class="icon-th-large"></i>
-							<h3><?=PAGES.' - ' . WIDGETS?></h3>
+							<h3><?=PAGES?></h3>
 						</div>
 						<!-- fin Titre full -->
 						<!-- debut des boutton action -->
