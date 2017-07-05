@@ -37,24 +37,23 @@ class Members extends Pages
 		$this->set($name);
 		$this->render('index');
 	}
-	public function detail ($name)
+	public function view ($name)
 	{
-		$id = Common::VarSecure($name);
-		if ($id !== false) {
-			$user = AutoUser::getInfosUser($id, true);
+		$name = Common::VarSecure($name);
+		if ($name !== false) {
+			$user = AutoUser::getInfosUser($name, true);
 			if ($user->username == DELETE) {
 				$this->error(ERROR, UNKNOW_MEMBER);
 			} else {
-				$groups = (array) Config::GetGroups();
+				$groups = (object) Config::GetGroups();
 				foreach ($user->groups as $k => $v) {
-					$group = isset($groups[$v]) ? $groups[$v] : UNKNOW_GROUP;
-					$user->groups[$k] = $group;
+					$user->groups[$k] = $groups->$v;
 				}
 				$set['members'] = $user;
 				$st2['forum'] = $this->ModelsMembers->GetLastPost($user->hash_key);
 				$this->set($set);
 				$this->set($st2);
-				$this->render('detail');
+				$this->render('view');
 			}
 		} else {
 			Common::Redirect('Members', 2);

@@ -62,7 +62,7 @@ if (!defined('CHECK_INDEX')) {
 						?>
 						<tr>
 							<td class="hidden-xs"></td>
-							<td><a href="Members/detail/<?=$v->username?>"><?=$v->username?></a></td>
+							<td><a href="Members/View/<?=$v->username?>"><?=$v->username?></a></td>
 							<td class="hidden-xs"><?=$birthday?></td>
 							<td><span class="<?=$flag?>"></span><span class="hidden-xs" style="padding-left: 10px;"><?=$country?></span></td>
 							<td class="hidden-xs"><?=$gender?></td>

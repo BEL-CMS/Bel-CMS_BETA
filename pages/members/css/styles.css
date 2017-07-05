@@ -27,10 +27,13 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     display: inline-block;
-    max-width: 100%;
+    width: 200px;
+    height: 200px;
 }
 #bel_cms_members_view_avatar > img {
-    max-width: 100%;
+	width: 100%;
+	height: 100%;
+	vertical-align: middle;
 }
 .widget {
 	margin-bottom: 50px;

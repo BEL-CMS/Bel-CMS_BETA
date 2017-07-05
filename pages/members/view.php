@@ -13,7 +13,6 @@ if (!defined('CHECK_INDEX')) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
 	exit(ERROR_INDEX);
 }
-
 ?>
 <section id="bel_cms_members_view" class="padding-top-60 padding-top-sm-30">
 	<div class="">
