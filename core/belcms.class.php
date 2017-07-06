@@ -25,12 +25,13 @@ final class BelCMS extends Dispatcher
 	{
 		parent::__construct();
 		new config;
-		new AutoUser;
 	}
 
 	function _init ()
 	{
 		ob_start();
+
+		new AutoUser;
 
 		if (isset($_SESSION['MANAGEMENT']) && $_SESSION['MANAGEMENT'] === true && AutoUser::isLogged() === false) {
 			common::Redirect('User/Login');

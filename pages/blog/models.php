@@ -21,14 +21,14 @@ class ModelsBlog
 		$management = defined('MANAGEMENT') ? true : false;
 
 		if ($management) {
-			if (isset($GLOBALS['CONFIG_PAGES']['blog']['config']['MAX_BLOG_ADMIN'])) {
-				$nbpp = (int) $GLOBALS['CONFIG_PAGES']['blog']['config']['MAX_BLOG_ADMIN'];
+			if (isset($_SESSION->blog->config->MAX_BLOGDMIN)) {
+				$nbpp = (int) $_SESSION->blog->config->MAX_BLOGDMIN;
 			} else {
 				$nbpp = (int) 25;
 			}
 		} else {
-			if (isset($GLOBALS['CONFIG_PAGES']['blog']['config']['MAX_BLOG'])) {
-				$nbpp = (int) $GLOBALS['CONFIG_PAGES']['blog']['config']['MAX_BLOG'];
+			if (isset($_SESSION->blog->config->MAX_BLOG)) {
+				$nbpp = (int) $_SESSION->blog->config->MAX_BLOG;
 			} else {
 				$nbpp = (int) 3;
 			}

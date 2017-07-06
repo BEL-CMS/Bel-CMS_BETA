@@ -17,29 +17,38 @@ if (!defined('CHECK_INDEX')) {
 class Blog extends Pages
 {
 	var $models = array('ModelsBlog');
+	private $_error = false;
 
 	function __construct()
 	{
 		parent::__construct();
+		if ($_SESSION['pages']->blog->active == 0) {
+			$this->error(INFO, 'Les blogs sont désactiver', 'info');
+			$this->_error = true;
+		}
 	}
 
 	function index ()
 	{
-		$name['blog'] = $this->ModelsBlog->GetBlog();
-		$this->set($name);
-		$this->pagination($GLOBALS['CONFIG_PAGES']['blog']['config']['MAX_BLOG'], 'blog', TABLE_PAGES_BLOG);
-		$this->render('index');
+		if ($this->_error === false) {
+			$name['blog'] = $this->ModelsBlog->GetBlog();
+			$this->set($name);
+			$this->pagination($GLOBALS['CONFIG_PAGES']['blog']['config']['MAX_BLOG'], 'blog', TABLE_PAGES_BLOG);
+			$this->render('index');
+		}
 	}
 
 	function readmore ($name = false, $id = false)
 	{
-		$name = array();
-		$name['blog'] = $this->ModelsBlog->GetBlog($id);
-		if (count($name['blog']) == 0) {
-			$this->error('Forum', 'Page inconnu...', 'danger');
-			return;
+		if ($this->_error === false) {
+			$name = array();
+			$name['blog'] = $this->ModelsBlog->GetBlog($id);
+			if (count($name['blog']) == 0) {
+				$this->error('Forum', 'Page inconnu...', 'danger');
+				return;
+			}
+			$this->set($name);
+			$this->render('readmore');
 		}
-		$this->set($name);
-		$this->render('readmore');
 	}
 }

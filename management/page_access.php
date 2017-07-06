@@ -47,13 +47,13 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 										<label class="control-label" for="label_name"><?=ACCESS_PAGE?></label>
 										<div class="controls">
 											<?php
-											foreach ($groups as $k => $v):
-												$checked = in_array($v, $access_groups) ? 'checked="cheked"' : '';
-											?>
+											foreach ($getGroups as $k => $v):
+												$chkedGroupAccess = in_array($k, $checkAccessPage) ? 'checked="checked"' : '';
+												?>
 												<label class="checkbox">
-													<input <?=$checked?> name="access_groups[]" id="label_<?=$k?>" value="<?=$k?>" type="checkbox"><?=$v?>
+													<input <?=$chkedGroupAccess?> name="access_groups[]" id="label_<?=$k?>" value="<?=$k?>" type="checkbox"><?=$v?>
 												</label>
-											<?php
+												<?php
 											endforeach;
 											?>
 										</div>
@@ -62,13 +62,14 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 										<label class="control-label" for="label_name"><?=TITLE_MANAGEMENT?></label>
 										<div class="controls">
 											<?php
-											foreach ($groups as $k => $v):
-												$checked = in_array($v, $access_admin) ? 'checked="cheked"' : '';
-											?>
+											unset($getGroups[0]);
+											foreach ($getGroups as $k => $v):
+												$chkedGroupAdmin = in_array($k, $checkAccessPage) ? 'checked="checked"' : '';
+												?>
 												<label class="checkbox">
-													<input <?=$checked?> name="access_admin[]" id="label_<?=$k?>" value="<?=$k?>" type="checkbox"><?=$v?>
+													<input <?=$chkedGroupAdmin?> name="access_admin[]" id="label_<?=$k?>" value="<?=$k?>" type="checkbox"><?=$v?>
 												</label>
-											<?php
+												<?php
 											endforeach;
 											?>
 										</div>
@@ -85,7 +86,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											?>
 												<label class="checkbox">
 													<span class="span3"><?=$name?></span>
-													<input <?=$checked?> name="config[<?=$k?>]" type="text" value="<?=$v?>">
+													<input name="config[<?=$k?>]" type="text" value="<?=$v?>">
 												</label>
 											<?php
 											endforeach;

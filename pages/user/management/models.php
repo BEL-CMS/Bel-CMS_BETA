@@ -14,7 +14,7 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ModelManagementUser
+class ModelsManagementUser
 {
 	protected function GetUsers ($hash_key = false)
 	{

@@ -17,23 +17,29 @@ if (!defined('CHECK_INDEX')) {
 class Team extends Pages
 {
 	var $models = array('ModelsTeam');
-
+	private $_error = false;
 	#####################################
 	# Start Class
 	#####################################
 	function __construct()
 	{
 		parent::__construct();
+		if ($_SESSION['pages']->team->active == 0) {
+			$this->error(INFO, 'La page team est désactiver', 'info');
+			$this->_error = true;
+		}
 	}
 	public function index ()
 	{
-		foreach ($this->ModelsTeam->GetGroups() as $k => $v) {
-			if ($v->id_group != 3) {
-				$members[$v->name] = $this->ModelsTeam->GetUsers($v->id_group);
+		if ($this->_error === false) {
+			foreach ($this->ModelsTeam->GetGroups() as $k => $v) {
+				if ($v->id_group != 3) {
+					$members[$v->name] = $this->ModelsTeam->GetUsers($v->id_group);
+				}
 			}
+			$data['members'] = $members;
+			$this->set($data);
+			$this->render('index');
 		}
-		$data['members'] = $members;
-		$this->set($data);
-		$this->render('index');
 	}
 }

@@ -36,28 +36,56 @@ final class Config extends Dispatcher
 		self::GetLangsPages();
 		self::GetLangsWidgets();
 		self::getConfigPages();
+		self::getConfigWidgets();
 	}
 
-	private function getConfigPages ()
+	public static function getConfigPages ()
 	{
-		if (defined('CONFIG_PAGES')) {
-			return;
-		} else {
-			$sql = New BDD;
-			$sql->table('TABLE_PAGES_CONFIG');
-			$sql->fields(array('name', 'active', 'access_groups', 'access_admin', 'config'));
-			$sql->queryAll();
-			$data = $sql->data;
-			define('CONFIG_PAGES', true);
-			foreach ($data as $k => $v) {
-				$GLOBALS['CONFIG_PAGES'][$v->name] = array(
-					'active' => $v->active,
-					'groups' => $v->access_groups,
-					'admin'  => $v->access_admin,
-					'config' => Common::transformOpt($v->config)
-				);
-			}
+		if (isset($_SESSION['pages'])) {
+			unset($_SESSION['pages']);
 		}
+		$sql = New BDD;
+		$sql->table('TABLE_PAGES_CONFIG');
+		$sql->fields(array('name', 'active', 'access_groups', 'access_admin', 'config'));
+		$sql->queryAll();
+		$data = $sql->data;
+		foreach ($data as $k => $v) {
+			$GLOBALS['CONFIG_PAGES'][$v->name] = (object) array(
+				'active' => $v->active,
+				'groups' => $v->access_groups,
+				'admin'  => $v->access_admin,
+				'config' => Common::transformOpt($v->config)
+			);
+		}
+		$_SESSION['pages'] = (object) $GLOBALS['CONFIG_PAGES'];
+		return $_SESSION['pages'];
+	}
+
+	public static function getConfigWidgets ()
+	{
+		if (isset($_SESSION['widgets'])) {
+			unset($_SESSION['widgets']);
+		}
+		$return = array();
+
+		$sql = New BDD();
+		$sql->table('TABLE_WIDGETS');
+		$sql->fields(array('name', 'title', 'groups_access', 'groups_admin', 'activate' , 'pos', 'orderby', 'pages'));
+		$sql->queryAll();
+		$results = $sql->data;
+		unset($sql);
+
+		foreach ($results as $k => $v) {
+			$return[$v->name] = $v;
+		}
+
+		foreach ($return as $k => $v) {
+			$return[$k]->groups_access = explode('|', $v->groups_access);
+			$return[$k]->groups_admin = explode('|', $v->groups_admin);
+		}
+		
+		$_SESSION['widgets'] = (object) $return;
+		return $return;
 	}
 
 	private function GetLangsPages ()
@@ -114,26 +142,25 @@ final class Config extends Dispatcher
 		}
 	}
 
-	public static function GetGroups ()
+	public static function GetGroups ($reset = false)
 	{
-		if (isset($_SESSION['groups']) && !empty($_SESSION['groups'])) {
-			return $_SESSION['groups'];
-		} else {
-			$return = array();
-
-			$sql = New BDD();
-			$sql->table('TABLE_GROUPS');
-			$sql->fields(array('name', 'id_group'));
-			$sql->queryAll();
-			$results = $sql->data;
-			unset($sql);
-
-			foreach ($results as $k => $v) {
-				$return[(int) $v->id_group] = (string) ucfirst($v->name);
-			}
-			
-			$_SESSION['groups'] = (object) $return;
-			return $return;		
+		if (isset($_SESSION['groups'])) {
+			unset($_SESSION['groups']);
 		}
+		$return = array();
+
+		$sql = New BDD();
+		$sql->table('TABLE_GROUPS');
+		$sql->fields(array('name', 'id_group'));
+		$sql->queryAll();
+		$results = $sql->data;
+		unset($sql);
+
+		foreach ($results as $k => $v) {
+			$return[(int) $v->id_group] = (string) ucfirst($v->name);
+		}
+		
+		$_SESSION['groups'] = (object) $return;
+		return $return;
 	}
 }

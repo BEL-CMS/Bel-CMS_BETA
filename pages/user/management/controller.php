@@ -14,7 +14,7 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ControllerManagementUser extends ModelManagementUser
+class ControllerManagementUser extends ModelsManagementUser
 {
 	public 	$data,
 			$view,
@@ -33,7 +33,7 @@ class ControllerManagementUser extends ModelManagementUser
 	public function index ()
 	{
 		$this->pagination = Common::Pagination($this->nbpp, GET_PAGE, TABLE_USERS);
-		$this->data = self::GetUsers();
+		$this->data = parent::GetUsers();
 	}
 
 	public function edit ()

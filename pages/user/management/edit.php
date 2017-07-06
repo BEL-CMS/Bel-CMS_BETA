@@ -74,7 +74,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<div class="controls">
 												<select class="span6" name="main_groups">
 												<?php
-												foreach ($GLOBALS['GROUPS'] as $k => $v):
+												foreach (config::GetGroups() as $k => $v):
 													$selected = $this->data['private']->main_groups == $k ? 'selected' : '';
 													?>
 													<option <?=$selected?> value="<?=$k?>"><?=$v?></option>
@@ -88,7 +88,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<label class="control-label"><?=GROUPS?> :</label>
 											<div class="controls">
 												<?php
-												foreach ($GLOBALS['GROUPS'] as $k => $v):
+												foreach (config::GetGroups() as $k => $v):
 													$groups  = explode('|', $this->data['private']->groups);
 													$checked = in_array($k, $groups) ? 'checked="checked"' : '';
 													?>

@@ -53,31 +53,34 @@ class Managements
 	function __construct()
 	{
 		new Access();
-
+		# reset de la session des pages
+		Config::getConfigPages(true);
+		# reset la session des groupes
+		Config::GetGroups(true);
+		# vérifie le login management
 		if (!isset($_SESSION['LOGIN_MANAGEMENT'])) {
 			$_SESSION['LOGIN_MANAGEMENT'] = false;
 		}
-
+		# vérifie si l'user est loguer
 		if (!AutoUser::ReturnUser()) {
 			Common::redirect('user/login');
 			exit;
 		}
-
+		# Inclu le fichier lang
 		require_once ROOT_MANAGEMENT.DS.'lang.php';
-
+		# Inclu de model (sql)
 		$this->model = New ModelManagement;
-
+		# Inclu les variables autorisé
 		foreach ($this->dir as $key) {
 			$this->$key = self::$key();
 		}
 
-		$this->get_action = trim(constant('GET_ACTION'));
-		$this->id   = Common::secureRequest(constant('GET_ID'));
-		$this->page = strtolower(constant('GET_PAGE'));
-
-		$this->return = self::viewManagement();
-
+		$this->get_action     = trim(constant('GET_ACTION'));
+		$this->id             = Common::secureRequest(constant('GET_ID'));
+		$this->page           = strtolower(constant('GET_PAGE'));
+		$this->return         = self::viewManagement();
 		$this->pageManagement = ROOT_MANAGEMENT.'page'.DS;
+
 	}
 	#####################################
 	# Login
@@ -705,29 +708,18 @@ class Managements
 			$sql->where(array('name' => 'id', 'value' => (int) GET_ID));
 			$sql->queryOne();
 			$pageName = defined(strtoupper($sql->data->name)) ? constant(strtoupper($sql->data->name)) : ucfirst($sql->data->name);
+
 			$sql->data->access_groups = explode('|', $sql->data->access_groups);
-			$groups = (array) config::GetGroups();
-			$groups[0] = GUEST;
-			asort($groups);
-			$groupsObj = config::GetGroups();
-			foreach ($sql->data->access_groups as $k => $v) {
-				if ($v == 0) {
-					$access_groups[0] = GUEST;
-				} else if (isset($groupsObj->{$v})) {
-					$access_groups[$v] = $groupsObj->{$v};;
-				}
-			}
 			$sql->data->access_admin  = explode('|', $sql->data->access_admin);
-			foreach ($sql->data->access_admin as $k => $v) {
-				if ($v == 0) {
-					$access_admin[0] = GUEST;
-				} else if (isset($groupsObj->{$v})) {
-					$access_admin[$v] = $groupsObj->{$v};
-				}
-			}
+
+			$getGroups = Config::GetGroups();
+			$getGroups[0] = GUEST;
+			$checkAccessPage = $sql->data->access_groups;
+
 			if ($sql->data->config !== null) {
 				$config = Common::transformOpt($sql->data->config);
 			}
+
 		} else if (GET_ACTION == 'widgets_access') {
 			$page = ROOT_MANAGEMENT.'widgets_access.php';
 			$sql = New BDD();
@@ -735,34 +727,14 @@ class Managements
 			$sql->where(array('name' => 'id', 'value' => (int) GET_ID));
 			$sql->queryOne();
 			$pageName = defined(strtoupper($sql->data->name)) ? constant(strtoupper($sql->data->name)) : ucfirst($sql->data->name);
-			$sql->data->groups_access = explode('|', $sql->data->groups_access);
-			$groups = (array) config::GetGroups();
-			$groups[0] = GUEST;
-			asort($groups);
-			$groups_access = array();
-			$groupsObj = config::GetGroups();
-			foreach ($sql->data->groups_access as $k => $v) {
-				if ($v == 0) {
-					$groups_access[0] = GUEST;
-				} else if (isset($groupsObj->{$v})) {
-					$groups_access[$v] = $groupsObj->{$v};
-				}
-			}
-			### évite une erreur si un groupe est faux
-			//$groups_access = isset($groups_access) ? $groups_access : array();
-			###
-			$groups_admin = array();
-			$sql->data->groups_admin  = explode('|', $sql->data->groups_admin);
-			foreach ($sql->data->groups_admin as $k => $v) {
-				if ($v == 0) {
-					$groups_admin[0] = GUEST;
-				} else if (isset($groupsObj->{$v})) {
-					$groups_admin[$v] = $groupsObj->{$v};
-				}
-			}
-			### évite une erreur si un groupe est faux
-			//$groups_admin = isset($groups_admin) ? $groups_admin : array();
-			###
+
+			$sql->data->access_groups = explode('|', $sql->data->groups_access);
+			$sql->data->access_admin  = explode('|', $sql->data->groups_admin);
+
+			$getGroups = Config::GetGroups();
+			$getGroups[0] = GUEST;
+			$checkAccessPage = $sql->data->access_groups;
+
 			$pages = explode('|', $sql->data->pages);
 		} else if (GET_ACTION == 'send_page_access') {
 			$page = ROOT_MANAGEMENT.'send.php';
@@ -818,14 +790,14 @@ class Managements
 			} else {
 				$data['groups_access'] = 0;
 			}
-			$data['title']        = Common::VarSecure($_POST['title'], '');
+			$data['title'] = Common::VarSecure($_POST['title'], '');
 			if (isset($_POST['groups_admin'])) {
 				$data['groups_admin'] = implode('|', $_POST['groups_admin']);
 			} else {
 				$data['groups_admin'] = 1; 
 			}
-			$data['pos']          = $_POST['pos'];
-			$data['orderby']      = (int) $_POST['orderby'];
+			$data['pos']      = $_POST['pos'];
+			$data['orderby']  = (int) $_POST['orderby'];
 			if (isset($_POST['pages'])) {
 				$data['pages'] = implode('|', $_POST['pages']);
 			} else {
@@ -842,6 +814,7 @@ class Managements
 					'type' => 'success',
 					'text' => NEW_PARAMETER_SUCCESS
 				);
+				Config::getConfigPages(true);
 			} else {
 				$alert = array(
 					'type' => 'alert',
@@ -934,6 +907,40 @@ class Managements
 				$sql->table('TABLE_GROUPS');
 				$sql->sqldata($_POST);
 				$sql->insert();
+
+				if ($sql->rowCount == 1) {
+					$alert = array(
+						'type' => 'success',
+						'text' => NEW_PARAMETER_SUCCESS
+					);
+					# Mise à jour des groups
+					unset($_SESSION['groups']);
+					Config::GetGroups();
+				} else {
+					$alert = array(
+						'type' => 'alert',
+						'text' => NEW_PARAMETER_ERROR
+					);
+				}
+
+				Common::redirect('Access/main_groups?management', 2);
+			}
+
+		} else if (GET_ACTION == 'del_groups') {
+			$page = ROOT_MANAGEMENT.'send.php';
+
+			if (GET_ID == 0 or GET_ID == 1 or GET_ID == 2) {
+				$alert = array(
+					'type' => 'alert',
+					'text' => 'Groupe impossible à supprimer'
+				);
+				Common::redirect('Access/main_groups?management', 2);
+			} else {
+
+				$sql = New BDD();
+				$sql->table('TABLE_GROUPS');
+				$sql->where(array('name'=>'id_group', 'value' => GET_ID));
+				$sql->delete();
 
 				if ($sql->rowCount == 1) {
 					$alert = array(

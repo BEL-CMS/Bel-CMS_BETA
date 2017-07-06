@@ -20,7 +20,7 @@ class ModelsShoutbox
 	{
 		$return = null;
 
-		if (isset($GLOBALS['CONFIG_PAGES']['shoutbox']['config']['MAX_MSG'])) {
+		if (isset($_SESSION['widgets']->shoutbox->config['MAX_MSG'])) {
 			$nbpp = (int) $GLOBALS['CONFIG_PAGES']['shoutbox']['config']['MAX_MSG'];
 		} else {
 			$nbpp = (int) 10;

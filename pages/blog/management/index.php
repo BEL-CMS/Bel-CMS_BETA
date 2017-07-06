@@ -25,7 +25,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 						<!-- debut Titre full -->
 						<div class="widget-header">
 							<i class="icon-th-large"></i>
-							<h3><?=USERS?></h3>
+							<h3><?=BLOG?></h3>
 						</div>
 						<!-- fin Titre full -->
 						<!-- debut du contenue -->
@@ -33,8 +33,8 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 							<!-- debut des boutton action -->
 							<div class="form-actions">
 								<button class="btn active"><i class="icon-home"></i> <?=HOME?></button>
-								<button class="btn" onclick="window.location.href='User/NewUser?management'"><i class="icon-plus"></i> <?=ADD?></button>
-								<button class="btn" onclick="window.location.href='User/Parameter?management'"><i class="icon-wrench"></i> <?=PARAMETERS?></button>
+								<button class="btn" onclick="window.location.href='Blog/New?management'"><i class="icon-plus"></i> <?=ADD?></button>
+								<button class="btn" onclick="window.location.href='Blog/parameter?management'"><i class="icon-wrench"></i> <?=PARAMETER?></button>
 							</div>
 							<!-- fin des boutton action -->
 							<table class="table table-striped table-bordered">
@@ -42,8 +42,8 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 									<tr>
 										<th>#</th>
 										<th><?=NAME?></th>
-										<th><?=MAIL?></th>
-										<th><?=LAST_VISIT?></th>
+										<th><?=DATE?></th>
+										<th><?=USERNAME?></th>
 										<th class="td-actions"> </th>
 									</tr>
 								</thead>
@@ -53,11 +53,11 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 										?>
 										<tr>
 											<td><?=$v->id?></td>
-											<td><?=$v->username?></td>
-											<td><?=$v->email?></td>
-											<td><?=$v->last_visit?></td>
+											<td><?=$v->name?></td>
+											<td><?=$v->date_create?></td>
+											<td><?=$v->author->username?></td>
 											<td class="td-actions">
-												<a href="User/Edit/<?=$v->hash_key?>?management" class="btn btn-small btn-success">
+												<a href="Blog/Edit/<?=$v->id?>?management" class="btn btn-small btn-success">
 													<i class="btn-icon-only icon-edit"> </i>
 												</a>
 												<a href="#modal_<?=$v->id?>" role="button" data-toggle="modal" class="btn btn-danger btn-small">
@@ -66,14 +66,14 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 												<div id="modal_<?=$v->id?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 													<div class="modal-header">
 														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-														<h3 id="myModalLabel">Suppression de l'utilisateur</h3>
+														<h3 id="myModalLabel">Suppression du blog</h3>
 													</div>
 													<div class="modal-body">
-														<p>Etes vous certain de l'utilisateur : <?=$v->username?></p>
+														<p>Etes vous certain de supprimer le blog : <?=$v->name?></p>
 													</div>
 													<div class="modal-footer">
 														<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
-														<a href="User/Del/<?=$v->hash_key?>?management" class="btn btn-primary">Supprimer</a>
+														<a href="Blog/Del/<?=$v->id?>?management" class="btn btn-primary">Supprimer</a>
 													</div>
 												</div>
 											</td>
@@ -84,7 +84,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 								</tbody>
 							</table>
 							<!-- debut pagination -->
-							
+							<?=$this->pagination?>
 							<!-- debut pagination -->
 						</div>
 						<!-- fin du contenue -->

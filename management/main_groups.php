@@ -77,7 +77,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 												</div>
 												<div class="modal-footer">
 													<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
-													<a href="Access/del_groups/<?=$v->id?>?management" class="btn btn-primary">Supprimer</a>
+													<a href="Access/del_groups/<?=$v->id_group?>?management" class="btn btn-primary">Supprimer</a>
 												</div>
 											</div>
 										</td>

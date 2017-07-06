@@ -17,6 +17,7 @@ if (!defined('CHECK_INDEX')) {
 class Members extends Pages
 {
 	var $models = array('ModelsMembers');
+	private $_error = false;
 
 	public function __construct()
 	{
@@ -26,52 +27,62 @@ class Members extends Pages
 		} else {
 			$nbpp = (int) 10;
 		}
+		if ($_SESSION['pages']->members->active == 0) {
+			$this->error(INFO, 'La page membres est désactiver', 'info');
+			$this->_error = true;
+		}
 	}
 
 	public function index ()
 	{
-		$name = array();
-		$where = "WHERE `groups` LIKE '%3%'";
-		$this->pagination($this->nbpp, GET_PAGE, TABLE_USERS, $where);
-		$name['members'] = $this->ModelsMembers->GetUsers(3);
-		$this->set($name);
-		$this->render('index');
+		if ($this->_error === false) {
+			$name = array();
+			$where = "WHERE `groups` LIKE '%3%'";
+			$this->pagination($this->nbpp, GET_PAGE, TABLE_USERS, $where);
+			$name['members'] = $this->ModelsMembers->GetUsers(3);
+			$this->set($name);
+			$this->render('index');
+		}
 	}
 	public function view ($name)
 	{
-		$name = Common::VarSecure($name);
-		if ($name !== false) {
-			$user = AutoUser::getInfosUser($name, true);
-			if ($user->username == DELETE) {
-				$this->error(ERROR, UNKNOW_MEMBER);
-			} else {
-				$groups = (object) Config::GetGroups();
-				foreach ($user->groups as $k => $v) {
-					$user->groups[$k] = $groups->$v;
+		if ($this->_error === false) {
+			$name = Common::VarSecure($name);
+			if ($name !== false) {
+				$user = AutoUser::getInfosUser($name, true);
+				if ($user->username == DELETE) {
+					$this->error(ERROR, UNKNOW_MEMBER);
+				} else {
+					$groups = (object) Config::GetGroups();
+					foreach ($user->groups as $k => $v) {
+						$user->groups[$k] = $groups->$v;
+					}
+					$set['members'] = $user;
+					$st2['forum'] = $this->ModelsMembers->GetLastPost($user->hash_key);
+					$this->set($set);
+					$this->set($st2);
+					$this->render('view');
 				}
-				$set['members'] = $user;
-				$st2['forum'] = $this->ModelsMembers->GetLastPost($user->hash_key);
-				$this->set($set);
-				$this->set($st2);
-				$this->render('view');
+			} else {
+				Common::Redirect('Members', 2);
+				$this->view = array(ERROR, 'Aucun Membres', 'red');
 			}
-		} else {
-			Common::Redirect('Members', 2);
-			$this->view = array(ERROR, 'Aucun Membres', 'red');
 		}
 	}
 	public function AddFriend ()
 	{
-		$id = constant('GET_ID');
-		$user = User::getInfosUser($id, true);
-		if ($user['username'] == DELETE) {
-			$_SESSION['JQUERY'] = array('type' => 'danger', 'text' => UNKNOW_MEMBER);
-		} else {
-			parent::addFriendSQL ($user['hash_key']);
-			if (parent::addFriendSQL ($user['hash_key'] == null)) {
-				$_SESSION['JQUERY'] = array('type' => 'danger', 'text' => ADD_FRIEND_ERROR);
+		if ($this->_error === false) {
+			$id = constant('GET_ID');
+			$user = User::getInfosUser($id, true);
+			if ($user['username'] == DELETE) {
+				$_SESSION['JQUERY'] = array('type' => 'danger', 'text' => UNKNOW_MEMBER);
 			} else {
-				$_SESSION['JQUERY'] = array('type' => 'success', 'text' => ADD_FRIEND_SUCCESS);
+				parent::addFriendSQL ($user['hash_key']);
+				if (parent::addFriendSQL ($user['hash_key'] == null)) {
+					$_SESSION['JQUERY'] = array('type' => 'danger', 'text' => ADD_FRIEND_ERROR);
+				} else {
+					$_SESSION['JQUERY'] = array('type' => 'success', 'text' => ADD_FRIEND_SUCCESS);
+				}
 			}
 		}
 	}
