@@ -22,8 +22,8 @@ class Members extends Pages
 	public function __construct()
 	{
 		parent::__construct();
-		if (isset($GLOBALS['CONFIG_PAGES']['members']['config']['MAX_USER'])) {
-			$nbpp = (int) $GLOBALS['CONFIG_PAGES']['members']['config']['MAX_USER'];
+		if (isset($_SESSION['pages']->members->config['MAX_USER'])) {
+			$nbpp = (int) $_SESSION['pages']->members->config['MAX_USER'];
 		} else {
 			$nbpp = (int) 10;
 		}
@@ -53,9 +53,9 @@ class Members extends Pages
 				if ($user->username == DELETE) {
 					$this->error(ERROR, UNKNOW_MEMBER);
 				} else {
-					$groups = (object) Config::GetGroups();
+					$groups = Config::GetGroups();
 					foreach ($user->groups as $k => $v) {
-						$user->groups[$k] = $groups->$v;
+						$user->groups[$k] = $groups[$v];
 					}
 					$set['members'] = $user;
 					$st2['forum'] = $this->ModelsMembers->GetLastPost($user->hash_key);
