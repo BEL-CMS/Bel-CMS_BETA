@@ -14,7 +14,7 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ControllerManagementShoutbox extends ModelManagementShoutobx
+class ControllerManagementShoutbox extends ModelsManagementShoutobx
 {
 	public 	$data,
 			$view,

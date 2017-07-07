@@ -39,7 +39,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 								<tbody>
 									<?php
 									foreach ($this->data as $k => $v):
-										$username = User::getNameAvatar($v->hash_key);
+										$username = AutoUser::getNameAvatar($v->hash_key);
 										?>
 										<tr>
 											<td style="text-align: center;"><?=$v->id?></td>

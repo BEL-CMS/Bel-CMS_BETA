@@ -15,7 +15,7 @@ if (!defined('CHECK_INDEX')) {
 }
 
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
-	$username = User::getNameAvatar($this->data->hash_key);
+	$username = AutoUser::getNameAvatar($this->data->hash_key);
 ?>
 <div class="main">
 	<div class="main-inner">

@@ -66,7 +66,7 @@ class ModelsShoutbox
 			$return['text']	= 'Message envoyer avec succès';
 			$return['type']	= 'success';
 		} else {
-			$return['text']	= 'Problème d'\'accès à la BDD';
+			$return['text']	= 'Problème d\'accès à la BDD';
 			$return['type']	= 'error';		
 		}
 

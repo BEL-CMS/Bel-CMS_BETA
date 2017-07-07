@@ -14,9 +14,9 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-include ROOT_PAGES.'shoutbox'.DS.'model.php';
+include DIR_PAGES.'shoutbox'.DS.'models.php';
 
-class ModelManagementShoutobx extends ModelPagesShoutbox
+class ModelsManagementShoutobx extends ModelsShoutbox
 {
 	protected function sendEditMsg ($id, $msg)
 	{
