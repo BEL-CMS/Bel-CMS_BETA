@@ -65,11 +65,14 @@ switch ($table) {
 			UNIQUE KEY `name` (`name`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `active`, `access_groups`, `access_admin`, `config`) VALUES
-			(NULL, 'blog', 1, '0', '2|3', 'MAX_BLOG=2|MAX_BLOG_ADMIN=25'),
-			(NULL, 'members', 1, '0', '2|4', 'MAX_USER=10'),
-			(NULL, 'team', 1, '0', '3', 'MAX_USER=10'),
-			(NULL, 'shoutbox', 1, '0', '2|3', 'MAX_MSG=15');";
+			(NULL, 'blog', 1, '0', '1', 'MAX_BLOG=2|MAX_BLOG_ADMIN=25'),
+			(NULL, 'members', 1, '0', '1', 'MAX_USER=10'),
+			(NULL, 'team', 1, '0', '1', 'MAX_USER=10'),
+			(NULL, 'shoutbox', 1, '0', '1', 'MAX_MSG=15'),
+			(NULL, 'forum', 1, '0', '1', ''),
+			(NULL, 'user', 1, '0', '1', 'MAX_USER=5|MAX_USER_ADMIN=20');";
 	break;
+
 	case 'groups':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -77,13 +80,15 @@ switch ($table) {
 			`name` varchar(32) NOT NULL,
 			`id_group` int(2) NOT NULL,
 			PRIMARY KEY (`id`),
-			UNIQUE KEY `name` (`name`)
+			UNIQUE KEY `name` (`name`),
+			UNIQUE KEY `id_group` (`id_group`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."`
  (`id`, `name`, `id_group`) VALUES
 			('', 'Administrateur', 1),
 			('', 'Membres', 2);";
 	break;
+
 	case 'mails_blacklist':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -140,6 +145,7 @@ switch ($table) {
 			(NULL, 'mailhazard'),
 			(NULL, 'mail');";
 	break;
+
 	case 'page_blog':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -156,6 +162,7 @@ switch ($table) {
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `rewrite_name`, `name`, `date_create`, `author`, `content`, `tags`, `cat`) VALUES
 			(NULL, 'FIRST_NEW_BEL_CMS', 'first news bel-cms', '".date('Y-m-d H:i:s')."', 'Administrateur', '<p>Bienvenue sur le C.M.S <a href=\"https://bel-cms.be\" title=\"BEL-CMS\">BEL-CMS</a>, votre installation s\'est, à priori, bien déroulée</p><p>Vous pouvez dès à présent administrer votre site web via l\'administration</p><p>Merci de nous signaler sur <a href=\"http://bel-cms.be\" title=\"BEL-CMS\">bel-cms.be</a> si vous avez rencontre le moindre souci ou si vous avez des suggestions à nous faire savoir.</p>', '', '');";
 	break;
+
 	case 'page_forum':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -169,6 +176,7 @@ switch ($table) {
 			UNIQUE KEY `title` (`title`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
+
 	case 'page_forum_post':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -183,6 +191,7 @@ switch ($table) {
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
+
 	case 'page_forum_posts':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -196,6 +205,7 @@ switch ($table) {
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
+
 	case 'page_forum_threads':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -209,6 +219,7 @@ switch ($table) {
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
+
 	case 'page_shoutbox':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -221,6 +232,7 @@ switch ($table) {
 			FULLTEXT KEY `msg` (`msg`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
+
 	case 'page_users':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -243,6 +255,7 @@ switch ($table) {
 			UNIQUE KEY `name` (`username`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
+
 	case 'page_users_profils':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -263,6 +276,7 @@ switch ($table) {
 			UNIQUE KEY `hash_key` (`hash_key`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
+
 	case 'page_users_social':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
@@ -277,6 +291,7 @@ switch ($table) {
 			UNIQUE KEY `hash_key` (`hash_key`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
+
 	case 'widgets':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
