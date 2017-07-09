@@ -190,7 +190,9 @@ class ModelsManagementUser
 			$userProfil['birthday']  = Common::transformDate($data['birthday'], false, 'Y-m-d');
 			$userProfil['country']   = $data['country'];
 			$userProfil['gender']    = $data['gender'];
-			$userProfil['info_text'] = Common::VarSecure($data['info_text']);
+			if (!empty($data['info_text'])) {
+				$userProfil['info_text'] = Common::VarSecure($data['info_text']);
+			}
 			// SQL UPDATE USER PROFIL
 			$sql = New BDD();
 			$sql->table('TABLE_USERS_PROFILS');
@@ -362,13 +364,15 @@ class ModelsManagementUser
 				'username'          => $data['username'],
 				'email'             => $data['email'],
 				'password'          => password_hash($data['password'], PASSWORD_DEFAULT),
+				'avatar'            => '/assets/imagery/default_avatar.jpg',
 				'hash_key'          => md5(uniqid(rand(), true)),
 				'date_registration' => date('Y-m-d H:i:s'),
-				'last_visit'        => '0000-00-00 00:00:00',
-				'groups'            => (int) 3,
-				'main_groups'       => (int) 3,
+				'last_visit'        => date('Y-m-d H:i:s'),
+				'groups'            => (int) 2,
+				'main_groups'       => (int) 2,
 				'valid'             => (int) 1,
-				'ip'                => '127.0.0.1'
+				'ip'                => '127.0.0.1',
+				'token'             => ''
 			);
 			$insert = New BDD();
 			$insert->table('TABLE_USERS');
@@ -384,16 +388,27 @@ class ModelsManagementUser
 				'list_avatar'  => '',
 				'config'       => 0,
 				'info_text'    => '',
-				'birthday'     => date('Y-m-d')
+				'birthday'     => date('Y-m-d'),
+				'country'      => '',
+				'hight_avatar' => '',
+				'friends'      => ''
 			);
 			$insert = New BDD();
 			$insert->table('TABLE_USERS_PROFILS');
 			$insert->sqlData($dataProfils);
 			$insert->insert();
 			// INSERT BDD SOCIAL
+			$dataSocial  = array(
+				'hash_key'   => $dataUser['hash_key'],
+				'facebook'   => '',
+				'linkedin'   => '',
+				'twitter'    => '',
+				'googleplus' => '',
+				'pinterest'  => ''
+			);
 			$insert = New BDD();
 			$insert->table('TABLE_USERS_SOCIAL');
-			$insert->sqlData(array('hash_key'=> $dataUser['hash_key']));
+			$insert->sqlData($dataSocial);
 			$insert->insert();
 			// RETURN
 			$return = array(

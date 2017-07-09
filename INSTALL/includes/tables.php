@@ -244,7 +244,6 @@ switch ($table) {
 			`date_registration` datetime NOT NULL,
 			`last_visit` datetime NOT NULL,
 			`website` varchar(128) NOT NULL,
-			`groups` text NOT NULL,
 			`main_groups` text NOT NULL,
 			`valid` int(1) NOT NULL,
 			`ip` varchar(255) NOT NULL,
