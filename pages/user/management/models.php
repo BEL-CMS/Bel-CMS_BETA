@@ -199,7 +199,9 @@ class ModelsManagementUser
 			$sql->update();
 			$userSocial = array();
 			foreach (self::ListSocial() as $name) {
-				$userSocial[$name] = Common::VarSecure($data[$name], '');
+				if (!empty($data[$name])) {
+					$userSocial[$name] = Common::VarSecure($data[$name], '');
+				}
 			}
 			// SQL UPDATE USER SOCIAL
 			$sql = New BDD();

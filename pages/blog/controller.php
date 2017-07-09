@@ -33,7 +33,7 @@ class Blog extends Pages
 		if ($this->_error === false) {
 			$name['blog'] = $this->ModelsBlog->GetBlog();
 			$this->set($name);
-			$this->pagination($GLOBALS['CONFIG_PAGES']['blog']['config']['MAX_BLOG'], 'blog', TABLE_PAGES_BLOG);
+			$this->pagination($_SESSION['pages']->blog->config['MAX_BLOG'], 'blog', TABLE_PAGES_BLOG);
 			$this->render('index');
 		}
 	}

@@ -20,11 +20,16 @@
 					<a class="blog-nav-item" href="Forum">Forum</a>
 					<a class="blog-nav-item" href="Downloads">Downloads</a>
 					<a class="blog-nav-item" href="User">User</a>
+					<a class="blog-nav-item" style="float: right" href="?Management">Management</a>
 				</nav>
 			</div>
 		</div>
 
 		<div class="container">
+
+			<div class="col-lg-12" style="margin: 20px 0">
+				<?php $this->LoadWidgets('top') ?>
+			</div>
 
 			<div class="blog-header">
 				<h1 class="blog-title">BEL-CMS</h1>

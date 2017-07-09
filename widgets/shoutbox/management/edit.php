@@ -60,7 +60,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 
 									<div class="form-actions">
 										<input type="submit" class="btn btn-primary" value="<?=SAVE?>">
-										<a href="#" onclick="javascript:history.back();" class="btn"><?=CANCEL?></a>
+										<a href="shoutbox?Management" class="btn"><?=CANCEL?></a>
 									</div>
 								</form>
 							</div>

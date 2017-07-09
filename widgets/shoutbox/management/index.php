@@ -38,6 +38,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 								</thead>
 								<tbody>
 									<?php
+									if (!empty($this->data)):
 									foreach ($this->data as $k => $v):
 										$username = AutoUser::getNameAvatar($v->hash_key);
 										?>
@@ -67,6 +68,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 										</tr>
 										<?php
 									endforeach;
+									endif;
 									?>
 								</tbody>
 							</table>

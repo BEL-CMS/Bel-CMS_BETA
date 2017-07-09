@@ -64,7 +64,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<?php
 											unset($getGroups[0]);
 											foreach ($getGroups as $k => $v):
-												$chkedGroupAdmin = in_array($k, $checkAccessPage) ? 'checked="checked"' : '';
+												$chkedGroupAdmin = in_array($k, $checkAccessAdmin) ? 'checked="checked"' : '';
 												?>
 												<label class="checkbox">
 													<input <?=$chkedGroupAdmin?> name="access_admin[]" id="label_<?=$k?>" value="<?=$k?>" type="checkbox"><?=$v?>

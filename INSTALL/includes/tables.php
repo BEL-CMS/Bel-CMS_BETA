@@ -83,10 +83,9 @@ switch ($table) {
 			UNIQUE KEY `name` (`name`),
 			UNIQUE KEY `id_group` (`id_group`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
-		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."`
- (`id`, `name`, `id_group`) VALUES
-			('', 'Administrateur', 1),
-			('', 'Membres', 2);";
+		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `id_group`) VALUES
+			(NULL, 'Administrateur', 1),
+			(NULL, 'Membres', 2);";
 	break;
 
 	case 'mails_blacklist':
@@ -308,8 +307,8 @@ switch ($table) {
 			UNIQUE KEY `name` (`name`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `title`, `groups_access`, `groups_admin`, `activate`, `pos`, `orderby`, `pages`) VALUES
-		 	(NULL, 'users', 'Utilisateurs', '0', '3', '1', 'right', '1', ''),
-		 	(NULL, 'shoutbox', 'T\'chat', '0', '3', '1', 'top', '1', '');";
+		 	(NULL, 'users', 'Utilisateurs', '0', '1', '1', 'right', '1', ''),
+		 	(NULL, 'shoutbox', 'T\'chat', '0', '1', '1', 'top', '1', '');";
 	break;
 }
 

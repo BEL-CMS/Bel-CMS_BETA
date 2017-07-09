@@ -99,7 +99,9 @@ final class BelCMS extends Dispatcher
 			$this->_page = $buffer;
 		}
 
-		ob_end_clean();
+		if (ob_get_length() != 0) { 
+			ob_end_clean();
+		}
 	}
 
 	private function getTemplate ($page = null)

@@ -712,9 +712,10 @@ class Managements
 			$sql->data->access_groups = explode('|', $sql->data->access_groups);
 			$sql->data->access_admin  = explode('|', $sql->data->access_admin);
 
-			$getGroups = Config::GetGroups();
-			$getGroups[0] = GUEST;
-			$checkAccessPage = $sql->data->access_groups;
+			$getGroups        = Config::GetGroups();
+			$getGroups[0]     = GUEST;
+			$checkAccessPage  = $sql->data->access_groups;
+			$checkAccessAdmin = $sql->data->access_admin;
 
 			if ($sql->data->config !== null) {
 				$config = Common::transformOpt($sql->data->config);
@@ -731,9 +732,10 @@ class Managements
 			$sql->data->access_groups = explode('|', $sql->data->groups_access);
 			$sql->data->access_admin  = explode('|', $sql->data->groups_admin);
 
-			$getGroups = Config::GetGroups();
-			$getGroups[0] = GUEST;
-			$checkAccessPage = $sql->data->access_groups;
+			$getGroups        = Config::GetGroups();
+			$getGroups[0]     = GUEST;
+			$checkAccessPage  = $sql->data->access_groups;
+			$checkAccessAdmin = $sql->data->access_admin;
 
 			$pages = explode('|', $sql->data->pages);
 		} else if (GET_ACTION == 'send_page_access') {
@@ -1009,11 +1011,11 @@ class Access
 	function __construct()
 	{
 		$this->groups = self::GetGroups();
-		Access::GetConfigPages();
 	}
 
 	private function GetGroups ()
 	{
+		/*
 		$return = array();
 
 		$BDD = New BDD();
@@ -1028,10 +1030,11 @@ class Access
 		foreach ($results as $k => $v) {
 			$return[(int) $v->id_group] = (string) ucfirst($v->name);
 		}
+		*/
 
-		return $return;
+		return $_SESSION['groups'];
 	}
-
+/*
 	public static function GetConfigPages ($page = false, $purge = false)
 	{
 		$returnPage = false;
@@ -1135,7 +1138,7 @@ class Access
 		return $return;
 
 	}
-
+*/
 	public static function AccessManagementWidgets ($name = false)
 	{
 		$access = (bool) false;

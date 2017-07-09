@@ -82,6 +82,15 @@ function error_fatal()
 		if ($type > 0) error_handler($type, $message, $fichier, $ligne, $e);
 	}
 }
+class pdoDbException extends PDOException {
+	public function __construct(PDOException $e) {
+		if(strstr($e->getMessage(), 'SQLSTATE[')) {
+			preg_match('/SQLSTATE\[(\w+)\] \[(\w+)\] (.*)/', $e->getMessage(), $matches);
+			$this->code = ($matches[1] == 'HT000' ? $matches[2] : $matches[1]);
+			$this->message = $matches[3];
+		}
+	}
+}
 if (DEBUG === true) {
 	error_reporting(E_ALL);
 	ini_set('error_reporting', E_ALL);

@@ -18,17 +18,17 @@ class ModelsBlog
 {
 	public function GetBlog ($id = false)
 	{
-		$management = defined('MANAGEMENT') ? true : false;
+		$management = isset($_SESSION['MANAGEMENT']) && $_SESSION['MANAGEMENT'] === true ? true : false;
 
 		if ($management) {
-			if (isset($_SESSION->blog->config->MAX_BLOGDMIN)) {
-				$nbpp = (int) $_SESSION->blog->config->MAX_BLOGDMIN;
+			if (isset($_SESSION['pages']->blog->config['MAX_BLOGDMIN'])) {
+				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOGDMIN'];
 			} else {
 				$nbpp = (int) 25;
 			}
 		} else {
-			if (isset($_SESSION->blog->config->MAX_BLOG)) {
-				$nbpp = (int) $_SESSION->blog->config->MAX_BLOG;
+			if (isset($_SESSION['pages']->blog->config['MAX_BLOG'])) {
+				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG'];
 			} else {
 				$nbpp = (int) 3;
 			}

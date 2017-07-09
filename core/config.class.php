@@ -50,14 +50,15 @@ final class Config extends Dispatcher
 		$sql->queryAll();
 		$data = $sql->data;
 		foreach ($data as $k => $v) {
-			$GLOBALS['CONFIG_PAGES'][$v->name] = (object) array(
+			
+			$_SESSION['pages'][$v->name] = (object) array(
 				'active' => $v->active,
 				'groups' => $v->access_groups,
 				'admin'  => $v->access_admin,
-				'config' => Common::transformOpt($v->config)
 			);
+			$_SESSION['pages'][$v->name]->config = empty($v->config) ? '' : Common::transformOpt($v->config);
 		}
-		$_SESSION['pages'] = (object) $GLOBALS['CONFIG_PAGES'];
+		$_SESSION['pages'] = (object) $_SESSION['pages'];
 		return $_SESSION['pages'];
 	}
 

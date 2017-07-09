@@ -63,7 +63,7 @@
 					<label for="password">Mot de passe</label>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon3">*****</span>
-						<input name="password" required="required" type="password" class="form-control" id="password" aria-describedby="basic-addon3">
+						<input name="password" type="password" class="form-control" id="password" aria-describedby="basic-addon3">
 					</div>
 					<div class="margin_top_2 alert alert-info alert-dismissable">Il s'agit du mot de passe de votre identifiant qui vous permet de vous connecter à votre base de donnée MySQL.</div>
 					<hr>
