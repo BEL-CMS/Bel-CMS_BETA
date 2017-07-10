@@ -138,6 +138,8 @@ if (!defined('CHECK_INDEX')) {
 	'ORDER'                  => 'Ordre',
 	'ACCESS_PAGE'            => 'Accès page',
 	'CONFIG'                 => 'Configuration',
+	'PARAMETER'              => 'Paramètre',
+	'PARAMETERS'             => 'Paramètres',
 	#####################################
 	# Nom des modules
 	#####################################

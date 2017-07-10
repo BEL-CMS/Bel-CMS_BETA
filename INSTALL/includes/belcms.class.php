@@ -173,14 +173,13 @@ function insertUserBDD ()
 				`hash_key` ,
 				`date_registration` ,
 				`last_visit` ,
-				`website` ,
 				`groups` ,
 				`main_groups` ,
 				`valid` ,
 				`ip` ,
 				`token`
 			) VALUES (
-				NULL , '".$users['username']."', '".$users['password']."', '".$users['email']."', '', '".$users['hash_key']."', NOW() , NOW() , '', '1', '1', '1', '".$users['ip']."', ''
+				NULL , '".$users['username']."', '".$users['password']."', '".$users['email']."', '', '".$users['hash_key']."', NOW() , NOW() , '1', '1', '1', '".$users['ip']."', ''
 			);";
 
 	$sql[1]  = "INSERT INTO `".$_SESSION['prefix']."page_users_profils` (

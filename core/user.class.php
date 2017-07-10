@@ -241,17 +241,37 @@ class AutoUser
 						$return[$k] = $v;
 					}
 
-					$directoryAvatar = ROOT.'uploads/users/'.$hash_key;
-
-					if (!file_exists($directoryAvatar)) {
-						if (!mkdir($directoryAvatar, 0777, true)) {
-							throw new Exception('Failed to create directory');
+					$directoryUploads = ROOT.'uploads';
+					if (is_dir($directoryUploads) === false) {
+						if (!mkdir($directoryUploads, 0777)) {
+							throw new Exception('Failed to create directory : '.$directoryUploads);
 						} else {
-							$fopen = fopen($directoryAvatar.'/index.html', 'a+');
+							$fopen = fopen($directoryUploads.DS.'index.html', 'a+');
+							$fclose = fclose($fopen);
+						}
+					}
+
+					$directoryUsers = ROOT.'uploads'.DS.'users';
+					if (is_dir($directoryUsers) === false) {
+						if (!mkdir($directoryUsers, 0777)) {
+							throw new Exception('Failed to create directory : '.$directoryUsers);
+						} else {
+							$fopen = fopen($directoryUsers.DS.'index.html', 'a+');
+							$fclose = fclose($fopen);
+						}
+					}
+
+					$directoryUser = ROOT.'uploads/users/'.$hash_key;
+					if (is_dir($directoryUser) === false) {
+						if (!mkdir($directoryUser, 0777)) {
+							throw new Exception('Failed to create directory : '.$directoryUser);
+						} else {
+							$fopen = fopen($directoryUser, 'a+');
 							$fclose = fclose($fopen);
 						}
 					}
 				}
+
 				$return['list_avatar'] = array();
 				$getListAvatar = Common::scanFiles('uploads/users/'.$hash_key.'/', array('gif', 'jpg', 'jpeg', 'png'), true);
 				foreach ($getListAvatar as $valueListAvatar) {

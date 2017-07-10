@@ -55,7 +55,7 @@ class Pages
 			require_once $dir;
 		} else {
 			$error_name    = 'file no found';
-			$error_content = '<strong>file : '.$filename.' no found : </strong>';
+			$error_content = '<p><strong>file : '.$filename.' no found</strong><p>';
 			require DIR_ASSET_TPL.'error'.DS.'404.php';
 		}
 

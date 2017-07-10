@@ -61,8 +61,8 @@ class Widgets
 
 	function loadModel ($name)
 	{
-		if (is_file(DIR_WIDGETS.get_class($this).DS.'models.php')) {
-			require_once DIR_WIDGETS.get_class($this).DS.'models.php';
+		if (is_file(DIR_WIDGETS.strtolower(get_class($this)).DS.'models.php')) {
+			require_once DIR_WIDGETS.strtolower(get_class($this)).DS.'models.php';
 			$this->$name = new $name();
 		} else {
 			ob_start();

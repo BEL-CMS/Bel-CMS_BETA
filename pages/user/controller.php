@@ -48,7 +48,7 @@ class User extends Pages
 	{
 		if ($this->_error === false) {
 			if (AutoUser::isLogged() === false) {
-				$this->render('Login');
+				$this->render('login');
 			} else {
 				$d = array();
 				$d['user'] = AutoUser::ReturnUser();
