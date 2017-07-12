@@ -64,7 +64,7 @@ class AutoUser
 			if (isset($_COOKIE['BEL-CMS-COOKIE']) AND !empty($_COOKIE['BEL-CMS-COOKIE'])) {
 				// Passe en tableaux les valeurs du $_COOKIE
 				$cookie = explode('###', $_COOKIE['BEL-CMS-COOKIE']);
-				$name = $cookie[0]; $hash_key = $cookie[1]; $date = $cookie[2]; $hash = $cookie[3];
+				$name   = $cookie[0]; $hash_key = $cookie[1]; $date = $cookie[2]; $hash = $cookie[3];
 				// Verifie le hash_key est bien de 32 caractere
 				if ($hash_key AND strlen($hash_key) == 32) {
 					self::login($name, $hash, $hash_key);
@@ -222,7 +222,7 @@ class AutoUser
 							$arrayHash = explode('|', $v);
 							$v = array();
 							foreach ($arrayHash as $key => $value) {
-								$get = User::getNameAvatar($value);
+								$get = AutoUser::getNameAvatar($value);
 								if ($get) {
 									$v[$key]['name'] = $get->username;
 									$v[$key]['avatar'] = $get->avatar;
@@ -463,7 +463,7 @@ class AutoUser
 					$insert->sqlData(array('hash_key'=> $data['hash_key']));
 					$insert->insert();
 
-					User::login($_POST['username'],$_POST['password']);
+					AutoUser::login($_POST['username'],$_POST['password']);
 
 					$return['text']     = 'Enregistrement en cours...';
 					$return['type']     = 'success';

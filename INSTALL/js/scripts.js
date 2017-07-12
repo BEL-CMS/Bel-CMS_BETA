@@ -24,6 +24,7 @@ jQuery.noConflict();
 						'page_users',
 						'page_users_profils',
 						'page_users_social',
+						'visitors'
 						'widgets'
 					);
 	var nbTables = tables.length;

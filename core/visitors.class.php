@@ -14,94 +14,310 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-final class Visitors
+final class Visitors extends Dispatcher
 {
+	private $visitorHour,
+			$visitorMinute,
+			$visitorDay,
+			$visitorMonth,
+			$visitorYear,
+			$visitorBrowser,
+			$visitorRefferer,
+			$visitedPage,
+			$visitedUser;
 
-	function __construct()
+	function __construct ()
 	{
-		self::DeleteOldVisitor();
-		self::UpdateVisit();
-		self::InsertIpVisitorDay();
+		parent::__construct();
+		# Var
+		$this->visitorHour     = date('G');
+		$this->visitorMinute   = date('i');
+		$this->visitorDay      = date('d');
+		$this->visitorMonth    = date('m');
+		$this->visitorYear     = date('Y');
+		$this->visitorBrowser  = self::getBrowserType()->name;
+		$this->visitorRefferer = gethostbyname(Common::GetIp());
+		$this->visitedPage     = $this->controller;
+		if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER[ "HTTP_USER_AGENT" ] )) {
+			$this->visitedUser = 'Bot';
+		} else {
+			$this->visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : ''; 
+		}
+		# data insert
+		$this->insertBdd();
 	}
 
-	private function DeleteOldVisitor ()
-	{
-		$time = time() - (60 * CMS_VISITORS_TIME);
-		$sql = New BDD();
+	private function insertBdd () {
+		# Where datetime - 5min
+		$where[] = array(
+			'name' => 'visitor_ip', 
+			'value'=> Common::GetIp()
+		);
+		$where[] = array(
+			'name' => 'visitor_day', 
+			'value'=> $this->visitorDay
+		);
+		$where[] = array(
+			'name' => 'visitor_month', 
+			'value'=> $this->visitorMonth
+		);
+		$where[] = array(
+			'name' => 'visitor_year', 
+			'value'=> $this->visitorYear
+		);
+		# table count <1
+		$sql = New BDD;
 		$sql->table('TABLE_VISITORS');
-		$sql->where(array('name' => 'date_page' , 'value' => $time, 'op' => '<'));
-		$sql->delete();
-	}
-
-	private function UpdateVisit ()
-	{
-		$sql = New BDD();
-		$sql->table('TABLE_VISITORS');
-		$sql->where(array('name' => 'ip' , 'value' => Common::GetIp()));
-		$sql->queryOne();
-		$count = $sql->rowCount;
-		unset($sql);
-
-		if ($count == 0) {
-			$sql = New BDD();
+		$sql->where($where);
+		$sql->queryAll();
+		$return = count($sql->data); 					
+		unset($sql); unset($where);
+		# Mise à jour
+		$this->return = $return;
+		if ($return == 0) {
+			# data insert
+			$insert['visitor_ip']       = Common::GetIp();
+			$insert['visitor_user']     = $this->visitedUser;
+			$insert['visitor_browser']  = $this->visitorBrowser;
+			$insert['visitor_hour']     = $this->visitorHour;
+			$insert['visitor_minute']   = $this->visitorMinute;
+			$insert['visitor_date']     = date("Y-m-d H:i:s");
+			$insert['visitor_day']      = $this->visitorDay;
+			$insert['visitor_month']    = $this->visitorMonth;
+			$insert['visitor_year']     = $this->visitorYear;
+			$insert['visitor_refferer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+			$insert['visitor_page']     = $this->visitedPage;
+			# SQL Insert
+			$sql = New BDD;
 			$sql->table('TABLE_VISITORS');
-			$insert['date_page'] = time();
-			if (REQUEST_AJAX === false && REQUEST_ECHO === false) {
-				$insert['page'] = Common::translate(GET_PAGE);
-			}
-			if (isset($_SESSION['user']->username)) {
-				$insert['main_group'] = (int) $_SESSION['user']->main_groups;
-			} else {
-				$insert['main_group'] = 0;
-			}
-			$insert['ip'] = Common::GetIp();
 			$sql->sqlData($insert);
 			$sql->insert();
 		} else {
-			$sql = New BDD();
-			$sql->table('TABLE_VISITORS');
-			$sql->where(array('name' => 'ip' , 'value' => Common::GetIp()));
-			$update['date_page'] = time();
-			if (REQUEST_AJAX === false && REQUEST_ECHO === false) {
-				$update['page']  = Common::translate(GET_PAGE);
-			}
-			if (isset($_SESSION['user']->username)) {
-				$update['main_group'] = (int) $_SESSION['user']->main_groups;
+			$where[] = array(
+				'name'  => 'visitor_ip',
+				'value' => Common::GetIp()
+			);
+			$where[] = array(
+				'name' => 'visitor_day', 
+				'value'=> date('d')
+			);
+			$where[] = array(
+				'name' => 'visitor_month', 
+				'value'=> date('m')
+			);
+			$where[] = array(
+				'name' => 'visitor_year', 
+				'value'=> date('Y')
+			);
+			# data update
+			if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER[ "HTTP_USER_AGENT" ] )) {
+				$visitedUser = 'Bot';
 			} else {
-				$update['main_group'] = 0;
+				$visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : ''; 
 			}
+			$update['visitor_user']   = $visitedUser;
+			$update['visitor_hour']   = $this->visitorHour;
+			$update['visitor_hour']   = $this->visitorHour;
+			$update['visitor_minute'] = $this->visitorMinute;
+			$update['visitor_page']   = $this->visitedPage;
+			$update['visitor_date']   = date("Y-m-d H:i:s");
+			# SQL Update
+			$sql = New BDD;
+			$sql->table('TABLE_VISITORS');
+			$sql->where($where);
 			$sql->sqlData($update);
 			$sql->update();
 		}
 	}
-	private function InsertIpVisitorDay ()
-	{
-		$ip   = (Common::GetIp());
-		$date = date('d-m-Y');
-		$file = DIR_VISITORS.'visitors_'.$date.'.php';
-		$ini  = New iniParser($file);
-		$ini->set('VISITORS', $ip);
-		$ini->save();
+
+	public static function getVisitorDay () {
+		$sql = New BDD;
+		$sql->table('TABLE_VISITORS');
+		$sql->where(array(
+			'name'  => 'visitor_day',
+			'value' => date('d')
+		));
+		$sql->queryAll();
+		$data   = $sql->data;
+		$count  = count($sql->data);
+
+		$return = (object) array(
+			'data'  => $data,
+			'count' => $count
+		);
+
+		return $return;
 	}
 
-	public static function GetVisitorsDay ()
-	{
-		$date = date('d-m-Y');
-		$file = DIR_VISITORS.'visitors_'.$date.'.php';
-		$ini  = New iniParser($file);
-		$get = $ini->get('VISITORS');
-		return count($get);
+	public static function getVisitorConnected () {
+		# connected current time < -5min
+		$sql = New BDD;
+		$sql->table('TABLE_VISITORS');
+		$sql->where(array(
+			'name'  => 'visitor_date',
+			'value' => date('Y-m-d H:i:s', strtotime('-5 min')),
+			'op'    => ' >= '
+		));
+		$sql->queryAll();
+		$data   = $sql->data;
+		$count  = count($sql->data);
+
+		$return = (object) array(
+			'data'  => $data,
+			'count' => $count
+		);
+
+		return $return;
 	}
-	public static function GetVisitorsLasterday()
-	{
-		$date = date('d-m-Y', strtotime(date('Y-m-d').' - 1 DAY'));
-		$file = DIR_VISITORS.'visitors_'.$date.'.php';
-		if (is_file($file)) {
-			$ini  = New iniParser($file);
-			$get = $ini->get('VISITORS');
-		} else {
-			$get = null;
+
+	public static function getVisitorYesterday () {
+		# connected current time < -5min
+		$sql = New BDD;
+		$sql->table('TABLE_VISITORS');
+		$sql->where(array(
+			'name'  => 'visitor_date',
+			'value' => date('d-m-Y', strtotime('-1 days'))
+		));
+		$sql->queryAll();
+		$data   = $sql->data;
+		$count  = count($sql->data);
+
+		$return = (object) array(
+			'data'  => $data,
+			'count' => $count
+		);
+		return $return;
+	}
+
+	private function selfURL () {
+		$s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
+		$protocol = self::strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/").$s;
+		$port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
+		return $protocol."://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
+	}
+
+	private function strleft ($s1, $s2) {
+		return substr($s1, 0, strpos($s1, $s2));
+	}
+
+	private function getBrowserType () {
+		$u_agent  = $_SERVER['HTTP_USER_AGENT'];
+		$bname    = 'Unknown';
+		$platform = 'Unknown';
+		$version  = '';
+
+		if (preg_match('/linux/i', $u_agent)) {
+			$platform = 'linux';
 		}
-		return count($get);
+		else if (preg_match('/macintosh|mac os x/i', $u_agent)) {
+			$platform = 'mac';
+		}
+		else if (preg_match('/windows|win32/i', $u_agent)) {
+			$platform = 'windows';
+		}
+	   
+		// Next get the name of the useragent yes seperately and for good reason
+		if (preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
+		{
+			$bname = 'Internet Explorer';
+			$ub = "MSIE";
+		}
+		else if(preg_match('/Firefox/i',$u_agent))
+		{
+			$bname = 'Mozilla Firefox';
+			$ub = "Firefox";
+		}
+		else if(preg_match('/Chrome/i',$u_agent))
+		{
+			$bname = 'Google Chrome';
+			$ub = "Chrome";
+		}
+		else if(preg_match('/Safari/i',$u_agent))
+		{
+			$bname = 'Apple Safari';
+			$ub = "Safari";
+		}
+		else if(preg_match('/Opera/i',$u_agent))
+		{
+			$bname = 'Opera';
+			$ub = "Opera";
+		}
+		else if(preg_match('/Netscape/i',$u_agent))
+		{
+			$bname = 'Netscape';
+			$ub = "Netscape";
+		}
+	   
+		$known = array('Version', $ub, 'other');
+		$pattern = '#(?<browser>' . join('|', $known) .
+		')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+		if (!preg_match_all($pattern, $u_agent, $matches)) { }
+	   
+		$i = count($matches['browser']);
+		if ($i != 1) {
+			if (strripos($u_agent,"Version") < strripos($u_agent,$ub)) {
+				$version= $matches['version'][0];
+			} else {
+				$version= $matches['version'][1];
+			}
+		}
+		else {
+			$version= $matches['version'][0];
+		}
+
+		if ($version==null || $version=="") {$version="?";}
+
+		return (object) array(
+			'userAgent' => $u_agent,
+			'name'      => $bname,
+			'version'   => $version,
+			'platform'  => $platform,
+			'pattern'   => $pattern
+		);
 	}
+
+	public static function paginate ($start,$limit,$total,$filePath,$otherParams) {
+
+		$allPages = ceil($total/$limit);
+
+		$currentPage = floor($start/$limit) + 1;
+
+		$pagination = "";
+		if ($allPages>10) {
+			$maxPages = ($allPages>9) ? 9 : $allPages;
+
+			if ($allPages>9) {
+				if ($currentPage>=1&&$currentPage<=$allPages) {
+					$pagination .= ($currentPage>4) ? " ... " : " ";
+
+					$minPages = ($currentPage>4) ? $currentPage : 5;
+					$maxPages = ($currentPage<$allPages-4) ? $currentPage : $allPages - 4;
+
+					for($i=$minPages-4; $i<$maxPages+5; $i++) {
+						$pagination .= ($i == $currentPage) ? "<a href=\"#\"
+						class=\"current\">".$i."</a> " : "<a href=\"".$filePath."?
+						start=".(($i-1)*$limit).$otherParams."\">".$i."</a> ";
+					}
+					$pagination .= ($currentPage<$allPages-4) ? " ... " : " ";
+				} else {
+					$pagination .= " ... ";
+				}
+			}
+		} else {
+			for ($i=1; $i<$allPages+1; $i++) {
+				$pagination .= ($i==$currentPage) ? "<a href=\"#\" class=\"current\">".$i."</a> "
+				: "<a href=\"".$filePath."?start=".(($i-1)*$limit).$otherParams."\">".$i."</a> ";
+			}
+		}
+
+		if ($currentPage>1) $pagination = "<a href=\"".$filePath."?
+		start=0".$otherParams."\">FIRST</a> <a href=\"".$filePath."?
+		start=".(($currentPage-2)*$limit).$otherParams."\"><</a> ".$pagination;
+		if ($currentPage<$allPages) $pagination .= "<a href=\"".$filePath."?
+		start=".($currentPage*$limit).$otherParams."\">></a> <a href=\"".$filePath."?
+		start=".(($allPages-1)*$limit).$otherParams."\">LAST</a>";
+
+		echo '<div class="pages">' . $pagination . '</div>';
+	}
+
 }

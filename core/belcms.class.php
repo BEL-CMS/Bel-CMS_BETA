@@ -24,7 +24,14 @@ final class BelCMS extends Dispatcher
 	function __construct ()
 	{
 		parent::__construct();
-		new config;
+		new Config;
+		if ($this->controller != 'shoutbox') {
+			new Visitors;
+		}
+
+		# debug(Visitors::getVisitorYesterday()); # ok
+		# debug(Visitors::getVisitorDay()); # ok
+		# debug(Visitors::getVisitorConnected()); # ok
 	}
 
 	function _init ()

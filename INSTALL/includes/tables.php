@@ -290,6 +290,24 @@ switch ($table) {
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 	break;
 
+	case 'visitors':
+		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
+		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
+			`id` int(11) NOT NULL,
+			`visitor_user` varchar(255) DEFAULT NULL,
+			`visitor_ip` varchar(32) DEFAULT NULL,
+			`visitor_browser` varchar(255) DEFAULT NULL,
+			`visitor_hour` smallint(2) NOT NULL DEFAULT '0',
+			`visitor_minute` smallint(2) NOT NULL DEFAULT '0',
+			`visitor_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			`visitor_day` varchar(2) NOT NULL,
+			`visitor_month` varchar(2) NOT NULL,
+			`visitor_year` smallint(4) NOT NULL,
+			`visitor_refferer` varchar(255) DEFAULT NULL,
+			`visitor_page` varchar(255) DEFAULT NULL
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+	break;
+
 	case 'widgets':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
