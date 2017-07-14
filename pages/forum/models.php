@@ -160,7 +160,7 @@ class ModelsForum
 					$access = true;
 					break;
 				} else {
-					if (in_array($v_access, $_SESSION['USER']->groups)) {
+					if (in_array($v_access, $_SESSION['user']->groups)) {
 						$access = true;
 						break;
 					}
@@ -305,6 +305,7 @@ class ModelsForum
 	}
 	public function SubmitThread($id, $data)
 	{
+		# teste si utilisateur est connecté
 		if (AutoUser::ReturnUser() === false) {
 			$return['msg']  = ERROR_LOGIN;
 			$return['type'] = 'info';
@@ -312,7 +313,7 @@ class ModelsForum
 		} else {
 			$user = AutoUser::ReturnUser();
 		}
-
+		# check ID du forum
 		if ($_SESSION['NEWTHREADS'] != $id) {
 			$return['msg']  = ERROR_ID;
 			$return['type'] = 'warning';
@@ -320,26 +321,29 @@ class ModelsForum
 		} else {
 			unset($_SESSION['NEWTHREADS']);
 		}
-
-		$insert['content']    = Common::VarSecure($data['info_text']);
+		# les données à inserer
+		$insert['id']         = NULL;
+		$insert['id_threads'] = (int) $id;
+		$insert['title']      = strip_tags(fixUrl($data['title']));
 		$insert['author']     = $user->hash_key;
 		$insert['options']    = 'lock=0|like=0|report=0|pin=0|view=0|post=0';
-		$insert['id_threads'] = (int) $id;
-		$insert['title']      = strip_tags($data['title']);
-
-		$BDD = New BDD();
-		$BDD->table('TABLE_FORUM_POST');
-		$BDD->sqlData($insert);
-		$BDD->insert();
-
-		if ($BDD->rowCount == 1) {
+		$insert['date_post']  = date("Y-m-d H:i:s");
+		$insert['attachment'] = '';
+		$insert['content']    = Common::VarSecure(trim($data['content']));
+		# insert en BDD
+		$sql = New BDD();
+		$sql->table('TABLE_FORUM_POST');
+		$sql->sqlData($insert);
+		$sql->insert();
+		# verifie si c'est bien inserer
+		if ($sql->rowCount == 1) {
 			$return['msg']  = 'Enregistrement du nouveau post en cours...';
 			$return['type'] = 'success';
 		} else {
 			$return['msg']  = ERROR_BDD;
 			$return['type'] = 'error';
 		}
-
+		# return le resulat
 		return $return;
 	}
 	public function LastThreads($id = false)

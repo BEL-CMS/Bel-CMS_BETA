@@ -67,7 +67,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<label class="control-label" for="label_icon"><?=ICON?></label>
 											<div class="controls">
 												<label class="controls">
-													<input name="icon" class="span6" id="label_icon" type="text" placeholder="fa fa-code"> <a href="http://fontawesome.io/">icon</a>
+													<input name="icon" class="span6" id="label_icon" type="text" placeholder="fa fa-code"> <a target="_blank" href="http://fontawesome.io/icons/">icon</a>
 												</label>
 											</div>
 										</div>

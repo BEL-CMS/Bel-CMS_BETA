@@ -38,7 +38,7 @@ $new  = (AutoUser::ReturnUser() !== false) ? '<a href="Forum/NewThread/'.$id.'" 
 			<div class="forum-group <?=$lock?>">
 				<div class="forum-icon hidden-xs"><i class="fa fa-comments"></i><?=$labelWarning?></div>
 				<div class="forum-title">
-					<h4><a href="<?=$link;?>"><?=$v->title?></a></h4>
+					<h4><a href="<?=$link;?>"><?=defixUrl($v->title)?></a></h4>
 					<p><?=BY?> <a data-toggle="popuser" title="<?=$v->author?>"><?=$v->author?></a> <?=ON?> <?=Common::transformDate($v->date_post, true, 'd M Y # H:i'); ?></p>
 				</div>
 				<div class="forum-activity hidden-xs">

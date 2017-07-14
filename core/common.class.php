@@ -69,7 +69,7 @@ final class Common
 			'Ò' => 'o', 'Ó' => 'o', 'Ô' => 'o', 'Ö' => 'o', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'ö' => 'o',
 			'Ù' => 'u', 'Ú' => 'u', 'Û' => 'u', 'Ü' => 'u', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'µ' => 'u',
 			'Œ' => 'oe', 'œ' => 'oe',
-			'$' => 's', '&' => '_AND_');
+			'$' => 's', '&' => '_AND_', '?' => '%3F');
 		$return = strtr($d, $chr);
 		$return = preg_replace('#[^A-Za-z0-9]+#', '_', $return);
 		$return = trim($return, '-');
@@ -918,17 +918,24 @@ final class Common
 		$text = $text." ";
 		$text = substr($text,0,$chars);
 		$text = substr($text,0,strrpos($text,' '));
-		$text = $text."...";
+		if (count($text) < $chars) {
+			$text = $text."...";
+		}
 		return $text;
 	}
 
 }
 
 
-function debug ($data = null, $exitAfter = false)
-{
+function debug ($data = null, $exitAfter = false) {
 	return Common::Debug($data, $exitAfter);
 }
 function cesure_href($d) { 
 	return '<a href="' . $d[1] . '" title="' . $d[1] . '" >[Lien]</a>';      
+}
+function fixUrl ($d) {
+	return strtr($d, array('?' => '%3F'));
+}
+function defixUrl ($d) {
+	return strtr($d, array('%3F' => '?'));
 }

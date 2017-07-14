@@ -78,7 +78,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<label class="control-label"><?=GROUPS?></label>
 											<div class="controls">
 												<?php
-												foreach ($GLOBALS['GROUPS'] as $k => $v):
+												foreach (config::GetGroups() as $k => $v):
 													?>
 													<input class="span1" id="label_groups_<?=$k?>" type="checkbox" name="groups[]" value="<?=$k?>"><span for="label_groups_<?=$k?>"><?=$v?></span><br>
 													<?php

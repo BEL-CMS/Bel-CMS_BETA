@@ -21,7 +21,7 @@ if (!defined('CHECK_INDEX')) {
 		foreach ($forum as $k => $v):
 			if ($k == 0):
 				?>
-					<h4 class="no-padding-top"><?=$v->title?> <small><?=$v->subtitle?></small></h4>
+					<h4 class="no-padding-top"><?=defixUrl($v->title)?> <small><?=$v->subtitle?></small></h4>
 				</div>
 				<?php
 			else:
@@ -42,12 +42,12 @@ if (!defined('CHECK_INDEX')) {
 					$span_profil .= '<a href="Members/View/'.$v_threads->lastThreads->author.'"><i class="fa fa-user"></i> '.$v_threads->lastThreads->author.'</a> <i class="fa fa-clock-o"></i> '.$v_threads->lastThreads->date_post;
 					$span_profil .= '</span>';
 					$profil = $v_threads->lastThreads->author == UNKNOWN ? '' : $span_profil;
-					$none   = $v_threads->lastThreads->title == NO_POST ? '<h4 style="line-height:35px">'.NO_POST.'</h4>' : '<h4><a href="Forum/Post/'.$v_threads->lastThreads->title.'/'.$v_threads->lastThreads->id.'">'.$v_threads->lastThreads->title.'</a></h4>';
+					$none   = $v_threads->lastThreads->title == NO_POST ? '<h4 style="line-height:35px">'.NO_POST.'</h4>' : '<h4><a href="Forum/Post/'.$v_threads->lastThreads->title.'/'.$v_threads->lastThreads->id.'">'.defixUrl($v_threads->lastThreads->title).'</a></h4>';
 				?>
 					<div class="forum-group <?=$lock?>">
 						<div class="forum-icon hidden-xs"><i class="<?=$v_threads->icon?>"></i></div>
 						<div class="forum-title">
-							<h4><a href="<?=$link?>"><?=$v_threads->title?></a></h4>
+							<h4><a href="<?=$link?>"><?=defixUrl($v_threads->title)?></a></h4>
 							<p><?=$v_threads->subtitle?></p>
 						</div>
 						<div class="forum-activity visible-md visible-lg">

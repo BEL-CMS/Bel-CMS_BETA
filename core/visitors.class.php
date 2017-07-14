@@ -135,7 +135,8 @@ final class Visitors extends Dispatcher
 		$sql->table('TABLE_VISITORS');
 		$sql->where(array(
 			'name'  => 'visitor_day',
-			'value' => date('d')
+			'value' => date('d'),
+			'op'    => ' = '
 		));
 		$sql->queryAll();
 		$data   = $sql->data;
@@ -171,12 +172,14 @@ final class Visitors extends Dispatcher
 	}
 
 	public static function getVisitorYesterday () {
-		# connected current time < -5min
+		# connected current time < - 1 day
+		$visitor_last = date('d', strtotime('-1 days'));
+
 		$sql = New BDD;
 		$sql->table('TABLE_VISITORS');
 		$sql->where(array(
-			'name'  => 'visitor_date',
-			'value' => date('d-m-Y', strtotime('-1 days'))
+			'name'  => 'visitor_day',
+			'value' => $visitor_last
 		));
 		$sql->queryAll();
 		$data   = $sql->data;
@@ -186,6 +189,7 @@ final class Visitors extends Dispatcher
 			'data'  => $data,
 			'count' => $count
 		);
+
 		return $return;
 	}
 

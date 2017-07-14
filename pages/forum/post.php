@@ -24,7 +24,7 @@ if (!empty($post)):
 			if ($k == 0):
 		?>
 			<div class="headline">
-				<h4><i class="fa fa-comments"></i> <?=$v->title?></h4>
+				<h4><i class="fa fa-comments"></i> <?=defixUrl($v->title)?></h4>
 				<div class="pull-right">
 					<a href="#" class="btn btn-default btn-icon-left"><i class="fa fa-lock"></i> <?=LOCK_THREAD?></a>
 				</div>

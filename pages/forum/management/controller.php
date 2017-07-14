@@ -14,7 +14,7 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ControllerManagementForum extends ModelManagementForum
+class ControllerManagementForum extends ModelsManagementForum
 {
 	public 	$data,
 			$view,

@@ -30,6 +30,7 @@ class Forum extends Pages
 			$this->_error = true;
 		}
 	}
+
 	function index ()
 	{
 		if ($this->_error === false) {
@@ -95,10 +96,10 @@ class Forum extends Pages
 				$this->set($d);
 				$this->render('post');
 			}
-
 		}
 
 	}
+
 	public function NewThread ($name)
 	{
 		if ($this->_error === false) {
@@ -108,17 +109,20 @@ class Forum extends Pages
 
 		}
 	}
+
 	public function send ($name,$id)
 	{
 		if ($this->_error === false) {
 
 			if ($_REQUEST['send'] == 'SubmitReply') {
-			self::SubmitReply($this->data);
+				self::SubmitReply($this->data);
 			} else if ($_REQUEST['send'] == 'NewThread') {
 				self::NewPostThread($this->data);
 			}
+
 		}
 	}
+
 	private function NewPostThread ($data)
 	{
 		if ($this->_error === false) {
@@ -126,8 +130,10 @@ class Forum extends Pages
 			$insert = $this->ModelsForum->SubmitThread($data['id'], $data);
 			$this->error ('Forum', $insert['msg'], $insert['type']);
 			$this->redirect(true, 2);
+
 		}
 	}
+
 	private function SubmitReply ($data)
 	{
 		if ($this->_error === false) {
@@ -137,5 +143,6 @@ class Forum extends Pages
 			$this->error ('Forum : Réponse', $insert['msg'], $insert['type']);
 			$this->redirect(true, 2);
 		}
+
 	}
 }
