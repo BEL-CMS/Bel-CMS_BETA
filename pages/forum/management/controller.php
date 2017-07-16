@@ -36,12 +36,33 @@ class ControllerManagementForum extends ModelsManagementForum
 		$this->data = parent::GetForum();
 	}
 
+	public function editforum ()
+	{
+		$this->data        = parent::GetThreads(GET_ID);
+		$this->data->forum = parent::GetForum();
+	}
+
+	public function delForum ()
+	{
+		$this->data = parent::DelThreads(GET_ID);
+		Common::Redirect('Forum?management', 2);
+	}
+
 	public function send ()
 	{
 		if ($_POST['send'] == 'addforum') {
 			$return = parent::SendAddForum($_POST);
+		} else if ($_POST['send'] == 'editforum') {
+			$return = parent::SendEditForum($_POST);
 		} else if ($_POST['send'] == 'addcat') {
-			$return = parent::SendAddCat($_POST);
+			if (parent::isCat()) {
+				$return = parent::SendAddCat($_POST);
+			} else {
+				$return = array(
+					'type' => 'alert',
+					'text' => ERROR_NO_CAT
+				);
+			}
 		}
 		$this->data = $return;
 		Common::Redirect('Forum?management', 2);

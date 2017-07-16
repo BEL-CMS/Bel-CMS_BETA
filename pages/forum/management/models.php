@@ -35,6 +35,7 @@ class ModelsManagementForum
 			$sql->where($tmp_where);
 			$sql->queryOne();
 			$return = $sql->data;
+			$return->id_forum = self::GetForum($return->id_forum);
 		}
 		return $return;
 	}
@@ -68,27 +69,113 @@ class ModelsManagementForum
 			$insert['icon']     = Common::VarSecure($data['icon'], '');
 			$insert['id_forum'] = (int) $data['id_forum'];
 			$insert['options']  = 'lock=0';
-			// SQL INSERT
-			$sql = New BDD();
-			$sql->table('TABLE_FORUM_THREADS');
-			$sql->sqlData($insert);
-			$sql->insert();
-			// SQL RETURN NB INSERT 
-			if ($sql->rowCount == 1) {
+			// Check title empty
+			if (empty($insert['title'])) {
 				$return = array(
 					'type' => 'success',
-					'text' => NEW_THREADS_SUCCESS
+					'text' => ERROR_TITLE_EMPTY
 				);
 			} else {
-				$return = array(
-					'type' => 'alert',
-					'text' => NEW_THREADS_ERROR
-				);
+				// SQL INSERT
+				$sql = New BDD();
+				$sql->table('TABLE_FORUM_THREADS');
+				$sql->sqlData($insert);
+				$sql->insert();
+				// SQL RETURN NB INSERT 
+				if ($sql->rowCount == 1) {
+					$return = array(
+						'type' => 'success',
+						'text' => NEW_THREADS_SUCCESS
+					);
+				} else {
+					$return = array(
+						'type' => 'alert',
+						'text' => NEW_THREADS_ERROR
+					);
+				}
 			}
 		} else {
 			$return = array(
 				'type' => 'alert',
 				'text' => ERROR_NO_DATA
+			);
+		}
+		return $return;
+	}
+
+	protected function SendEditForum ($data = false)
+	{
+		if ($data !== false) {
+			// SECURE DATA
+			$id               = (int) $data['id'];
+			$edit['title']    = Common::VarSecure($data['title'], '');
+			$edit['subtitle'] = Common::VarSecure($data['subtitle'], '');
+			$edit['orderby']  = (int) $data['orderby'];
+			$edit['icon']     = Common::VarSecure($data['icon'], '');
+			$edit['id_forum'] = (int) $data['id_forum'];
+
+			if (empty($edit['title'])) {
+				$return = array(
+					'type' => 'success',
+					'text' => ERROR_TITLE_EMPTY
+				);
+			} else {
+				// SQL EDIT
+				$where = array('name' => 'id','value' => $id);
+				$sql = New BDD();
+				$sql->table('TABLE_FORUM_THREADS');
+				$sql->where($where);
+				$sql->sqlData($edit);
+				$sql->update();
+				// SQL RETURN NB INSERT 
+				if ($sql->rowCount == 1) {
+					$return = array(
+						'type' => 'success',
+						'text' => NEW_THREADS_SUCCESS
+					);
+				} else {
+					$return = array(
+						'type' => 'alert',
+						'text' => NEW_THREADS_ERROR
+					);
+				}
+			}
+		} else {
+			$return = array(
+				'type' => 'alert',
+				'text' => ERROR_NO_DATA
+			);
+		}
+		return $return;
+	}
+
+	protected function DelThreads ($id = false)
+	{
+		if ($id !== false) {
+			// Secure ID
+			$id = (int) $id;
+			// SQL DELETE
+			$where = array('name' => 'id','value' => $id);
+			$sql = New BDD();
+			$sql->table('TABLE_FORUM_THREADS');
+			$sql->where($where);
+			$sql->delete();
+			// SQL RETURN NB INSERT 
+			if ($sql->rowCount == 1) {
+				$return = array(
+					'type' => 'success',
+					'text' => DEL_THREADS_SUCCESS
+				);
+			} else {
+				$return = array(
+					'type' => 'alert',
+					'text' => DEL_THREADS_ERROR
+				);
+			}
+		} else {
+			$return = array(
+				'type' => 'alert',
+				'text' => ERROR_ID_EMPTY_INT
 			);
 		}
 		return $return;
@@ -125,6 +212,19 @@ class ModelsManagementForum
 				'type' => 'alert',
 				'text' => ERROR_NO_DATA
 			);
+		}
+		return $return;
+	}
+
+	protected function isCat () 
+	{
+		$sql = New BDD();
+		$sql->table('TABLE_FORUM');
+		$sql->count();
+		if ($sql->data <= 1) {
+			$return = true;
+		} else {
+			$return = false;
 		}
 		return $return;
 	}
