@@ -1,5 +1,3 @@
-# Bel-CMS ! Bêta admin no functional
-
 **Bel-CMS is CMS**
   
   Easy, modern, user friendly, and totally customizable, it offers many functionnalites for causal user !
