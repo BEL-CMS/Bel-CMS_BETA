@@ -19,20 +19,30 @@ if (!defined('CHECK_INDEX')) {
 foreach ($blog as $k => $v):
 ?>
 <div class="row">
-	<div class="col-md-5 col-lg-6">
-		<div href="<?=$v->link?>" class="bel_cms_blog_main_text">
-			<h2><?=$v->name?></h2>
-			<a href="<?=$v->link?>" class="bel_cms_blog_main_count">0</a>
-			<div class="both"></div>
-			<div><?=Common::transformDate($v->date_create, true, 'd-M-Y # H:i') ?> by <a href="Members/<?=$v->author->username?>"><?=$v->author->username?></a></div>
-			<a href="<?php echo $v->link; ?>" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Read More</a>
-		</div>
+	<div class="col-md-12">
+		<h2><?=$v->name?></h2>
 	</div>
-	<div class="col-md-7 col-lg-6">
+	<div class="col-md-12">
 		<div class="bel_cms_blog_blog_text">
 			<?=$v->content?>
 		</div>
 	</div>
+	<ul class="col-md-12" id="bel_cms_blog_meta">
+		<li class="meta-author">
+			<span class="fa fa-user"></span> 
+			<a href="Members/<?=$v->author->username?>"" title="Posts by <?=$v->author->username?>"><?=$v->author->username?></a>
+		</li>
+		<li class="meta-date"><span class="fa fa-clock-o"></span><?=Common::transformDate($v->date_create, true, 'd-M-Y # H:i') ?></li>
+		<li class="meta-comments"> 
+			<span class="fa fa-comment-o"></span>
+			<a href="<?=$v->link?>" class="comments-link" title="Comments: <?=$v->name?>">0 Comments</a>
+		</li>
+		<li class="meta-button">
+			<a href="<?php echo $v->link; ?>" target="_self">
+				Read More <i class="fa fa-arrow-right"></i>
+			</a>
+		</li>
+	</ul>
 </div>
 <?php
 endforeach;

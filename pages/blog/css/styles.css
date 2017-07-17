@@ -12,11 +12,12 @@
 }
 
 #bel_cms_blog_main > .row {
-    border-bottom: 1px solid #313d46;
-    margin-bottom: 22px;
-    padding-bottom: 20px;
+	margin-bottom: 22px;
+	padding-bottom: 20px;
 }
-
+.bel_cms_blog_blog_text {
+	text-align: justify;
+}
 .bel_cms_blog_main_count::after {
 	border-left: 6px solid transparent;
 	border-right: 6px solid transparent;
@@ -55,22 +56,48 @@
 }
 .bel_cms_blog_main_blog_text::after, .bel_cms_blog_main_blog_text::before
 {    clear: both;
-    content: "";
-    display: table;
+	content: "";
+	display: table;
 }
 .bel_cms_blog_main_text {
-    display: block;
-    position: relative;
-    text-align: justify;
+	display: block;
+	position: relative;
+	text-align: justify;
 }
 .bel_cms_blog_main_text > h2 {
 	display: block;
 	margin: 0; padding: 0;
 	line-height: 30px;
-	font-size: 15px;
 }
 .bem_cms_blog_main_text > a {
 	display: block;
 	width: 100%;
 	line-height: 30px;
+}
+
+#bel_cms_blog_meta {
+	display: block;
+	list-style: none;
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+	margin: 0;
+	padding: 10px 0;
+	font-size: 13px;
+}
+#bel_cms_blog_meta:after {
+	clear: both;
+	content: "";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+#bel_cms_blog_meta li {
+	margin: 0 20px 0 0;
+	display: inline-block;
+}
+#bel_cms_blog_meta li:last-child {
+	float: right;
+}
+#bel_cms_blog_meta .fa {
+	margin-right: 5px;
 }

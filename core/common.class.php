@@ -926,7 +926,6 @@ final class Common
 
 }
 
-
 function debug ($data = null, $exitAfter = false) {
 	return Common::Debug($data, $exitAfter);
 }
@@ -938,4 +937,15 @@ function fixUrl ($d) {
 }
 function defixUrl ($d) {
 	return strtr($d, array('%3F' => '?'));
+}
+function isFloat($d) {
+	if (!is_scalar($d)) {return false;}
+
+	$type = gettype($d);
+
+	if ($type === "float") {
+		return true;
+	} else {
+		return preg_match("/^\\d+\\.\\d+$/", $d) === 1;
+	}
 }
