@@ -56,7 +56,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 											<td><?=$v->subtitle?></td>
 											<td><?=$v->activate?></td>
 											<td class="td-actions">
-												<a href="Forum/EditMainForum/<?=$v->id?>?management" class="btn btn-small btn-success">
+												<a href="Forum/EditCategory/<?=$v->id?>?management" class="btn btn-small btn-success">
 													<i class="btn-icon-only icon-edit"> </i>
 												</a>
 												<a href="#modal_<?=$v->id?>" role="button" data-toggle="modal" class="btn btn-danger btn-small">
@@ -72,7 +72,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 													</div>
 													<div class="modal-footer">
 														<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
-														<a href="Forum/DelMainForum/<?=$v->id?>?management" class="btn btn-primary">Supprimer</a>
+														<a href="Forum/DelCategory/<?=$v->id?>?management" class="btn btn-primary">Supprimer</a>
 													</div>
 												</div>
 											</td>

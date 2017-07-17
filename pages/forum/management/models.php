@@ -54,6 +54,7 @@ class ModelsManagementForum
 			);
 			$sql->where($tmp_where);
 			$sql->queryOne();
+			$sql->data->groups = explode('|', $sql->data->groups);
 		}
 		$return = $sql->data;
 		return $return;
@@ -211,6 +212,76 @@ class ModelsManagementForum
 			$return = array(
 				'type' => 'alert',
 				'text' => ERROR_NO_DATA
+			);
+		}
+		return $return;
+	}
+
+	protected function SendEditCat ($data = false)
+	{
+		if ($data !== false) {
+			// SECURE DATA
+			$id               = (int) $data['id'];
+			$edit['title']    = Common::VarSecure($data['title'], '');
+			$edit['subtitle'] = Common::VarSecure($data['subtitle'], '');
+			$edit['groups']   = implode('|', $data['groups']);
+			$edit['activate'] = (int) $data['activate'];
+			$edit['orderby']  = (int) $data['orderby'];
+			// SQL EDIT
+			$where = array('name' => 'id','value' => $id);
+			$sql = New BDD();
+			$sql->table('TABLE_FORUM');
+			$sql->where($where);
+			$sql->sqlData($edit);
+			$sql->update();
+			// SQL RETURN NB INSERT 
+			if ($sql->rowCount == 1) {
+				$return = array(
+					'type' => 'success',
+					'text' => EDIT_CAT_SUCCESS
+				);
+			} else {
+				$return = array(
+					'type' => 'alert',
+					'text' => EDIT_CAT_ERROR
+				);
+			}
+		} else {
+			$return = array(
+				'type' => 'alert',
+				'text' => ERROR_ID_EMPTY_INT
+			);
+		}
+		return $return;
+	}
+
+	protected function DelCat ($id = false)
+	{
+		if ($id !== false) {
+			// Secure ID
+			$id = (int) $id;
+			// SQL DELETE
+			$where = array('name' => 'id','value' => $id);
+			$sql = New BDD();
+			$sql->table('TABLE_FORUM');
+			$sql->where($where);
+			$sql->delete();
+			// SQL RETURN NB INSERT 
+			if ($sql->rowCount == 1) {
+				$return = array(
+					'type' => 'success',
+					'text' => DEL_CAT_SUCCESS
+				);
+			} else {
+				$return = array(
+					'type' => 'alert',
+					'text' => DEL_CAT_ERROR
+				);
+			}
+		} else {
+			$return = array(
+				'type' => 'alert',
+				'text' => ERROR_ID_EMPTY_INT
 			);
 		}
 		return $return;
