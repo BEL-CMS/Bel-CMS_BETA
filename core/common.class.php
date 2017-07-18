@@ -472,7 +472,7 @@ final class Common
 		$lpm1        = $setLastpage - 1;
 		$setPaginate = "";
 
-		if ($setLastpage > 1) {	
+		if ($setLastpage >= 1) {	
 			$setPaginate .= "<ul class='pagination'>";
 			// $setPaginate .= "<li>Page $current of $setLastpage</li>"; /* retirer: compteur de nombre de page
 			if ($setLastpage < 7 + ($adjacents * 2)) {	

@@ -18,11 +18,10 @@ class ModelsBlog
 {
 	public function GetBlog ($id = false)
 	{
-		$management = isset($_SESSION['MANAGEMENT']) && $_SESSION['MANAGEMENT'] === true ? true : false;
 
-		if ($management) {
-			if (isset($_SESSION['pages']->blog->config['MAX_BLOGDMIN'])) {
-				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOGDMIN'];
+		if (defined('MANAGEMENT')) {
+			if (isset($_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'])) {
+				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'];
 			} else {
 				$nbpp = (int) 25;
 			}
