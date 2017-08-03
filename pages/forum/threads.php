@@ -33,13 +33,13 @@ $new  = (AutoUser::ReturnUser() !== false) ? '<a href="Forum/NewThread/'.$id.'" 
 		foreach ($threads as $k => $v):
 			$labelWarning = $v->options['pin'] == true ? '<span class="label label-warning icon"><i class="fa fa-thumb-tack"></i></span>' : '';
 			$lock = $v->options['lock'] ? 'lock' : '';
-			$link = $v->options['lock'] ? Common::CurrentPage() : 'Forum/Post/'.$v->title.'/'.$v->id;
+			$link = $v->options['lock'] ? $_SERVER['REQUEST_URI'] : 'Forum/Post/'.$v->title.'/'.$v->id;
 			?>
 			<div class="forum-group <?=$lock?>">
 				<div class="forum-icon hidden-xs"><i class="fa fa-comments"></i><?=$labelWarning?></div>
 				<div class="forum-title">
 					<h4><a href="<?=$link;?>"><?=defixUrl($v->title)?></a></h4>
-					<p><?=BY?> <a data-toggle="popuser" title="<?=$v->author?>"><?=$v->author?></a> <?=ON?> <?=Common::transformDate($v->date_post, true, 'd M Y # H:i'); ?></p>
+					<p><i class="fa fa-user-circle" aria-hidden="true"></i> <a data-toggle="popuser" title="<?=$v->author?>"><?=$v->author?></a> <i class="fa fa-clock-o" aria-hidden="true"></i> <?=Common::transformDate($v->date_post, true, 'd M Y # H:i'); ?></p>
 				</div>
 				<div class="forum-activity hidden-xs">
 					<a href="User/Profil/<?=$v->lastpost->author?>" data-toggle="tooltip" title="<?php echo $v->lastpost->author; ?>">
@@ -47,11 +47,13 @@ $new  = (AutoUser::ReturnUser() !== false) ? '<a href="Forum/NewThread/'.$id.'" 
 					</a>
 					<div>
 						<h4><a href="<?=$link?>"><?=LAST_POST?> <?=BY?> <?=$v->lastpost->author?></a></h4>
-						<span><a href="#"><?=ON?></a> <?=$v->lastpost->date_post?></span>
+						<span><a href="#"><i class="fa fa-clock-o" aria-hidden="true"></i> </a> <?=$v->lastpost->date_post?></span>
 					</div>
 				</div>
-				<div class="forum-meta visible-lg"><?=$v->options['post']?> posts</div>
-				<div class="forum-meta visible-lg"><?=$v->options['view']?> views</div>
+				<div class="forum-meta visible-lg">
+					<p class="center"><i class="fa fa-eye" aria-hidden="true"></i> <?=$v->options['view']?></p>
+					<p class="center"><i class="fa fa-exchange" aria-hidden="true"></i> <?=$v->options['post']?></p>
+				</div>
 			</div>
 			<?php
 		endforeach;

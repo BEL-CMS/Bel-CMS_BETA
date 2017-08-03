@@ -16,7 +16,7 @@ if (!defined('CHECK_INDEX')) {
 
 class ModelsMembers
 {
-	public function GetUsers ($where)
+	public function GetUsers ($where = false)
 	{
 		if (isset($GLOBALS['CONFIG_PAGES']['members']['config']['MAX_USER'])) {
 			$nbpp = (int) $GLOBALS['CONFIG_PAGES']['members']['config']['MAX_USER'];
@@ -29,8 +29,8 @@ class ModelsMembers
 
 		$sql = New BDD();
 		$sql->table('TABLE_USERS');
-		$where = "WHERE `groups` LIKE '%".$where."%'";
-		$sql->where($where);
+		# $where = "WHERE `groups` LIKE '%".$where."%'";
+		# $sql->where($where);
 		$sql->orderby(array(array('name' => 'username', 'type' => 'ASC')));
 		$sql->limit(array(0 => $page, 1 => $nbpp), true);
 		$sql->queryAll();
@@ -52,6 +52,7 @@ class ModelsMembers
 
 		return $return;
 	}
+
 	public function GetLastPost ($hash_key)
 	{
 		$return = array();
@@ -67,6 +68,7 @@ class ModelsMembers
 
 		return $return;
 	}
+
 	public function addFriendSQL ($hash_key = false)
 	{
 		if ($hash_key !== false && ctype_alnum($hash_key)) {
@@ -98,6 +100,37 @@ class ModelsMembers
 		} else {
 			return null;
 		}
+	}
+
+	public function getJson ()
+	{
+		$user   = array();
+		$return = array();
+
+		$sql = New BDD();
+		$sql->table('TABLE_USERS');
+		$sql->orderby(array(array('name' => 'username', 'type' => 'DESC')));
+		$sql->fields(array('hash_key', 'username', 'last_visit'));
+		$sql->queryAll();
+
+		foreach ($sql->data as $k => $v) {
+			$sql = New BDD();
+			$sql->table('TABLE_USERS_PROFILS');
+			$where = 	array(
+							'name'  => 'hash_key',
+							'value' => $v->hash_key
+						);
+			$sql->where($where);
+			$sql->fields(array('websites', 'country'));
+			$sql->queryOne();
+			$user[$k]->username = $v->username;
+			$user[$k]->last_visit = $v->last_visit;
+			$user[$k]->websites = $sql->data->websites;
+			$user[$k]->country = $sql->data->country;
+			$return['data'] = $user;
+		}
+
+		return $return;	
 	}
 }
 

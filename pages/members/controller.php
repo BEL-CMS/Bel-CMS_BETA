@@ -37,13 +37,14 @@ class Members extends Pages
 	{
 		if ($this->_error === false) {
 			$name = array();
-			$where = "WHERE `groups` LIKE '%3%'";
-			$this->pagination($this->nbpp, GET_PAGE, TABLE_USERS, $where);
-			$name['members'] = $this->ModelsMembers->GetUsers(3);
+			# $where = "WHERE `groups` LIKE '%2%'"; annule affiche tout les membres
+			$this->pagination($this->nbpp, GET_PAGE, TABLE_USERS);
+			$name['members'] = $this->ModelsMembers->GetUsers();
 			$this->set($name);
 			$this->render('index');
 		}
 	}
+
 	public function view ($name)
 	{
 		if ($this->_error === false) {
@@ -69,6 +70,7 @@ class Members extends Pages
 			}
 		}
 	}
+
 	public function AddFriend ()
 	{
 		if ($this->_error === false) {
@@ -85,5 +87,15 @@ class Members extends Pages
 				}
 			}
 		}
+	}
+
+	public function json ()
+	{
+		if ($this->_error === false) {
+			$data = $this->ModelsMembers->getJson();
+			$this->affiche = json_encode($data);
+			//$this->set($data);
+			//$this->render('json');
+		}	
 	}
 }

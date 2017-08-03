@@ -24,7 +24,7 @@ class ModelsManagementBlog extends ModelsBlog
 			// SECURE DATA
 			$insert['rewrite_name'] = Common::MakeConstant($data['name']);
 			$insert['name']         = Common::VarSecure($data['name'], ''); // autorise que du texte
-			$insert['content']      = Common::VarSecure($data['content'], null); // autorise que les balises HTML
+			$insert['content']      = Common::VarSecure($data['content'], 'html'); // autorise que les balises HTML
 			$user                   = Autouser::ReturnUser();
 			$insert['author']       = $user->hash_key;
 			$insert['tags']         = Common::VarSecure($data['tags'], ''); // autorise que du texte
@@ -61,7 +61,7 @@ class ModelsManagementBlog extends ModelsBlog
 			// SECURE DATA
 			$edit['rewrite_name'] = Common::MakeConstant($data['name']);
 			$edit['name']         = Common::VarSecure($data['name'], ''); // autorise que du texte
-			$edit['content']      = Common::VarSecure($data['content'], null); // autorise que les balises HTML
+			$edit['content']      = Common::VarSecure($data['content'], 'html'); // autorise que les balises HTML
 			$edit['author']       = strlen($data['author']) == 32 ? $data['author'] : null;
 			$edit['tags']         = Common::VarSecure($data['tags'], ''); // autorise que du texte
 			$edit['cat']          = ''; // à implanter

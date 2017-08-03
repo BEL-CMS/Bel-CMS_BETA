@@ -100,6 +100,49 @@ class Forum extends Pages
 
 	}
 
+	private function accessLock ()
+	{
+		$access    = false;
+		$groupsAccess = explode('|', $_SESSION['pages']->forum->admin);
+		foreach ($groupsAccess as $k => $v) {
+			if (in_array($v, $groupUser)) {
+				$access = true;
+				break;
+			}
+		}
+		return $access;
+	}
+
+	public function lockpost ($id)
+	{
+		$groupUser = $_SESSION['user']->groups;
+
+		if ($this->_error === false) {
+			if (self::accessLock()) {
+				$return = $this->ModelsForum->lock($id);
+				$this->error ('Forum', $return['msg'], $return['type']);
+			} else {
+				$this->error ('Forum', NO_CLOSE_POST, 'danger');
+			}
+			$this->redirect(true, 2);
+		}
+	}
+
+	public function unlockpost ($id)
+	{
+		$groupUser = $_SESSION['user']->groups;
+
+		if ($this->_error === false) {
+			if (self::accessLock()) {
+				$return = $this->ModelsForum->unlock($id);
+				$this->error ('Forum', $return['msg'], $return['type']);
+			} else {
+				$this->error ('Forum', NO_OPEN_POST, 'danger');
+			}
+			$this->redirect(true, 2);
+		}
+	}
+
 	public function NewThread ($name)
 	{
 		if ($this->_error === false) {

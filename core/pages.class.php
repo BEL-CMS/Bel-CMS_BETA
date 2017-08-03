@@ -173,11 +173,11 @@ class Pages
 			}
 			
 			if ($current < $counter - 1) { 
-				$setPaginate .= "<li><a href='{$page_url}page=$next'>Next</a></li>";
-				$setPaginate .= "<li><a href='{$page_url}page=$setLastpage'>Last</a></li>";
+				$setPaginate .= "<li><a href='{$page_url}page=$next'>Suivant</a></li>";
+				$setPaginate .= "<li><a href='{$page_url}page=$setLastpage'>Dernière</a></li>";
 			} else{
-				$setPaginate .= "<li class='active'><a>Next</a></li>";
-				$setPaginate .= "<li class='active'><a>Last</a></li>";
+				$setPaginate .= "<li class='active'><a>Suivant</a></li>";
+				$setPaginate .= "<li class='active'><a>Dernière</a></li>";
 			}
 
 			$setPaginate.= "</ul>".PHP_EOL;

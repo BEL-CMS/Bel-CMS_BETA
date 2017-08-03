@@ -24,4 +24,6 @@ Common::constant(array(
 	'UNKNOW_MEMBER'      => 'Cet utilisateur n\'exsite pas',
 	'ADD_FRIEND_SUCCESS' => 'utilisateur ajouter en ami avec succès',
 	'ADD_FRIEND_ERROR'   => 'Impossible d\'ajouter l\'ami',
+	'ALL'                => 'Tous',
+	'LAST_VISIT'         => 'Dernière visite'
 )); 

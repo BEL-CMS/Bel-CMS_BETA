@@ -1,0 +1,18 @@
+{
+    "name": "belcms/stive",
+    "description": "content managing system",
+    "type": "project",
+    "license": "GNU General Public License v3.0 (C)",
+    "authors": [
+        {
+            "name": "Determe Stive",
+            "email": "determe@stive.eu"
+        }
+    ],
+    "require": {
+        "phpunit/php-timer": "^1.0.9"
+    },
+    "autoload": {
+        "psr-4" : {"core\\" : "core"}
+    }
+}

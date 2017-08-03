@@ -154,6 +154,14 @@ class AutoUser
 				$name = 'hash_key';
 			}
 
+			if (empty($hash_key) or $hash_key == null) {
+				return (object) array(
+					'username' => DELETE,
+					'avatar'   => DEFAULT_AVATAR,
+					'groups'   => array()
+				);
+			}
+
 			$sql_user = New BDD();
 			$sql_user->table('TABLE_USERS');
 			$sql_user->isObject(false);

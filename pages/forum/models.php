@@ -465,4 +465,74 @@ class ModelsForum
 
 		}
 	}
+
+	public function lock ($id = false)
+	{
+		if ($id) {
+			$id = (int) $id;
+			$where = array('name' => 'id', 'value' => $id);
+			# recupere le post
+			$get = New BDD();
+			$get->table('TABLE_FORUM_POST');
+			$get->where($where);
+			$get->queryOne();
+			$data = $get->data;
+
+			$options = Common::transformOpt($data->options);
+			$options['lock'] = (int) 1;
+			$options = Common::transformOpt($options, true);
+
+			# update le post
+			$update = New BDD;
+			$update->table('TABLE_FORUM_POST');
+			$update->where($where);
+			$update->sqlData(array('options' => $options));
+			$update->update();
+			# verifie si c'est bien inserer
+			if ($update->rowCount == 1) {
+				$return['msg']  = LOCK_SUCCESS;
+				$return['type'] = 'success';
+			} else {
+				$return['msg']  = ERROR_LOCK_BDD;
+				$return['type'] = 'error';
+			}
+			# return le resulat
+			return $return;
+		}
+	}
+
+	public function unlock ($id = false)
+	{
+		if ($id) {
+			$id = (int) $id;
+			$where = array('name' => 'id', 'value' => $id);
+			# recupere le post
+			$get = New BDD();
+			$get->table('TABLE_FORUM_POST');
+			$get->where($where);
+			$get->queryOne();
+			$data = $get->data;
+
+			$options = Common::transformOpt($data->options);
+			$options['lock'] = (int) 0;
+			$options = Common::transformOpt($options, true);
+
+			# update le post
+			$update = New BDD;
+			$update->table('TABLE_FORUM_POST');
+			$update->where($where);
+			$update->sqlData(array('options' => $options));
+			$update->update();
+			# verifie si c'est bien inserer
+			if ($update->rowCount == 1) {
+				$return['msg']  = UNLOCK_SUCCESS;
+				$return['type'] = 'success';
+			} else {
+				$return['msg']  = ERROR_UNLOCK_BDD;
+				$return['type'] = 'error';
+			}
+			# return le resulat
+			return $return;
+		}
+	}
 }

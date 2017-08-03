@@ -53,28 +53,44 @@ class ModelsBlog
 			}
 			$sql->queryOne();
 			if (!empty($sql->data)) {
-				$sql->data->link = '/blog/readmore/'.$sql->data->rewrite_name.'?id='.$sql->data->id;
+				$sql->data->link = 'blog/readmore/'.$sql->data->rewrite_name.'?id='.$sql->data->id;
 				if (empty($sql->data->tags)) {
 					$sql->data->tags = array();
 				} else {
 					$sql->data->tags = explode(',', $sql->data->tags);
 				}
 				$author = $sql->data->author;
-				$sql->data->author = AutoUser::getInfosUser($author);
+				if (empty($author)) {
+					$sql->data->author =  (object) array(
+						'username' => DELETE,
+						'avatar'   => DEFAULT_AVATAR,
+						'groups'   => array()
+					);
+				} else {
+					$sql->data->author = AutoUser::getInfosUser($author);
+				}
 			}
 		} else {
 			$sql->orderby(array(array('name' => 'id', 'type' => 'DESC')));
 			$sql->limit(array(0 => $page, 1 => $nbpp), true);
 			$sql->queryAll();
 			foreach ($sql->data as $k => $v) {
-				$sql->data[$k]->link = '/blog/readmore/'.$v->rewrite_name.'/'.$v->id;
+				$sql->data[$k]->link = 'blog/readmore/'.$v->rewrite_name.'/'.$v->id;
 				if (empty($sql->data[$k]->tags)) {
 					$sql->data[$k]->tags = array();
 				} else {
 					$sql->data[$k]->tags = explode(',', $sql->data[$k]->tags);
 				}
 				$author = $sql->data[$k]->author;
-				$sql->data[$k]->author = AutoUser::getInfosUser($author);
+				if (empty($author)) {
+					$sql->data[$k]->author =  (object) array(
+						'username' => DELETE,
+						'avatar'   => DEFAULT_AVATAR,
+						'groups'   => array()
+					);
+				} else {
+					$sql->data[$k]->author = AutoUser::getInfosUser($author);
+				}
 			}
 		}
 		return $sql->data;

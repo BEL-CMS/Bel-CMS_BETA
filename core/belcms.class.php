@@ -28,10 +28,6 @@ final class BelCMS extends Dispatcher
 		if ($this->controller != 'shoutbox') {
 			new Visitors;
 		}
-
-		# debug(Visitors::getVisitorYesterday()); # ok
-		# debug(Visitors::getVisitorDay()); # ok
-		# debug(Visitors::getVisitorConnected()); # ok
 	}
 
 	function _init ()
