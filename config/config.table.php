@@ -28,6 +28,8 @@ Common::constant(array(
 	'TABLE_COMMENTS'         => $DB_PREFIX.'comments',
 	'TABLE_CONFIG'           => $DB_PREFIX.'config',
 	'TABLE_PAGES_CONFIG'     => $DB_PREFIX.'config_pages',
+	'TABLE_DOWNLOADS'        => $DB_PREFIX.'downloads',
+	'TABLE_DOWNLOADS_CAT'    => $DB_PREFIX.'downloads_cat',
 	'TABLE_GROUPS'           => $DB_PREFIX.'groups',
 	'TABLE_LINK_OUT'         => $DB_PREFIX.'links_click',
 	'TABLE_MAIL_BLACKLIST'   => $DB_PREFIX.'mails_blacklist',

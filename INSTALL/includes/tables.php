@@ -19,7 +19,9 @@ switch ($table) {
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
 			`id` int(11) NOT NULL AUTO_INCREMENT,
-			`link` varchar(255) NOT NULL,
+			`page` varchar(32) NOT NULL,
+			`page_sub` varchar(32) NOT NULL,
+			`page_id` int(11) NOT NULL,
 			`comment` text NOT NULL,
   			`hash_key` varchar(32) NOT NULL,
   			`date_com` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -144,6 +146,14 @@ switch ($table) {
 			(NULL, 'mailhazard'),
 			(NULL, 'mail');";
 	break;
+
+	case 'page':
+		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
+		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
+			`id` int(11) NOT NULL,
+			`name` varchar(64) NOT NULL,
+			`content` longtext NOT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 	case 'page_blog':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';

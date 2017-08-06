@@ -353,7 +353,7 @@ final class Common
 			if (is_numeric($data)) {
 				$return = intval($data);
 			} else {
-				$return = Common::VarSecure($data, '');
+				$return = Common::VarSecure($data, null);
 			}
 		}
 
@@ -923,7 +923,6 @@ final class Common
 		}
 		return $text;
 	}
-
 }
 
 function debug ($data = null, $exitAfter = false) {

@@ -16,29 +16,28 @@ if (!defined('CHECK_INDEX')) {
 
 final class Comment extends Dispatcher
 {
-	function __construct($action = 'view', $url = false, $nb = 5)
+	public 	$page,
+			$view,
+			$id,
+			$count = 0,
+			$html;
+
+	function __construct($action = 'view', $page = null, $view = null, $id = null, $nb = 5)
 	{
 		parent::__construct();
-		if (isset($this->links[0])) {
-			if (isset($this->links[3])) {
-				$id = $this->links[3];
-			} else {
-				$id = false;
-			}
-			if (isset($this->links[4])) {
-				$id_supp = $this->links[4];
-			} else {
-				$id_supp = false;
-			}
-		}
-		$this->url = $url === false ? $this->controller.DS.$this->view.DS.$id.'?id='.$id_supp : $url;
-		$this->nb  = (int) $nb;
+
+		$this->page     = ($page == null) ? $this->controller : common::SecureRequest($page);
+		$this->view     = ($view == null) ? $this->view : common::SecureRequest($view);
+		$this->id       = ($id == null)   ? $this->id : common::SecureRequest($id);
+		$this->nb       = (int) $nb;
+
 		self::$action();
 	}
 	private function view ()
 	{
-		$comments = self::GetComments($this->url, $this->nb);
-		$user  = AutoUser::ReturnUser();
+		$comments = self::GetComments($this->page, $this->view, $this->id, $this->nb);
+		$url      = $this->page.'/'.$this->view.'/'.$this->id;
+		$user     = AutoUser::ReturnUser();
 		if ($user !== false) {
 			$form =  '<form class="alertAjaxForm" action="comments/send&ajax" method="post">';
 			$form .= '<a href="Members/View/'.$user->username.'" class="bel_cms_comments_tabs_user">';
@@ -47,7 +46,7 @@ final class Comment extends Dispatcher
 			$form .= '<div class="bel_cms_comments_tabs_post">';
 			$form .= '<a href="Members/View/'.$user->username.'">'.$user->username.'</a>';
 			$form .= '<textarea placeholder="'.YOUR_COMMENT.' ..." name="text"></textarea>';
-			$form .= '<input type="hidden" name="url" value="'.$this->url.'">';
+			$form .= '<input type="hidden" name="url" value="'.$url.'">';
 			$form .= '<button class="btn btn-default" type="submit"><i class="fa fa-share-square"></i> '.PUBLISH.'</button>';
 			$form .= '</div>';
 			$form .= '</form>';
@@ -64,7 +63,7 @@ final class Comment extends Dispatcher
 				$li .= '<img class="commentsAvatar" alt="avatar_'.$user->username.'" src="'.$user->avatar.'">';
 				$li .= '</a>';
 				$li .= '<div class="bel_cms_comments_tabs_post">';
-				$li .= '<a href="#">'.$user->username.'</a>';
+				$li .= '<a href="Members/View/'.$user->username.'">'.$user->username.'</a>';
 				$li .= '<span class="commentsDate">'.Common::TransformDate($v->date_com, false, 'd/m/Y H:i').'</span>';
 				$li .= '<p>';
 				$li .= $v->comment;
@@ -95,22 +94,41 @@ final class Comment extends Dispatcher
 								</ul>
 							</div>
 							<div class="tab-pane fade" id="commentsOut">
-								<div class="fb-comments" data-href="'.GetHost::getBaseUrl().$this->url.'" data-numposts="'.$this->nb.'" data-colorscheme="light"></div>
+								<div class="fb-comments" data-href="'.GetHost::getBaseUrl().$url.'" data-numposts="'.$this->nb.'" data-colorscheme="light"></div>
 							</div>	
 					 	</div>';
 		$html .= '	</div>';
 		$html .= '</section><div class="clear"></div>';
-		echo $html;
+		$this->html = $html;
 	}
-	private function GetComments ($url = false, $limit = false)
+	private function count ()
+	{
+		$return = null;
+		$sql = New BDD();
+		$sql->table('TABLE_COMMENTS');
+		$where[] = array('name' => 'page', 'value' => $this->page);
+		$where[] = array('name' => 'page_sub', 'value' => $this->view);
+		if ($this->id) {
+			$where[] = array('name' => 'page_id', 'value' => $this->id);
+		}
+		$sql->where($where);
+		$sql->count();
+		$count = (int) $sql->data;
+		$this->count = $count;
+	}
+	private function GetComments ($page = false, $view = false, $id = false, $limit = false)
 	{
 		$return = null;
 		$sql = New BDD();
 		$sql->table('TABLE_COMMENTS');
 		$sql->orderby(array(array('name' => 'id', 'type' => 'DESC')));
-		if (!empty($url)) {
-			$sql->where(array('name' => 'link', 'value' => $url));
+
+		$where[] = array('name' => 'page', 'value' => $page);
+		$where[] = array('name' => 'page_sub', 'value' => $view);
+		if ($id) {
+			$where[] = array('name' => 'page_id', 'value' => $id);
 		}
+		$sql->where($where);
 		if ($limit !== false) {
 			$sql->limit($limit);
 		}

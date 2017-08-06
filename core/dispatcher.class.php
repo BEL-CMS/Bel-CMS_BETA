@@ -25,6 +25,7 @@ class Dispatcher
 		$this->links      = isset($_GET['params']) && !empty($_GET['params']) ? explode('/', strtolower(rtrim($_GET['params'], '/'))) : array();
 		$this->controller = self::controller();
 		$this->view       = isset($this->links[1]) && !empty($this->links[1]) ? $this->links[1] : 'index';
+		$this->id         = self::RequestId();
 		$this->IsJquery   = self::IsJquery();
 		$this->IsEcho     = self::IsEcho();
 
@@ -102,6 +103,10 @@ class Dispatcher
 
 				case 'utilisateur.html':
 					$return = 'user';
+				break;
+
+				case 'members.html':
+					$return = 'members';
 				break;
 
 				default:

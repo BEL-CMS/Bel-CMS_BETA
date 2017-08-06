@@ -80,7 +80,7 @@ class Pages
 		$dir = defined('MANAGEMENT') ?
 			DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.'models.php' : 
 			DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
-		if ($dir) {
+		if (is_file($dir)) {
 			require_once $dir;
 			$this->$name = new $name();
 		} else {

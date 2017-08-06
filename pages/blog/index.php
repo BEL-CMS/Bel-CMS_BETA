@@ -35,7 +35,7 @@ foreach ($blog as $k => $v):
 		<li class="meta-date"><span class="fa fa-clock-o"></span><?=Common::transformDate($v->date_create, true, 'd-M-Y # H:i') ?></li>
 		<li class="meta-comments"> 
 			<span class="fa fa-comment-o"></span>
-			<a href="<?=$v->link?>" class="comments-link" title="Comments: <?=$v->name?>">0 Comments</a>
+			<a href="<?=$v->link?>" class="comments-link" title="Comments: <?=$v->name?>"><?=new Comment('count')?> Comments</a>
 		</li>
 		<li class="meta-button">
 			<a href="<?php echo $v->link; ?>" target="_self">
