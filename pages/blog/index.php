@@ -17,6 +17,8 @@ if (!defined('CHECK_INDEX')) {
 <section id="bel_cms_blog_main">
 <?php
 foreach ($blog as $k => $v):
+$count_comment = new Comment('count', 'blog','readmore', $v->id);
+$count_comment = $count_comment->count;
 ?>
 <div class="row">
 	<div class="col-md-12">
@@ -35,7 +37,7 @@ foreach ($blog as $k => $v):
 		<li class="meta-date"><span class="fa fa-clock-o"></span><?=Common::transformDate($v->date_create, true, 'd-M-Y # H:i') ?></li>
 		<li class="meta-comments"> 
 			<span class="fa fa-comment-o"></span>
-			<a href="<?=$v->link?>" class="comments-link" title="Comments: <?=$v->name?>"><?=new Comment('count')?> Comments</a>
+			<a href="<?=$v->link?>" class="comments-link" title="Comments: <?=$v->name?>"><?=$count_comment?> Comments</a>
 		</li>
 		<li class="meta-button">
 			<a href="<?php echo $v->link; ?>" target="_self">

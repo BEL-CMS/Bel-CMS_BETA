@@ -303,7 +303,7 @@ switch ($table) {
 	case 'visitors':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
-			`id` int(11) NOT NULL,
+			`id` int(11) NOT NULL AUTO_INCREMENT,
 			`visitor_user` varchar(255) DEFAULT NULL,
 			`visitor_ip` varchar(32) DEFAULT NULL,
 			`visitor_browser` varchar(255) DEFAULT NULL,

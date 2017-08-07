@@ -425,7 +425,8 @@ class ModelsUser
 				$return['type'] = 'blue';
 			}
 		}
-		$insertProfil['info_text'] = Common::VarSecure($data['info_text'], '<a><b><img><ul><li><ol><li><p><strong>');
+		$insertProfil['info_text'] = Common::VarSecure($data['info_text'], null);
+		$insertProfil['info_text'] = empty($insertProfil['info_text']) ? '<p></p>' : $insertProfil['info_text'];
 
 		$sql = New BDD();
 		$sql->table('TABLE_USERS_PROFILS');

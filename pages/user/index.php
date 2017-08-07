@@ -13,7 +13,6 @@ if (!defined('CHECK_INDEX')) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
 	exit(ERROR_INDEX);
 }
-
 if (AutoUser::isLogged() === true):
 ?>
 <div id="teste"></div>
@@ -54,33 +53,33 @@ endif;
 
 function profilInfos($data) {
 	?>
-		<div id="profil_infos" class="active">
-			<div class="bel_cms_user_main_right_half">
+		<div id="profil_infos" class="active row">
+			<div class="col-md-12">
 				<span class="bel_cms_user_main_right_title"><span><?=constant('INFO_PERSO')?></span></span>
-				<ul id="bel_cms_user_profile_infos">
-					<li>
-						<span><?=constant('NAME')?></span>
-						<span><?=$data->username?></span>
-					</li>
-					<li>
-						<span><?=constant('GENDER')?></span>
-						<span><?=$data->gender?></span>
-					</li>
-					<li>
-						<span><?=constant('BIRTHDAY')?></span>
-						<span><?=$data->birthday?></span>
-					</li>
-					<li>
-						<span><?=constant('LOCATION')?></span>
-						<span><?=$data->country?></span>
-					</li>
-					<li>
-						<span><?=constant('DATE_INSCRIPTION')?></span>
-						<span><?=$data->date_registration?></span>
-					</li>
-				</ul>
+				<table class="table table-striped" >
+					<tr>
+						<td><strong><?=constant('NAME')?></strong></td>
+						<td><?=$data->username?></td>
+					</tr>
+					<tr>
+						<td><strong><?=constant('GENDER')?></strong></td>
+						<td><?=$data->gender?></td>
+					</tr>
+					<tr>
+						<td><strong><?=constant('BIRTHDAY')?></strong></td>
+						<td><?=$data->birthday?></td>
+					</tr>
+					<tr>
+						<td><strong><?=constant('LOCATION')?></strong></td>
+						<td><?=$data->country?></td>
+					</tr>
+					<tr>
+						<td><strong><?=constant('DATE_INSCRIPTION')?></strong></td>
+						<td><?=$data->date_registration?></td>
+					</tr>
+				</table>
 			</div>
-			<div class="bel_cms_user_main_right_half">
+			<div class="col-md-12">
 				<span class="bel_cms_user_main_right_title"><span><?=constant('FRIENDS')?></span></span>
 				<ul id="bel_cms_user_friends">
 					<?php
@@ -96,7 +95,7 @@ function profilInfos($data) {
 					?>
 				</ul>
 			</div>
-			<div class="bel_cms_user_main_right_full">
+			<div class="col-md-12">
 				<span class="bel_cms_user_main_right_title"><span>Mes avatars</span></span>
 				<ul id="bel_cms_user_ul_avatar">
 					<?php

@@ -61,7 +61,7 @@ function deleteAvatar() {
 			url: 'User/send&ajax',
 			data: "send=deleteavatar&value="+href,
 			success: function(data) {
-				$('#alert_ajax').empty().append($data);
+				$('#alert_ajax').empty().append(data);
 				$(trId).remove();
 			},
 			beforeSend:function() {

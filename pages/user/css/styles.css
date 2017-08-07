@@ -84,9 +84,9 @@ section#bel_cms_user_main {
 		}
 		.bel_cms_user_main_right_title {
 			display: block;
-			height: 32px;
-			background: url("/assets/img/title-bg-users.png") repeat-x center center;
-			margin-bottom: 20px;
+			line-height: 32px;
+			margin: 20px 0;
+			text-align: center;
 		}
 			.bel_cms_user_main_right_title span {
 				display: inline-block;

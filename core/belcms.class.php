@@ -65,7 +65,6 @@ final class BelCMS extends Dispatcher
 			}
 
 			$this->render = ob_get_contents();
-			$this->load = number_format(microtime(true)-$GLOBALS['timestart'], 3);
 
 			if (ob_get_length() != 0) { 
 				ob_end_clean();

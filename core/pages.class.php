@@ -66,6 +66,13 @@ class Pages
 		}
 	}
 
+	function debug($d) {
+		ob_start();
+		debug($d);
+		$this->page = ob_get_contents();
+		ob_end_clean();
+	}
+
 	function error ($title, $msg, $type, $debug = null)
 	{
 		ob_start();

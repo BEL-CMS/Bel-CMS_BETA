@@ -102,7 +102,7 @@ class BelCMS
 			'page_users',
 			'page_users_profils',
 			'page_users_social',
-			'visitors'
+			'visitors',
 			'widgets'
 		);
 
