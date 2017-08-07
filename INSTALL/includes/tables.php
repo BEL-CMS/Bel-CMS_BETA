@@ -314,7 +314,8 @@ switch ($table) {
 			`visitor_month` varchar(2) NOT NULL,
 			`visitor_year` smallint(4) NOT NULL,
 			`visitor_refferer` varchar(255) DEFAULT NULL,
-			`visitor_page` varchar(255) DEFAULT NULL
+			`visitor_page` varchar(255) DEFAULT NULL,
+			PRIMARY KEY (`id`)
 		) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 	break;
 
