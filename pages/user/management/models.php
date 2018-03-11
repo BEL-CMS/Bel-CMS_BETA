@@ -14,9 +14,9 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ModelsManagementUser
+class ModelsUser
 {
-	protected function GetUsers ($hash_key = false)
+	public function GetUsers ($hash_key = false)
 	{
 		$return = array();
 
@@ -40,12 +40,11 @@ class ModelsManagementUser
 			$sql->queryAll();
 		}
 		$return = $sql->data;
-		unset($sql);
 
 		return $return;
 	}
 
-	protected function GetUsersProfil ($hash_key = false)
+	public function GetUsersProfil ($hash_key = false)
 	{
 		$return = array();
 
@@ -61,7 +60,7 @@ class ModelsManagementUser
 		return $return;
 	}
 
-	protected function GetUsersSocial ($hash_key = false)
+	public function GetUsersSocial ($hash_key = false)
 	{
 		$return = array();
 
@@ -77,7 +76,7 @@ class ModelsManagementUser
 		return $return;
 	}
 
-	protected function ListSocial ()
+	public function ListSocial ()
 	{
 		$return = array();
 
@@ -92,7 +91,7 @@ class ModelsManagementUser
 		return $return;
 	}
 
-	protected function SendEdit ($data)
+	public function SendEdit ($data)
 	{
 		$hash_key = GET_ID;
 		$return   = array();
@@ -138,14 +137,14 @@ class ModelsManagementUser
 					$tmpNdd =  explode('.', $tmpMailSplit[1]);
 				}
 				if (in_array($tmpNdd[0], $arrayBlackList)) {
-					$return[] = array(
+					$return = array(
 						'type' => 'alert',
 						'text' => 'Les e-mails jetables ne sont pas autorisé.'
 					);
 				}
 				// TEST MAIL VALID
 				if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-					$return[] = array(
+					$return = array(
 						'type' => 'alert',
 						'text' => 'L\'adresse e-mail n\'est pas valide.'
 					);
@@ -165,7 +164,7 @@ class ModelsManagementUser
 			// TEST MAIL VALID
 			if (!empty($data['public_mail'])) {
 				if (filter_var($data['public_mail'], FILTER_VALIDATE_EMAIL) === false) {
-					$return[] = array(
+					$return = array(
 						'type' => 'alert',
 						'text' => 'L\'adresse e-mail public n\'est pas valide.'
 					);
@@ -177,7 +176,7 @@ class ModelsManagementUser
 			}
 			if (!empty($data['websites'])) {
 				if (filter_var($data['websites'], FILTER_VALIDATE_URL) === false) {
-					$return[] = array(
+					$return = array(
 						'type' => 'alert',
 						'text' => $data['websites'].' n\'est pas valide'
 					);
@@ -213,14 +212,14 @@ class ModelsManagementUser
 			$sql->update();
 		}
 		// RETURN
-		$return[] = array(
+		$return = array(
 			'type' => 'success',
 			'text' => 'Enregistrement effecté avec succès'
 		);
 		return $return;
 	}
 
-	protected function DelUser ($hash_key = false)
+	public  function DelUser ($hash_key = false)
 	{
 		if ($hash_key && strlen($hash_key) == 32) {
 			// SECURE DATA
@@ -231,7 +230,7 @@ class ModelsManagementUser
 			$where = array('name' => 'hash_key', 'value' => $hash_key);
 			$sql->where($where);
 			$sql->delete();
-			// SQL RETURN NB DELETE 
+			// SQL RETURN NB DELETE
 			if ($sql->rowCount == 1) {
 				// SQL DELETE PROFILS
 				unset($sql);
@@ -265,7 +264,7 @@ class ModelsManagementUser
 		return $return;
 	}
 
-	protected function SendNew ($data = false)
+	public function SendNew ($data = false)
 	{
 		if ($data !== false) {
 			// TEST BLACKLIST MAIL
@@ -419,7 +418,7 @@ class ModelsManagementUser
 		}
 	}
 
-	protected function UpdateParameter ($data = false)
+	public function UpdateParameter ($data = false)
 	{
 		if ($data !== false) {
 			// SECURE DATA
@@ -431,7 +430,7 @@ class ModelsManagementUser
 			$sql->where(array('name'=>'name','value' => 'user'));
 			$sql->sqlData($update);
 			$sql->update();
-			// SQL RETURN NB UPDATE 
+			// SQL RETURN NB UPDATE
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',

@@ -22,6 +22,10 @@ class Blog extends Pages
 	function __construct()
 	{
 		parent::__construct();
+		if (parent::accessPage(strtolower(get_class($this))) === false) {
+			$this->error(INFO, 'Désolé, vous n’avez pas accès à cette page', 'info');
+			$this->_error = true;
+		}
 		if ($_SESSION['pages']->blog->active == 0) {
 			$this->error(INFO, 'Les blogs sont désactiver', 'info');
 			$this->_error = true;
@@ -31,9 +35,9 @@ class Blog extends Pages
 	function index ()
 	{
 		if ($this->_error === false) {
-			$name['blog'] = $this->ModelsBlog->GetBlog();
-			$this->set($name);
-			$this->pagination($_SESSION['pages']->blog->config['MAX_BLOG'], 'blog', TABLE_PAGES_BLOG);
+			$set['pagination'] = $this->pagination($_SESSION['pages']->blog->config['MAX_BLOG'], 'blog', TABLE_PAGES_BLOG);
+			$set['blog'] = $this->ModelsBlog->GetBlog();
+			$this->set($set);
 			$this->render('index');
 		}
 	}
@@ -41,13 +45,13 @@ class Blog extends Pages
 	function readmore ($name = false, $id = false)
 	{
 		if ($this->_error === false) {
-			$name = array();
-			$name['blog'] = $this->ModelsBlog->GetBlog($id);
-			if (count($name['blog']) == 0) {
+			$set = array();
+			$set['blog'] = $this->ModelsBlog->GetBlog($id);
+			if (count($set['blog']) == 0) {
 				$this->error('Forum', 'Page inconnu...', 'danger');
 				return;
 			}
-			$this->set($name);
+			$this->set($set);
 			$this->render('readmore');
 		}
 	}

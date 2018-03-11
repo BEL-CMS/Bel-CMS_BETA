@@ -127,7 +127,7 @@ class BDD
 				$this->limit = ' LIMIT ' . intval($data);
 			} else {
 				$this->limit = '';
-			}			
+			}
 		}
 
 	}
@@ -229,7 +229,7 @@ class BDD
 			self::rowCount();
 			$GLOBALS['REQUEST_SQL']++;
 			$return = true;
-		} catch (PDOException $e) {
+		} catch (Exception $e) {
 			$r  = '<pre>'.PHP_EOL;
 			$r .= str_pad('', 100, '-',STR_PAD_RIGHT).PHP_EOL;
 			$r .= str_pad('Date Time', 20, ' ',STR_PAD_RIGHT) .date("H:i:s").PHP_EOL;
@@ -241,9 +241,7 @@ class BDD
 			$r .= str_pad('Error Trace', 20, ' ',STR_PAD_RIGHT) .PHP_EOL.$e->getTraceAsString().PHP_EOL;
 			$r .= str_pad('', 100, '-',STR_PAD_RIGHT).PHP_EOL;
 			$r .= '</pre>'.PHP_EOL;
-			echo $r;
-
-			$return = false;
+			die($r);
 		}
 
 		return $return;

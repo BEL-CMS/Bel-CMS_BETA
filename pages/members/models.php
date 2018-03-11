@@ -18,12 +18,12 @@ class ModelsMembers
 {
 	public function GetUsers ($where = false)
 	{
-		if (isset($GLOBALS['CONFIG_PAGES']['members']['config']['MAX_USER'])) {
-			$nbpp = (int) $GLOBALS['CONFIG_PAGES']['members']['config']['MAX_USER'];
+		if (isset($_SESSION['pages']->user->config['MAX_USER'])) {
+			$nbpp = (int) $_SESSION['pages']->user->config['MAX_USER_ADMIN'];
 		} else {
 			$nbpp = (int) 10;
 		}
-		$page = (Dispatcher::RequestPages() * $nbpp) - $nbpp;
+		$page = (GET_PAGES * $nbpp) - $nbpp;
 
 		$return = array();
 
@@ -130,7 +130,7 @@ class ModelsMembers
 			$return['data'] = $user;
 		}
 
-		return $return;	
+		return $return;
 	}
 }
 

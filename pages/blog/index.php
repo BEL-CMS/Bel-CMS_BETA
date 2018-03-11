@@ -31,11 +31,11 @@ $count_comment = $count_comment->count;
 	</div>
 	<ul class="col-md-12" id="bel_cms_blog_meta">
 		<li class="meta-author">
-			<span class="fa fa-user"></span> 
+			<span class="fa fa-user"></span>
 			<a href="Members/<?=$v->author->username?>"" title="Posts by <?=$v->author->username?>"><?=$v->author->username?></a>
 		</li>
 		<li class="meta-date"><span class="fa fa-clock-o"></span><?=Common::transformDate($v->date_create, true, 'd-M-Y # H:i') ?></li>
-		<li class="meta-comments"> 
+		<li class="meta-comments">
 			<span class="fa fa-comment-o"></span>
 			<a href="<?=$v->link?>" class="comments-link" title="Comments: <?=$v->name?>"><?=$count_comment?> Comments</a>
 		</li>
@@ -49,5 +49,5 @@ $count_comment = $count_comment->count;
 <?php
 endforeach;
 ?>
-<?=$this->pagination?>
+<?$pagination?>
 </section>

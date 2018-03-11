@@ -24,7 +24,7 @@ if ($this->data):
 					<h3 class="panel-title"><i class="fa fa-users"></i> Register to <?php echo CMS_WEBSITE_NAME; ?></h3>
 				</div>
 				<div class="panel-body">
-					<form action="/User/Send" class="alertAjaxForm" method="post">
+					<form action="User/Send" class="" method="post">
 						<div class="form-group input-icon-left">
 							<i class="fa fa-user"></i>
 							<input type="text" class="form-control" name="username" placeholder="Username" autocomplete="off" required="required">

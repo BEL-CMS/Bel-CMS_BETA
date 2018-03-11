@@ -15,84 +15,74 @@ if (!defined('CHECK_INDEX')) {
 }
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 ?>
-<div class="main">
-	<div class="main-inner">
-		<div class="container">
-			<div class="row">
 
-				<div class="span12">
-					<div class="widget">
-						<!-- debut Titre full -->
-						<div class="widget-header">
-							<i class="icon-th-large"></i>
-							<h3><?=USERS?></h3>
-						</div>
-						<!-- fin Titre full -->
-						<!-- debut du contenue -->
-						<div class="widget-content">
-							<!-- debut des boutton action -->
-							<div class="form-actions">
-								<button class="btn active"><i class="icon-home"></i> <?=HOME?></button>
-								<button class="btn" onclick="window.location.href='User/New?management'"><i class="icon-plus"></i> <?=ADD?></button>
-								<button class="btn" onclick="window.location.href='User/Parameter?management'"><i class="icon-wrench"></i> <?=PARAMETERS?></button>
-							</div>
-							<!-- fin des boutton action -->
-							<table class="table table-striped table-bordered">
-								<thead class="thead-inverse">
-									<tr>
-										<th>#</th>
-										<th><?=NAME?></th>
-										<th><?=MAIL?></th>
-										<th><?=LAST_VISIT?></th>
-										<th class="td-actions"> </th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php
-									foreach ($this->data as $k => $v):
-										?>
-										<tr>
-											<td><?=$v->id?></td>
-											<td><?=$v->username?></td>
-											<td><?=$v->email?></td>
-											<td><?=$v->last_visit?></td>
-											<td class="td-actions">
-												<a href="User/Edit/<?=$v->hash_key?>?management" class="btn btn-small btn-success">
-													<i class="btn-icon-only icon-edit"> </i>
-												</a>
-												<a href="#modal_<?=$v->id?>" role="button" data-toggle="modal" class="btn btn-danger btn-small">
-													<i class="btn-icon-only icon-remove"> </i>
-												</a>
-												<div id="modal_<?=$v->id?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-													<div class="modal-header">
-														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-														<h3 id="myModalLabel">Suppression de l'utilisateur</h3>
-													</div>
-													<div class="modal-body">
-														<p>Etes vous certain de l'utilisateur : <?=$v->username?></p>
-													</div>
-													<div class="modal-footer">
-														<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
-														<a href="User/Del/<?=$v->hash_key?>?management" class="btn btn-primary">Supprimer</a>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<?php
-									endforeach;
-									?>
-								</tbody>
-							</table>
-							<!-- debut pagination -->
-							
-							<!-- debut pagination -->
-						</div>
-						<!-- fin du contenue -->
-					</div>
-				</div>
-		  	</div>
-
+<div class="card">
+	<div class="card-header"><i class="fa fa-align-justify"></i> Pages</div>
+	<div class="card-body">
+		<div class="card-body">
+		<button class="btn btn-secondary active"><i class="icon-home"></i> Accueil</button>
+		<button class="btn btn-outline-secondary" onclick="window.location.href='User/NewUser?management'"><i class="icon-user-follow"></i> Ajouter</button>
+		<button class="btn btn-outline-secondary" onclick="window.location.href='User/Parameter?management'"><i class="icon-wrench"></i> Paramètres</button>
 		</div>
+	</div>
+</div>
+<div class="card">
+	<div class="card-header"><i class="fa fa-align-justify"></i> <?=USERS?></div>
+	<div class="card-body">
+		<table class="table table-responsive-sm table-bordered">
+			<thead class="thead-dark">
+				<tr>
+					<th>#</th>
+					<th><?=NAME?></th>
+					<th><?=MAIL?></th>
+					<th><?=LAST_VISIT?></th>
+					<th class="td-actions"> </th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				foreach ($data as $k => $v):
+					?>
+					<tr>
+						<td><?=$v->id?></td>
+						<td><?=$v->username?></td>
+						<td><?=$v->email?></td>
+						<td><?=$v->last_visit?></td>
+						<td class="td-actions">
+							<a href="User/Edit/<?=$v->hash_key?>?management" class="btn btn-success btn-sm">
+								<i class="icon-pencil"> </i>
+							</a>
+							<a href="User/Del/<?=$v->hash_key?>?management" class="btn btn-danger btn-sm">
+								<i class="icon-trash "> </i>
+							</a>
+							<!--
+							<a data-target="modal_<?=$v->id?>" href="#modal_<?=$v->id?>" role="button" data-toggle="modal" class="btn btn-danger btn-sm">
+								<i class="icon-trash "> </i>
+							</a>
+							<div class="modal fade" id="modal_<?=$v->id?>" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										<h3 id="myModalLabel">Suppression de l'utilisateur</h3>
+									</div>
+									<div class="modal-body">
+										<p>Etes vous certain de l'utilisateur : <?=$v->username?></p>
+									</div>
+									<div class="modal-footer">
+										<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
+										<a href="User/Del/<?=$v->hash_key?>?management" class="btn btn-primary">Supprimer</a>
+									</div>
+								</div>
+							</div>
+							-->
+						</td>
+					</tr>
+					<?php
+				endforeach;
+				?>
+			</tbody>
+		</table>
+		<?=$pagination?>
 	</div>
 </div>
 <?php

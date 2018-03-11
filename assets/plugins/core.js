@@ -39,7 +39,7 @@
 				$('#belcms_popup_user').css('display', 'none');
 			});
 		});
-    };
+	};
 
 	// Tooltips
 	$("[data-toggle='tooltip']").tooltip({container:"body"});
@@ -57,12 +57,12 @@
 
 	// Fixed Navigation
 	$(window).scroll(function(){
-        if ($(this).scrollTop() > 40) {
-            $('body').addClass('header-scroll');
-        } else {
+		if ($(this).scrollTop() > 40) {
+			$('body').addClass('header-scroll');
+		} else {
 			$('body').removeClass('header-scroll');
-        }
-    });
+		}
+	});
 
 
 	// Search Modal
@@ -130,14 +130,14 @@
 
 	// Background Resize
 	$('section.background-image.full-height').each(function () {
-        $(this).css('height', $(window).height());
-    });
+		$(this).css('height', $(window).height());
+	});
 
 	$(window).resize(function () {
-        $('section.background-image.full-height').each(function () {
+		$('section.background-image.full-height').each(function () {
 			$(this).css('height', $(window).height());
-        });
-    });
+		});
+	});
 
 
 	// Parallax
@@ -216,27 +216,27 @@
 
 	$('.full-carousel .item').each(function () {
 		$(this).css('height', $(window).height()  - $('header').outerHeight() );
-    });
+	});
 
 	$(window).resize(function () {
-        $('.full-carousel .item').each(function () {
+		$('.full-carousel .item').each(function () {
 			$(this).css('height', $(window).height()  - $('header').outerHeight() );
-        });
-    });
+		});
+	});
 
 	$('.inactiveUntilOnLoad').removeClass('inactiveUntilOnLoad'); // for carousel kenburns effect
 
 	$('.full-height').each(function () {
 		$(this).css('height', $(window).height()  - $('header').outerHeight() );
-    });
+	});
 
 	$(window).resize(function () {
-        $('.full-height').each(function () {
+		$('.full-height').each(function () {
 			$(this).css('height', $(window).height()  - $('header').outerHeight() );
-        });
-    });
+		});
+	});
 
-    $(".datepicker" ).datepicker();
+	$(".datepicker" ).datepicker();
 
 	if (typeof datepicker !== "undefined") {
 		(function( factory ) {
@@ -415,28 +415,28 @@ function bel_cms_alert_box_end (time) {
 function _initFacebook() {
 	var $body = $('body');
 
-    var self = this;
+	var self = this;
 
-    $body.append('<div id="fb-root"></div>');
+	$body.append('<div id="fb-root"></div>');
 
-    (function (d, s, id) {
-        if (location.protocol === 'file:') {
-            return;
-        }
-        var js = void 0,
-            fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);js.id = id;
-        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8";
-        fjs.parentNode.insertBefore(js, fjs);
-    })(document, 'script', 'facebook-jssdk');
+	(function (d, s, id) {
+		if (location.protocol === 'file:') {
+			return;
+		}
+		var js = void 0,
+			fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {
+			return;
+		}
+		js = d.createElement(s);js.id = id;
+		js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8";
+		fjs.parentNode.insertBefore(js, fjs);
+	})(document, 'script', 'facebook-jssdk');
 
-    // resize on facebook widget loaded
-    window.fbAsyncInit = function () {
-        FB.Event.subscribe('xfbml.render', function () {
-           // self.debounceResize(); annuler manque jQuery ui  
-        });
-    };
+	// resize on facebook widget loaded
+	window.fbAsyncInit = function () {
+		FB.Event.subscribe('xfbml.render', function () {
+		   // self.debounceResize(); annuler manque jQuery ui
+		});
+	};
 }

@@ -14,15 +14,13 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ControllerManagementUser extends ModelsManagementUser
+class User extends Pages
 {
-	public 	$data,
-			$view,
-			$pagination,
-			$error = null;
+	var $models = array('ModelsUser');
 
 	function __construct($id = null)
 	{
+		parent::__construct ();
 		if (isset($_SESSION['pages']->user->config['MAX_USER_ADMIN'])) {
 			$this->nbpp = (int) $_SESSION['pages']->user->config['MAX_USER_ADMIN'];
 		} else {
@@ -32,40 +30,54 @@ class ControllerManagementUser extends ModelsManagementUser
 
 	public function index ()
 	{
-		$this->pagination = Common::Pagination($this->nbpp, GET_PAGE, TABLE_USERS);
-		$this->data = parent::GetUsers();
+		$set['pagination'] = $this->pagination($this->nbpp, GET_PAGE, TABLE_USERS);
+		$set['data'] = $this->ModelsUser->GetUsers();
+		$this->set($set);
+		$this->render('index');
 	}
 
 	public function edit ()
 	{
-		$this->data['listSocial'] = parent::ListSocial();
-		$this->data['social']     = parent::GetUsersSocial(GET_ID);
-		$this->data['private']    = parent::GetUsers(GET_ID);
-		$this->data['profil']     = parent::GetUsersProfil(GET_ID);
+		$set['listSocial'] = $this->ModelsUser->ListSocial();
+		$set['social']     = $this->ModelsUser->GetUsersSocial(GET_ID);
+		$set['private']    = $this->ModelsUser->GetUsers(GET_ID);
+		$set['profil']     = $this->ModelsUser->GetUsersProfil(GET_ID);
+		$this->set($set);
+		$this->render('edit');
+	}
+
+	public function newuser ()
+	{
+		$this->render('new');
 	}
 
 	public function del ()
 	{
-		$return = parent::DelUser(GET_ID);
-		$this->data = $return;
-		Common::Redirect('User?management', 2);
+		$return = $this->ModelsUser->DelUser(GET_ID);
+		$this->error('Utilisateur', $return['text'], $return['type']);
+		$this->redirect('User?management', 2);
+	}
+
+	public function parameter ()
+	{
+		$this->render('parameter');
 	}
 
 	public function senduser ()
 	{
-		$return = parent::SendEdit($_POST);
-		$this->data = $return;
-		Common::Redirect('User?management', 2);
+		$return = $this->ModelsUser->SendEdit($_POST);
+		$this->error('Utilisateur', $return['text'], $return['type']);
+		$this->redirect('User?management', 2);
 	}
 
 	public function send ()
 	{
 		if ($_POST['send'] == 'new') {
-			$return = parent::SendNew($_POST);
+			$return = $this->ModelsUser->SendNew($_POST);
 		} else if ($_POST['send'] == 'parameter') {
-			$return = parent::UpdateParameter($_POST);
+			$return = $this->ModelsUser->UpdateParameter($_POST);
 		}
-		$this->data = $return;
-		Common::Redirect('User?management', 2);
+		$this->error('Utilisateur', $return['text'], $return['type']);
+		$this->redirect('User?management', 2);
 	}
 }

@@ -26,6 +26,20 @@ if (!defined('CHECK_INDEX')) {
 				<th><?=LAST_VISIT?></th>
 			</tr>
 		</thead>
+		<tbody>
+			<?php
+			foreach ($members as $k => $v):
+				?>
+				<tr>
+					<td><?=$v->username?></td>
+					<td><?=$v->profils->websites?></td>
+					<td><?=$v->profils->country?></td>
+					<td><?=$v->last_visit?></td>
+				</tr>
+				<?php
+			endforeach;
+			?>
+		</tbody>
 	</table>
-
+	<?=$pagination?>
 </section>

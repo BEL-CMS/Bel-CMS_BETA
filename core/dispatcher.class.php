@@ -41,11 +41,25 @@ class Dispatcher
 		if (!defined('GET_PAGES'))  {
 			define('GET_PAGES', self::RequestPages());
 		}
-
 	}
 
 	private function controller ()
 	{
+		$management = false;
+		$getManagement = array(
+			'admin',
+			'Admin',
+			'Management',
+			'management'
+		);
+
+		foreach ($getManagement as $k) {
+			if (array_key_exists($k, $_REQUEST)) {
+				$management = true;
+				break;
+			}
+		}
+
 		if (isset($this->links[0]) && !empty($this->links[0])) {
 			$unauthorized = strtolower($this->links[0]);
 			switch ($unauthorized) {
@@ -114,7 +128,11 @@ class Dispatcher
 				break;
 			}
 		} else {
-			$return = 'blog';
+			if ($management === true) {
+				$return = 'dashboard';
+			} else {
+				$return = 'blog';
+			}
 		}
 
 		return $return;

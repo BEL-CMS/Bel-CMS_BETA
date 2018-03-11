@@ -27,6 +27,7 @@ define ('DIR_TPL', ROOT.'templates'.DS);
 define ('DIR_CONFIG', ROOT.'config'.DS);
 define ('DIR_PAGES', ROOT.'pages'.DS);
 define ('DIR_LANG', ROOT.'assets'.DS.'lang'.DS);
+define ('DIR_ASSET',ROOT.'assets'.DS);
 define ('DIR_ASSET_TPL',ROOT.'assets'.DS.'tpl'.DS);
 define ('DIR_WIDGETS', ROOT.'widgets'.DS);
 define ('DIR_VISITORS', ROOT.'visitors'.DS);

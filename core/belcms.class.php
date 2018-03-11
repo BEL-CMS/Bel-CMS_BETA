@@ -28,6 +28,7 @@ final class BelCMS extends Dispatcher
 		if ($this->controller != 'shoutbox') {
 			new Visitors;
 		}
+		$this->page = $this->controller;
 	}
 
 	function _init ()
@@ -40,35 +41,30 @@ final class BelCMS extends Dispatcher
 			common::Redirect('User/Login');
 			return;
 		}
-		if (defined('MANAGEMENT')) {
-			$managements = New Managements;
-			if ($this->IsJquery === true) {
-				if (isset($managements->jquery['redirect'])) {
-					$data['redirect'] = $managements->jquery['redirect'];
-				}
-				$data['type'] = $managements->jquery['type'];
-				$data['text'] = $managements->jquery['text'];
-				echo json_encode($data);
-			} else {
-				echo $managements->return;
-			}
-		} else {
-			self::loadController();
 
-			if ($this->IsJquery === true) {
-				echo json_encode($this->controller->jquery);
-			} else if ($this->IsEcho() === true) {
-				echo $this->controller->affiche;
+		self::loadController();
+
+		if ($this->IsJquery === true) {
+			echo json_encode($this->controller->jquery);
+		} else if ($this->IsEcho() === true) {
+			echo $this->controller->affiche;
+		} else {
+			if (defined('MANAGEMENT')) {
+				$full = false;
+				if (strtolower($this->page) == 'login') {
+					$full = true;
+				}
+				self::getManagement($this->_page, $full);
 			} else {
 				self::getTemplate($this->_page);
-				echo $this->_template;
 			}
+			echo $this->_template;
+		}
 
-			$this->render = ob_get_contents();
+		$this->render = ob_get_contents();
 
-			if (ob_get_length() != 0) { 
-				ob_end_clean();
-			}
+		if (ob_get_length() != 0) { 
+			ob_end_clean();
 		}
 	}
 
@@ -77,7 +73,17 @@ final class BelCMS extends Dispatcher
 	{
 		ob_start();
 
-		$dir = DIR_PAGES.$this->controller.DS.'controller.php';
+		if (defined('MANAGEMENT')) {
+			$arrayIntern = array('login', 'dashboard', 'prefgen', 'prefaccess', 'prefgrps');
+			if (in_array($this->controller, $arrayIntern)) {
+				$dir = ROOT_MANAGEMENT.'pages'.DS.$this->controller.DS.'controller.php';
+			} else {
+				$dir = DIR_PAGES.$this->controller.DS.'management'.DS.'controller.php';
+			}
+		} else {
+			$dir = DIR_PAGES.$this->controller.DS.'controller.php';
+		}
+
 		if (is_file($dir)) {
 			require $dir;
 			$this->controller = new $this->controller();
@@ -106,10 +112,19 @@ final class BelCMS extends Dispatcher
 		}
 	}
 
+
 	private function getTemplate ($page = null)
 	{
-		$template = new template(); // tpl perso en param (futur)
+		$template = new Template; // tpl perso en param (futur)
 		$template->page($page);
 		$this->_template = $template->render();
+	}
+
+	private function getManagement ($page = null, $full = false)
+	{
+		$management = new Management;
+		$management->full($full);
+		$management->page($page);
+		$this->_template = $management->render();
 	}
 }

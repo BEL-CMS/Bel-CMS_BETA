@@ -48,7 +48,6 @@ switch ($table) {
 			(NULL, 'CMS_WEBSITE_LANG', 'fr'),
 			(NULL, 'CMS_TPL_FULL', 'readmore, user, forum, downloads, members, page'),
 			(NULL, 'BELCMS_DEBUG', '0'),
-			(NULL, 'CMS_MAIL', ''),
 			(NULL, 'CMS_JQUERY', 'on'),
 			(NULL, 'CMS_JQUERY_UI', 'on'),
 			(NULL, 'CMS_BOOTSTRAP', 'on');";
@@ -249,7 +248,7 @@ switch ($table) {
 			`username` varchar(32) NOT NULL,
 			`password` char(255) NOT NULL,
 			`email` varchar(128) NOT NULL,
-			`avatar` varchar(255) NOT NULL,
+			`avatar` varchar(255) DEFAULT NULL,
 			`hash_key` char(32) NOT NULL,
 			`date_registration` datetime NOT NULL,
 			`last_visit` datetime NOT NULL,
@@ -257,7 +256,7 @@ switch ($table) {
 			`main_groups` text NOT NULL,
 			`valid` int(1) NOT NULL,
 			`ip` varchar(255) NOT NULL,
-			`token` varchar(50) NOT NULL,
+			`token` varchar(50) DEFAULT NULL,
 			PRIMARY KEY (`id`),
 			UNIQUE KEY `mail` (`email`),
 			UNIQUE KEY `name` (`username`)
@@ -269,17 +268,17 @@ switch ($table) {
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
 			`id` int(11) NOT NULL AUTO_INCREMENT,
 			`hash_key` varchar(32) NOT NULL,
-			`gender` varchar(11) NOT NULL,
-			`public_mail` varchar(128) NOT NULL,
-			`websites` text NOT NULL,
-			`list_ip` text NOT NULL,
-			`list_avatar` text NOT NULL,
-			`config` text NOT NULL,
-			`info_text` text NOT NULL,
-			`birthday` date NOT NULL,
-			`country` varchar(30) NOT NULL,
-			`hight_avatar` varchar(255) NOT NULL,
-			`friends` longtext NOT NULL,
+			`gender` varchar(11) DEFAULT NULL,
+			`public_mail` varchar(128) DEFAULT NULL,
+			`websites` text DEFAULT NULL,
+			`list_ip` text DEFAULT NULL,
+			`list_avatar` text DEFAULT NULL,
+			`config` text DEFAULT NULL,
+			`info_text` text DEFAULT NULL,
+			`birthday` date DEFAULT NULL,
+			`country` varchar(30) DEFAULT NULL,
+			`hight_avatar` varchar(255) DEFAULT NULL,
+			`friends` longtext DEFAULT NULL,
 			PRIMARY KEY (`id`),
 			UNIQUE KEY `hash_key` (`hash_key`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -289,12 +288,12 @@ switch ($table) {
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
 			`id` int(11) NOT NULL AUTO_INCREMENT,
-			`hash_key` varchar(32) NOT NULL,
-			`facebook` varchar(255) NOT NULL,
-			`linkedin` varchar(128) NOT NULL,
-			`twitter` varchar(35) NOT NULL,
-			`googleplus` varchar(128) NOT NULL,
-			`pinterest` varchar(35) NOT NULL,
+			`hash_key` varchar(32) DEFAULT NULL,
+			`facebook` varchar(255) DEFAULT NULL,
+			`linkedin` varchar(128) DEFAULT NULL,
+			`twitter` varchar(35) DEFAULT NULL,
+			`googleplus` varchar(128) DEFAULT NULL,
+			`pinterest` varchar(35) DEFAULT NULL,
 			PRIMARY KEY (`id`),
 			UNIQUE KEY `hash_key` (`hash_key`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";

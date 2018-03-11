@@ -24,6 +24,10 @@ class Team extends Pages
 	function __construct()
 	{
 		parent::__construct();
+		if (parent::accessPage(strtolower(get_class($this))) === false) {
+			$this->error(INFO, 'Désolé, vous n’avez pas accès à cette page', 'info');
+			$this->_error = true;
+		}
 		if ($_SESSION['pages']->team->active == 0) {
 			$this->error(INFO, 'La page team est désactiver', 'info');
 			$this->_error = true;

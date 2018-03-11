@@ -14,8 +14,10 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ControllerManagementBlog extends ModelsManagementBlog
+class Blog extends Pages
 {
+	var $models = array('ModelsManagementBlog');
+
 	public 	$data,
 			$view,
 			$pagination,
@@ -32,8 +34,10 @@ class ControllerManagementBlog extends ModelsManagementBlog
 
 	public function index ()
 	{
-		$this->pagination = Common::Pagination($this->nbpp, GET_PAGE, TABLE_PAGES_BLOG);
-		$this->data = self::GetBlog();
+		//$this->pagination = Common::Pagination($this->nbpp, GET_PAGE, TABLE_PAGES_BLOG);
+		$set['d'] = $this->ModelsManagementBlog->GetBlog();
+		$this->set($set);
+		$this->render('index');
 	}
 
 	public function send ()

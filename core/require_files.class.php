@@ -32,7 +32,7 @@ class RequireFiles
 			DIR_CORE.'spdo.class.php',
 			DIR_CORE.'visitors.class.php',
 			DIR_CORE.'config.class.php',
-			DIR_CORE.'managements.class.php',
+			ROOT_MANAGEMENT.'management.php',
 			DIR_CORE.'widgets.class.php',
 			DIR_CORE.'user.class.php',
 			DIR_CORE.'comment.class.php',

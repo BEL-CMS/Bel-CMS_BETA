@@ -38,10 +38,14 @@ final class Visitors extends Dispatcher
 		$this->visitorBrowser  = self::getBrowserType()->name;
 		$this->visitorRefferer = gethostbyname(Common::GetIp());
 		$this->visitedPage     = $this->controller;
-		if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER[ "HTTP_USER_AGENT" ] )) {
-			$this->visitedUser = 'Bot';
+		if (AutoUser::isLogged() === true) {
+			$visitedUser = $_SESSION['user']->hash_key; 
 		} else {
-			$this->visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : ''; 
+			if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER[ "HTTP_USER_AGENT" ] )) {
+				$visitedUser = 'Bot';
+			} else {
+				$visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : ''; 
+			}
 		}
 		# data insert
 		$this->insertBdd();
@@ -110,10 +114,14 @@ final class Visitors extends Dispatcher
 				'value'=> date('Y')
 			);
 			# data update
-			if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER[ "HTTP_USER_AGENT" ] )) {
-				$visitedUser = 'Bot';
+			if (AutoUser::isLogged() === true) {
+				$visitedUser = $_SESSION['user']->hash_key; 
 			} else {
-				$visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : ''; 
+				if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER[ "HTTP_USER_AGENT" ] )) {
+					$visitedUser = 'Bot';
+				} else {
+					$visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : ''; 
+				}
 			}
 			$update['visitor_user']   = $visitedUser;
 			$update['visitor_hour']   = $this->visitorHour;
@@ -250,6 +258,9 @@ final class Visitors extends Dispatcher
 		{
 			$bname = 'Netscape';
 			$ub = "Netscape";
+		} else {
+			$bname = 'Inconnu';
+			$ub = "Inconnu";
 		}
 	   
 		$known = array('Version', $ub, 'other');
@@ -257,16 +268,22 @@ final class Visitors extends Dispatcher
 		')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
 		if (!preg_match_all($pattern, $u_agent, $matches)) { }
 	   
-		$i = count($matches['browser']);
-		if ($i != 1) {
-			if (strripos($u_agent,"Version") < strripos($u_agent,$ub)) {
-				$version= $matches['version'][0];
-			} else {
-				$version= $matches['version'][1];
+	   	# fix ie
+	   	if ($bname != 'Inconnu') {
+	   	# fix ie
+			$i = count($matches['browser']);
+			if ($i != 1) {
+				if (strripos($u_agent,"Version") < strripos($u_agent,$ub)) {
+					$version= $matches['version'][0];
+				} else {
+					$version= $matches['version'][1];
+				}
 			}
-		}
-		else {
-			$version= $matches['version'][0];
+			else {
+				$version= $matches['version'][0];
+			}
+		} else {
+			$version = null;
 		}
 
 		if ($version==null || $version=="") {$version="?";}

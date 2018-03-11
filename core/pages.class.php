@@ -16,16 +16,24 @@ if (!defined('CHECK_INDEX')) {
 
 class Pages
 {
-	var $vars = array();
-	var $page = null;
+	var $vars   = array();
+	var $page   = null;
+	var $intern = false;
+	var $access = true;
 
 	function __construct () {
+		if ($this->intern && !in_array(strtolower(get_class($this)), array('dashboard', 'login', 'logout'))) {
+			if (!in_array(1, $_SESSION['user']->groups)) {
+				$this->access = false;
+				self::error('Accès', 'Accès réservé aux administrateurs principal', 'error');
+			}
+		}
 		if (isset($_POST)) {
 			$this->data = $_POST;
 		}
 		if (isset($this->models)){
 			foreach($this->models as $v){
-				$this->loadModel($v); 
+				$this->loadModel($v);
 			}
 		}
 	}
@@ -40,31 +48,44 @@ class Pages
 	function affiche ($d) {
 		$this->affiche = $d;
 	}
+	function internManagement ($d = false)
+	{
+		$this->internManagement = $d;
+	}
 
 	function render($filename) {
 		extract($this->vars);
 		ob_start();
-		$dir = defined('MANAGEMENT') ?
-			DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.$filename.'.php' : 
-			DIR_PAGES.strtolower(get_class($this)).DS.$filename.'.php';
-		$custom = defined('MANAGEMENT') ? null :
-			DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.lcfirst(get_class($this)).'.'.$filename.'.php';
-		if (is_file($custom)) {
-			require_once $custom;
-		} else if (is_file($dir)) {
-			require_once $dir;
-		} else {
-			$error_name    = 'file no found';
-			$error_content = '<p><strong>file : '.$filename.' no found</strong><p>';
-			require DIR_ASSET_TPL.'error'.DS.'404.php';
-		}
+		if ($this->access === true) {
 
-		$this->page = ob_get_contents();
+			if ($this->intern) {
+				$dir = ROOT_MANAGEMENT.'pages'.DS.get_class($this).DS.$filename.'.php';
+				$custom = null;
+			} else {
+				$dir = defined('MANAGEMENT') ?
+					DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.$filename.'.php' :
+					DIR_PAGES.strtolower(get_class($this)).DS.$filename.'.php';
+				$custom = defined('MANAGEMENT') ? null :
+					DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.lcfirst(get_class($this)).'.'.$filename.'.php';
+			}
+			if (is_file($custom)) {
+				require_once $custom;
+			} else if (is_file($dir)) {
+				require_once $dir;
+			} else {
+				$error_name    = 'file no found';
+				$error_content = '<p><strong>file : '.$filename.' no found</strong><p>';
+				require DIR_ASSET_TPL.'error'.DS.'404.php';
+			}
 
-		if (ob_get_length() != 0) { 
-			ob_end_clean();
+			$this->page = ob_get_contents();
+
+			if (ob_get_length() != 0) {
+				ob_end_clean();
+			}
 		}
 	}
+
 
 	function debug($d) {
 		ob_start();
@@ -84,9 +105,14 @@ class Pages
 
 	function loadModel ($name)
 	{
-		$dir = defined('MANAGEMENT') ?
-			DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.'models.php' : 
-			DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
+
+		if ($this->intern) {
+			$dir = ROOT_MANAGEMENT.'pages'.DS.get_class($this).DS.'models.php';
+		} else {
+			$dir = defined('MANAGEMENT') ?
+				DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.'models.php' :
+				DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
+		}
 		if (is_file($dir)) {
 			require_once $dir;
 			$this->$name = new $name();
@@ -121,8 +147,8 @@ class Pages
 		$current     = (int) Dispatcher::RequestPages();
 		$page_url    = $page.$management;
 		$total       = self::paginationCount($nbpp, $table, $where);
-		$adjacents   = 1; 
-		$current     = ($current == 0 ? 1 : $current);  
+		$adjacents   = 1;
+		$current     = ($current == 0 ? 1 : $current);
 		$start       = ($current - 1) * $nbpp;
 		$prev        = $current - 1;
 		$next        = $current + 1;
@@ -130,10 +156,10 @@ class Pages
 		$lpm1        = $setLastpage - 1;
 		$setPaginate = "";
 
-		if ($setLastpage > 1) {	
+		if ($setLastpage > 1) {
 			$setPaginate .= "<ul class='pagination'>";
 			// $setPaginate .= "<li>Page $current of $setLastpage</li>"; /* retirer: compteur de nombre de page
-			if ($setLastpage < 7 + ($adjacents * 2)) {	
+			if ($setLastpage < 7 + ($adjacents * 2)) {
 				for ($counter = 1; $counter <= $setLastpage; $counter++) {
 					if ($counter == $current) {
 						$setPaginate.= "<li class='active'><a>$counter</a></li>";
@@ -178,8 +204,8 @@ class Pages
 					}
 				}
 			}
-			
-			if ($current < $counter - 1) { 
+
+			if ($current < $counter - 1) {
 				$setPaginate .= "<li><a href='{$page_url}page=$next'>Suivant</a></li>";
 				$setPaginate .= "<li><a href='{$page_url}page=$setLastpage'>Dernière</a></li>";
 			} else{
@@ -190,7 +216,7 @@ class Pages
 			$setPaginate.= "</ul>".PHP_EOL;
 		}
 
-		$this->pagination = $setPaginate;
+		return $setPaginate;
 	}
 
 	#########################################
@@ -221,5 +247,39 @@ class Pages
 			}
 		}
 		header("refresh:$time;url='$url'");
+	}
+
+	#########################################
+	# Access Page
+	#########################################
+	function accessPage ($page)
+	{
+		$access = (bool) false;
+
+		if ($name !== false) {
+
+			$sql = New BDD;
+			$sql->table('TABLE_PAGES_CONFIG');
+			$sql->where(array('name' => 'name', 'value' => $page));
+			$sql->queryOne();
+
+			$sql->data->access_groups = explode('|', $sql->data->access_groups);
+
+			foreach ($sql->data->access_groups as $k => $v) {
+				if ($v == 0) {
+					$access = (bool) true;
+					break;
+				}
+				if (isset($_SESSION['user'])) {
+					if (in_array($v, $_SESSION['user']->groups)) {
+						$access = (bool) true;
+						break;
+					} else {
+						$access = (bool) false;
+					}
+				}
+			}
+		}
+		return $access;
 	}
 }

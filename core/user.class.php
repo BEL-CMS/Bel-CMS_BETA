@@ -21,6 +21,26 @@ class AutoUser
 		if (self::isLogged() === false) {
 			self::autoLogin();
 		}
+		self::autoUpdateSession();
+	}
+	#########################################
+	# Auto update last visit timer
+	#########################################
+	private function autoUpdateSession ()
+	{
+		if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
+			$hash_key = $_SESSION['user']->hash_key;
+			if (!isset($_SESSION['SESSION_USER'])) {
+				$sql = New BDD();
+				$sql->table('TABLE_USERS');
+				$sql->where(array('name' => 'hash_key', 'value' => $hash_key));
+				$sql->sqlData(array('last_visit' => date('Y-m-d H:i:s'), 'ip' => Common::GetIp()));
+				$sql->update();
+				if ($sql->rowCount == 1) {
+					$_SESSION['SESSION_USER'] = true;
+				}
+			}
+		}
 	}
 	#########################################
 	# Auto connection through cookie
@@ -121,12 +141,6 @@ class AutoUser
 					$_SESSION['user'] = self::getInfosUser($results['hash_key']);
 					$return['msg']  = 'La connexion a été éffectuée avec succès';
 					$return['type'] = 'success';
-					// UPDATE LAST VISIT AND LAST IP
-					$sql = New BDD();
-					$sql->table('TABLE_USERS');
-					$sql->where(array('name' => 'hash_key', 'value' => $hash_key));
-					$sql->sqlData(array('last_visit' => date('Y-m-d H:i:s'), 'ip' => Common::GetIp()));
-					$sql->update();
 				} else {
 					$return['msg']  = 'Mauvaise combinaison de Pseudonyme-email et/ou mot de passe';
 					$return['type'] = 'error';

@@ -22,10 +22,14 @@ class Members extends Pages
 	public function __construct()
 	{
 		parent::__construct();
+		if (parent::accessPage(strtolower(get_class($this))) === false) {
+			$this->error(INFO, 'Désolé, vous n’avez pas accès à cette page', 'info');
+			$this->_error = true;
+		}
 		if (isset($_SESSION['pages']->members->config['MAX_USER'])) {
-			$nbpp = (int) $_SESSION['pages']->members->config['MAX_USER'];
+			$this->nbpp = (int) $_SESSION['pages']->user->config['MAX_USER'];
 		} else {
-			$nbpp = (int) 10;
+			$this->nbpp = (int) 10;
 		}
 		if ($_SESSION['pages']->members->active == 0) {
 			$this->error(INFO, 'La page membres est désactiver', 'info');
@@ -36,11 +40,11 @@ class Members extends Pages
 	public function index ()
 	{
 		if ($this->_error === false) {
-			$name = array();
 			# $where = "WHERE `groups` LIKE '%2%'"; annule affiche tout les membres
-			$this->pagination($this->nbpp, GET_PAGE, TABLE_USERS);
-			$name['members'] = $this->ModelsMembers->GetUsers();
-			$this->set($name);
+			//$this->pagination($this->nbpp, GET_PAGE, TABLE_USERS);
+			$set['pagination'] = $this->pagination($this->nbpp, GET_PAGE, TABLE_USERS);
+			$set['members'] = $this->ModelsMembers->GetUsers();
+			$this->set($set);
 			$this->render('index');
 		}
 	}
@@ -96,6 +100,6 @@ class Members extends Pages
 			$this->affiche = json_encode($data);
 			//$this->set($data);
 			//$this->render('json');
-		}	
+		}
 	}
 }

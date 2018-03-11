@@ -303,7 +303,7 @@ class ModelsUser
 					$return['msg']  = 'ce courriel est déjà réservé.';
 					$return['type']  = 'warning';
 				} else {
-
+					$data['avatar']            = '';
 					$data['password']          = password_hash($data['password'], PASSWORD_DEFAULT);
 					$data['hash_key']          = md5(uniqid(rand(), true));
 					$data['date_registration'] = date('Y-m-d H:i:s');
@@ -312,6 +312,7 @@ class ModelsUser
 					$data['main_groups']       = (int) 3;
 					$data['valid']             = (int) 1;
 					$data['ip']                = Common::getIp();
+					$data['token']             = '';
 
 					$insert = New BDD();
 					$insert->table('TABLE_USERS');
@@ -327,7 +328,10 @@ class ModelsUser
 						'list_avatar'  => '',
 						'config'       => 0,
 						'info_text'    => '',
-						'birthday'     => date('Y-m-d')
+						'birthday'     => date('Y-m-d'),
+						'country'      => '',
+						'hight_avatar' => '',
+						'friends'      => ''
 					);
 
 					$insert = New BDD();

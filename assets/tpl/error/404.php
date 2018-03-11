@@ -16,7 +16,7 @@ header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 		.error-template {padding: 40px 15px;text-align: center;}
 		.error-actions {margin-top:15px;margin-bottom:15px;}
 		.error-actions .btn { margin-right:10px; }
-    --></style> 
+    --></style>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	</head>
 	<body>
@@ -29,10 +29,10 @@ header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 					<div class="error-details"><?=$error_content?></div>
 					<div class="error-actions">
 						<a href="<?=WEB_ROOT?>" class="btn btn-primary btn-lg">
-							<span class="glyphicon glyphicon-home"></span> Back To Home 
+							<span class="glyphicon glyphicon-home"></span> Back To Home
 						</a>
-						<a href="mailto:<?=CMS_MAIL?>?subject=Support CMS" class="btn btn-default btn-lg">
-							<span class="glyphicon glyphicon-envelope"></span> Contact Support 
+						<a href="mailto:<?=CMS_MAIL_WEBSITE?>?subject=Support CMS" class="btn btn-default btn-lg">
+							<span class="glyphicon glyphicon-envelope"></span> Contact Support
 						</a>
 					</div>
 					</div>
@@ -41,5 +41,5 @@ header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 		</div>
 	</body>
 </html>
-<?php 
+<?php
 die();

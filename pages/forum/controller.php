@@ -25,6 +25,10 @@ class Forum extends Pages
 	function __construct()
 	{
 		parent::__construct();
+		if (parent::accessPage(strtolower(get_class($this))) === false) {
+			$this->error(ERROR, 'Désolé, vous n’avez pas accès à cette page', 'danger');
+			$this->_error = true;
+		}
 		if ($_SESSION['pages']->forum->active == 0) {
 			$this->error(INFO, 'Forum désactiver', 'info');
 			$this->_error = true;
@@ -61,7 +65,7 @@ class Forum extends Pages
 	{
 		if ($this->_error === false) {
 			$d = array();
-			$id = (int) $id; 
+			$id = (int) $id;
 			$d['id'] = $id;
 			$d['threads'] = $this->ModelsForum->GetPost($name, $id);
 			if (NO_ACCESS_GROUP_PAGE == $name) {
