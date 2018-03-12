@@ -59,7 +59,7 @@ class Pages
 		if ($this->access === true) {
 
 			if ($this->intern) {
-				$dir = ROOT_MANAGEMENT.'pages'.DS.get_class($this).DS.$filename.'.php';
+				$dir = ROOT_MANAGEMENT.'pages'.DS.strtolower(get_class($this)).DS.$filename.'.php';
 				$custom = null;
 			} else {
 				$dir = defined('MANAGEMENT') ?
@@ -105,9 +105,8 @@ class Pages
 
 	function loadModel ($name)
 	{
-
 		if ($this->intern) {
-			$dir = ROOT_MANAGEMENT.'pages'.DS.get_class($this).DS.'models.php';
+			$dir = ROOT_MANAGEMENT.'pages'.DS.strtolower(get_class($this)).DS.'models.php';
 		} else {
 			$dir = defined('MANAGEMENT') ?
 				DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.'models.php' :
@@ -119,7 +118,7 @@ class Pages
 		} else {
 			ob_start();
 			$error_name    = 'file no found';
-			$error_content = '<strong>file models no found</strong> : <br>'.DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
+			$error_content = '<strong>file models no found</strong> : <br>'.$dir;
 			require DIR_ASSET_TPL.'error'.DS.'404.php';
 			$this->page = ob_get_contents();
 			ob_end_clean();
