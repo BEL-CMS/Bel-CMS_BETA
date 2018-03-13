@@ -15,7 +15,6 @@ if (!defined('CHECK_INDEX')) {
 }
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 ?>
-
 <div class="card">
 	<div class="card-header"><i class="fa fa-align-justify"></i> Pages</div>
 	<div class="card-body">
@@ -55,26 +54,6 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 							<a href="User/Del/<?=$v->hash_key?>?management" class="btn btn-danger btn-sm">
 								<i class="icon-trash "> </i>
 							</a>
-							<!--
-							<a data-target="modal_<?=$v->id?>" href="#modal_<?=$v->id?>" role="button" data-toggle="modal" class="btn btn-danger btn-sm">
-								<i class="icon-trash "> </i>
-							</a>
-							<div class="modal fade" id="modal_<?=$v->id?>" tabindex="-1" role="dialog" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										<h3 id="myModalLabel">Suppression de l'utilisateur</h3>
-									</div>
-									<div class="modal-body">
-										<p>Etes vous certain de l'utilisateur : <?=$v->username?></p>
-									</div>
-									<div class="modal-footer">
-										<button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
-										<a href="User/Del/<?=$v->hash_key?>?management" class="btn btn-primary">Supprimer</a>
-									</div>
-								</div>
-							</div>
-							-->
 						</td>
 					</tr>
 					<?php

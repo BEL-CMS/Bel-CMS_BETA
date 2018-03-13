@@ -18,19 +18,10 @@ class ModelsBlog
 {
 	public function GetBlog ($id = false)
 	{
-
-		if (defined('MANAGEMENT')) {
-			if (isset($_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'])) {
-				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'];
-			} else {
-				$nbpp = (int) 25;
-			}
+		if (isset($_SESSION['pages']->blog->config['MAX_BLOG'])) {
+			$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG'];
 		} else {
-			if (isset($_SESSION['pages']->blog->config['MAX_BLOG'])) {
-				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG'];
-			} else {
-				$nbpp = (int) 3;
-			}
+			$nbpp = (int) 3;
 		}
 
 		$page = (Dispatcher::RequestPages() * $nbpp) - $nbpp;

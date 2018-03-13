@@ -14,23 +14,14 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ModelsManagementBlog
+class ModelsBlog
 {
 	public function GetBlog ($id = false)
 	{
-
-		if (defined('MANAGEMENT')) {
-			if (isset($_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'])) {
-				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'];
-			} else {
-				$nbpp = (int) 25;
-			}
+		if (isset($_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'])) {
+			$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'];
 		} else {
-			if (isset($_SESSION['pages']->blog->config['MAX_BLOG'])) {
-				$nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG'];
-			} else {
-				$nbpp = (int) 3;
-			}
+			$nbpp = (int) 25;
 		}
 
 		$page = (Dispatcher::RequestPages() * $nbpp) - $nbpp;
@@ -112,7 +103,7 @@ class ModelsManagementBlog
 			$sql->table('TABLE_PAGES_BLOG');
 			$sql->sqlData($insert);
 			$sql->insert();
-			// SQL RETURN NB INSERT 
+			// SQL RETURN NB INSERT
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',
@@ -151,7 +142,7 @@ class ModelsManagementBlog
 			$sql->where(array('name' => 'id', 'value' => $id));
 			$sql->sqlData($edit);
 			$sql->update();
-			// SQL RETURN NB UPDATE 
+			// SQL RETURN NB UPDATE
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',
@@ -185,7 +176,7 @@ class ModelsManagementBlog
 			$sql->where(array('name'=>'name','value' => 'blog'));
 			$sql->sqlData($update);
 			$sql->update();
-			// SQL RETURN NB UPDATE 
+			// SQL RETURN NB UPDATE
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',
@@ -216,7 +207,7 @@ class ModelsManagementBlog
 			$sql->table('TABLE_PAGES_BLOG');
 			$sql->where(array('name'=>'id','value' => $delete));
 			$sql->delete();
-			// SQL RETURN NB DELETE 
+			// SQL RETURN NB DELETE
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',

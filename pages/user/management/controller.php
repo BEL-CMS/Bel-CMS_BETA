@@ -54,7 +54,7 @@ class User extends Pages
 	public function del ()
 	{
 		$return = $this->ModelsUser->DelUser(GET_ID);
-		$this->error('Utilisateur', $return['text'], $return['type']);
+		$this->error(get_class($this), $return['text'], $return['type']);
 		$this->redirect('User?management', 2);
 	}
 
@@ -66,7 +66,7 @@ class User extends Pages
 	public function senduser ()
 	{
 		$return = $this->ModelsUser->SendEdit($_POST);
-		$this->error('Utilisateur', $return['text'], $return['type']);
+		$this->error(get_class($this), $return['text'], $return['type']);
 		$this->redirect('User?management', 2);
 	}
 
@@ -77,7 +77,7 @@ class User extends Pages
 		} else if ($_POST['send'] == 'parameter') {
 			$return = $this->ModelsUser->UpdateParameter($_POST);
 		}
-		$this->error('Utilisateur', $return['text'], $return['type']);
+		$this->error(get_class($this), $return['text'], $return['type']);
 		$this->redirect('User?management', 2);
 	}
 }

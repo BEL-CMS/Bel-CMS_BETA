@@ -16,7 +16,7 @@ if (!defined('CHECK_INDEX')) {
 
 class Blog extends Pages
 {
-	var $models = array('ModelsManagementBlog');
+	var $models = array('ModelsBlog');
 
 	public 	$data,
 			$view,
@@ -25,6 +25,8 @@ class Blog extends Pages
 
 	function __construct($id = null)
 	{
+		parent::__construct();
+
 		if (isset($_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'])) {
 			$this->nbpp = (int) $_SESSION['pages']->blog->config['MAX_BLOG_ADMIN'];
 		} else {
@@ -34,8 +36,8 @@ class Blog extends Pages
 
 	public function index ()
 	{
-		//$this->pagination = Common::Pagination($this->nbpp, GET_PAGE, TABLE_PAGES_BLOG);
-		$set['d'] = $this->ModelsManagementBlog->GetBlog();
+		$set['pagination'] = $this->pagination($this->nbpp, GET_PAGE, TABLE_PAGES_BLOG);
+		$set['data'] = $this->ModelsBlog->GetBlog();
 		$this->set($set);
 		$this->render('index');
 	}
@@ -43,24 +45,37 @@ class Blog extends Pages
 	public function send ()
 	{
 		if ($_POST['send'] == 'blog') {
-			$return = parent::SendNew($_POST);
+			$return = $this->ModelsBlog->SendNew($_POST);
 		} else if ($_POST['send'] == 'edit') {
-			$return = parent::SendEdit($_POST);
+			$return = $this->ModelsBlog->SendEdit($_POST);
 		} else if ($_POST['send'] == 'parameter') {
-			$return = parent::UpdateParameter($_POST);
+			$return = $this->ModelsBlog->UpdateParameter($_POST);
 		}
-		$this->data = $return;
-		Common::Redirect('Blog?management', 2);
+		$this->error(get_class($this), $return['text'], $return['type']);
+		$this->redirect('Blog?management', 2);
 	}
+
+	public function newblog ()
+	{
+		$this->render('new');
+	}
+
+	public function parameter ()
+	{
+		$this->render('parameter');
+	}
+
 	public function del ()
 	{
-		$return = parent::DelNew(GET_ID);
-		$this->data = $return;
-		Common::Redirect('Blog?management', 2);
+		$return = $this->ModelsBlog->DelNew(GET_ID);
+		$this->error(get_class($this), $return['text'], $return['type']);
+		$this->redirect('Blog?management', 2);
 	}
+
 	public function edit ()
 	{
-		$return = parent::GetBlog(GET_ID);
-		$this->data = $return;
+		$set['data'] = $this->ModelsBlog->GetBlog(GET_ID);
+		$this->set($set);
+		$this->render('edit');
 	}
 }

@@ -153,7 +153,7 @@ class Pages
 		$next        = $current + 1;
 		$setLastpage = ceil($total/$nbpp);
 		$lpm1        = $setLastpage - 1;
-		$setPaginate = "";
+		$setPaginate = null;
 
 		if ($setLastpage > 1) {
 			$setPaginate .= "<ul class='pagination'>";
