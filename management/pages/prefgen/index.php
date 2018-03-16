@@ -16,23 +16,20 @@ if (!defined('CHECK_INDEX')) {
 
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 ?>
-<div class="row">
-	<div class="col-sm-12">
-		<form action="prefgen/send?management" method="post">
-			<div class="card">
-				<div class="card-header">
-					<strong><?=PARAMETERS?></strong>
-					<small><i class="icon-user"></i></small>
-				</div>
-				<div class="card-body">
-					<?=$form?>
-				</div>
-				<div class="card-footer">
-					<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> <?=SAVE?></button>
-				</div>
-			</div>
-		</form>
-	</div>
+<div class="box">
+	<form action="prefgen/send?management" method="post">
+		<div class="box-header with-border">
+			<h3 class="box-title"><?=PARAMETERS?></h3>
+		</div>
+
+		<div class="box-body">
+			<?=$form?>
+		</div>
+
+		<div class="box-footer">
+			<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> <?=SAVE?></button>
+		</div>
+	</form>
 </div>
 <?php
 endif;

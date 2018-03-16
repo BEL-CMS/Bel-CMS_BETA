@@ -59,12 +59,15 @@ class Pages
 		if ($this->access === true) {
 
 			if ($this->intern) {
-				$dir = ROOT_MANAGEMENT.'pages'.DS.strtolower(get_class($this)).DS.$filename.'.php';
+				$dir    = ROOT_MANAGEMENT.'pages'.DS.strtolower(get_class($this)).DS.$filename.'.php';
 				$custom = null;
 			} else {
-				$dir = defined('MANAGEMENT') ?
-					DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.$filename.'.php' :
-					DIR_PAGES.strtolower(get_class($this)).DS.$filename.'.php';
+				if (defined('MANAGEMENT')) {
+					$dir = DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.$filename.'.php';
+				} else {
+					$dir = DIR_PAGES.strtolower(get_class($this)).DS.$filename.'.php';
+				}
+
 				$custom = defined('MANAGEMENT') ? null :
 					DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.lcfirst(get_class($this)).'.'.$filename.'.php';
 			}
@@ -85,7 +88,6 @@ class Pages
 			}
 		}
 	}
-
 
 	function debug($d) {
 		ob_start();

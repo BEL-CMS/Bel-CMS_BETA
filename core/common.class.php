@@ -280,7 +280,7 @@ final class Common
 	public static function VarSecure ($data = null, $authorised = 'html') {
 		$return = null;
 		$base_html = '<p><hr><em><big><a><b><u><s><i><div><img><pre><br><ul><li><ol><tr><th><table><tbody><thead><tfoot><colgroup><span><strong><blockquote><iframe><font><h1><h2><h3><h4><h5><h6><font><sup><sub>';
-	
+
 		if ($authorised == 'html') {
 			$authorised = $base_html;
 		} else if ($authorised == null) {
@@ -463,8 +463,8 @@ final class Common
 		$current     = (int) GET_PAGES;
 		$page_url    = $page.$management;
 		$total       = self::PaginationCount($nbpp, $table, $where);
-		$adjacents   = 1; 
-		$current     = ($current == 0 ? 1 : $current);  
+		$adjacents   = 1;
+		$current     = ($current == 0 ? 1 : $current);
 		$start       = ($current - 1) * $nbpp;
 		$prev        = $current - 1;
 		$next        = $current + 1;
@@ -472,10 +472,10 @@ final class Common
 		$lpm1        = $setLastpage - 1;
 		$setPaginate = "";
 
-		if ($setLastpage >= 1) {	
+		if ($setLastpage >= 1) {
 			$setPaginate .= "<ul class='pagination'>";
 			// $setPaginate .= "<li>Page $current of $setLastpage</li>"; /* retirer: compteur de nombre de page
-			if ($setLastpage < 7 + ($adjacents * 2)) {	
+			if ($setLastpage < 7 + ($adjacents * 2)) {
 				for ($counter = 1; $counter <= $setLastpage; $counter++) {
 					if ($counter == $current) {
 						$setPaginate.= "<li class='active'><a>$counter</a></li>";
@@ -520,8 +520,8 @@ final class Common
 					}
 				}
 			}
-			
-			if ($current < $counter - 1) { 
+
+			if ($current < $counter - 1) {
 				$setPaginate .= "<li><a href='{$page_url}page=$next'>Next</a></li>";
 				$setPaginate .= "<li><a href='{$page_url}page=$setLastpage'>Last</a></li>";
 			} else{
@@ -533,7 +533,7 @@ final class Common
 		}
 
 		return $setPaginate;
-	} 
+	}
 	#########################################
 	# Security Upload
 	#########################################
@@ -560,7 +560,7 @@ final class Common
 				$extensions = array('.png', '.gif', '.jpg', '.jpeg', '.doc', '.txt', '.pdf', '.rar', '.zip', '.7zip');
 			}
 
-			$extension = strrchr($_FILES[$name]['name'], '.'); 
+			$extension = strrchr($_FILES[$name]['name'], '.');
 			if (!in_array($extension, $extensions)) {
 				$err = UPLOAD_ERROR_FILE;
 			}
@@ -585,8 +585,8 @@ final class Common
 	}
 	public static function FormatName ($n)
 	{
-		$n = strtr($n, 
-			'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
+		$n = strtr($n,
+			'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ',
 			'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
 		$n = preg_replace('/([^.a-z0-9]+)/i', '-', $n);
 		return $n;
@@ -597,32 +597,32 @@ final class Common
 		$return = self::ConvertSize($return);
 		return $return;
 	}
-	public static function ConvertPHPSizeToBytes ($s)  
-	{  
+	public static function ConvertPHPSizeToBytes ($s)
+	{
 		if (is_numeric($s)) {
 			return $s;
 		}
-		$suffix = substr($s, -1);  
-		$r = substr($s, 0, -1);  
-		switch(strtoupper($suffix)) {  
-			case 'P':  
-				$r *= 1024;  
-			case 'T':  
-				$r *= 1024;  
-			case 'G':  
-				$r *= 1024;  
-			case 'M':  
-				$r *= 1024;  
-			case 'K':  
-				$r *= 1024;  
-			break;  
-		}  
-		return $r;  
-	}  
+		$suffix = substr($s, -1);
+		$r = substr($s, 0, -1);
+		switch(strtoupper($suffix)) {
+			case 'P':
+				$r *= 1024;
+			case 'T':
+				$r *= 1024;
+			case 'G':
+				$r *= 1024;
+			case 'M':
+				$r *= 1024;
+			case 'K':
+				$r *= 1024;
+			break;
+		}
+		return $r;
+	}
 
-	public static function GetMaximumFileUploadSize()  
-	{  
-		return min(self::ConvertPHPSizeToBytes(ini_get('post_max_size')), self::ConvertPHPSizeToBytes(ini_get('upload_max_filesize')));  
+	public static function GetMaximumFileUploadSize()
+	{
+		return min(self::ConvertPHPSizeToBytes(ini_get('post_max_size')), self::ConvertPHPSizeToBytes(ini_get('upload_max_filesize')));
 	}
 	public static function SiteMap()
 	{
@@ -915,6 +915,9 @@ final class Common
 	}
 
 	public static function truncate($text, $chars = 25) {
+		if (strlen($text) <= $chars) {
+			return $text;
+		}
 		$text = $text." ";
 		$text = substr($text,0,$chars);
 		$text = substr($text,0,strrpos($text,' '));
@@ -928,8 +931,8 @@ final class Common
 function debug ($data = null, $exitAfter = false) {
 	return Common::Debug($data, $exitAfter);
 }
-function cesure_href($d) { 
-	return '<a href="' . $d[1] . '" title="' . $d[1] . '" >[Lien]</a>';      
+function cesure_href($d) {
+	return '<a href="' . $d[1] . '" title="' . $d[1] . '" >[Lien]</a>';
 }
 function fixUrl ($d) {
 	return strtr($d, array('?' => '%3F'));

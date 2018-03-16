@@ -16,40 +16,26 @@ if (!defined('CHECK_INDEX')) {
 
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 ?>
-<div class="row">
-	<div class="col-sm-12">
-		<form action="prefgen/send?management" method="post">
-			<div class="card">
-				<div class="card-header">
-					<strong><?=PAGES?></strong>
-					<small><i class="icon-user"></i></small>
-				</div>
-				<div class="card-body">
-					<div class="widget widget-table action-table">
-						<div class="widget-content">
-							<table class="table table-striped table-bordered">
-
-								<tbody>
-								<?php
-								foreach ($formPages as $k => $v):
-									?>
-									<tr>
-										<td><a href="prefaccess/pageaccess/<?=$v->id?>?management"><?=$v->name?></a></td>
-										<td><?=$v->active?></td>
-									</tr>
-								<?php
-								endforeach
-								?>
-								</tbody>
-							</table>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</form>
+<div class="box">
+	<div class="box-header with-border">
+		<h3 class="box-title"><?=PAGES?></h3>
+	</div>
+	<div class="box-body">
+		<table class="table table-striped table-bordered">
+			<tbody>
+			<?php
+			foreach ($formPages as $k => $v):
+				?>
+				<tr>
+					<td><a href="prefaccess/pageaccess/<?=$v->id?>?management"><?=$v->name?></a></td>
+					<td><?=$v->active?></td>
+				</tr>
+			<?php
+			endforeach
+			?>
+			</tbody>
+		</table>
 	</div>
 </div>
-
 <?php
 endif;

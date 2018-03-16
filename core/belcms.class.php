@@ -42,6 +42,7 @@ final class BelCMS extends Dispatcher
 			return;
 		}
 
+		self::loadLang();
 		self::loadController();
 
 		if ($this->IsJquery === true) {
@@ -63,11 +64,28 @@ final class BelCMS extends Dispatcher
 
 		$this->render = ob_get_contents();
 
-		if (ob_get_length() != 0) { 
+		if (ob_get_length() != 0) {
 			ob_end_clean();
 		}
 	}
 
+	private function loadLang ()
+	{
+		if (defined('MANAGEMENT')) {
+			$arrayIntern = array('login', 'dashboard', 'prefgen', 'prefaccess', 'prefgrps');
+			if (in_array($this->controller, $arrayIntern)) {
+				$lang = ROOT_MANAGEMENT.'pages'.DS.$this->controller.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
+			} else {
+				$lang = DIR_PAGES.$this->controller.DS.'management'.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
+			}
+		} else {
+			$lang = DIR_PAGES.$this->controller.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
+		}
+
+		if (is_file($lang)) {
+			require $lang;
+		}
+	}
 
 	private function loadController ()
 	{
@@ -107,15 +125,14 @@ final class BelCMS extends Dispatcher
 			$this->_page = $buffer;
 		}
 
-		if (ob_get_length() != 0) { 
+		if (ob_get_length() != 0) {
 			ob_end_clean();
 		}
 	}
 
-
 	private function getTemplate ($page = null)
 	{
-		$template = new Template; // tpl perso en param (futur)
+		$template = new Template;
 		$template->page($page);
 		$this->_template = $template->render();
 	}

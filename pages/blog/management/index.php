@@ -26,8 +26,8 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 <div class="card">
 	<div class="card-header"><i class="fa fa-align-justify"></i> <?=USERS?></div>
 	<div class="card-body">
-		<table class="table table-responsive-sm table-bordered">
-			<thead class="thead-dark">
+		<table class="table table-responsive-sm table-bordered table-striped table-sm datatable">
+			<thead class="">
 				<tr>
 					<th>#</th>
 					<th><?=NAME?></th>
@@ -59,7 +59,6 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 				?>
 			</tbody>
 		</table>
-		<?=debug($pagination)?>
 	</div>
 </div>
 <?php

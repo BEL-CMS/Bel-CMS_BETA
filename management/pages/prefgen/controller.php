@@ -67,16 +67,27 @@ class PrefGen extends Pages
 			} else if (array_key_exists($d->name, $formRadio)) {
 				foreach ($formRadio[$d->name] as $a) {
 					$checked = $a == $d->value ? 'checked="checked"' : '';
-					$input .= '<div class="row">';
-					$input .= '<input class="col-md-1 form-control-label" '.$checked.' name="'.$d->id.'" type="radio" id="label_'.$d->id.'" value="'.$a.'"><span class="class="col-md-11 form-control-label"">'.$a.'</span>';
+
+					$input .= '<div class="form-group">';
+					$input .= '<div class="input-group">';
+					$input .= '<span class="input-group-addon">';
+					$input .= '<input type="radio" name="'.$d->id.'" id="label_'.$d->id.'" value="'.$a.'" '.$checked.'>';
+					$input .= '</span>';
+					$input .= '<input class="form-control" type="text" value="'.$a.'" readonly>';
+					$input .= '</div>';
 					$input .= '</div>';
 				}
 			} else if (array_key_exists($d->name, $formCheckbox)) {
 				$value = explode(',', $d->value);
 				foreach ($formCheckbox[$d->name] as $a) {
 					$checked = in_array($a, preg_replace('/\s+/', '', $value)) ? 'checked="checked"' : '';
-					$input .= '<div class="row">';
-					$input .= '<input class="col-md-1 form-control-label" '.$checked.' name="'.$d->id.'[]" type="checkbox" id="label_'.$d->id.'" value="'.$a.'"><span class="col-md-11 form-control-label">'.$a.'</span>';
+					$input .= '<div class="form-group">';
+					$input .= '<div class="input-group">';
+					$input .= '<span class="input-group-addon">';
+					$input .= '<input type="checkbox" name="'.$d->id.'[]" id="label_'.$d->id.'" value="'.$a.'" '.$checked.'>';
+					$input .= '</span>';
+					$input .= '<input class="form-control" type="text" value="'.$a.'" readonly>';
+					$input .= '</div>';
 					$input .= '</div>';
 				}
 			} else {
@@ -85,7 +96,7 @@ class PrefGen extends Pages
 			$form .= '<div class="row">';
 			$form .= '<div class="col-sm-12">';
 			$form .= '<div class="form-group">';
-			$form .= '<label style="display: block !important;" for="label_'.$d->id.'">'.$name.'</label>';
+			$form .= '<label for="label_'.$d->id.'">'.$name.'</label>';
 			$form .= $input;
 			$form .= $help;
 			$form .= '</div>';

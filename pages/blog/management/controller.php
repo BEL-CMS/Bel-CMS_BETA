@@ -36,7 +36,7 @@ class Blog extends Pages
 
 	public function index ()
 	{
-		$set['pagination'] = $this->pagination($this->nbpp, GET_PAGE, TABLE_PAGES_BLOG);
+		//$set['pagination'] = $this->pagination($this->nbpp, GET_PAGE, TABLE_PAGES_BLOG);
 		$set['data'] = $this->ModelsBlog->GetBlog();
 		$this->set($set);
 		$this->render('index');

@@ -62,6 +62,9 @@ class Management
 			}
 		}
 
+		$this->TitleName = defined('MANAGEMENT_TITLE_NAME') ? MANAGEMENT_TITLE_NAME : GET_PAGE;
+		$this->optionalDescription = defined('MANAGEMENT_OPTIONAL_DESCRIPTION') ? MANAGEMENT_OPTIONAL_DESCRIPTION : '';;
+
 	}
 
 	public function page ($page) {
@@ -106,7 +109,7 @@ class Management
 
 		foreach ($scanDir as $k => $v) {
 			if (
-				file_exists(DIR_PAGES.$v.DS.'management') && 
+				file_exists(DIR_PAGES.$v.DS.'management') &&
 				file_exists(DIR_PAGES.$v.DS.'management'.DS.'index.php') &&
 				file_exists(DIR_PAGES.$v.DS.'management'.DS.'controller.php')
 			   ) {
@@ -123,7 +126,7 @@ class Management
 
 		foreach ($scanDir as $k => $v) {
 			if (
-				file_exists(DIR_WIDGETS.$v.DS.'management') && 
+				file_exists(DIR_WIDGETS.$v.DS.'management') &&
 				file_exists(DIR_WIDGETS.$v.DS.'management'.DS.'index.php') &&
 				file_exists(DIR_WIDGETS.$v.DS.'management'.DS.'controller.php')
 			   ) {

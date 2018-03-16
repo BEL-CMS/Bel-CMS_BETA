@@ -63,7 +63,7 @@ class ModelsBlog
 			}
 		} else {
 			$sql->orderby(array(array('name' => 'id', 'type' => 'DESC')));
-			$sql->limit(array(0 => $page, 1 => $nbpp), true);
+			//$sql->limit(array(0 => $page, 1 => $nbpp), true);
 			$sql->queryAll();
 			foreach ($sql->data as $k => $v) {
 				$sql->data[$k]->link = 'blog/readmore/'.$v->rewrite_name.'/'.$v->id;
