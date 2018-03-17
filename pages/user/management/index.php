@@ -15,23 +15,24 @@ if (!defined('CHECK_INDEX')) {
 }
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 ?>
-<div class="card">
-	<div class="card-header"><i class="fa fa-align-justify"></i> Pages</div>
-	<div class="card-body">
-		<div class="card-body">
-		<button class="btn btn-secondary active"><i class="icon-home"></i> Accueil</button>
-		<button class="btn btn-outline-secondary" onclick="window.location.href='User/NewUser?management'"><i class="icon-user-follow"></i> Ajouter</button>
-		<button class="btn btn-outline-secondary" onclick="window.location.href='User/Parameter?management'"><i class="icon-wrench"></i> Paramètres</button>
-		</div>
-	</div>
+<div class="box-body">
+	<a class="btn btn-app" href="User?management">
+		<i class="fa fa-users"></i>Utilisateurs
+	</a>
+	<a class="btn btn-app" href="User/NewUser?management">
+		<i class="fa fa-user-plus"></i>Ajouter
+	</a>
+	<a class="btn btn-app" href="User/Parameter?management">
+		<i class="fa fa-cubes"></i>Paramètres
+	</a>
 </div>
-<div class="card">
-	<div class="card-header"><i class="fa fa-align-justify"></i> <?=USERS?></div>
-	<div class="card-body">
-		<table class="table table-responsive-sm table-bordered">
-			<thead class="thead-dark">
+
+<div class="box">
+	<div class="box-body">
+		<table class="table table-bordered table-hover datatable">
+			<thead>
 				<tr>
-					<th>#</th>
+					<th>ID</th>
 					<th><?=NAME?></th>
 					<th><?=MAIL?></th>
 					<th><?=LAST_VISIT?></th>
@@ -45,13 +46,13 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 					<tr>
 						<td><?=$v->id?></td>
 						<td><?=$v->username?></td>
-						<td><?=$v->email?></td>
+						<td><a href="mailto:<?=$v->email?>"><?=$v->email?></a></td>
 						<td><?=$v->last_visit?></td>
 						<td class="td-actions">
-							<a href="User/Edit/<?=$v->hash_key?>?management" class="btn btn-success btn-sm">
+							<a href="User/Edit/<?=$v->hash_key?>?management" class="btn btn-success btntable">
 								<i class="icon-pencil"> </i>
 							</a>
-							<a href="User/Del/<?=$v->hash_key?>?management" class="btn btn-danger btn-sm">
+							<a href="User/Del/<?=$v->hash_key?>?management" class="btn btn-danger btntable">
 								<i class="icon-trash "> </i>
 							</a>
 						</td>
@@ -61,7 +62,6 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 				?>
 			</tbody>
 		</table>
-		<?=$pagination?>
 	</div>
 </div>
 <?php

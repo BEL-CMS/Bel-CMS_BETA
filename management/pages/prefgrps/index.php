@@ -16,26 +16,29 @@ if (!defined('CHECK_INDEX')) {
 
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 ?>
-<div class="box">
+<div class="box box-info">
 	<div class="box-header with-border">
-		<h3 class="box-title"><?=WIDGETS?></h3>
+	  <h3 class="box-title"><?=WIDGETS?></h3>
 	</div>
-	<div class="box-body">
-		<table class="table table-striped table-bordered">
-			<tbody>
-			<?php
-				foreach ($formWidgets as $k => $v):
-					?>
-					<tr>
-						<td><a href="prefgrps/parameter/<?=$v->id?>?management"><?=$v->name?></a></td>
-						<td><?=$v->activate?></td>
-					</tr>
-				<?php
-				endforeach
-			?>
-			</tbody>
-		</table>
 
+	<div class="box-body">
+		<div class="table-responsive">
+			<table class="table no-margin">
+				<tbody>
+				<?php
+					foreach ($formWidgets as $k => $v):
+						$c = ($v->activate == ACTIVATE) ? 'label bg-green' : 'label bg-red';
+						?>
+						<tr>
+							<td><a href="prefgrps/parameter/<?=$v->id?>?management"><?=$v->name?></a></td>
+							<td><span class="<?=$c?>"><?=$v->activate?></span></td>
+						</tr>
+					<?php
+					endforeach
+				?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 <?php

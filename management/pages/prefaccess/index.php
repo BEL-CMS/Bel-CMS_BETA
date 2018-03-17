@@ -25,10 +25,11 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 			<tbody>
 			<?php
 			foreach ($formPages as $k => $v):
+				$c = ($v->active == ACTIVATE) ? 'label bg-green' : 'label bg-red';
 				?>
 				<tr>
 					<td><a href="prefaccess/pageaccess/<?=$v->id?>?management"><?=$v->name?></a></td>
-					<td><?=$v->active?></td>
+					<td><span class="<?=$c?>"><?=$v->active?></span></td>
 				</tr>
 			<?php
 			endforeach

@@ -38,6 +38,7 @@ class User extends Pages
 
 	public function edit ()
 	{
+		Common::Constant('MANAGEMENT_OPTIONAL_DESCRIPTION', EDIT);
 		$set['listSocial'] = $this->ModelsUser->ListSocial();
 		$set['social']     = $this->ModelsUser->GetUsersSocial(GET_ID);
 		$set['private']    = $this->ModelsUser->GetUsers(GET_ID);
@@ -48,6 +49,7 @@ class User extends Pages
 
 	public function newuser ()
 	{
+		Common::Constant('MANAGEMENT_OPTIONAL_DESCRIPTION', ADD);
 		$this->render('new');
 	}
 
@@ -60,6 +62,7 @@ class User extends Pages
 
 	public function parameter ()
 	{
+		Common::Constant('MANAGEMENT_OPTIONAL_DESCRIPTION', PARAMETER);
 		$this->render('parameter');
 	}
 
