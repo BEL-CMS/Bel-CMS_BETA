@@ -257,30 +257,29 @@ class Pages
 	{
 		$access = (bool) false;
 
-		if ($name !== false) {
 
-			$sql = New BDD;
-			$sql->table('TABLE_PAGES_CONFIG');
-			$sql->where(array('name' => 'name', 'value' => $page));
-			$sql->queryOne();
+		$sql = New BDD;
+		$sql->table('TABLE_PAGES_CONFIG');
+		$sql->where(array('name' => 'name', 'value' => $page));
+		$sql->queryOne();
 
-			$sql->data->access_groups = explode('|', $sql->data->access_groups);
+		$sql->data->access_groups = explode('|', $sql->data->access_groups);
 
-			foreach ($sql->data->access_groups as $k => $v) {
-				if ($v == 0) {
+		foreach ($sql->data->access_groups as $k => $v) {
+			if ($v == 0) {
+				$access = (bool) true;
+				break;
+			}
+			if (isset($_SESSION['user'])) {
+				if (in_array($v, $_SESSION['user']->groups)) {
 					$access = (bool) true;
 					break;
-				}
-				if (isset($_SESSION['user'])) {
-					if (in_array($v, $_SESSION['user']->groups)) {
-						$access = (bool) true;
-						break;
-					} else {
-						$access = (bool) false;
-					}
+				} else {
+					$access = (bool) false;
 				}
 			}
 		}
+
 		return $access;
 	}
 }

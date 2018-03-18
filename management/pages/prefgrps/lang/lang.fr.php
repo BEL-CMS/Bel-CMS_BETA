@@ -15,5 +15,11 @@ if (!defined('CHECK_INDEX')) {
 }
 
 Common::constant(array(
-	'MANAGEMENT_TITLE_NAME' => 'Paramètres Widgets'
+	'MANAGEMENT_TITLE_NAME' => 'Paramètres des groupes',
+	'NB_GROUPS'             => 'Nombre d\'utilisateurs',
+	'NAME_TO_GROUP'         => 'Nom du groupe',
+	'HELP_NAME_TO_GROUP'    => 'Majuscule pour le nom au format multi-langue (fichier lang)',
+	'DEL_GROUP_SUCCESS'     => 'Groupe supprimer avec succès',
+	'DEL_GROUP_ERROR'       => 'Erreur lors de la suppression du groupe',
+	'ERROR_NO_ID_DEL'       => 'Impossible de supprimer le groupe Administrateur && Membres',
 ));

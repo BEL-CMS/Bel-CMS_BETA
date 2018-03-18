@@ -85,8 +85,8 @@ switch ($table) {
 			UNIQUE KEY `id_group` (`id_group`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `id_group`) VALUES
-			(NULL, 'Administrateur', 1),
-			(NULL, 'Membres', 2);";
+			(NULL, 'ADMINISTRATORS', 1),
+			(NULL, 'MEMBERS', 2);";
 	break;
 
 	case 'mails_blacklist':

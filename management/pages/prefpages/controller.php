@@ -14,14 +14,20 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class PrefAccess extends Pages
+class PrefPages extends Pages
 {
-	var $models = array('ModelsPrefAccess');
+	var $models = array('ModelsPrefPages');
 	var $intern = 'true';
+
+	public function __construct ()
+	{
+		parent::__construct();
+		$this->name = defined('MANAGEMENT_TITLE_NAME') ? MANAGEMENT_TITLE_NAME : get_class($this);
+	}
 
 	public function index ()
 	{
-		$set['formPages']   = $this->ModelsPrefAccess->getFormPages();
+		$set['formPages']   = $this->ModelsPrefPages->getFormPages();
 		$this->set($set);
 		$this->render('index');
 	}
@@ -30,7 +36,7 @@ class PrefAccess extends Pages
 	{
 		$this->internManagement(true);
 		$id = (int) $id;
-		$set = $this->ModelsPrefAccess->getConfig($id);
+		$set = $this->ModelsPrefPages->getConfig($id);
 		$this->set($set);
 		$this->render('accesspages');
 	}
@@ -38,9 +44,9 @@ class PrefAccess extends Pages
 	public function prefaccesssend ()
 	{
 		$this->internManagement(true);
-		$return = $this->ModelsPrefAccess->sendPage($_POST);
-		$this->error('Paramètres Page', $return['text'], $return['type']);
-		$this->redirect('prefaccess?management', 3);
+		$return = $this->ModelsPrefPages->sendPage($_POST);
+		$this->error($this->name, $return['text'], $return['type']);
+		$this->redirect('PrefPages?management', 3);
 	}
 
 }

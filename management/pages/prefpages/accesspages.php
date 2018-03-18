@@ -16,7 +16,7 @@ if (!defined('CHECK_INDEX')) {
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 	$active = ($checkActive == 1) ? 'checked="cheked"' : '';
 ?>
-<form action="prefaccess/prefaccesssend?management" method="post">
+<form action="PrefPages/prefaccesssend?management" method="post">
 	<div class="box box-success">
 		<div class="box-header with-border">
 			<h3 class="box-title">Page <?=ACTIVE?></h3>

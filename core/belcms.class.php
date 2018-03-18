@@ -72,7 +72,7 @@ final class BelCMS extends Dispatcher
 	private function loadLang ()
 	{
 		if (defined('MANAGEMENT')) {
-			$arrayIntern = array('login', 'dashboard', 'prefgen', 'prefaccess', 'prefgrps');
+			$arrayIntern = array('login', 'dashboard', 'prefgen', 'prefpages', 'prefwidgets', 'prefgrps');
 			if (in_array($this->controller, $arrayIntern)) {
 				$lang = ROOT_MANAGEMENT.'pages'.DS.$this->controller.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
 			} else {
@@ -92,7 +92,7 @@ final class BelCMS extends Dispatcher
 		ob_start();
 
 		if (defined('MANAGEMENT')) {
-			$arrayIntern = array('login', 'dashboard', 'prefgen', 'prefaccess', 'prefgrps');
+			$arrayIntern = array('login', 'dashboard', 'prefgen', 'prefpages', 'prefwidgets', 'prefgrps');
 			if (in_array($this->controller, $arrayIntern)) {
 				$dir = ROOT_MANAGEMENT.'pages'.DS.$this->controller.DS.'controller.php';
 			} else {

@@ -14,46 +14,42 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class Prefgrps extends Pages
+class PrefGrps extends Pages
 {
-	var $models = array('ModelsGrpsAccess');
+	var $models = array('ModelsPrefGrps');
 	var $intern = 'true';
+
+	public function __construct ()
+	{
+		parent::__construct();
+		$this->name = defined('MANAGEMENT_TITLE_NAME') ? MANAGEMENT_TITLE_NAME : get_class($this);
+	}
 
 	public function index ()
 	{
-		$set['formWidgets'] = $this->ModelsGrpsAccess->getFormWidgets();
+		$count  = $this->ModelsPrefGrps->GetCountGrps();
+		$groups = $this->ModelsPrefGrps->GetGroups();
+		foreach ($groups as $k => $v) {
+			$set['groups'][$k] = $v;
+			$set['groups'][$k]->name  = defined($v->name) ? constant($v->name) : (string) ucfirst($v->name);
+			$set['groups'][$k]->count = $count[$v->id_group];
+		}
 		$this->set($set);
 		$this->render('index');
 	}
 
-	public function parameter ($id)
+	public function edit ($id)
 	{
-		$this->internManagement(true);
-		$id = (int) $id;
-
-		$getGroups        = Config::GetGroups();
-		$getGroups[0]     = GUEST;
-
-		$data = $this->ModelsGrpsAccess->getParameters($id);
-
-		$set['pageName']         = defined(strtoupper($data->name)) ? constant(strtoupper($data->name)) : ucfirst($data->name);
-		$set['access_groups']    = explode('|', $data->groups_access);
-		$set['access_admin']     = explode('|', $data->groups_admin);
-		$set['getGroups']        = $getGroups;
-		$set['data']             = $data;
-		$set['pages']            = explode('|', $data->pages);
-
+		Common::Constant('MANAGEMENT_OPTIONAL_DESCRIPTION', EDIT);
+		$set['group'] = $this->ModelsPrefGrps->GetGroups($id);
 		$this->set($set);
-		$this->render('accessgroups');
-
+		$this->render('edit');
 	}
 
-	public function prefaccesssend ()
+	public function del ($id = false)
 	{
-		$this->internManagement(true);
-		$return = $this->ModelsGrpsAccess->sendParameters($_POST);
-		$this->error('Paramètres groupe', $return['text'], $return['type']);
-		$this->redirect('prefgrps?management', 2);
+		$return = $this->ModelsPrefGrps->DelGroup($id);
+		$this->error($this->name, $return['text'], $return['type']);
+		$this->redirect('Prefgrps?management', 2);
 	}
-
 }

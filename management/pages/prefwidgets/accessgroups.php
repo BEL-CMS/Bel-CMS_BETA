@@ -15,7 +15,7 @@ if (!defined('CHECK_INDEX')) {
 }
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 ?>
-<form action="prefgrps/prefaccesssend?management" method="post">
+<form action="PrefWidgets/prefaccesssend?management" method="post">
 	<div class="box box-success">
 		<div class="box-header with-border">
 			<h3 class="box-title"><?=GROUPS.' : '. $pageName?></h3>

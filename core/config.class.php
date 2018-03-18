@@ -50,7 +50,7 @@ final class Config extends Dispatcher
 		$sql->queryAll();
 		$data = $sql->data;
 		foreach ($data as $k => $v) {
-			
+
 			$_SESSION['pages'][$v->name] = (object) array(
 				'active' => $v->active,
 				'groups' => $v->access_groups,
@@ -84,7 +84,7 @@ final class Config extends Dispatcher
 			$return[$k]->groups_access = explode('|', $v->groups_access);
 			$return[$k]->groups_admin = explode('|', $v->groups_admin);
 		}
-		
+
 		$_SESSION['widgets'] = (object) $return;
 		return $return;
 	}
@@ -158,9 +158,10 @@ final class Config extends Dispatcher
 		unset($sql);
 
 		foreach ($results as $k => $v) {
-			$return[(int) $v->id_group] = (string) ucfirst($v->name);
+			$v->name = defined($v->name) ? constant($v->name) : (string) ucfirst($v->name);
+			$return[(int) $v->id_group] = $v->name;
 		}
-		
+
 		$_SESSION['groups'] = (object) $return;
 		return $return;
 	}

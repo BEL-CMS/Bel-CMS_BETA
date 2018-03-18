@@ -14,90 +14,106 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ModelsGrpsAccess
+class ModelsPrefGrps
 {
-	public function getFormWidgets ()
-	{
-		$sql = New BDD();
-		$sql->table('TABLE_WIDGETS');
-		$sql->orderby(array(array('name' => 'name', 'type' => 'DESC')));
-		$sql->queryAll();
-		foreach ($sql->data as $k => $v) {
-			$v->name = defined(strtoupper($v->name)) ? constant(strtoupper($v->name)) : ucfirst($v->name);
-			if ($v->activate == 1) {
-				$v->activate = ACTIVATE;
-			} else {
-				$v->activate = DISABLE;
-			}
-			$formWidgets[$k] = $v;
-		} unset($sql);
-		return $formWidgets;
-	}
-
-	public function getParameters ($id = false)
+	public function GetGroups ($id = false)
 	{
 		$return = array();
 
+		$sql = New BDD();
+		$sql->table('TABLE_GROUPS');
+		$sql->fields(array('id', 'name', 'id_group'));
+
 		if ($id) {
-			$id = (int) $id;
-			$sql = New BDD();
-			$sql->table('TABLE_WIDGETS');
-			$sql->where(array('name' => 'id', 'value' => $id));
-			$sql->queryOne();
-			$return = $sql->data;
+			if (!is_numeric($id)) {
+				return array(
+					'type' => 'alert',
+					'text' => ERROR_NO_ID_VALID
+				);
+			} else {
+				$sql->where(array('name' => 'id', 'value' => $id));
+				$sql->queryOne();
+			}
+		} else {
+			$sql->queryAll();
 		}
+
+		$return = $sql->data;
 
 		return $return;
 	}
 
-	function sendParameters ($send = false)
+	public function GetCountGrps ()
 	{
-		if (isset($send['activate'])) {
-			$data['activate'] = (int) $send['activate'];
-		} else {
-			$data['activate'] = 0;
-		}
-		if (isset($send['groups_access'])) {
-			if (in_array(0, $send['groups_access'])) {
-				$data['groups_access'] = 0;
-			} else {
-				$data['groups_access'] = implode('|', $send['groups_access']);
-			}
-		} else {
-			$data['groups_access'] = 0;
-		}
-		$data['title'] = Common::VarSecure($send['title'], '');
-		if (isset($send['groups_admin'])) {
-			$data['groups_admin'] = implode('|', $send['groups_admin']);
-		} else {
-			$data['groups_admin'] = 1;
-		}
-		$data['pos']      = $send['pos'];
-		$data['orderby']  = (int) $send['orderby'];
-		if (isset($send['pages'])) {
-			$data['pages'] = implode('|', $send['pages']);
-		} else {
-			$data['pages'] = '';
-		}
-		$sql = New BDD();
-		$sql->table('TABLE_WIDGETS');
-		$sql->where(array('name'=>'name', 'value' => $send['id']));
-		$sql->sqlData($data);
-		$sql->update();
+		$return = array();
+		$nb     = array();
 
-		if ($sql->rowCount == 1) {
-			$return = array(
-				'type' => 'success',
-				'text' => NEW_PARAMETER_SUCCESS
-			);
-			Config::getConfigPages(true);
+		foreach (self::GetGroups() as $k => $v) {
+			$nb[$v->id_group] = (int) 0;
+		}
+
+		$sql = New BDD();
+		$sql->table('TABLE_USERS');
+		$sql->fields(array('groups'));
+		$sql->queryAll();
+
+		foreach ($sql->data as $k => $v) {
+			$return[$k] = explode('|', $v->groups);
+		}
+
+		foreach ($return as $a => $b) {
+			foreach ($b as $v => $d) {
+				if (isset($nb[$d])) {
+					$nb[$d]++;
+				}
+			}
+		}
+
+		return $nb;
+	}
+
+	public  function DelGroup ($id = false)
+	{
+		if ($id) {
+			if (!is_numeric($id)) {
+				return array(
+					'type' => 'alert',
+					'text' => ERROR_NO_ID_VALID
+				);
+			}
+			// SECURE DATA
+			$id = common::SecureRequest($id);
+			if ($id == 1 or $id == 2) {
+				return array(
+					'type' => 'alert',
+					'text' => ERROR_NO_ID_DEL
+				);
+			}
+			// SQL DELETE
+			$sql = New BDD();
+			$sql->table('TABLE_GROUPS');
+			$sql->where(array('name' => 'id', 'value' => $id));
+			$sql->delete();
+			// SQL RETURN NB DELETE
+			if ($sql->rowCount == 1) {
+				config::GetGroups();
+				$return = array(
+					'type' => 'success',
+					'text' => DEL_GROUP_SUCCESS
+				);
+			} else {
+				$return = array(
+					'type' => 'alert',
+					'text' => DEL_GROUP_ERROR
+				);
+			}
 		} else {
 			$return = array(
 				'type' => 'alert',
-				'text' => NEW_PARAMETER_ERROR
+				'text' => ERROR_NO_ID
 			);
 		}
-
 		return $return;
 	}
+
 }

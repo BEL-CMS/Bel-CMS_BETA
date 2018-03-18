@@ -16,26 +16,29 @@ if (!defined('CHECK_INDEX')) {
 
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 ?>
-<div class="box">
+<div class="box box-info">
 	<div class="box-header with-border">
-		<h3 class="box-title"><?=PAGES?></h3>
+	  <h3 class="box-title"><?=WIDGETS?></h3>
 	</div>
+
 	<div class="box-body">
-		<table class="table table-striped table-bordered">
-			<tbody>
-			<?php
-			foreach ($formPages as $k => $v):
-				$c = ($v->active == ACTIVATE) ? 'label bg-green' : 'label bg-red';
+		<div class="table-responsive">
+			<table class="table no-margin">
+				<tbody>
+				<?php
+					foreach ($formWidgets as $k => $v):
+						$c = ($v->activate == ACTIVATE) ? 'label bg-green' : 'label bg-red';
+						?>
+						<tr>
+							<td><a href="PrefWidgets/parameter/<?=$v->id?>?management"><?=$v->name?></a></td>
+							<td><span class="<?=$c?>"><?=$v->activate?></span></td>
+						</tr>
+					<?php
+					endforeach
 				?>
-				<tr>
-					<td><a href="prefaccess/pageaccess/<?=$v->id?>?management"><?=$v->name?></a></td>
-					<td><span class="<?=$c?>"><?=$v->active?></span></td>
-				</tr>
-			<?php
-			endforeach
-			?>
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 <?php

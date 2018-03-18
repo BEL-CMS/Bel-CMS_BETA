@@ -358,7 +358,8 @@ final class Common
 		}
 
 		return $return;
-	}	#########################################
+	}
+	#########################################
 	# Check exist page
 	#########################################
 	public static function ExistsPage ($search)

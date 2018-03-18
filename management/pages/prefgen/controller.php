@@ -19,6 +19,12 @@ class PrefGen extends Pages
 	var $models = array('ModelsPrefGen');
 	var $intern = 'true';
 
+	public function __construct ()
+	{
+		parent::__construct();
+		$this->name = defined('MANAGEMENT_TITLE_NAME') ? MANAGEMENT_TITLE_NAME : get_class($this);
+	}
+
 	public function index ()
 	{
 		$set['form'] = self::form();
@@ -31,7 +37,7 @@ class PrefGen extends Pages
 	{
 		$this->internManagement(true);
 		$return = $this->ModelsPrefGen->send($_POST);
-		$this->error('Paramètres', $return['text'], $return['type']);
+		$this->error($this->name, $return['text'], $return['type']);
 		$this->redirect('prefgen?management', 3);
 	}
 

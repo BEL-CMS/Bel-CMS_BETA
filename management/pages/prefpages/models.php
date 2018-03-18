@@ -14,7 +14,7 @@ if (!defined('CHECK_INDEX')) {
 	exit(ERROR_INDEX);
 }
 
-class ModelsPrefAccess
+class ModelsPrefPages
 {
 	public function getFormPages ()
 	{

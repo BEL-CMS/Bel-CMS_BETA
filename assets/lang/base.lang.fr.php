@@ -13,8 +13,8 @@ if (!defined('CHECK_INDEX')) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
 	exit(ERROR_INDEX);
 }
-	
-	Common::constant(array(
+
+Common::constant(array(
 	#####################################
 	# Fichier lang en français - Erreur
 	#####################################
@@ -35,11 +35,13 @@ if (!defined('CHECK_INDEX')) {
 	'URL_EMPTY'              => 'URL vide',
 	'COMMENT_SEND_TRUE'      => 'Le commentaire a été posté avec succès.',
 	'COMMENT_SEND_FALSE'     => 'Le commentaire n\'a pas pu être envoyé.',
+	'ERROR_NO_ID_VALID'      => 'L’ID transmis est incorrecte',
+	'ERROR_NO_ID'            => 'Aucun ID transmis',
 	#####################################
 	# COMMUN
 	#####################################
 	'VALIDATE_MEMBER'        => 'Membre validé',
-	'VALIDATE_MEMBER'        => 'Membre en actif',
+	'VALIDATE_MEMBER'        => 'Membre actif',
 	'PENDING_MEMBER'         => 'Membre en attente',
 	'GUEST'                  => 'Visiteur',
 	'VALID'                  => 'Valider',
@@ -75,7 +77,7 @@ if (!defined('CHECK_INDEX')) {
 	'EMPTY'                  => 'Vide',
 	'OTHER'                  => 'Autre',
 	'TITLE'                  => 'Titre',
-	'PUBLIC'                 => 'Public', 
+	'PUBLIC'                 => 'Public',
 	'PRIVATE'                => 'Privé',
 	'SIGN_OUT'               => 'Se déconnecter',
 	'SIGN_IN'                => 'Se connecter',
@@ -89,6 +91,8 @@ if (!defined('CHECK_INDEX')) {
 	'LAST'                   => 'Hier',
 	'TODAY'                  => 'Aujourd\'hui',
 	'NOW'                    => 'Maintenant',
+	'ADMINISTRATOR'          => 'Administrateur',
+	'ADMINISTRATORS'         => 'Administrateurs',
 	#####################################
 	# UPLOAD
 	#####################################
@@ -140,6 +144,10 @@ if (!defined('CHECK_INDEX')) {
 	'CONFIG'                 => 'Configuration',
 	'PARAMETER'              => 'Paramètre',
 	'PARAMETERS'             => 'Paramètres',
+	'GENERAL'                => 'Général',
+	'NAVIGATION'             => 'Navigation',
+	'EXTRA'                  => 'Extra',
+	'EXTRAS'                 => 'Extras',
 	#####################################
 	# Nom des modules
 	#####################################
@@ -166,4 +174,4 @@ if (!defined('CHECK_INDEX')) {
 	# WIDGETS USERS
 	# ###################################
 	'CONNECTED'              => 'Connectés',
-	));
+));

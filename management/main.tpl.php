@@ -65,37 +65,45 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 			</div>
 			<ul class="sidebar-menu" data-widget="tree">
 				<li class="nav-item">
-					<a class="nav-link" href="dashboard?management"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+					<a class="nav-link" href="dashboard?management"><i class="fa fa-dashboard"></i> <span><?=DASHBOARD?></span></a>
 				</li>
-				<li class="header">Paramètres</li>
+				<li class="header"><?=PARAMETERS?></li>
 				<li>
-					<a class="nav-link" href="prefgen?management">
-						Général
+					<a class="nav-link" href="PrefGen?management">
+						<?=GENERAL?>
 						<span class="pull-right-container">
 							<span class="pull-right"><i class="icon-shield"></i></span>
 						</span>
 					</a>
 				</li>
 				<li>
-					<a class="nav-link" href="prefaccess?management">
-						Pages
+					<a class="nav-link" href="PrefPages?management">
+						<?=PAGES?>
 						<span class="pull-right-container">
 							<span class="pull-right"><i class="icon-book-open"></i></span>
 						</span>
 					</a>
 				</li>
 				<li>
-					<a class="nav-link" href="prefgrps?management">
-						Groupes
+					<a class="nav-link" href="PrefWidgets?management">
+						<?=WIDGETS?>
+						<span class="pull-right-container">
+							<span class="pull-right"><i class="icon-puzzle"></i></span>
+						</span>
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="Prefgrps?management">
+						<?=GROUPS?>
 						<span class="pull-right-container">
 							<span class="pull-right"><i class="icon-key"></i></span>
 						</span>
 					</a>
 				</li>
-				<li class="header">Navigation</li>
+				<li class="header"><?=NAVIGATION?></li>
 				<li class="treeview">
 					<a href="#">
-						Pages
+						<?=PAGES?>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -114,7 +122,7 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 				</li>
 				<li class="treeview">
 					<a  href="#">
-						Widgets
+						<?=WIDGETS?>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -132,11 +140,11 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 					</ul>
 				</li>
 				<li class="header">
-					Extras
+					<?=EXTRAS?>
 				</li>
 				<li class="nav-item">
 					<a href="#">
-						Licence GNU/GPL
+						<?=LISCENCE?>
 						<span class="pull-right-container">
 							<span class="pull-right"><i class="icon-info"></i></span>
 						</span>
@@ -144,7 +152,7 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 				</li>
 				<li>
 					<a href="https://bel-cms.be/forum">
-						Forum officiel
+						<?=FORUM_OFFICIAL?>
 						<span class="pull-right-container">
 							<span class="pull-right"><i class="icon-speech"></i></span>
 						</span>
@@ -160,7 +168,7 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 				<small><?=$this->optionalDescription?></small>
 			</h1>
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item"><?=HOME?></li>
 				<li class="breadcrumb-item active"><?=$name?></li>
 			</ol>
 		</section>
