@@ -112,10 +112,11 @@ class Management
 				file_exists(DIR_PAGES.$v.DS.'management') &&
 				file_exists(DIR_PAGES.$v.DS.'management'.DS.'index.php') &&
 				file_exists(DIR_PAGES.$v.DS.'management'.DS.'controller.php')
-			   ) {
+				) {
 				$pages[] = $v;
 			}
 		}
+
 		return $pages;
 	}
 	public function listingWidgets () {
@@ -129,7 +130,7 @@ class Management
 				file_exists(DIR_WIDGETS.$v.DS.'management') &&
 				file_exists(DIR_WIDGETS.$v.DS.'management'.DS.'index.php') &&
 				file_exists(DIR_WIDGETS.$v.DS.'management'.DS.'controller.php')
-			   ) {
+				) {
 				$widgets[] = $v;
 			}
 		}

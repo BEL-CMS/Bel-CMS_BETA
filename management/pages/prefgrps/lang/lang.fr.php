@@ -22,4 +22,8 @@ Common::constant(array(
 	'DEL_GROUP_SUCCESS'     => 'Groupe supprimer avec succès',
 	'DEL_GROUP_ERROR'       => 'Erreur lors de la suppression du groupe',
 	'ERROR_NO_ID_DEL'       => 'Impossible de supprimer le groupe Administrateur && Membres',
+	'ERROR_NO_ID_EDIT'      => 'Impossible d\'éditer ce groupe',
+	'ADD_THE_GROUPS'        => 'Ajouter le groupe',
+	'NEW_GROUP_SUCCESS'     => 'Groupe ajouter avec succès',
+	'NEW_GROUP_ERROR'       => 'Erreur lors de la création du groupe',
 ));

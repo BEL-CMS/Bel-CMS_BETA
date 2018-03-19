@@ -46,6 +46,26 @@ class PrefGrps extends Pages
 		$this->render('edit');
 	}
 
+	public function sendedit ($id)
+	{
+		$return = $this->ModelsPrefGrps->EditGroup($id);
+		$this->error($this->name, $return['text'], $return['type']);
+		$this->redirect('Prefgrps?management', 2);
+	}
+
+	public function add ()
+	{
+		Common::Constant('MANAGEMENT_OPTIONAL_DESCRIPTION', ADD);
+		$this->render('add');
+	}
+
+	public function sendadd ()
+	{
+		$return = $this->ModelsPrefGrps->AddGroup($this->data);
+		$this->error($this->name, $return['text'], $return['type']);
+		$this->redirect('Prefgrps?management', 2);
+	}
+
 	public function del ($id = false)
 	{
 		$return = $this->ModelsPrefGrps->DelGroup($id);

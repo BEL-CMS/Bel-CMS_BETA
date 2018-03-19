@@ -34,19 +34,14 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 <body class="hold-transition skin-green-light sidebar-mini">
 <div class="wrapper">
 	<header class="main-header">
-
-		<!-- Logo -->
 		<a href="#" class="logo">
 			<span class="logo-mini">Admin</span>
 			<span class="logo-lg"><b>Bel</b>CMS</span>
 		</a>
-
 		<nav class="navbar navbar-static-top" role="navigation">
-			<!-- Sidebar toggle button-->
 			<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
 				<span class="sr-only">Toggle navigation</span>
 			</a>
-			<!-- Navbar Right Menu -->
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
 					<li>
@@ -111,9 +106,10 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 					<ul class="treeview-menu">
 						<?php
 						foreach ($this->listPages as $k => $n):
+							$name = defined(strtoupper($n)) ? constant(strtoupper($n)) : ucfirst($n);
 						?>
 						<li>
-							<a class="nav-link" href="<?=$n?>?management"><i class="fa fa-caret-right"></i> <?=ucfirst($n)?></a>
+							<a class="nav-link" href="<?=$n?>?management"><i class="fa fa-caret-right"></i> <?=$name?></a>
 						</li>
 						<?php
 						endforeach;
@@ -130,9 +126,10 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 					<ul class="treeview-menu">
 						<?php
 						foreach ($this->listWidgets as $k => $n):
+							$name = defined(strtoupper($n)) ? constant(strtoupper($n)) : ucfirst($n);
 						?>
 						<li>
-							<a href="<?=$n?>?management"><i class="fa fa-caret-right"></i></i> <?=ucfirst($n)?></a>
+							<a href="<?=$n?>?management"><i class="fa fa-caret-right"></i></i> <?=$name?></a>
 						</li>
 						<?php
 						endforeach;

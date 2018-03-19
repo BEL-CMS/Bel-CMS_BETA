@@ -116,4 +116,89 @@ class ModelsPrefGrps
 		return $return;
 	}
 
+	public function EditGroup ($id = false)
+	{
+		if ($id) {
+			if (!is_numeric($id)) {
+				return array(
+					'type' => 'alert',
+					'text' => ERROR_NO_ID_VALID
+				);
+			}
+			// SECURE DATA
+			$id = common::SecureRequest($id);
+			if ($id == 1) {
+				return array(
+					'type' => 'alert',
+					'text' => ERROR_NO_ID_EDIT
+				);
+			}
+
+			$data['name'] = Common::VarSecure($_POST['name'], null);
+
+			$sql = New BDD();
+			$sql->table('TABLE_GROUPS');
+			$sql->where(array('name'=>'id','value'=>$id));
+			$sql->sqlData($data);
+			$sql->update();
+
+			$return = array(
+				'type' => 'success',
+				'text' => SAVE_BDD_SUCCESS
+			);
+		} else {
+			$return = array(
+				'type' => 'alert',
+				'text' => ERROR_NO_ID
+			);
+		}
+		return $return;
+	}
+
+	public function AddGroup ($data = false)
+	{
+		if ($data !== false) {
+			// SECURE DATA
+			$insert['name']     = Common::VarSecure($_POST['name'], null);
+			$insert['id_group'] = self::singleIdGroup();
+			// SQL INSERT
+			$sql = New BDD();
+			$sql->table('TABLE_GROUPS');
+			$sql->sqlData($insert);
+			$sql->insert();
+			// SQL RETURN NB INSERT
+			if ($sql->rowCount == 1) {
+				$return = array(
+					'type' => 'success',
+					'text' => NEW_GROUP_SUCCESS
+				);
+			} else {
+				$return = array(
+					'type' => 'alert',
+					'text' => NEW_GROUP_ERROR
+				);
+			}
+		} else {
+			$return = array(
+				'type' => 'alert',
+				'text' => ERROR_NO_DATA
+			);
+		}
+
+		return $return;
+	}
+
+	private function singleIdGroup ()
+	{
+		$nb = (int) 1;
+
+		foreach (config::GetGroups() as $k => $v) {
+			if ($nb == $k) {
+				$nb++;
+			} else {
+				break;
+			}
+		}
+		return $nb;
+	}
 }

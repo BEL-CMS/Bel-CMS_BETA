@@ -24,7 +24,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 	</a>
 </div>
 
-<form action="Prefgrps/sendedit/<?=$group->id?>?management" method="post">
+<form action="Prefgrps/sendadd?management" method="post">
 	<div class="box">
 		<div class="box">
 			<div class="box-header with-border">
@@ -33,11 +33,11 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 			<div class="box-body">
 				<div class="form-group">
 					<label for="name"><?=NAME_TO_GROUP?></label>
-					<input class="form-control" id="name" name="name" placeholder="<?=NAME_TO_GROUP?>" type="text" value="<?=$group->name?>">
+					<input class="form-control" id="name" name="name" placeholder="<?=NAME_TO_GROUP?>" type="text">
 					<span class="help-block"><?=HELP_NAME_TO_GROUP?>
 			</div>
 			<div class="box-footer">
-				<button type="submit" class="btn btn-primary"><?=SAVE?></button>
+				<button type="submit" class="btn btn-primary"><?=ADD_THE_GROUPS?></button>
 			</div>
 		</div>
 	</div>
