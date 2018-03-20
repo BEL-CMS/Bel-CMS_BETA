@@ -22,7 +22,7 @@ class Widgets
 	function __construct () {
 		if (isset($this->models)){
 			foreach($this->models as $v){
-				$this->loadModel($v); 
+				$this->loadModel($v);
 			}
 		}
 	}
@@ -40,22 +40,24 @@ class Widgets
 	}
 
 	function render($filename) {
-		extract($this->vars);
-		ob_start();
-		$dir = DIR_WIDGETS.strtolower(get_class($this)).DS.$filename.'.php';
-		$custom = DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.'widgets.'.lcfirst(get_class($this)).'.php';
-		if (is_file($custom)) {
-			require_once $custom;
-		} else if (is_file($dir)) {
-			require_once $dir;
-		} else {
-			$error_name    = 'file no found';
-			$error_content = '<strong>file : '.$filename.' no found : </strong>';
-			require DIR_ASSET_TPL.'error'.DS.'404.php';
-		}
-		$this->widgets = ob_get_contents();
-		if (ob_get_length() != 0) { 
-			ob_end_clean();
+		if (self::accessWidgets(strtolower(get_class($this))) !== false) {
+			extract($this->vars);
+			ob_start();
+			$dir = DIR_WIDGETS.strtolower(get_class($this)).DS.$filename.'.php';
+			$custom = DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.'widgets.'.lcfirst(get_class($this)).'.php';
+			if (is_file($custom)) {
+				require_once $custom;
+			} else if (is_file($dir)) {
+				require_once $dir;
+			} else {
+				$error_name    = 'file no found';
+				$error_content = '<strong>file : '.$filename.' no found : </strong>';
+				require DIR_ASSET_TPL.'error'.DS.'404.php';
+			}
+			$this->widgets = ob_get_contents();
+			if (ob_get_length() != 0) {
+				ob_end_clean();
+			}
 		}
 	}
 
@@ -72,5 +74,39 @@ class Widgets
 			$this->widgets = ob_get_contents();
 			ob_end_clean();
 		}
+	}
+
+	#########################################
+	# Access widgets
+	#########################################
+	function accessWidgets ($widgets)
+	{
+		$access = (bool) false;
+
+		$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
+
+		$sql = New BDD;
+		$sql->table('TABLE_WIDGETS');
+		$sql->where(array('name' => 'name', 'value' => $widgets));
+		$sql->queryOne();
+
+		$sql->data->groups_access = explode('|', $sql->data->groups_access);
+
+		foreach ($sql->data->groups_access as $k => $v) {
+			if ($v == 0 or in_array(1, $groups)) {
+				$access = (bool) true;
+				break;
+			}
+			if (isset($_SESSION['user'])) {
+				if (in_array($v, $groups)) {
+					$access = (bool) true;
+					break;
+				} else {
+					$access = (bool) false;
+				}
+			}
+		}
+
+		return $access;
 	}
 }
