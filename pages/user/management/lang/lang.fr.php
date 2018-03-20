@@ -11,4 +11,6 @@
 
 Common::constant(array(
 	'MANAGEMENT_TITLE_NAME' => 'Gestion des utilisateurs',
+	'DEL_USER_ERROR_ONE'    => 'Impossible de supprimer l\'utilisateur principal',
+	'HELP_NEW_PASSWORD'     => 'A remplir uniquement en cas de changement',
 ));

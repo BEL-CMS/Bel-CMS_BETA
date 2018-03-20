@@ -39,7 +39,8 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 			</div>
 			<div class="form-group">
 				<label for="label_pass"><?=PASSWORD?> :</label>
-				<input class="form-control" name="password" type="password" placeholder="A rempli uniquement en cas de changement !" id="label_pass" autocomplete="off" value="">
+				<input class="form-control" name="password" type="password" placeholder="A remplir uniquement en cas de changement !" id="label_pass" autocomplete="new-password" value="">
+				<span class="help-block"><?=HELP_NEW_PASSWORD?>
 			</div>
 			<div class="form-group">
 				<label for="label_mail"><?=MAIL?> :</label>

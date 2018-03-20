@@ -143,7 +143,7 @@ class ModelsUser
 					);
 				}
 				// TEST MAIL VALID
-				if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
+				if (Secure::isMail($data['email']) === false) {
 					$return = array(
 						'type' => 'alert',
 						'text' => 'L\'adresse e-mail n\'est pas valide.'
@@ -152,8 +152,30 @@ class ModelsUser
 					$user['email'] = $data['email'];
 				}
 			}
+			// USER ROOT
+			$sql = New BDD();
+			$sql->table('TABLE_USERS');
+			$sql->where(array('name' => 'hash_key','value' => $hash_key));
+			$sql->queryOne();
+			$check = $sql->data;
+			if ($check->id == 1) {
+				$user['main_groups'] = (int) 1;
+				if (!isset($data['groups'])) {
+					$data['groups'] = (int) 2;
+				} else {
+					if (!in_array(1, $data['groups'])) {
+						array_push($data['groups'], 1);
+					}
+				}
+			}
 			$user['main_groups'] = (int) $data['main_groups'];
+			if (!isset($data['groups'])) {
+				$data['groups'] = (int) 2;
+			}
 			$user['groups']      = implode('|', $data['groups']);
+			if (empty($user['groups'])) {
+				$user['groups'] = (int) 2;
+			}
 			// SQL UPDATE USER
 			$sql = New BDD();
 			$sql->table('TABLE_USERS');
@@ -163,7 +185,7 @@ class ModelsUser
 			$userProfil = array();
 			// TEST MAIL VALID
 			if (!empty($data['public_mail'])) {
-				if (filter_var($data['public_mail'], FILTER_VALIDATE_EMAIL) === false) {
+				if (Secure::isMail($data['public_mail']) === false) {
 					$return = array(
 						'type' => 'alert',
 						'text' => 'L\'adresse e-mail public n\'est pas valide.'
@@ -175,7 +197,7 @@ class ModelsUser
 				$userProfil['public_mail'] = '';
 			}
 			if (!empty($data['websites'])) {
-				if (filter_var($data['websites'], FILTER_VALIDATE_URL) === false) {
+				if (Secure::isUrl($data['websites']) === false) {
 					$return = array(
 						'type' => 'alert',
 						'text' => $data['websites'].' n\'est pas valide'
@@ -224,6 +246,18 @@ class ModelsUser
 		if ($hash_key && strlen($hash_key) == 32) {
 			// SECURE DATA
 			$del = (int) $hash_key;
+			// USER ROOT
+			$sql = New BDD();
+			$sql->table('TABLE_USERS');
+			$sql->where(array('name' => 'hash_key','value' => $hash_key));
+			$sql->queryOne();
+			$check = $sql->data;
+			if ($check->id == 1) {
+				return array(
+					'type' => 'alert',
+					'text' => DEL_USER_ERROR_ONE
+				);
+			}
 			// SQL DELETE USER
 			$sql = New BDD();
 			$sql->table('TABLE_USERS');

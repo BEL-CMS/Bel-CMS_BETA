@@ -37,12 +37,15 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 		<div class="box-body">
 			<?php
 			foreach ($getGroups as $k => $v):
+				$readOnly = ($k == 1) ? '  onclick="return false;"' : '';
 				$chkedGroupAccess = in_array($k, $checkAccessPage) ? 'checked="checked"' : '';
+				$chkedGroupAccess = ($k == 1) ? 'checked="checked"' : '';
+				$chkedGroupVisit  = in_array(0, $checkAccessPage) ? 'checked="checked"' : '';
 				?>
 				<div class="form-group">
 					<div class="input-group">
 						<span class="input-group-addon">
-							<input type="checkbox" name="access_groups[]" value="<?=$k?>" <?=$chkedGroupAccess?>>
+							<input type="checkbox" name="access_groups[]" value="<?=$k?>" <?=$chkedGroupAccess.$chkedGroupVisit.$readOnly?>>
 						</span>
 						<input class="form-control" type="text" value="<?=$v?>" readonly>
 					</div>
@@ -61,7 +64,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 			<?php
 			unset($getGroups[0]);
 			foreach ($getGroups as $k => $v):
-				$readOnly = ($k == 1) ? 'readonly="readonly"' : '';
+				$readOnly = ($k == 1) ? '  onclick="return false;"' : '';
 				$chkedGroupAccess = in_array($k, $checkAccessAdmin) ? 'checked="checked"' : '';
 				?>
 				<div class="form-group">

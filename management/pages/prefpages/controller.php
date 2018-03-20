@@ -37,6 +37,7 @@ class PrefPages extends Pages
 		$this->internManagement(true);
 		$id = (int) $id;
 		$set = $this->ModelsPrefPages->getConfig($id);
+		Common::Constant('MANAGEMENT_OPTIONAL_DESCRIPTION', $set['traduct']);
 		$this->set($set);
 		$this->render('accesspages');
 	}

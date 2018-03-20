@@ -17,6 +17,7 @@ if (!defined('CHECK_INDEX')) {
 class User extends Pages
 {
 	var $models = array('ModelsUser');
+	private $_error = false;
 
 	function __construct($id = null)
 	{
@@ -26,23 +27,26 @@ class User extends Pages
 		} else {
 			$this->nbpp = (int) 25;
 		}
+		$this->name = defined('MANAGEMENT_TITLE_NAME') ? MANAGEMENT_TITLE_NAME : get_class($this);
 	}
 
 	public function index ()
 	{
-		$set['pagination'] = $this->pagination($this->nbpp, GET_PAGE, TABLE_USERS);
-		$set['data'] = $this->ModelsUser->GetUsers();
-		$this->set($set);
-		$this->render('index');
+		if ($this->_error === false) {
+			$set['pagination'] = $this->pagination($this->nbpp, GET_PAGE, TABLE_USERS);
+			$set['data'] = $this->ModelsUser->GetUsers();
+			$this->set($set);
+			$this->render('index');
+		}
 	}
 
-	public function edit ()
+	public function edit ($id)
 	{
 		Common::Constant('MANAGEMENT_OPTIONAL_DESCRIPTION', EDIT);
 		$set['listSocial'] = $this->ModelsUser->ListSocial();
-		$set['social']     = $this->ModelsUser->GetUsersSocial(GET_ID);
-		$set['private']    = $this->ModelsUser->GetUsers(GET_ID);
-		$set['profil']     = $this->ModelsUser->GetUsersProfil(GET_ID);
+		$set['social']     = $this->ModelsUser->GetUsersSocial($id);
+		$set['private']    = $this->ModelsUser->GetUsers($id);
+		$set['profil']     = $this->ModelsUser->GetUsersProfil($id);
 		$this->set($set);
 		$this->render('edit');
 	}
@@ -53,10 +57,10 @@ class User extends Pages
 		$this->render('new');
 	}
 
-	public function del ()
+	public function del ($id)
 	{
-		$return = $this->ModelsUser->DelUser(GET_ID);
-		$this->error(get_class($this), $return['text'], $return['type']);
+		$return = $this->ModelsUser->DelUser($id);
+		$this->error($this->name, $return['text'], $return['type']);
 		$this->redirect('User?management', 2);
 	}
 
@@ -69,7 +73,7 @@ class User extends Pages
 	public function senduser ()
 	{
 		$return = $this->ModelsUser->SendEdit($_POST);
-		$this->error(get_class($this), $return['text'], $return['type']);
+		$this->error($this->name, $return['text'], $return['type']);
 		$this->redirect('User?management', 2);
 	}
 
@@ -80,7 +84,7 @@ class User extends Pages
 		} else if ($_POST['send'] == 'parameter') {
 			$return = $this->ModelsUser->UpdateParameter($_POST);
 		}
-		$this->error(get_class($this), $return['text'], $return['type']);
+		$this->error($this->name, $return['text'], $return['type']);
 		$this->redirect('User?management', 2);
 	}
 }
