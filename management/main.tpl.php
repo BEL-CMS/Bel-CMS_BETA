@@ -18,9 +18,9 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 	<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="assets/plugins/ionicons/css/ionicons.min.css">
 	<link rel="stylesheet" href="management/css/simple-line-icons.css">
-	<link href="assets/styles/notification.css" rel="stylesheet">
-	<link href="assets/plugins/datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet">
-	<link href="assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="assets/styles/notification.css">
+	<link rel="stylesheet" href="assets/plugins/datepicker/css/bootstrap-datepicker3.min.css">
+	<link rel="stylesheet" href="assets/plugins/datatables/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="management/css/AdminLTE.min.css">
 	<link rel="stylesheet" href="management/css/_all-skins.min.css">
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -183,9 +183,9 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 	<div class="control-sidebar-bg"></div>
 </div>
 
-<script src="assets/plugins/jquery/jquery-1.11.1.min"></script>
+<script src="assets/plugins/jquery/jquery-1.11.1.min.js"></script>
 <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/plugins/datepicker/js/bootstrap-datepicker.min"></script>
+<script src="assets/plugins/datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="assets/plugins/tinymce/jquery.tinymce.min.js"></script>
 <script src="assets/plugins/tinymce/tinymce.min.js"></script>
 <script src="assets/plugins/datatables/datatables.min.js"></script>
