@@ -54,6 +54,12 @@ class Pages
 	}
 
 	function render($filename) {
+
+		if (self::accessManagement(strtolower(get_class($this))) === false) {
+			self::error(ERROR, NO_ACCESS_GROUP_PAGE, 'danger');
+			return false;
+		}
+
 		extract($this->vars);
 		ob_start();
 		if ($this->access === true) {
@@ -257,6 +263,7 @@ class Pages
 	{
 		$access = (bool) false;
 
+		$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
 
 		$sql = New BDD;
 		$sql->table('TABLE_PAGES_CONFIG');
@@ -266,12 +273,45 @@ class Pages
 		$sql->data->access_groups = explode('|', $sql->data->access_groups);
 
 		foreach ($sql->data->access_groups as $k => $v) {
-			if ($v == 0) {
+			if ($v == 0 or in_array(1, $groups)) {
 				$access = (bool) true;
 				break;
 			}
 			if (isset($_SESSION['user'])) {
-				if (in_array($v, $_SESSION['user']->groups)) {
+				if (in_array($v, $groups)) {
+					$access = (bool) true;
+					break;
+				} else {
+					$access = (bool) false;
+				}
+			}
+		}
+
+		return $access;
+	}
+	#########################################
+	# Access Management
+	#########################################
+	function accessManagement ($page)
+	{
+		$access = (bool) false;
+
+		$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
+
+		if (in_array(1, $groups)) {
+			return true;
+		}
+
+		$sql = New BDD;
+		$sql->table('TABLE_PAGES_CONFIG');
+		$sql->where(array('name' => 'name', 'value' => $page));
+		$sql->queryOne();
+
+		$sql->data->access_admin = explode('|', $sql->data->access_admin);
+
+		foreach ($sql->data->access_admin as $k => $v) {
+			if (isset($_SESSION['user'])) {
+				if (in_array($v, $groups)) {
 					$access = (bool) true;
 					break;
 				} else {
