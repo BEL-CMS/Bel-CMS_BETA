@@ -57,7 +57,7 @@ class AutoUser
 	#########################################
 	# Reset Session User and return user
 	#########################################
-	public static function ResetSession () 
+	public static function ResetSession ()
 	{
 		unset($_SESSION['user']);
 		self::autoLogin();
@@ -161,7 +161,7 @@ class AutoUser
 	public static function getInfosUser($hash_key = false, $name = false)
 	{
 		if ($hash_key and ctype_alnum($hash_key) or $name === true and $hash_key) {
-			
+
 			if ($name === true) {
 				$name = 'username';
 			} else {
@@ -453,8 +453,8 @@ class AutoUser
 					$data['hash_key']          = md5(uniqid(rand(), true));
 					$data['date_registration'] = date('Y-m-d H:i:s');
 					$data['last_visit']        = date('Y-m-d H:i:s');
-					$data['groups']            = (int) 3;
-					$data['main_groups']       = (int) 3;
+					$data['groups']            = (int) 0;
+					$data['main_groups']       = (int) 0;
 					$data['valid']             = (int) 1;
 					$data['ip']                = Common::getIp();
 

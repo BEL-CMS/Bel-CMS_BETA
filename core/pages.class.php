@@ -54,12 +54,17 @@ class Pages
 	}
 
 	function render($filename) {
-
-		if (self::accessManagement(strtolower(get_class($this))) === false) {
-			self::error(ERROR, NO_ACCESS_GROUP_PAGE, 'danger');
-			return false;
+		if (defined('MANAGEMENT')) {
+			if (self::accessManagement(strtolower(get_class($this))) === false) {
+				self::error(ERROR, NO_ACCESS_GROUP_PAGE, 'danger');
+				return false;
+			}
+		} else {
+			if (self::accessPage(strtolower(get_class($this))) === false) {
+				self::error(ERROR, NO_ACCESS_GROUP_PAGE, 'danger');
+				return false;
+			}
 		}
-
 		extract($this->vars);
 		ob_start();
 		if ($this->access === true) {
@@ -263,7 +268,11 @@ class Pages
 	{
 		$access = (bool) false;
 
-		$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
+		if (AutoUser::isLogged() === true) {
+			$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
+		} else {
+			$groups = array();
+		}
 
 		$sql = New BDD;
 		$sql->table('TABLE_PAGES_CONFIG');
@@ -271,6 +280,8 @@ class Pages
 		$sql->queryOne();
 
 		$sql->data->access_groups = explode('|', $sql->data->access_groups);
+
+		debug($sql);
 
 		foreach ($sql->data->access_groups as $k => $v) {
 			if ($v == 0 or in_array(1, $groups)) {
@@ -296,7 +307,11 @@ class Pages
 	{
 		$access = (bool) false;
 
-		$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
+		if (AutoUser::isLogged() === true) {
+			$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
+		} else {
+			$groups = array();
+		}
 
 		if (in_array(1, $groups)) {
 			return true;

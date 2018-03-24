@@ -83,7 +83,11 @@ class Widgets
 	{
 		$access = (bool) false;
 
-		$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
+		if (AutoUser::isLogged() === true) {
+			$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
+		} else {
+			$groups = array();
+		}
 
 		$sql = New BDD;
 		$sql->table('TABLE_WIDGETS');
