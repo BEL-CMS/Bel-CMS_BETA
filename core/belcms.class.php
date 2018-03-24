@@ -24,7 +24,10 @@ final class BelCMS extends Dispatcher
 	function __construct ()
 	{
 		parent::__construct();
+
 		new Config;
+		new AutoUser;
+
 		if ($this->controller != 'shoutbox') {
 			new Visitors;
 		}
@@ -34,8 +37,6 @@ final class BelCMS extends Dispatcher
 	function _init ()
 	{
 		ob_start();
-
-		new AutoUser;
 
 		if (isset($_SESSION['MANAGEMENT']) && $_SESSION['MANAGEMENT'] === true && AutoUser::isLogged() === false) {
 			common::Redirect('User/Login');

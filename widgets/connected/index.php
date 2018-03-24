@@ -20,8 +20,8 @@
 						<?php
 						$i = 0;
 						foreach (Visitors::getVisitorConnected()->data as $k => $v):
-							$visitor = autoUser::getNameAvatar($v->visitor_user) !== false ? autoUser::getNameAvatar($v->visitor_user)->username : 'Bot';
-						autoUser::getNameAvatar($v->visitor_user)
+							$test = autoUser::getNameAvatar($v->visitor_user);
+							$visitor = $test === false ? VISITOR : $test->username;
 							?>
 							<li>
 								<span class="col-md-7"><?=Common::truncate($visitor, 20)?></span>

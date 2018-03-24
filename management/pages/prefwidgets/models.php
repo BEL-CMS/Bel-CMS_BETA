@@ -23,7 +23,13 @@ class ModelsPrefwidgets
 		$sql->orderby(array(array('name' => 'name', 'type' => 'DESC')));
 		$sql->queryAll();
 		foreach ($sql->data as $k => $v) {
-			$v->name = defined(strtoupper($v->name)) ? constant(strtoupper($v->name)) : ucfirst($v->name);
+
+			if (!empty($v->title)) {
+				$v->name = defined(strtoupper($v->title)) ? constant(strtoupper($v->title)) : ucfirst($v->title);
+			} else {
+				$v->name = ucfirst($v->name);
+			}
+
 			if ($v->activate == 1) {
 				$v->activate = ACTIVATE;
 			} else {

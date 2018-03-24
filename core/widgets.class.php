@@ -43,6 +43,7 @@ class Widgets
 		if (self::accessWidgets(strtolower(get_class($this))) !== false) {
 			extract($this->vars);
 			ob_start();
+			$this->title = self::loadTitle(get_class($this));
 			$dir = DIR_WIDGETS.strtolower(get_class($this)).DS.$filename.'.php';
 			$custom = DIR_TPL.CMS_TPL_WEBSITE.DS.'custom'.DS.'widgets.'.lcfirst(get_class($this)).'.php';
 			if (is_file($custom)) {
@@ -74,6 +75,26 @@ class Widgets
 			$this->widgets = ob_get_contents();
 			ob_end_clean();
 		}
+	}
+
+	function loadTitle ($widgets)
+	{
+		$title = null;
+
+		$sql = New BDD;
+		$sql->table('TABLE_WIDGETS');
+		$sql->where(array('name' => 'name', 'value' => $widgets));
+		$sql->fields(array('name', 'title'));
+		$sql->queryOne();
+
+		if ($sql->data) {
+			if (!empty($sql->data->title)) {
+				$title = defined(strtoupper($sql->data->title)) ? constant(strtoupper($sql->data->title)) : ucfirst($sql->data->title);
+			} else {
+				$title = ucfirst($sql->data->name);
+			}
+		}
+		return $title;
 	}
 
 	#########################################

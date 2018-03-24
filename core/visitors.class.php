@@ -39,12 +39,12 @@ final class Visitors extends Dispatcher
 		$this->visitorRefferer = gethostbyname(Common::GetIp());
 		$this->visitedPage     = $this->controller;
 		if (AutoUser::isLogged() === true) {
-			$visitedUser = $_SESSION['user']->hash_key; 
+			$this->visitedUser = $_SESSION['user']->hash_key;
 		} else {
-			if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER[ "HTTP_USER_AGENT" ] )) {
-				$visitedUser = 'Bot';
+			if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER["HTTP_USER_AGENT"] )) {
+				$this->visitedUser = $_SERVER["HTTP_USER_AGENT"];
 			} else {
-				$visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : ''; 
+				$this->visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : VISITOR;
 			}
 		}
 		# data insert
@@ -54,19 +54,19 @@ final class Visitors extends Dispatcher
 	private function insertBdd () {
 		# Where datetime - 5min
 		$where[] = array(
-			'name' => 'visitor_ip', 
+			'name' => 'visitor_ip',
 			'value'=> Common::GetIp()
 		);
 		$where[] = array(
-			'name' => 'visitor_day', 
+			'name' => 'visitor_day',
 			'value'=> $this->visitorDay
 		);
 		$where[] = array(
-			'name' => 'visitor_month', 
+			'name' => 'visitor_month',
 			'value'=> $this->visitorMonth
 		);
 		$where[] = array(
-			'name' => 'visitor_year', 
+			'name' => 'visitor_year',
 			'value'=> $this->visitorYear
 		);
 		# table count <1
@@ -74,7 +74,7 @@ final class Visitors extends Dispatcher
 		$sql->table('TABLE_VISITORS');
 		$sql->where($where);
 		$sql->queryAll();
-		$return = count($sql->data); 					
+		$return = count($sql->data);
 		unset($sql); unset($where);
 		# Mise à jour
 		$this->return = $return;
@@ -102,28 +102,18 @@ final class Visitors extends Dispatcher
 				'value' => Common::GetIp()
 			);
 			$where[] = array(
-				'name' => 'visitor_day', 
+				'name' => 'visitor_day',
 				'value'=> date('d')
 			);
 			$where[] = array(
-				'name' => 'visitor_month', 
+				'name' => 'visitor_month',
 				'value'=> date('m')
 			);
 			$where[] = array(
-				'name' => 'visitor_year', 
+				'name' => 'visitor_year',
 				'value'=> date('Y')
 			);
-			# data update
-			if (AutoUser::isLogged() === true) {
-				$visitedUser = $_SESSION['user']->hash_key; 
-			} else {
-				if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER[ "HTTP_USER_AGENT" ] )) {
-					$visitedUser = 'Bot';
-				} else {
-					$visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : ''; 
-				}
-			}
-			$update['visitor_user']   = $visitedUser;
+			$update['visitor_user']   = $this->visitedUser;
 			$update['visitor_hour']   = $this->visitorHour;
 			$update['visitor_hour']   = $this->visitorHour;
 			$update['visitor_minute'] = $this->visitorMinute;
@@ -227,7 +217,7 @@ final class Visitors extends Dispatcher
 		else if (preg_match('/windows|win32/i', $u_agent)) {
 			$platform = 'windows';
 		}
-	   
+
 		// Next get the name of the useragent yes seperately and for good reason
 		if (preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
 		{
@@ -262,12 +252,12 @@ final class Visitors extends Dispatcher
 			$bname = 'Inconnu';
 			$ub = "Inconnu";
 		}
-	   
+
 		$known = array('Version', $ub, 'other');
 		$pattern = '#(?<browser>' . join('|', $known) .
 		')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
 		if (!preg_match_all($pattern, $u_agent, $matches)) { }
-	   
+
 	   	# fix ie
 	   	if ($bname != 'Inconnu') {
 	   	# fix ie
@@ -296,49 +286,4 @@ final class Visitors extends Dispatcher
 			'pattern'   => $pattern
 		);
 	}
-
-	public static function paginate ($start,$limit,$total,$filePath,$otherParams) {
-
-		$allPages = ceil($total/$limit);
-
-		$currentPage = floor($start/$limit) + 1;
-
-		$pagination = "";
-		if ($allPages>10) {
-			$maxPages = ($allPages>9) ? 9 : $allPages;
-
-			if ($allPages>9) {
-				if ($currentPage>=1&&$currentPage<=$allPages) {
-					$pagination .= ($currentPage>4) ? " ... " : " ";
-
-					$minPages = ($currentPage>4) ? $currentPage : 5;
-					$maxPages = ($currentPage<$allPages-4) ? $currentPage : $allPages - 4;
-
-					for($i=$minPages-4; $i<$maxPages+5; $i++) {
-						$pagination .= ($i == $currentPage) ? "<a href=\"#\"
-						class=\"current\">".$i."</a> " : "<a href=\"".$filePath."?
-						start=".(($i-1)*$limit).$otherParams."\">".$i."</a> ";
-					}
-					$pagination .= ($currentPage<$allPages-4) ? " ... " : " ";
-				} else {
-					$pagination .= " ... ";
-				}
-			}
-		} else {
-			for ($i=1; $i<$allPages+1; $i++) {
-				$pagination .= ($i==$currentPage) ? "<a href=\"#\" class=\"current\">".$i."</a> "
-				: "<a href=\"".$filePath."?start=".(($i-1)*$limit).$otherParams."\">".$i."</a> ";
-			}
-		}
-
-		if ($currentPage>1) $pagination = "<a href=\"".$filePath."?
-		start=0".$otherParams."\">FIRST</a> <a href=\"".$filePath."?
-		start=".(($currentPage-2)*$limit).$otherParams."\"><</a> ".$pagination;
-		if ($currentPage<$allPages) $pagination .= "<a href=\"".$filePath."?
-		start=".($currentPage*$limit).$otherParams."\">></a> <a href=\"".$filePath."?
-		start=".(($allPages-1)*$limit).$otherParams."\">LAST</a>";
-
-		echo '<div class="pages">' . $pagination . '</div>';
-	}
-
 }
