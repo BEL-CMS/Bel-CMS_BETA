@@ -45,18 +45,9 @@ if (typeof jQuery === 'undefined') {
 		});
 	};
 
-	// Tooltips
-	$("[data-toggle='tooltip']").tooltip({container:"body"});
-
 	// Popovers
 	$("[data-toggle='popover']").popover();
-
-	// PopUser
-
-	$("[data-toggle='popuser']").popuser();
-
 	// Alert Bel-CMS Top
-
 	$("[data-toggle='alrt_bel_cms']").alrt_bel_cms();
 
 	// Fixed Navigation
@@ -291,6 +282,18 @@ if (typeof jQuery === 'undefined') {
 	if ($("textarea").hasClass("bel_cms_textarea_full")) {
 		_initTinymceFull();
 	}
+
+
+	$(".tooltip-n").tipsy({fade:true,gravity:"s"});
+	$(".tooltip-s").tipsy({fade:true,gravity:"n"});
+	$(".tooltip-nw").tipsy({fade:true,gravity:"nw"});
+	$(".tooltip-ne").tipsy({fade:true,gravity:"ne"});
+	$(".tooltip-w").tipsy({fade:true,gravity:"w"});
+	$(".tooltip-e").tipsy({fade:true,gravity:"e"});
+	$(".tooltip-sw").tipsy({fade:true,gravity:"sw"});
+	$(".tooltip-se").tipsy({fade:true,gravity:"se"});
+
+
 })(jQuery);
 
 function _initTinymceSimple () {
