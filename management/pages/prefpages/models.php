@@ -45,7 +45,7 @@ class ModelsPrefPages
 		$sql->data->access_admin  = explode('|', $sql->data->access_admin);
 
 		$getGroups                  = Config::GetGroups();
-		$getGroups[0]               = GUEST;
+		$getGroups[0]               = VISITORS;
 		$return['getGroups']        = $getGroups;
 		$return['checkAccessPage']  = $sql->data->access_groups;
 		$return['checkAccessAdmin'] = $sql->data->access_admin;

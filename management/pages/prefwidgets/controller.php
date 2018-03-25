@@ -38,7 +38,7 @@ class Prefwidgets extends Pages
 		$id = (int) $id;
 
 		$getGroups        = Config::GetGroups();
-		$getGroups[0]     = GUEST;
+		$getGroups[0]     = VISITORS;
 
 		$data = $this->ModelsPrefwidgets->getParameters($id);
 
