@@ -20,6 +20,8 @@ Common::constant(array(
 	#####################################
 	'NO_POST'               => 'No Posts Found',
 	'TAGS'                  => 'Tags',
+	'READ_MORE'             => 'Lire la suite',
+	'NAME_OF_THE_UNKNOW'    => 'Nom ou ID de la page inconnu',
 	#####################################
 	# Fichier lang en français - Admin
 	#####################################

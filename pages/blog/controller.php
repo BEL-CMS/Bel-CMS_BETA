@@ -48,8 +48,10 @@ class Blog extends Pages
 			$set = array();
 			$set['blog'] = $this->ModelsBlog->GetBlog($id);
 			if (count($set['blog']) == 0) {
-				$this->error('Forum', 'Page inconnu...', 'danger');
+				$this->error(BLOG, NAME_OF_THE_UNKNOW, 'danger');
 				return;
+			} else {
+				$this->ModelsBlog->NewView($id);
 			}
 			$this->set($set);
 			$this->render('readmore');

@@ -86,4 +86,29 @@ class ModelsBlog
 		}
 		return $sql->data;
 	}
+
+	public function NewView ($id = false)
+	{
+		if ($id) {
+			$id = Common::secureRequest($id);
+			$get = New BDD();
+			$get->table('TABLE_PAGES_BLOG');
+			$where = array(
+				'name'  => 'id',
+				'value' => (int) $id
+			);
+			$get->where($where);
+			$get->queryOne();
+			$data = $get->data;
+			if ($get->rowCount != 0) {
+				$count = (int) $data->view;
+				$count++;
+				$update = New BDD();
+				$update->table('TABLE_PAGES_BLOG');
+				$update->where($where);
+				$update->sqlData(array('view' => $count));
+				$update->update();
+			}
+		}
+	}
 }

@@ -41,7 +41,7 @@ $count_comment = $count_comment->count;
 		</li>
 		<li class="meta-button">
 			<a href="<?php echo $v->link; ?>" target="_self">
-				Read More <i class="fa fa-arrow-right"></i>
+				<?=READ_MORE?> <i class="fa fa-arrow-right"></i>
 			</a>
 		</li>
 	</ul>

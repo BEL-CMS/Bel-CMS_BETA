@@ -15,19 +15,23 @@ if (!defined('CHECK_INDEX')) {
 }
 if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === true):
 ?>
-<div class="card">
-	<div class="card-header"><i class="fa fa-align-justify"></i> <?=BLOG?></div>
-	<div class="card-body">
-		<button class="btn btn-secondary active"><i class="icon-home"></i> <?=HOME?></button>
-		<button class="btn btn-outline-secondary" onclick="window.location.href='Blog/NewBlog?management'"><i class="icon-user-follow"></i> <?=ADD?></button>
-		<button class="btn btn-outline-secondary" onclick="window.location.href='Blog/Parameter?management'"><i class="icon-wrench"></i> <?=PARAMETER?></button>
-	</div>
+<div class="box-body">
+	<a class="btn btn-app" href="Blog?management">
+		<i class="fa fa-home"></i><?=BLOG?>
+	</a>
+	<a class="btn btn-app" href="Blog/NewBlog?management">
+		<i class="fa fa-user-plus"></i><?=ADD?>
+	</a>
+	<a class="btn btn-app" href="Blog/Parameter?management">
+		<i class="fa fa-cubes"></i><?=PARAMETER?>
+	</a>
 </div>
-<div class="card">
-	<div class="card-header"><i class="fa fa-align-justify"></i> <?=USERS?></div>
-	<div class="card-body">
-		<table class="table table-responsive-sm table-bordered table-striped table-sm datatable">
-			<thead class="">
+
+<div class="box">
+	<div class="box-body">
+
+		<table class="table table-bordered table-hover datatable">
+			<thead>
 				<tr>
 					<th>#</th>
 					<th><?=NAME?></th>
@@ -59,6 +63,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 				?>
 			</tbody>
 		</table>
+
 	</div>
 </div>
 <?php

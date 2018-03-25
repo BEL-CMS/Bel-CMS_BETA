@@ -65,16 +65,16 @@ class Blog extends Pages
 		$this->render('parameter');
 	}
 
-	public function del ()
+	public function del ($id)
 	{
-		$return = $this->ModelsBlog->DelNew(GET_ID);
+		$return = $this->ModelsBlog->DelNew($id);
 		$this->error(get_class($this), $return['text'], $return['type']);
 		$this->redirect('Blog?management', 2);
 	}
 
-	public function edit ()
+	public function edit ($id)
 	{
-		$set['data'] = $this->ModelsBlog->GetBlog(GET_ID);
+		$set['data'] = $this->ModelsBlog->GetBlog($id);
 		$this->set($set);
 		$this->render('edit');
 	}

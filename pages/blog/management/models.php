@@ -53,12 +53,16 @@ class ModelsBlog
 				$author = $sql->data->author;
 				if (empty($author)) {
 					$sql->data->author =  (object) array(
+						'hash_key' => null,
 						'username' => DELETE,
 						'avatar'   => DEFAULT_AVATAR,
 						'groups'   => array()
 					);
 				} else {
 					$sql->data->author = AutoUser::getInfosUser($author);
+					if (!isset($sql->data->author->hash_key)) {
+						$sql->data->author->hash_key = null;
+					}
 				}
 			}
 		} else {
@@ -75,6 +79,7 @@ class ModelsBlog
 				$author = $sql->data[$k]->author;
 				if (empty($author)) {
 					$sql->data[$k]->author =  (object) array(
+						'hash_key' => null,
 						'username' => DELETE,
 						'avatar'   => DEFAULT_AVATAR,
 						'groups'   => array()
@@ -91,13 +96,14 @@ class ModelsBlog
 	{
 		if ($data !== false) {
 			// SECURE DATA
-			$insert['rewrite_name'] = Common::MakeConstant($data['name']);
-			$insert['name']         = Common::VarSecure($data['name'], ''); // autorise que du texte
-			$insert['content']      = Common::VarSecure($data['content'], 'html'); // autorise que les balises HTML
-			$user                   = Autouser::ReturnUser();
-			$insert['author']       = $user->hash_key;
-			$insert['tags']         = Common::VarSecure($data['tags'], ''); // autorise que du texte
-			$insert['cat']          = ''; // à implanter
+			$insert['rewrite_name']      = Common::MakeConstant($data['name']);
+			$insert['name']              = Common::VarSecure($data['name'], ''); // autorise que du texte
+			$insert['content']           = Common::VarSecure($data['content'], 'html'); // autorise que les balises HTML
+			$insert['additionalcontent'] = Common::VarSecure($data['additionalcontent'], 'html'); // autorise que les balises HTML
+			$user                        = Autouser::ReturnUser();
+			$insert['author']            = $user->hash_key;
+			$insert['tags']              = Common::VarSecure($data['tags'], ''); // autorise que du texte
+			$insert['cat']               = ''; // à implanter
 			// SQL INSERT
 			$sql = New BDD();
 			$sql->table('TABLE_PAGES_BLOG');
@@ -129,12 +135,14 @@ class ModelsBlog
 	{
 		if ($data !== false) {
 			// SECURE DATA
-			$edit['rewrite_name'] = Common::MakeConstant($data['name']);
-			$edit['name']         = Common::VarSecure($data['name'], ''); // autorise que du texte
-			$edit['content']      = Common::VarSecure($data['content'], 'html'); // autorise que les balises HTML
-			$edit['author']       = strlen($data['author']) == 32 ? $data['author'] : null;
-			$edit['tags']         = Common::VarSecure($data['tags'], ''); // autorise que du texte
-			$edit['cat']          = ''; // à implanter
+			$edit['rewrite_name']      = Common::MakeConstant($data['name']);
+			$edit['name']              = Common::VarSecure($data['name'], ''); // autorise que du texte
+			$edit['content']           = Common::VarSecure($data['content'], 'html'); // autorise que les balises HTML
+			$edit['additionalcontent'] = Common::VarSecure($data['additionalcontent'], 'html'); // autorise que les balises HTML
+			$edit['author']            = strlen($data['author']) == 32 ? $data['author'] : null;
+			$edit['authoredit']        = strlen($data['authoredit']) == 32 ? $data['authoredit'] : null;
+			$edit['tags']              = Common::VarSecure($data['tags'], ''); // autorise que du texte
+			$edit['cat']               = ''; // à implanter
 			// SQL UPDATE
 			$sql = New BDD();
 			$sql->table('TABLE_PAGES_BLOG');
