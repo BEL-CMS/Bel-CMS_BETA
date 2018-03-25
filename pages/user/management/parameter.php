@@ -18,13 +18,13 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 ?>
 <div class="box-body">
 	<a class="btn btn-app" href="User?management">
-		<i class="fa fa-users"></i>Utilisateurs
+		<i class="fa fa-users"></i><?=USERS?>
 	</a>
 	<a class="btn btn-app" href="User/NewUser?management">
-		<i class="fa fa-user-plus"></i>Ajouter
+		<i class="fa fa-user-plus"></i><?=ADD?>
 	</a>
 	<a class="btn btn-app" href="User/Parameter?management">
-		<i class="fa fa-cubes"></i>Paramètres
+		<i class="fa fa-cubes"></i><?=PARAMETERS?>
 	</a>
 </div>
 
