@@ -23,8 +23,8 @@ switch ($table) {
 			`page_sub` varchar(32) NOT NULL,
 			`page_id` int(11) NOT NULL,
 			`comment` text NOT NULL,
-  			`hash_key` varchar(32) NOT NULL,
-  			`date_com` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			`hash_key` varchar(32) NOT NULL,
+			`date_com` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 	break;
@@ -161,14 +161,17 @@ switch ($table) {
 			`rewrite_name` varchar(128) NOT NULL,
 			`name` varchar(128) NOT NULL,
 			`date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			`author` varchar(32) NOT NULL,
+			`author` varchar(32) DEFAULT NULL,
+			`authoredit` varchar(32) DEFAULT NULL,
 			`content` text NOT NULL,
-			`tags` text NOT NULL,
-			`cat` varchar(16) NOT NULL,
+			`additionalcontent` text DEFAULT NULL,
+			`tags` text DEFAULT NULL,
+			`cat` varchar(16) DEFAULT NULL,
+			`view` int(11) NOT NULL DEFAULT '0',
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `rewrite_name`, `name`, `date_create`, `author`, `content`, `tags`, `cat`) VALUES
-			(NULL, 'FIRST_NEW_BEL_CMS', 'first news bel-cms', '".date('Y-m-d H:i:s')."', 'Administrateur', '<p>Bienvenue sur le C.M.S <a href=\"https://bel-cms.be\" title=\"BEL-CMS\">BEL-CMS</a>, votre installation s\'est, à priori, bien déroulée</p><p>Vous pouvez dès à présent administrer votre site web via l\'administration</p><p>Merci de nous signaler sur <a href=\"http://bel-cms.be\" title=\"BEL-CMS\">bel-cms.be</a> si vous avez rencontre le moindre souci ou si vous avez des suggestions à nous faire savoir.</p>', '', '');";
+
+		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `rewrite_name`, `name`, `date_create`, `author`, `authoredit`, `content`, `additionalcontent`, `tags`, `cat`, `view`) VALUES (NULL, 'Bienvenue_sur_votre_site_bel-cms', 'Bienvenue sur votre site bel-cms', '".date('Y-m-d H:i:s')."', NULL, NULL, 'Bienvenue sur votre site Bel-CMS, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le e-mail indiqué lors de l\'installation. En cas de problèmes, veuillez le signaler sur <a href=\"https://bel-cms.be\">https://bel-cms.be</a> dans le forum prévu à cet effet.', NULL, NULL, NULL, '0')";
 	break;
 
 	case 'page_forum':
@@ -334,8 +337,8 @@ switch ($table) {
 			UNIQUE KEY `name` (`name`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 		$insert = "INSERT INTO `".$_SESSION['prefix'].$table."` (`id`, `name`, `title`, `groups_access`, `groups_admin`, `activate`, `pos`, `orderby`, `pages`) VALUES
-		 	(NULL, 'users', 'Utilisateurs', '0', '1', '1', 'right', '1', ''),
-		 	(NULL, 'shoutbox', 'T\'chat', '0', '1', '1', 'top', '1', '');";
+			(NULL, 'users', 'Utilisateurs', '0', '1', '1', 'right', '1', ''),
+			(NULL, 'shoutbox', 'T\'chat', '0', '1', '1', 'top', '1', '');";
 	break;
 }
 

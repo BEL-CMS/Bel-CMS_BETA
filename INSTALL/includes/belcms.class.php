@@ -233,6 +233,16 @@ function insertUserBDD ()
 	}
 	return $return;
 }
+
+function rmAllDir($strDirectory){
+	$dir_iterator = new RecursiveDirectoryIterator($strDirectory);
+	$iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::CHILD_FIRST);
+	foreach($iterator as $fichier){
+		$fichier->isDir() ? @rmdir($fichier) : @unlink($fichier);
+	}
+	@rmdir($strDirectory);
+}
+
 function getIp () {
 	if (isset($_SERVER['HTTP_CLIENT_IP'])) {
 		$return = $_SERVER['HTTP_CLIENT_IP'];

@@ -34,7 +34,7 @@ function checkRewrite ()
 		$mod_rewrite = in_array("mod_rewrite",$modules);
 	}
 	if (!isset($mod_rewrite) && isset($_SERVER["HTTP_MOD_REWRITE"])) {
-		return $_SERVER["HTTP_MOD_REWRITE"] == 'on' ? true : false; 
+		return $_SERVER["HTTP_MOD_REWRITE"] == 'on' ? true : false;
 	}
 }
 function checkPDO ()
@@ -73,11 +73,11 @@ function checkPDOConnect ($d)
 
 		createConfig();
 
-	    return true;
+		return true;
 	}
 	catch(PDOException $e) {
 		redirect('?page=sql', 3);
-	    return $e->getMessage();
+		return $e->getMessage();
 	}
 }
 
@@ -128,18 +128,18 @@ function configIncPhp ()
 }
 
 function isWritable($path) {
-    if ($path{strlen($path)-1}=='/')
-        return isWritable($path.uniqid(mt_rand()).'.tmp');
-    else if (is_dir($path))
-        return isWritable($path.'/'.uniqid(mt_rand()).'.tmp');
-    $rm = file_exists($path);
-    $f = @fopen($path, 'a');
-    if ($f===false)
-        return false;
-    fclose($f);
-    if (!$rm)
-        unlink($path);
-    return true;
+	if ($path{strlen($path)-1}=='/')
+		return isWritable($path.uniqid(mt_rand()).'.tmp');
+	else if (is_dir($path))
+		return isWritable($path.'/'.uniqid(mt_rand()).'.tmp');
+	$rm = file_exists($path);
+	$f = @fopen($path, 'a');
+	if ($f===false)
+		return false;
+	fclose($f);
+	if (!$rm)
+		unlink($path);
+	return true;
 }
 final class GetHost {
 
@@ -163,6 +163,6 @@ final class GetHost {
 		$uri = substr($uri, 0, $cutoff);
 		$serverName = getenv('HOSTNAME')!==false ? getenv('HOSTNAME') : (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '');
 		$serverName = str_replace('INSTALL/','',$serverName);
-		return "$protocol://{$serverName}$port";	
+		return "$protocol://{$serverName}$port";
 	}
 }

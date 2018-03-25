@@ -47,8 +47,11 @@ $insert = insertUserBDD();
 	</div>
 </div>
 <?php
+
+rmAllDir(ROOT.DS.'INSTALL');
+
 if (!isset($_SESSION)) {
-	session_start(); 
+	session_start();
 } else {
 	$_SESSION = array();
 }
