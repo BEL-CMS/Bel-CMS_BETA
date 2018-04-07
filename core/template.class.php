@@ -55,7 +55,7 @@ final class Template extends Dispatcher
 			$user = AutoUser::getNameAvatar($_SESSION['user']->hash_key);
 			$this->avatar   = $_SESSION['user']->avatar;
 			$this->username = $_SESSION['user']->username;
-			
+
 		} else {
 			$this->avatar   = 'assets/imagery/default_avatar.jpg';
 			$this->username = UNKNOWN;
@@ -141,12 +141,13 @@ final class Template extends Dispatcher
 		/* global cms css */
 		$files[] = 'assets/styles/global.css';
 		// notification */
-		$files[] = 'assets/styles/notification.css'; 
+		$files[] = 'assets/styles/notification.css';
 		/* flag svg css */
 		$files[] = 'assets/styles/flag-icon.min.css';
 		/* plugins css */
 		if (CMS_JQUERY_UI == 'on') {
 			$files[] = 'assets/plugins/jquery_ui/jquery-ui.min.css';
+			$files[] = 'assets/plugins/jquery_ui/jquery-ui.structure.min.css';
 		}
 		if (CMS_BOOTSTRAP == 'on') {
 			$files[] = 'assets/plugins/bootstrap/css/bootstrap.min.css';
@@ -182,15 +183,16 @@ final class Template extends Dispatcher
 		$sql->queryAll();
 		/* plugins js */
 		if (CMS_JQUERY == 'on') {
-			$files[] = 'assets/plugins/jquery/jquery-1.11.1.min.js';
+			$files[] = 'assets/plugins/jquery/jquery-3.3.1.min.js';
 		}
 		if (CMS_JQUERY_UI == 'on') {
-			$files[] = 'assets/plugins/jquery_ui/jquery-ui.min.js';
+			$files[] = 'assets/plugins/jquery_ui/js/jquery-ui.min.js';
 		}
 		if (CMS_BOOTSTRAP == 'on') {
 			$files[] = 'assets/plugins/bootstrap/js/bootstrap.min.js';
 		}
 
+		$files[] = 'assets/plugins/tipsy/jquery.tipsy.js';
 		$files[] = 'assets/plugins/tinymce/jquery.tinymce.min.js';
 		$files[] = 'assets/plugins/tinymce/tinymce.min.js';
 		$files[] = 'assets/plugins/core.js';
@@ -217,21 +219,21 @@ final class Template extends Dispatcher
 	#########################################
 	public function breadCrumb ()
 	{
-		$return  = '<ol class="breadcrumb">';
-		$return .= '<li><a href="Home">'.constant('HOME').'</a></li>';
+		$return  = '<nav aria-label="breadcrumb"><ol class="breadcrumb">';
+		$return .= '<li class="breadcrumb-item"><a href="Home">'.constant('HOME').'</a></li>';
 
 		if ($this->controller != 'blog') {
-			$return .= '<li><a href="'.$this->controller.'">'.Common::translate($this->controller).'</a></li>';
+			$return .= '<li class="breadcrumb-item"><a href="'.$this->controller.'">'.Common::translate($this->controller).'</a></li>';
 			if ($this->view != 'index') {
-				$return .= '<li><a href="'.ucfirst($this->controller).'/'.$this->view.'">'.Common::translate($this->view).'</a></li>';
+				$return .= '<li class="breadcrumb-item"><a href="'.ucfirst($this->controller).'/'.$this->view.'">'.Common::translate($this->view).'</a></li>';
 				//if (!empty($this->links[2]) && !is_numeric($this->links[2])) {
 				if (!empty($this->links[2])) {
 
-					$return .= '<li><a href="'.ucfirst($this->controller).'/'.$this->view.'/'.$this->links[2].'">'.$this->links[2].'</a></li>';
+					$return .= '<li class="breadcrumb-item active"><a href="'.ucfirst($this->controller).'/'.$this->view.'/'.$this->links[2].'">'.$this->links[2].'</a></li>';
 				}
 			}
 		}
-		$return .= '</ol>';
+		$return .= '</ol></nav>';
 		return $return;
 	}
 	#########################################

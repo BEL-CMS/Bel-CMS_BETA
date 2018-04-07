@@ -35,6 +35,7 @@ class User extends Pages
 		if ($this->_error === false) {
 			if (AutoUser::isLogged() === true) {
 				$d = array();
+				AutoUser::ResetSession();
 				$d['user'] = AutoUser::ReturnUser();
 				$this->set($d);
 				$this->render('index');

@@ -73,7 +73,7 @@ if (!empty($post)):
 						<li><a href="forum/lockPost/<?=$v->id?>"><i class="fa fa-flag"></i> <?=REPORT_POST?></a></li>
 					</ul>
 					<ul class="post-meta">
-						<li><i class="fa fa-calendar-o"></i> <?=Common::transformDate($v->date_post, true, 'd M Y - H:i')?></li>
+						<li><i class="fa fa-calendar-o"></i> <?=Common::transformDate($v->date_post, 'FULL', 'NONE')?></li>
 						<li>#<?=$k + 1?></li>
 					</ul>
 				</div>

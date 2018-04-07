@@ -15,29 +15,27 @@ if (!defined('CHECK_INDEX')) {
 }
 if ($last !== null):
 ?>
-<section id="bel_cms_widgets_lastconnected">
+<div id="bel_cms_widgets_lastconnected" class="card bel_cms_widgets">
 	<div class="panel-group">
-		<div class="panel-heading"><?=$this->title?></div>
-		<div class="panel">
-			<div class="panel-body">
-				<ul>
-					<?php
-					foreach ($last as $k => $v):
-						?>
-						<li>
-							<img data-toggle="tooltip" title="<?=$v->username?>" src="<?=$v->avatar?>" alt="avatar_<?=$v->username?>">
-							<span>
-								<p><?=$v->username?></p>
-								<p><?=Common::transformDate($v->last_visit, true, 'd M Y # H:i') ?></p>
-							</span>
-						</li>
-					<?php
-					endforeach;
+		<div class="card-header"><?=$this->title ?></div>
+		<div class="card-body">
+			<ul>
+				<?php
+				foreach ($last as $k => $v):
 					?>
-				</ul>
-			</div>
+					<li>
+						<img data-toggle="tooltip" title="<?=$v->username?>" src="<?=$v->avatar?>" alt="avatar_<?=$v->username?>" style="max-width: 50px; max-height: 50px;">
+						<span>
+							<p><?=$v->username?></p>
+							<p><?=Common::transformDate($v->last_visit, 'MEDIUM', 'SHORT') ?></p>
+						</span>
+					</li>
+				<?php
+				endforeach;
+				?>
+			</ul>
 		</div>
 	</div>
-</section>
+</div>
 <?php
 endif;

@@ -39,7 +39,7 @@ $new  = (AutoUser::ReturnUser() !== false) ? '<a href="Forum/NewThread/'.$id.'" 
 				<div class="forum-icon hidden-xs"><i class="fa fa-comments"></i><?=$labelWarning?></div>
 				<div class="forum-title">
 					<h4><a href="<?=$link;?>"><?=defixUrl($v->title)?></a></h4>
-					<p><i class="fa fa-user-circle" aria-hidden="true"></i> <a data-toggle="popuser" title="<?=$v->author?>"><?=$v->author?></a> <i class="fa fa-clock-o" aria-hidden="true"></i> <?=Common::transformDate($v->date_post, true, 'd M Y # H:i'); ?></p>
+					<p><i class="fa fa-user-circle" aria-hidden="true"></i> <a data-toggle="popuser" title="<?=$v->author?>"><?=$v->author?></a> <i class="fa fa-clock-o" aria-hidden="true"></i> <?=Common::transformDate($v->date_post, 'FULL', 'FULL')?></p>
 				</div>
 				<div class="forum-activity hidden-xs">
 					<a href="User/Profil/<?=$v->lastpost->author?>" data-toggle="tooltip" title="<?php echo $v->lastpost->author; ?>">

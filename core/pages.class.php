@@ -169,63 +169,62 @@ class Pages
 		$setPaginate = null;
 
 		if ($setLastpage > 1) {
-			$setPaginate .= "<ul class='pagination'>";
-			// $setPaginate .= "<li>Page $current of $setLastpage</li>"; /* retirer: compteur de nombre de page
+			$setPaginate .= '<nav><ul class="pagination justify-content-center">';
 			if ($setLastpage < 7 + ($adjacents * 2)) {
 				for ($counter = 1; $counter <= $setLastpage; $counter++) {
 					if ($counter == $current) {
-						$setPaginate.= "<li class='active'><a>$counter</a></li>";
+						$setPaginate.= '<li class="page-item active"><a class="page-link">'.$counter.'</a></li>';
 					} else {
-						$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+						$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$counter.'">'.$counter.'</a></li>';
 					}
 				}
 			} else if($setLastpage > 5 + ($adjacents * 2)) {
 				if ($current < 1 + ($adjacents * 2)) {
 					for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++) {
 						if ($counter == $current) {
-							$setPaginate.= "<li class='active'><a>$counter</a></li>";
+							$setPaginate.= '<li class="page-item active"><a class="page-link">'.$counter.'</a></li>';
 						} else {
-							$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+							$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$counter.'">'.$counter.'</a></li>';
 						}
 					}
-					$setPaginate.= "<li><a href='{$page_url}page=$lpm1'>$lpm1</a></li>";
-					$setPaginate.= "<li><a href='{$page_url}page=$setLastpage'>$setLastpage</a></li>";
+					$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$lpm1.'">'.$lpm1.'</a></li>';
+					$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$setLastpage.'">'.$setLastpage.'</a></li>';
 				}
 				else if($setLastpage - ($adjacents * 2) > $current && $current > ($adjacents * 2)) {
-					$setPaginate.= "<li><a href='{$page_url}page=1'>1</a></li>";
-					$setPaginate.= "<li><a href='{$page_url}page=2'>2</a></li>";
+					$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page=1">1</a></li>';
+					$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page=2">2</a></li>';
 					for ($counter = $current - $adjacents; $counter <= $current + $adjacents; $counter++) {
 						if ($counter == $current) {
-							$setPaginate.= "<li class='active'><a>$counter</a></li>";
+							$setPaginate.= '<li class="page-item active"><a class="page-link">'.$counter.'</a></li>';
 						}
 						else {
-							$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+							$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$counter.'">'.$counter.'</a></li>';
 						}
 					}
-					$setPaginate.= "<li><a href='{$page_url}page=$lpm1'>$lpm1</a></li>";
-					$setPaginate.= "<li><a href='{$page_url}page=$setLastpage'>$setLastpage</a></li>";
+					$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$lpm1.'">'.$lpm1.'</a></li>';
+					$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$setLastpage.'">'.$setLastpage.'</a></li>';
 				} else {
-					$setPaginate.= "<li><a href='{$page_url}page=1'>1</a></li>";
-					$setPaginate.= "<li><a href='{$page_url}page=2'>2</a></li>";
+					$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page=1">1</a></li>';
+					$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page=2">2</a></li>';
 					for ($counter = $setLastpage - (2 + ($adjacents * 2)); $counter <= $setLastpage; $counter++) {
 						if ($counter == $current) {
-							$setPaginate.= "<li class='active'><a>$counter</a></li>";
+							$setPaginate.= '<li class="page-item active"><a class="page-link">'.$counter.'</a></li>';
 						} else {
-							$setPaginate.= "<li><a href='{$page_url}page=$counter'>$counter</a></li>";
+							$setPaginate.= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$counter.'">'.$counter.'</a></li>';
 						}
 					}
 				}
 			}
 
 			if ($current < $counter - 1) {
-				$setPaginate .= "<li><a href='{$page_url}page=$next'>Suivant</a></li>";
-				$setPaginate .= "<li><a href='{$page_url}page=$setLastpage'>Dernière</a></li>";
+				$setPaginate .= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$next.'">Suivant</a></li>';
+				$setPaginate .= '<li class="page-item"><a class="page-link" href="'.$page_url.'page='.$setLastpage.'">Dernière</a></li>';
 			} else{
-				$setPaginate .= "<li class='active'><a>Suivant</a></li>";
-				$setPaginate .= "<li class='active'><a>Dernière</a></li>";
+				$setPaginate .= '<li class="page-item disabled"><a class="page-link">Suivant</a></li>';
+				$setPaginate .= '<li class="page-item disabled"><a class="page-link">Dernière</a></li>';
 			}
-
-			$setPaginate.= "</ul>".PHP_EOL;
+			//$setPaginate .= '<li class="page-item">Page '.$current.' '. OF . ' '.$setLastpage.'</li>';
+			$setPaginate .= '</ul></nav>'.PHP_EOL;
 		}
 
 		return $setPaginate;
@@ -279,23 +278,25 @@ class Pages
 		$sql->where(array('name' => 'name', 'value' => $page));
 		$sql->queryOne();
 
-		$sql->data->access_groups = explode('|', $sql->data->access_groups);
+		if ($sql->data) {
 
-		debug($sql);
+			$sql->data->access_groups = explode('|', $sql->data->access_groups);
 
-		foreach ($sql->data->access_groups as $k => $v) {
-			if ($v == 0 or in_array(1, $groups)) {
-				$access = (bool) true;
-				break;
-			}
-			if (isset($_SESSION['user'])) {
-				if (in_array($v, $groups)) {
+			foreach ($sql->data->access_groups as $k => $v) {
+				if ($v == 0 or in_array(1, $groups)) {
 					$access = (bool) true;
 					break;
-				} else {
-					$access = (bool) false;
+				}
+				if (isset($_SESSION['user'])) {
+					if (in_array($v, $groups)) {
+						$access = (bool) true;
+						break;
+					} else {
+						$access = (bool) false;
+					}
 				}
 			}
+
 		}
 
 		return $access;
@@ -322,17 +323,21 @@ class Pages
 		$sql->where(array('name' => 'name', 'value' => $page));
 		$sql->queryOne();
 
-		$sql->data->access_admin = explode('|', $sql->data->access_admin);
+		if ($sql->data) {
 
-		foreach ($sql->data->access_admin as $k => $v) {
-			if (isset($_SESSION['user'])) {
-				if (in_array($v, $groups)) {
-					$access = (bool) true;
-					break;
-				} else {
-					$access = (bool) false;
+			$sql->data->access_admin = explode('|', $sql->data->access_admin);
+
+			foreach ($sql->data->access_admin as $k => $v) {
+				if (isset($_SESSION['user'])) {
+					if (in_array($v, $groups)) {
+						$access = (bool) true;
+						break;
+					} else {
+						$access = (bool) false;
+					}
 				}
 			}
+
 		}
 
 		return $access;

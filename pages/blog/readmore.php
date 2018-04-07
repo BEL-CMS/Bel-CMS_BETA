@@ -18,7 +18,7 @@ $comment = new Comment('view', 'blog','readmore', $blog->id);
 <section id="bel_cms_blog_readmore">
 	<div class="blog-post">
 		<h2 class="blog-post-title"><?=$blog->name?></h2>
-		<p class="blog-post-meta"><?=Common::transformDate($blog->date_create, true, 'd-M-Y # H:i')?> by <a href="#"><?=$blog->author->username?></a></p>
+		<p class="blog-post-meta"><?=Common::transformDate($v->date_create, 'FULL', 'FULL')?> by <a href="#"><?=$blog->author->username?></a></p>
 		<?=$blog->content?>
 	</div>
 </section>

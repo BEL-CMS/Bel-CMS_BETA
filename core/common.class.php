@@ -190,10 +190,11 @@ final class Common
 		return $return;
 	}
 	#########################################
-	# Transform date
+	# Date & DATETIME SQL
 	#########################################
-	public static function TransformDate ($date, $time = false, $custom = false)
+	public static function DatetimeSQL ($date, $time = false, $custom = false)
 	{
+		$date = str_replace(' ', '', $date);
 		$date = str_replace('/', '-', $date);
 
 		if (!empty($custom)) {
@@ -210,6 +211,115 @@ final class Common
 		}
 
 		return $return;
+	}
+	#########################################
+	# Transform date
+	# Le format à utiliser pour les dates:
+	#	IntlDateFormatter::NONE (masque la date)
+	#	IntlDateFormatter::SHORT (14/07/2017)
+	#	IntlDateFormatter::MEDIUM (14 juil. 2017)
+	#	IntlDateFormatter::LONG (14 juillet 2017)
+	#	IntlDateFormatter::FULL (vendredi 14 juillet 2017)
+	# Le format à utiliser pour l'heure:
+	#	IntlDateFormatter::NONE (masque l'heure)
+	#	IntlDateFormatter::SHORT (00:00)
+	#	IntlDateFormatter::MEDIUM (à 00:00:00)
+	#	IntlDateFormatter::LONG (à 00:00:00 UTC+2)
+	#	IntlDateFormatter::FULL (à 00:00:00 heure d’été d’Europe centrale)
+	#########################################
+	public static function TransformDate ($date, $d = 'NONE', $t = 'NONE')
+	{
+		if (CMS_WEBSITE_LANG == FRENCH) {
+			$lg = 'fr_FR';
+		} else if (CMS_WEBSITE_LANG == ENGLISH) {
+			$lg = 'en_US';
+		} else if (CMS_WEBSITE_LANG == NETHERLANDS) {
+			$lg = 'nl_NL';
+		} else if (CMS_WEBSITE_LANG == DEUTCH) {
+			$lg = 'de_DE';
+		}
+		$d = strtoupper($d); $t = strtoupper($t);
+		$date = str_replace('/', '-', $date);
+		$date = new DateTime($date);
+
+		if ($d == 'NONE' && $t == 'NONE') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::NONE, IntlDateFormatter::NONE);
+		} else if ($d == 'SHORT' && $t == 'NONE') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::SHORT, IntlDateFormatter::NONE);
+		} else if ($d == 'MEDIUM' && $t == 'NONE') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
+		} else if ($d == 'LONG' && $t == 'NONE') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+		} else if ($d == 'FULL' && $t == 'NONE') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::FULL, IntlDateFormatter::NONE);
+		}
+		else if ($d == 'NONE' && $t == 'SHORT') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::NONE, IntlDateFormatter::SHORT);
+		} else if ($d == 'SHORT' && $t == 'SHORT') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+		} else if ($d == 'MEDIUM' && $t == 'SHORT') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT);
+		} else if ($d == 'LONG' && $t == 'SHORT') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::LONG, IntlDateFormatter::SHORT);
+		} else if ($d == 'FULL' && $t == 'SHORT') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
+		}
+		else if ($d == 'NONE' && $t == 'MEDIUM') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::NONE, IntlDateFormatter::MEDIUM);
+		} else if ($d == 'SHORT' && $t == 'MEDIUM') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM);
+		} else if ($d == 'MEDIUM' && $t == 'MEDIUM') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
+		} else if ($d == 'LONG' && $t == 'MEDIUM') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::LONG, IntlDateFormatter::MEDIUM);
+		} else if ($d == 'FULL' && $t == 'MEDIUM') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::FULL, IntlDateFormatter::MEDIUM);
+		}
+		else if ($d == 'NONE' && $t == 'LONG') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::NONE, IntlDateFormatter::LONG);
+		} else if ($d == 'SHORT' && $t == 'LONG') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::SHORT, IntlDateFormatter::LONG);
+		} else if ($d == 'MEDIUM' && $t == 'LONG') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::MEDIUM, IntlDateFormatter::LONG);
+		} else if ($d == 'LONG' && $t == 'LONG') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::LONG, IntlDateFormatter::LONG);
+		} else if ($d == 'FULL' && $t == 'LONG') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::FULL, IntlDateFormatter::LONG);
+		}
+		else if ($d == 'NONE' && $t == 'FULL') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::NONE, IntlDateFormatter::FULL);
+		} else if ($d == 'SHORT' && $t == 'FULL') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::SHORT, IntlDateFormatter::FULL);
+		} else if ($d == 'MEDIUM' && $t == 'FULL') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::MEDIUM, IntlDateFormatter::FULL);
+		} else if ($d == 'LONG' && $t == 'FULL') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::LONG, IntlDateFormatter::FULL);
+		} else if ($d == 'FULL' && $t == 'FULL') {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::FULL, IntlDateFormatter::FULL);
+		} else if ($d == 'SQLDATE') {
+			$return = new IntlDateFormatter(
+				'en_US',
+				IntlDateFormatter::FULL,
+				IntlDateFormatter::FULL,
+				'America/Los_Angeles',
+				IntlDateFormatter::GREGORIAN,
+				'yyyy-MM-dd'
+			);
+		} else if ($d == 'SQLDATETIME') {
+			$return = new IntlDateFormatter(
+				'en_US',
+				IntlDateFormatter::FULL,
+				IntlDateFormatter::FULL,
+				'America/Los_Angeles',
+				IntlDateFormatter::GREGORIAN,
+				'yyyy-MM-dd hh-mm-ss'
+			);
+		} else {
+			$return = new IntlDateFormatter($lg, IntlDateFormatter::FULL, IntlDateFormatter::FULL);
+		}
+
+		return $return->format($date);
+
 	}
 	#########################################
 	# Send Mail
@@ -997,7 +1107,6 @@ final class Secure
 		return $return;
 	}
 }
-
 
 function debug ($data = null, $exitAfter = false) {
 	return Common::Debug($data, $exitAfter);

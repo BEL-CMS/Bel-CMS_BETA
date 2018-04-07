@@ -1,11 +1,11 @@
+<div id="bel_cms_widgets_user">
 <?php
 if (AutoUser::ReturnUser() === false):
 ?>
-<div class="panel panel-default">
-	<div class="panel-heading"><?=$users['title'] ?></div>
-	<div class="panel-body">
-		<div id="bel_cms_widgets_user" class="widget">
-			<span id="have_back"><?=GREAT_HAVE_BACK?></span>
+	<div class="card bel_cms_widgets">
+		<div class="card-header"><?=$users['title'] ?></div>
+		<div class="card-body">
+			<h5 class="card-title text-center"><?=GREAT_HAVE_BACK?></h5>
 			<form action="User/Send" method="post">
 				<div class="form-group">
 					<label for="username">Email address</label>
@@ -19,58 +19,59 @@ if (AutoUser::ReturnUser() === false):
 				<input name="send" value="login" type="hidden">
 				<input name="remember" value="true" type="hidden">
 			</form>
-			<p id="new_here"><?=NEW_HERE?> <a href="User/Register"><?=CREATE_USER_TO_WEB?></a></p>
+			<div class="text-center"><a href="User/Register"><?=CREATE_USER_TO_WEB?></a></div>
 		</div>
 	</div>
-</div>
 <?php
 else:
 	$user = AutoUser::ReturnUser();
 ?>
-<div class="panel panel-default">
-	<div class="panel-heading"><?=$users['title'] ?></div>
-	<div class="panel-body">
-		<div id="bel_cms_widgets_user" class="widget">
-			<img id="bel_cms_widgets_user_img" src="<?=$user->avatar?>" alt="avatar_<?=$user->username?>" class="img-circle">
-			<span id="bel_cms_widgets_user_username"><?=$user->username?></span>
-			<ul id="bel_cms_widgets_user_ul">
-				<li>
-					<a href="https://www.facebook.com/<?=$user->facebook?>">
-						<i class="fa fa-facebook" aria-hidden="true"></i>
+	<div class="card bel_cms_widgets">
+		<div class="card-header"><?=$users['title'] ?></div>
+		<div class="card-body">
+			<div id="bel_cms_widgets_user" class="widget">
+				<img id="bel_cms_widgets_user_img" src="<?=$user->avatar?>" alt="avatar_<?=$user->username?>" class="img-circle">
+				<span id="bel_cms_widgets_user_username"><?=$user->username?></span>
+				<ul id="bel_cms_widgets_user_ul">
+					<li>
+						<a href="https://www.facebook.com/<?=$user->facebook?>">
+							<i class="fa fa-facebook" aria-hidden="true"></i>
+						</a>
+					</li>
+					<li>
+						<a href="https://twitter.com/<?=$user->twitter?>">
+							<i class="fa fa-twitter" aria-hidden="true"></i>
+						</a>
+					</li>
+					<li>
+						<a href="<?=$user->googleplus?>">
+							<i class="fa fa-google-plus" aria-hidden="true"></i>
+						</a>
+					</li>
+				</ul>
+				<?php
+				if (!empty($user->info_text)):
+				?>
+				<span id="bel_cms_widgets_user_desc">
+					<?=$user->info_text?>
+				</span>
+				<?php endif; ?>
+				<div id="bel_cms_widgets_user_log">
+					<a href="User/Logout" title="Log-out">
+						<i class="fa fa-sign-out" aria-hidden="true"></i>
+						<?=SIGN_OUT?>
 					</a>
-				</li>
-				<li>
-					<a href="https://twitter.com/<?=$user->twitter?>">
-						<i class="fa fa-twitter" aria-hidden="true"></i>
+					<a href="User" title="userbox">
+						<i class="fa fa-user" aria-hidden="true"></i>
+						<?=PROFIL?>
 					</a>
-				</li>
-				<li>
-					<a href="<?=$user->googleplus?>">
-						<i class="fa fa-google-plus" aria-hidden="true"></i>
-					</a>
-				</li>
-			</ul>
-			<?php
-			if (!empty($user->info_text)):
-			?>
-			<span id="bel_cms_widgets_user_desc">
-				<?=$user->info_text?>
-			</span>
-			<?php endif; ?>
-			<div id="bel_cms_widgets_user_log">
-				<a href="User/Logout" title="Log-out">
-					<i class="fa fa-sign-out" aria-hidden="true"></i>
-					<?=SIGN_OUT?>
-				</a>
-				<a href="User" title="userbox">
-					<i class="fa fa-user" aria-hidden="true"></i>
-					<?=PROFIL?>
-				</a>
+				</div>
+				<div class="clear"></div>
 			</div>
-			<div class="clear"></div>
-		</div>
 
+		</div>
 	</div>
-</div>
 <?php
 endif;
+?>
+</div>

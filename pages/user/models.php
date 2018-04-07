@@ -386,7 +386,7 @@ class ModelsUser
 		}
 
 		if ($error && !empty($data['birthday']) && strlen($data['birthday']) == 10) {
-			$insertProfil['birthday'] = Common::transformDate($data['birthday'], false, 'Y-m-d');
+			$insertProfil['birthday'] = Common::DatetimeSQL($data['birthday'], false, 'Y-m-d');
 		} else if ($error && empty($data['birthday'])) {
 			$insertProfil['birthday'] = '0000-00-00';
 		}

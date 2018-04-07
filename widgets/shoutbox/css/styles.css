@@ -3,9 +3,6 @@
 	overflow: hidden;
 }
 #bel_cms_widgets_shoutbox_form {
-	border-top: 1px solid #cfcfcf;
-	padding-top: 15px;
-	margin-top: 15px;
 }
 #bel_cms_widgets_shoutbox_msg {
 	position: relative;

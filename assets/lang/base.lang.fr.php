@@ -37,6 +37,7 @@ Common::constant(array(
 	'COMMENT_SEND_FALSE'     => 'Le commentaire n\'a pas pu être envoyé.',
 	'ERROR_NO_ID_VALID'      => 'L’ID transmis est incorrecte',
 	'ERROR_NO_ID'            => 'Aucun ID transmis',
+	'OF'                     => 'sur',
 	#####################################
 	# COMMUN
 	#####################################
@@ -169,10 +170,23 @@ Common::constant(array(
 	'FEMALE'                 => 'Femme',
 	'MALE'                   => 'Homme',
 	'UNISEXUAL'              => 'Unisexe',
+	'NO_SPEC'                => 'Non spécifié',
 	'MEMBER'                 => 'Membre',
 	'MEMBERS'                => 'Membres',
+	'PSEUDO'                 => 'Pseudo',
+	'ABOUT'                  => 'À propos',
+	'MY_AVATAR'              => 'Mes avatars',
+	'AVATAR'                 => 'Avatar',
+	'AVATARS'                => 'Avatars',
 	#####################################
 	# WIDGETS USERS
 	# ###################################
 	'CONNECTED'              => 'Connectés',
+	#####################################
+	# LANG
+	# ###################################
+	'FRENCH'                 => 'fr',
+	'ENGLISH'                => 'eng',
+	'NETHERLANDS'            => 'nl',
+	'DEUTCH'                 => 'de',
 ));

@@ -14,7 +14,12 @@
 		padding: 0 !important;
 		line-height: 25px;
 	}
+	#bel_cms_widgets_connected ul li span {
+		display: block;
+		float: left;
+	}
 	#bel_cms_widgets_connected ul li span:nth-child(2) {
+		float: right;
 		text-align: right;
 	}
 

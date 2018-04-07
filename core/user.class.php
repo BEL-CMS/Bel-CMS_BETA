@@ -219,9 +219,9 @@ class AutoUser
 
 				foreach ($returnMergeTwo as $k => $v) {
 					if ($k == 'birthday') {
-						$v = Common::transformDate($v);
+						$v = Common::DatetimeSQL($v);
 					} else if ($k == 'date_registration' OR $k == 'last_visit') {
-						$v = Common::transformDate($v, true);
+						$v = Common::DatetimeSQL($v, true);
 					}
 					if ($k == 'avatar') {
 						if (empty($v) OR !is_file($v)) {

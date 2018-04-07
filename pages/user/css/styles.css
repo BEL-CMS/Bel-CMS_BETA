@@ -1,163 +1,58 @@
 /*###################################
 # BEL-CMS MODULE USER # MAIN
 ###################################*/
-section#bel_cms_user_main {
-
+section#bel_cms_page_user {
+	display: block;
+	overflow: hidden;
+	width: 100%;
 }
-
-	#bel_cms_user_main_left {
-		border-radius: 3px;
-		box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.06);
-	}
-		#bel_cms_user_avatar {
-			margin-bottom: 15px;
-		}
-			#bel_cms_user_avatar img {
-				display: block;
-				margin: auto;
-				border: none;
-				margin: auto;
-				vertical-align: middle;
-				-webkit-border-radius: 3px;
-				   -moz-border-radius: 3px;
-						border-radius: 3px;
-				width: auto;
-				max-width: 80%;
-			}
-		.bel_cms_user_main_left_title {
-			display: block;
-			margin-bottom: 15px;
-		}
-			.bel_cms_user_main_left_title i {
-				margin-right: 5px;
-			}
-		#bel_cms_user_main_left_about {
-			display: block;
-			margin-bottom: 15px;
-		}
-			#bel_cms_user_main_left_about p {
-				text-align: justify;
-			}
-		#bel_cms_user_main_left_menu {
-			display: block;
-			list-style: none;
-			margin: 0; padding: 0;
-		}
-			#bel_cms_user_main_left_menu li {
-				margin: 0; padding: 0;
-				display: block;
-				position: relative;
-				border-bottom: 1px dotted;
-			}
-			#bel_cms_user_main_left_menu li.active a:after {
-				content:"\f138";
-				font-family:"FontAwesome";
-				position: absolute;
-				right: 5px;
-			}
-				#bel_cms_user_main_left_menu li a {
-					display: block;
-					padding: 10px 12px;
-				}
-					#bel_cms_user_main_left_menu li a i {
-						margin-right: 10px;
-					}
-
-	#bel_cms_user_main_right {
-	}
-	#bel_cms_user_main_right > div {
-		display: none;
-	}
-	#bel_cms_user_main_right > div.active {
+	section#bel_cms_page_user .logout {
 		display: block;
+		float: right;
+		color: red;
 	}
-		.bel_cms_user_main_right_half {
+	section#bel_cms_page_user > .card {
+		margin-bottom: 15px;
+	}
+		#bel_cms_page_user_main_avatar {
+			width: 210px;
 			float: left;
-			width: 50%;
+		}
+			#bel_cms_page_user_main_avatar > img {
+				display: block;
+				width: 180px;
+				height: 180px;
+			}
+		#bel_cms_page_user_main_infos {
+			width: calc(100% - 210px);
+			float: left;
+			border-left: 1px solid #dfdfdf;
+		}
+		#bel_cms_page_user_main_infos ul li span:first-child {
+			display: block;
+			float: left;
+			text-align: right;
 			padding: 0 15px;
-			margin-bottom: 15px;
+			width: 200px;
+			text-transform: uppercase;
 		}
-		.bel_cms_user_main_right_full {
-			width: 100%;
-			margin-bottom: 15px;
-			clear: both;
-		}
-		.bel_cms_user_main_right_title {
+		#bel_cms_page_user_main_infos ul li span:last-child {
+			width: calc(100% - 200px);
 			display: block;
-			line-height: 32px;
-			margin: 20px 0;
-			text-align: center;
+			float: left;
+			font-weight: bold;
 		}
-			.bel_cms_user_main_right_title span {
-				display: inline-block;
-				vertical-align: middle;
-				zoom: 1;
-				*display: inline;
-				margin-left: 25px;
-				padding: 0 15px;
-				text-transform: uppercase;
-				line-height: 32px;
+
+		@media (max-width: 765px) {
+			#bel_cms_page_user_main_avatar {
+				display: none;
 			}
-	#bel_cms_user_profile_infos,
-	#bel_cms_user_friends {
-		display: block;
-		list-style: none;
-		margin: 0; padding: 0 15px;
-	}
-		#bel_cms_user_profile_infos li {
-			display: block;
-			margin: 0; padding: 0;
+			#bel_cms_page_user_main_infos {
+				width: 100%;
+				float: none;
+				border-left: none;
+			}
 		}
-			#bel_cms_user_profile_infos li span:first-child {
-				display: block;
-				float: left;
-				width: 130px;
-				line-height: 15px;
-				margin-bottom: 3px;
-				margin-top: 5px;
-			}
-			#bel_cms_user_profile_infos li span:last-child {
-				display: block;
-				float: left;
-				line-height: 15px;
-				margin-bottom: 3px;
-				margin-top: 5px;
-				width: -moz-calc(100% - 130px);
-				width: -webkit-calc(100% - 130x);
-				width: calc(100% - 130px);
-			}
-	#bel_cms_user_friends {
-		text-align: center;
-	}
-		#bel_cms_user_friends li {
-			display: inline-block;
-			vertical-align: top;
-			zoom: 1;
-			*display: inline;
-			margin: 0; padding: 0;
-			margin-bottom: 10px;
-			margin-right: 10px;
-		}
-			#bel_cms_user_friends li a {
-				display: block;
-				border: none;
-				text-decoration: none;
-				border-radius: 3px;
-				height: 50px;
-				position: relative;
-				width: 50px;
-			}
-				#bel_cms_user_friends li a img {
-					display: block;
-					box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
-					border: none;
-					width: 100%;
-					height: 100%;
-					border-radius: 3px;
-				}
-				#bel_cms_user_friends li a:hover img {
-					box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
-				}
 	#bel_cms_user_ul_avatar {
 		display: block;
 		list-style: none;
@@ -219,113 +114,6 @@ section#bel_cms_user_main {
 				#bel_cms_user_ul_avatar li a:hover span {
 					bottom: 0;
 				}
-	#bel_cms_user_main_right form {
-		padding: 0 15px;
-	}
-		#bel_cms_user_main_right form label {
-			display: block;
-		}
-		#bel_cms_user_main_right form textarea {
-			min-height: 80px;
-		}
-		#bel_cms_user_main_right form span {
-			padding: 0 15px;
-		}
-		#bel_cms_user_main_right form span input[type="radio"] {
-			cursor: pointer;
-		}
-#table_bel_cms_user {
-	margin: 0 auto;
-	width: 90%;
-	border-collapse: collapse;
-	border: none;
-}
-	#table_bel_cms_user thead tr th {
-		padding-left: 10px;
-		text-align: left;
-	}
-
-	#table_bel_cms_user tbody tr {
-		border-bottom: 1px solid rgba(0, 0, 0, .1);
-	}
-	#table_bel_cms_user tbody tr:last-child {
-		border-bottom: none;
-	}
-		#table_bel_cms_user tbody tr td a:first-child i {
-			color: green;
-			margin-right: 5px;
-		}
-		#table_bel_cms_user tbody tr td a:last-child i {
-			color: red;
-		}
-			#table_bel_cms_user tbody tr td:first-child {
-				width: 50px;
-				padding: 0 10px;
-				line-height: 50px;
-				text-align: center;
-			}
-			#table_bel_cms_user tbody tr td:last-child {
-				width: 50px;
-				padding: 10px;
-			}
-			#table_bel_cms_user tbody tr td img {
-				display: block;
-				width: 50px;
-				height: 50px;
-				border: none;
-			}
-/*###################################
-# BEL-CMS MODULE USER # MAIN CUSTOM COLOR
-###################################*/
-#bel_cms_user_main_left {
-	/*background: #FFFFFF;*/
-}
-.bel_cms_user_main_left_title {
-	font-size: 14px;
-	font-weight: bold;
-	color: #939393;
-}
-#bel_cms_user_main_left_about,
-#bel_cms_user_main_left_about p {
-	color: #939393;
-}
-#bel_cms_user_main_left_menu li {
-	display: block;
-	position: relative;
-	border-bottom-color: #ccc;
-}
-#bel_cms_user_main_left_menu li a {
-	color: #898989;
-	font-size: 13px;
-}
-#bel_cms_user_main_left_menu li a:hover {
-	background: #F8F8F8;
-}
-.bel_cms_user_main_right_title span {
-	background: #FFF;
-	font-size: 120%;
-}
-#bel_cms_user_profile_infos li span:first-child {
-	color: #999;
-	font-size: 12px;
-}
-.logout {
-    background-color: #AF2727;
-    border-radius: 2px;
-    color: #FFF;
-    display: block;
-    font-weight: bold;
-    padding: 6px 12px;
-    margin: 10px auto;
-    text-transform: uppercase;
-    font-size: 12px;
-    text-align: center;
-    text-decoration: none;
-}
-	#table_bel_cms_user thead {
-		background: #E5E5E5;
-		color: #000000;
-	}
 /*###################################
 # BEL-CMS MODULE USER # REGISTRATION
 ###################################*/
@@ -530,8 +318,8 @@ html.bel-cms, body.bel-cms {
 }
 .checkbox.checkbox-icon label::after {
 	left: -2px;
-	top: -5px;  
-	font-size:26px; 
+	top: -5px;
+	font-size:26px;
 	font-family: 'FontAwesome';
 }
 .checkbox.checkbox-icon input[type=checkbox]:disabled + label::after  {
@@ -604,8 +392,8 @@ html.bel-cms, body.bel-cms {
 	text-align: center;
 	position: absolute;
 	left: 0px;
-	top: 5px;  
-	font-size:11px; 
+	top: 5px;
+	font-size:11px;
 }
 .radio input[type=radio] {
 	display: none;

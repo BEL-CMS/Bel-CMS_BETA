@@ -1,14 +1,6 @@
 jQuery(document).ready(function($){
 	changePage ();
 	deleteAvatar ();
-	$( "#datepicker" ).datepicker({
-		inline: true
-	});
-
-	$('#teste').click(function(e) {
-		alert('ok');
-		return false;
-	});
 
 	$('.bel_cms_jquery_avatar_sel').click(function(event) {
 		event.preventDefault();
