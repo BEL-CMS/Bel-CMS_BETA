@@ -19,7 +19,7 @@ class ModelsMembers
 	public function GetUsers ($where = false)
 	{
 		if (isset($_SESSION['pages']->user->config['MAX_USER'])) {
-			$nbpp = (int) $_SESSION['pages']->user->config['MAX_USER_ADMIN'];
+			$nbpp = (int) $_SESSION['pages']->user->config['MAX_USER'];
 		} else {
 			$nbpp = (int) 10;
 		}
@@ -29,8 +29,6 @@ class ModelsMembers
 
 		$sql = New BDD();
 		$sql->table('TABLE_USERS');
-		# $where = "WHERE `groups` LIKE '%".$where."%'";
-		# $sql->where($where);
 		$sql->orderby(array(array('name' => 'username', 'type' => 'ASC')));
 		$sql->limit(array(0 => $page, 1 => $nbpp), true);
 		$sql->queryAll();
@@ -46,6 +44,9 @@ class ModelsMembers
 						);
 			$sql->where($where);
 			$sql->queryOne();
+			if (Secure::isUrl($sql->data->websites) === false) {
+				$sql->data->websites = null;
+			}
 			$return[$k]->profils = $sql->data;
 			unset($sql);
 		}

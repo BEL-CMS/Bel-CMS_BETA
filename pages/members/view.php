@@ -60,7 +60,7 @@ if (!defined('CHECK_INDEX')) {
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="widget widget-friends">
 					<div class="panel panel-default">
 						<div class="panel-heading">Friends (<?=count($members->friends)?>)</div>
@@ -81,7 +81,7 @@ if (!defined('CHECK_INDEX')) {
 				</div>
 
 			</div>
-			
+
 			<div class="col-xs-12 col-sm-8 col-md-9">
 				<div class="widget">
 					<table class="table">

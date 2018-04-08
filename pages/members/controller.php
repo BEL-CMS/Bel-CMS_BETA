@@ -26,7 +26,7 @@ class Members extends Pages
 			$this->error(INFO, 'Désolé, vous n’avez pas accès à cette page', 'info');
 			$this->_error = true;
 		}
-		if (isset($_SESSION['pages']->members->config['MAX_USER'])) {
+		if (isset($_SESSION['pages']->user->config['MAX_USER'])) {
 			$this->nbpp = (int) $_SESSION['pages']->user->config['MAX_USER'];
 		} else {
 			$this->nbpp = (int) 10;
@@ -40,8 +40,6 @@ class Members extends Pages
 	public function index ()
 	{
 		if ($this->_error === false) {
-			# $where = "WHERE `groups` LIKE '%2%'"; annule affiche tout les membres
-			//$this->pagination($this->nbpp, GET_PAGE, TABLE_USERS);
 			$set['pagination'] = $this->pagination($this->nbpp, GET_PAGE, TABLE_USERS);
 			$set['members'] = $this->ModelsMembers->GetUsers();
 			$this->set($set);
