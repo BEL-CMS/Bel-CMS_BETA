@@ -68,9 +68,11 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 					?>
 					<div class="form-group">
 						<div class="input-group">
-							<span class="input-group-addon">
-								<input type="checkbox" name="groups[]" value="<?=$k?>" <?=$checked?>>
-							</span>
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<input type="checkbox" name="groups[]" value="<?=$k?>" <?=$checked?>>
+								</div>
+							</div>
 							<input class="form-control" type="text" value="<?=$v?>" readonly>
 						</div>
 					</div>

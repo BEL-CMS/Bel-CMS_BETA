@@ -40,7 +40,7 @@ class User extends Pages
 				$this->set($d);
 				$this->render('index');
 				} else {
-					$this->redirect('User/login', 3);
+					$this->redirect('User/login', 1);
 					$this->error('LOGIN', LOGIN_REQUIRE, 'info');
 			}
 		}
