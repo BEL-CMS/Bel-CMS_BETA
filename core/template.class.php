@@ -189,10 +189,10 @@ final class Template extends Dispatcher
 			$files[] = 'assets/plugins/jquery_ui/js/jquery-ui.min.js';
 		}
 		if (CMS_BOOTSTRAP == 'on') {
+			$files[] = 'assets/plugins/bootstrap/js/popper.min.js';
 			$files[] = 'assets/plugins/bootstrap/js/bootstrap.min.js';
 		}
 
-		$files[] = 'assets/plugins/tipsy/jquery.tipsy.js';
 		$files[] = 'assets/plugins/tinymce/jquery.tinymce.min.js';
 		$files[] = 'assets/plugins/tinymce/tinymce.min.js';
 		$files[] = 'assets/plugins/core.js';
