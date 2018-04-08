@@ -6,9 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Login - BEL-CMS - MANAGEMENT</title>
 	<link href="assets/styles/global.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<?=ROOT_MANAGEMENT_TPL?>css/simple-line-icons.css">
-	<link rel="stylesheet" href="<?=ROOT_MANAGEMENT_TPL?>css/login.css" rel="stylesheet">
+	<link rel="stylesheet" href="<?=ROOT_MANAGEMENT_TPL?>css/login.css">
 </head>
 <body>
 	<div class="container">
@@ -47,7 +47,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="assets/plugins/jquery/jquery-1.11.1.min"></script>
+	<script src="assets/plugins/jquery/jquery-3.3.1.min.js"></script>
 	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/plugins/core.js"></script>
 </body>

@@ -31,7 +31,11 @@ class Dashboard extends Pages
 		while ($nbLine <= date('t')) {
 			$initializeArrayDay[$nbLine++] = 0;
 		}
+
 		foreach ($visitMonth as $k => $v) {
+			if ($v->visitor_day[0] == 0) {
+				$v->visitor_day = substr($v->visitor_day,1);
+			}
 			if (array_key_exists($v->visitor_day, $initializeArrayDay)) {
 				$initializeArrayDay[$v->visitor_day]++;
 			}

@@ -183,13 +183,15 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 	<div class="control-sidebar-bg"></div>
 </div>
 
-<script src="assets/plugins/jquery/jquery-1.11.1.min.js"></script>
+<script src="assets/plugins/jquery/jquery-3.3.1.min.js"></script>
+<script src="assets/plugins/bootstrap/js/popper.min.js"></script>
 <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/plugins/datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="assets/plugins/tinymce/jquery.tinymce.min.js"></script>
 <script src="assets/plugins/tinymce/tinymce.min.js"></script>
 <script src="assets/plugins/datatables/datatables.min.js"></script>
 <script src="<?=ROOT_MANAGEMENT_TPL?>/js/adminlte.min.js"></script>
+<script src="assets/plugins/tipsy/jquery.tipsy.js"></script>
 <script src="assets/plugins/core.js"></script>
 </body>
 </html>
