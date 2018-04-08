@@ -18,10 +18,6 @@ class Comments extends Pages
 {
 	var $models = array('ModelsComments');
 
-	function __construct()
-	{
-		parent::__construct();
-	}
 	public function send ()
 	{
 		if (AutoUser::ReturnUser() !== false) {
@@ -33,7 +29,7 @@ class Comments extends Pages
 				$this->jquery = array('type' => 'danger', 'text' => URL_EMPTY );
 				return;
 			}
-			$insert = $this->ModelsComments->insertComment($_POST);
+			$insert = $this->ModelsComments->insertComment($this->data);
 			if ($insert === false) {
 				$this->jquery = array('type' => $insert['type'], 'text' => $insert['text'] );
 			} else {

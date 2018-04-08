@@ -53,7 +53,7 @@ final class Comment extends Dispatcher
 		} else {
 			$form = '<a href="User/Login" title="'.SIGN_IN.'">'.SIGN_IN.'</a>';
 		}
-		unset($user);            	
+		unset($user);
 		if ($comments !== null) {
 			$li = '';
 			foreach ($comments as $k => $v) {
@@ -64,7 +64,7 @@ final class Comment extends Dispatcher
 				$li .= '</a>';
 				$li .= '<div class="bel_cms_comments_tabs_post">';
 				$li .= '<a href="Members/View/'.$user->username.'">'.$user->username.'</a>';
-				$li .= '<span class="commentsDate">'.Common::TransformDate($v->date_com, false, 'd/m/Y H:i').'</span>';
+				$li .= '<span class="commentsDate">'.Common::TransformDate($v->date_com, 'FULL', 'LONG').'</span>';
 				$li .= '<p>';
 				$li .= $v->comment;
 				$li .= '</p>';
@@ -75,30 +75,34 @@ final class Comment extends Dispatcher
 			$li = '';
 		}
 		unset($user);
-		$html  = '<section class="bel_cms_comments panel panel-default">';
-		$html .= '	<div class="panel-heading">Commentaires</div>';
-		$html .= '	<div class="panel-body">';
-		$html .= '		<ul class="nav nav-tabs">
-							<li class="active">
-								<a href="#commentsIn" data-toggle="tab" aria-expanded="true"><i class="fa fa-commenting"></i> '.CMS_WEBSITE_NAME.'</a>
-							</li>
-							<li>
-								<a href="#commentsOut" data-toggle="tab" aria-expanded="false"><i class="fa fa-comments"></i> Facebook</a>
-							</li>
-						</ul>';
-		$html .= '		<div class="tab-content bel_cms_comments_tabs_in">
-							<div class="tab-pane fade in active" id="commentsIn">
-								'.$form.'
-								<ul>
-								'.$li.'
-								</ul>
-							</div>
-							<div class="tab-pane fade" id="commentsOut">
-								<div class="fb-comments" data-href="'.GetHost::getBaseUrl().$url.'" data-numposts="'.$this->nb.'" data-colorscheme="light"></div>
-							</div>	
-					 	</div>';
-		$html .= '	</div>';
-		$html .= '</section><div class="clear"></div>';
+
+
+		$html   = '<div class="card">';
+		$html  .= '<div class="card-header">'.COMMENTS.'</div>';
+		$html  .= '<div class="card-body">';
+
+		$html  .= '<nav style="margin-bottom: 15px">';
+		$html  .= '<div class="nav nav-tabs" id="nav-tab" role="tablist">';
+		$html  .= '<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-'.CMS_WEBSITE_NAME.'" role="tab" aria-controls="nav-'.CMS_WEBSITE_NAME.'" aria-selected="true">'.CMS_WEBSITE_NAME.'</a>';
+		$html  .= '<a class="nav-item nav-link" id="nav-Facebook-tab" data-toggle="tab" href="#nav-Facebook" role="tab" aria-controls="nav-Facebook" aria-selected="false">Facebook</a>';
+		$html  .= '</div>';
+		$html  .= '</nav>';
+		$html  .= '<div class="tab-content" id="nav-tabContent">';
+		$html  .= '<div class="tab-pane fade show active" id="nav-'.CMS_WEBSITE_NAME.'" role="tabpanel" aria-labelledby="nav-'.CMS_WEBSITE_NAME.'-tab">
+						'.$form.'
+					<ul>
+						'.$li.'
+					</ul>
+				  </div>';
+		$html  .= '<div class="tab-pane fade" id="nav-Facebook" role="tabpanel" aria-labelledby="nav-Facebook-tab">
+					<div class="fb-comments" data-href="'.GetHost::getBaseUrl().$url.'" data-numposts="'.$this->nb.'" data-colorscheme="light"></div>
+				  </div>';
+		$html  .= '</div>';
+
+		$html  .= '</div>';
+		$html  .= '</div>';
+
+		$html .= '<div class="clear"></div>';
 		$this->html = $html;
 	}
 	private function count ()

@@ -20,7 +20,7 @@ class ModelsComments
 	{
 		if ($data !== false) {
 			if (strlen($_SESSION['user']->hash_key) != 32) {
-				$return['text'] = 'Erreur HashKey';
+				$return['text'] = 'Erreur Login';
 				$return['type'] = 'danger';
 				return $return;
 			} else {
@@ -42,7 +42,11 @@ class ModelsComments
 				$return['type'] = 'danger';
 				return $return;
 			} else {
-				$data['link'] = Common::VarSecure($data['url'], '');
+				$data['url'] = Common::VarSecure($data['url'], '');
+				$data['url'] = explode('/', $data['url']);
+				$data['page'] = $data['url'][0];
+				$data['page_sub'] = $data['url'][1];
+				$data['page_id'] = (int) $data['url'][2];
 				unset($data['url']);
 			}
 
