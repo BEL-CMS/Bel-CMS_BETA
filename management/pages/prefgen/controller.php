@@ -76,9 +76,11 @@ class PrefGen extends Pages
 
 					$input .= '<div class="form-group">';
 					$input .= '<div class="input-group">';
-					$input .= '<span class="input-group-addon">';
+					$input .= '<div class="input-group-prepend">';
+					$input .= '<div class="input-group-text">';
 					$input .= '<input type="radio" name="'.$d->id.'" id="label_'.$d->id.'" value="'.$a.'" '.$checked.'>';
-					$input .= '</span>';
+					$input .= '</div>';
+					$input .= '</div>';
 					$input .= '<input class="form-control" type="text" value="'.$a.'" readonly>';
 					$input .= '</div>';
 					$input .= '</div>';
@@ -89,9 +91,11 @@ class PrefGen extends Pages
 					$checked = in_array($a, preg_replace('/\s+/', '', $value)) ? 'checked="checked"' : '';
 					$input .= '<div class="form-group">';
 					$input .= '<div class="input-group">';
-					$input .= '<span class="input-group-addon">';
+					$input .= '<div class="input-group-prepend">';
+					$input .= '<div class="input-group-text">';
 					$input .= '<input type="checkbox" name="'.$d->id.'[]" id="label_'.$d->id.'" value="'.$a.'" '.$checked.'>';
-					$input .= '</span>';
+					$input .= '</div>';
+					$input .= '</div>';
 					$input .= '<input class="form-control" type="text" value="'.$a.'" readonly>';
 					$input .= '</div>';
 					$input .= '</div>';

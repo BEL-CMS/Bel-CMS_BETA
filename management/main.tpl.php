@@ -15,6 +15,7 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 	<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/styles/global.css">
 	<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="assets/plugins/ionicons/css/ionicons.min.css">
 	<link rel="stylesheet" href="management/css/simple-line-icons.css">
@@ -42,10 +43,11 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 			<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
 				<span class="sr-only">Toggle navigation</span>
 			</a>
-			<div class="navbar-custom-menu">
+			<div id="logout" class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="login/logout?management&ajax" class="alertAjaxLink"><i class="fa fa-sign-out"></i></a>
+						<!-- <a href="login/logout?management&ajax" class="alertAjaxLink"><i class="fa fa-sign-out"></i></a> -->
+						<a href="#" class="alertAjaxLink"><i class="fa fa-sign-out"></i></a>
 					</li>
 				</ul>
 			</div>

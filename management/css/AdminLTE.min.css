@@ -14,3 +14,14 @@
 	background: rgba(0, 0, 0, .1) !important;
 	text-transform: uppercase;
 }
+.navbar {
+	padding: 0;
+}
+.main-header .sidebar-toggle {
+	padding: 14px 15px;
+}
+#logout a {
+	display: block;
+	padding: 14px 15px;
+	float: right;
+}

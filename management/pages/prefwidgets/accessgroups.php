@@ -43,9 +43,11 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 			?>
 				<div class="form-group">
 					<div class="input-group">
-						<span class="input-group-addon">
-							<input type="checkbox" name="groups_access[]" value="<?=$k?>" <?=$chkedGroupAccess?>>
-						</span>
+						<div class="input-group-prepend">
+							<div class="input-group-text">
+								<input type="checkbox" name="groups_access[]" value="<?=$k?>" <?=$chkedGroupAccess?>>
+							</div>
+						</div>
 						<input class="form-control" type="text" value="<?=$v?>" readonly>
 					</div>
 				</div>
@@ -68,9 +70,11 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 			?>
 				<div class="form-group">
 					<div class="input-group">
-						<span class="input-group-addon">
-							<input type="checkbox" name="groups_admin[]" value="<?=$k?>" <?=$chkedGroupAccess.$readOnly?>>
-						</span>
+						<div class="input-group-prepend">
+							<div class="input-group-text">
+								<input type="checkbox" name="groups_admin[]" value="<?=$k?>" <?=$chkedGroupAccess.$readOnly?>>
+							</div>
+						</div>
 						<input class="form-control" type="text" value="<?=$v?>" readonly>
 					</div>
 				</div>
@@ -129,9 +133,11 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 			?>
 				<div class="form-group">
 					<div class="input-group">
-						<span class="input-group-addon">
-							<input type="checkbox" name="pages[]" value="<?=$v?>" <?=$checked?>>
-						</span>
+						<div class="input-group-prepend">
+							<div class="input-group-text">
+								<input type="checkbox" name="pages[]" value="<?=$v?>" <?=$checked?>>
+							</div>
+						</div>
 						<input class="form-control" type="text" value="<?=$v?>" readonly>
 					</div>
 				</div>
