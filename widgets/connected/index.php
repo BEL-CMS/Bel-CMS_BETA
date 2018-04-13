@@ -1,6 +1,6 @@
 <div id="bel_cms_widgets_connected" class="card bel_cms_widgets">
 	<div class="panel-group">
-		<div class="card-header"><?=$this->title ?></div>
+		<div class="card-header"><h3 class="card-title"><?=$this->title ?></h3></div>
 		<div class="card-body">
 			<div id="bel_cms_widgets_connected" class="widget">
 				<ul>

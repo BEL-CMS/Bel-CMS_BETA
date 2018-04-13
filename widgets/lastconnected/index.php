@@ -17,7 +17,7 @@ if ($last !== null):
 ?>
 <div id="bel_cms_widgets_lastconnected" class="card bel_cms_widgets">
 	<div class="panel-group">
-		<div class="card-header"><?=$this->title ?></div>
+		<div class="card-header"><h3 class="card-title"><?=$this->title ?></h3></div>
 		<div class="card-body">
 			<ul>
 				<?php

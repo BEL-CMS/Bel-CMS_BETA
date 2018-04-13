@@ -15,7 +15,7 @@ if (!defined('CHECK_INDEX')) {
 }
 ?>
 <div id="bel_cms_widgets_shoutbox" class="card bel_cms_widgets">
-	<div class="card-header"><?=$this->title ?></div>
+	<div class="card-header"><h3 class="card-title"><?=$this->title ?></h3></div>
 	<div class="card-body">
 		<div id="bel_cms_widgets_shoutbox" class="widget">
 			<div class="widget-content">

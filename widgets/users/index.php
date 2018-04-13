@@ -3,7 +3,7 @@
 if (AutoUser::ReturnUser() === false):
 ?>
 	<div class="card bel_cms_widgets">
-		<div class="card-header"><?=$users['title'] ?></div>
+		<div class="card-header"><h3 class="card-title"><?=$users['title'] ?></h3></div>
 		<div class="card-body">
 			<h5 class="card-title text-center"><?=GREAT_HAVE_BACK?></h5>
 			<form action="User/Send" method="post">
@@ -27,7 +27,7 @@ else:
 	$user = AutoUser::ReturnUser();
 ?>
 	<div class="card bel_cms_widgets">
-		<div class="card-header"><?=$users['title'] ?></div>
+		<div class="card-header"><h3 class="card-title"><?=$users['title'] ?></h3></div>
 		<div class="card-body">
 			<div id="bel_cms_widgets_user" class="widget">
 				<img id="bel_cms_widgets_user_img" src="<?=$user->avatar?>" alt="avatar_<?=$user->username?>" class="img-circle">
