@@ -37,7 +37,6 @@ Common::constant(array(
 	'COMMENT_SEND_FALSE'     => 'Le commentaire n\'a pas pu être envoyé.',
 	'ERROR_NO_ID_VALID'      => 'L’ID transmis est incorrecte',
 	'ERROR_NO_ID'            => 'Aucun ID transmis',
-	'OF'                     => 'sur',
 	#####################################
 	# COMMUN
 	#####################################
@@ -71,6 +70,8 @@ Common::constant(array(
 	'WEBSITE'                => 'Site Internet',
 	'NAME'                   => 'Nom',
 	'DATE'                   => 'Date',
+	'OF'                     => 'sur',
+	'BY'                     => 'par',
 	'OPTIONS'                => 'Options',
 	'SAVE'                   => 'Enregister',
 	'CANCEL'                 => 'Annuler',
@@ -95,6 +96,7 @@ Common::constant(array(
 	'NOW'                    => 'Maintenant',
 	'ADMINISTRATOR'          => 'Administrateur',
 	'ADMINISTRATORS'         => 'Administrateurs',
+	'FILE_ATTACHMENT'        => 'Pièce jointe',
 	#####################################
 	# UPLOAD
 	#####################################

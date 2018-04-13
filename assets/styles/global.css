@@ -1,4 +1,6 @@
-/* --- Commun --- */
+/* ==========================================================================
+   BEL-CMS # COMMUN
+   ========================================================================== */
 .center {
 	display: block;
 	margin: auto;
@@ -12,10 +14,51 @@
 .clear {
 	clear: both;
 }
+/* ==========================================================================
+   BEL-CMS # Widgets
+   ========================================================================== */
 .bel_cms_widgets {
 	margin-bottom: 15px;
 }
-/* --- Notification --- */
+	.bel_cms_widgets .card {
+		padding: 0;
+		border: 0;
+		border-bottom: solid 3px rgba(33, 33, 33, .5);
+		border-radius: 3px;
+	}
+		.bel_cms_widgets .card-header {
+			padding: 0;
+			position: relative;
+		}
+		.bel_cms_widgets .card-header::before {
+			content: " ";
+			width: 30px;
+			top: 20px;
+			left: 10px;
+			float: left;
+			background: rgba(33, 33, 33, .5);
+			height: 2px;
+			position: absolute;
+		}
+			.bel_cms_widgets .card-title {
+				margin: 0;
+				margin-left: 50px;
+				padding-bottom: 0px;
+				text-align: left;
+				font-size: 14px;
+				font-weight: bold;
+				line-height: 40px;
+				text-transform: uppercase;
+			}
+		.bel_cms_widgets .card-body {
+			padding: 20px;
+		}
+		.bel_cms_widgets .card-footer {
+			padding: 10px 20px;
+		}
+/* ==========================================================================
+   BEL-CMS # NOTIFICATION
+   ========================================================================== */
 .belcms_notification {
 	display: flex;
 	margin: 25px auto;
@@ -72,7 +115,10 @@
 	background: #27ae60 none repeat scroll 0 0;
 	border-bottom-color: #1e8449;
 }
-/* --- Alert --- */
+
+/* ==========================================================================
+   BEL-CMS # Alert
+   ========================================================================== */
 #alrt_bel_cms {
 	background: rgba(0, 0, 0, 0.8);
 	text-align: center;
@@ -113,40 +159,15 @@
 	color: white;
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
 }
-/* --- Widgets --- */
-.bel_cms_aside_widgets {
-	display: block;
-	margin-bottom: 15px;
-	overflow: hidden;
-}
-.bel_cms_aside_widgets > h2 {
-	-moz-border-bottom-colors: none;
-	-moz-border-left-colors: none;
-	-moz-border-right-colors: none;
-	-moz-border-top-colors: none;
-	border-color: -moz-use-text-color -moz-use-text-color -moz-use-text-color rgba(0, 0, 0, .3);
-	border-image: none;
-	border-style: none none none solid;
-	border-width: 0 0 0 4px;
-	color: rgba(0, 0, 0, 0.7);
-	font-size: 16px;
-	font-weight: 700;
-	margin: 0 0 25px;
-	padding: 2px 0 2px 20px;
-	text-align: left;
-	text-transform: uppercase;
-}
-.bel_cms_aside_widgets_content {
-	padding: 15px 20px;
-}
-/* --- Tooltip --- */
 
 /* --- Modal --- */
 .modal-backdrop {
 	z-index: -1 !important;
 }
 
-/* --- Comments --- */
+/* ==========================================================================
+   BEL-CMS # COMMENTS
+   ========================================================================== */
 .bel_cms_comments {
 	display: block;
 	margin: 15px auto;
