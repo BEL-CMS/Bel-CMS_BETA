@@ -13,41 +13,32 @@ if (!defined('CHECK_INDEX')) {
 	header($_SERVER['SERVER_PROTOCOL'] . ' 403 Direct access forbidden');
 	exit(ERROR_INDEX);
 }
-
 ?>
-<section id="bel_cms_forum_newthread" class="padding-bottom-60">
-	<div class="">
-		<div class="headline">
-			<h4 class="no-padding-top"><?php echo NEW_THREAD; ?></h4>
-		</div>
-
-		<form action="Forum/Send" method="post" enctype="multipart/form-data">
-			<div class="panel panel-default margin-bottom-30">
-				<div class="panel-body">
-					<div class="form-group row">
-						<label for="thread" class="col-md-2"><?php echo TITLE_POST; ?></label>
-						<div class="col-md-10">
-							<input type="text" name="title" class="form-control" id="thread" placeholder="<?php echo ADD_A_TITLE; ?>">
-						</div>
+<section id="bel_cms_forum_newthread">
+	<form action="Forum/Send" method="post" enctype="multipart/form-data">
+		<div class="card">
+			<div class="card-header">
+				<h3><?=NEW_THREAD?></h3>
+			</div>
+			<div class="card-body">
+				<div class="form-group row">
+					<label for="thread" class="col-2 col-form-label"><?=TITLE_POST?></label>
+					<div class="col-10">
+						<input type="text" name="title" class="form-control" id="thread" placeholder="<?=ADD_A_TITLE?>">
 					</div>
-					<div class="form-group row">
-						<label class="col-md-2"><?php echo MESSAGE; ?></label>
-						<div class="col-md-10">
-							<div class="forum-post no-margin no-shadow">
-								<textarea class="bel_cms_textarea_simple" name="content"></textarea>
-							</div>
-						</div>
+				</div>
+				<div class="form-group row">
+					<label for="messagepost" class="col-2 col-form-label"><?=MESSAGE?></label>
+					<div class="col-10">
+						<textarea class="bel_cms_textarea_simple" name="content" id="messagepost"></textarea>
 					</div>
 				</div>
 			</div>
-
-			<div class="text-center">
+			<div class="card-footer">
 				<input type="hidden" name="send" value="NewThread">
-				<input type="hidden" name="id" value="<?php echo $_SESSION['NEWTHREADS'] ?>">
-				<input type="submit" class="btn btn-primary btn-lg btn-rounded btn-shadow" value="<?php echo SUBMIT_THREAD; ?>">
+				<input type="hidden" name="id" value="<?=$_SESSION['NEWTHREADS']?>">
+				<input type="submit" class="btn btn-primary btn-lg btn-rounded btn-shadow" value="<?=SUBMIT_THREAD?>">
 			</div>
-
-		</form>
-
-	</div>
+		</div>
+	</form>
 </section>

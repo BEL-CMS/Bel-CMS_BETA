@@ -28,6 +28,7 @@ Common::constant(array(
 	'NO_POST'             => 'Aucun sujet',
 	'LOCK_THREAD'         => 'Fermer le sujet',
 	'UNLOCK_THREAD'       => 'Ouvrir le sujet',
+	'DEL_THRAD'           => 'Supprimer le sujet',
 	'LIKE'                => 'Aimer',
 	'REPORT_POST'         => 'Reporter ce sujet',
 	'LAST_POST'           => 'Dernier message',
@@ -39,6 +40,9 @@ Common::constant(array(
 	# Erreur - Forum
 	#####################################
 	'ERROR_NO_POST'       => 'Aucun sujet disponible dans la base de données',
+	'NO_ACCESS_POST'      => 'Acces refusé vous n\'avez pas l\'autorisation',
+	'DEL_POST_SUCCESS'    => 'Suppression du sujet effectué avec succès',
+	'DEL_POST_ERROR'      => 'Erreur lors de la suppresion du sujet',
 	#####################################
 	# Management - Forum
 	#####################################

@@ -106,6 +106,12 @@ class Forum extends Pages
 
 	private function accessLock ()
 	{
+		$groupUser = $_SESSION['user']->groups;
+
+		if (in_array('1', $groupUser)) {
+			return true;
+		}
+
 		$access    = false;
 		$groupsAccess = explode('|', $_SESSION['pages']->forum->admin);
 		foreach ($groupsAccess as $k => $v) {
@@ -119,8 +125,6 @@ class Forum extends Pages
 
 	public function lockpost ($id)
 	{
-		$groupUser = $_SESSION['user']->groups;
-
 		if ($this->_error === false) {
 			if (self::accessLock()) {
 				$return = $this->ModelsForum->lock($id);
@@ -134,50 +138,55 @@ class Forum extends Pages
 
 	public function unlockpost ($id)
 	{
-		$groupUser = $_SESSION['user']->groups;
-
 		if ($this->_error === false) {
 			if (self::accessLock()) {
 				$return = $this->ModelsForum->unlock($id);
 				$this->error ('Forum', $return['msg'], $return['type']);
 			} else {
-				$this->error ('Forum', NO_OPEN_POST, 'danger');
+				$this->error ('Forum', NO_ACCESS_POST, 'danger');
 			}
 			$this->redirect(true, 2);
+		}
+	}
+
+	public function delpost ($id)
+	{
+		if ($this->_error === false) {
+			if (self::accessLock()) {
+				$return = $this->ModelsForum->delpost($id);
+				$this->error ('Forum', $return['msg'], $return['type']);
+			} else {
+				$this->error ('Forum', NO_ACCESS_POST, 'danger');
+			}
+			$this->redirect('Forum', 2);
 		}
 	}
 
 	public function NewThread ($name)
 	{
 		if ($this->_error === false) {
-
 			$_SESSION['NEWTHREADS'] = $name;
 			$this->render('newthread');
-
 		}
 	}
 
 	public function send ($name,$id)
 	{
 		if ($this->_error === false) {
-
 			if ($_REQUEST['send'] == 'SubmitReply') {
 				self::SubmitReply($this->data);
 			} else if ($_REQUEST['send'] == 'NewThread') {
 				self::NewPostThread($this->data);
 			}
-
 		}
 	}
 
 	private function NewPostThread ($data)
 	{
 		if ($this->_error === false) {
-
 			$insert = $this->ModelsForum->SubmitThread($data['id'], $data);
 			$this->error ('Forum', $insert['msg'], $insert['type']);
 			$this->redirect(true, 2);
-
 		}
 	}
 

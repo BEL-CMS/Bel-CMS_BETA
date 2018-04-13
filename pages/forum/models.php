@@ -370,7 +370,7 @@ class ModelsForum
 			);
 		} else {
 			$authorId = $return->author;
-			$return->date_post = Common::transformDate($return->date_post, true, 'd M Y');
+			$return->date_post = Common::transformDate($return->date_post, 'MEDIUM', 'NONE');
 			$author = AutoUser::getNameAvatar($authorId);
 			$return->author    = $author->username;
 			$return->avatar    = $author->avatar;
@@ -403,7 +403,7 @@ class ModelsForum
 			);
 		} else {
 			$authorId = $return->author;
-			$return->date_post = Common::transformDate($return->date_post, true, 'd M Y');
+			$return->date_post = Common::transformDate($return->date_post, 'FULL', 'NONE');
 			$author = AutoUser::getNameAvatar($authorId);
 			// Fait corrépondre leurs ID avec leur username
 			$return->author = $author->username;
@@ -529,6 +529,35 @@ class ModelsForum
 				$return['type'] = 'success';
 			} else {
 				$return['msg']  = ERROR_UNLOCK_BDD;
+				$return['type'] = 'error';
+			}
+			# return le resulat
+			return $return;
+		}
+	}
+
+	public function delpost ($id = false)
+	{
+		if ($id) {
+			$id = (int) $id;
+			$where = array('name' => 'id', 'value' => $id);
+			$del = New BDD();
+			$del->table('TABLE_FORUM_POST');
+			$del->where($where);
+			$del->delete();
+			$true = $del->rowCount;
+			unset($del);
+			$where = array('name' => 'id_post', 'value' => $id);
+			$del = New BDD();
+			$del->table('TABLE_FORUM_POSTS');
+			$del->where($where);
+			$del->delete();
+			# verifie si c'est bien inserer
+			if ($true == 1) {
+				$return['msg']  = DEL_POST_SUCCESS;
+				$return['type'] = 'success';
+			} else {
+				$return['msg']  = DEL_POST_ERROR;
 				$return['type'] = 'error';
 			}
 			# return le resulat

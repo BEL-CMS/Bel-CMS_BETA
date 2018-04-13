@@ -27,7 +27,8 @@ if (!empty($post)):
 					<div class="headline">
 						<h4><i class="fa fa-comments"></i> <?=defixUrl($v->title)?></h4>
 						<div class="pull-right">
-							<a href="forum/unlockPost/<?=$post[0]->id?>" class="btn btn-default btn-icon-left"><i class="fa fa-unlock"></i> <?=UNLOCK_THREAD?></a>
+							<a data-toggle="tooltip" title="<?=UNLOCK_THREAD?>" href="forum/unlockPost/<?=$post[0]->id?>" class="btn btn-info btn-icon-left"><i class="fa fa-unlock"></i></a>
+							<a data-toggle="tooltip" title="<?=DEL_THRAD?>" href="Forum/DelPost/<?=$post[0]->id?>" class="btn btn-danger btn-icon-left"><i class="fa fa-trash"></i></a>
 						</div>
 					</div>
 				<?php
@@ -36,7 +37,8 @@ if (!empty($post)):
 					<div class="headline">
 						<h4><i class="fa fa-comments"></i> <?=defixUrl($v->title)?></h4>
 						<div class="pull-right">
-							<a href="forum/lockPost/<?=$post[0]->id?>" class="btn btn-default btn-icon-left"><i class="fa fa-lock"></i> <?=LOCK_THREAD?></a>
+							<a data-toggle="tooltip" title="<?=LOCK_THREAD?>" href="forum/lockPost/<?=$post[0]->id?>" class="btn btn-danger btn-icon-left"><i class="fa fa-lock"></i></a>
+							<a data-toggle="tooltip" title="<?=DEL_THRAD?>" href="Forum/DelPost/<?=$post[0]->id?>" class="btn btn-danger btn-icon-left"><i class="fa fa-trash"></i></a>
 						</div>
 					</div>
 				<?php
@@ -46,11 +48,11 @@ if (!empty($post)):
 
 			<div class="forum-post">
 				<div class="forum-header">
-					<a href="Members/View/<?=$v->author?>" class="avatar">
+					<a data-toggle="tooltip" title="<?=$v->author?>" href="Members/View/<?=$v->author?>" class="avatar">
 						<img src="<?=$v->avatar?>" alt="avatar_<?=$v->author?>">
 					</a>
 					<div>
-						<a href="Members/View/<?=$v->author?>"><?=$v->author?></a>
+						<a data-toggle="tooltip" title="<?=$v->author?>" href="Members/View/<?=$v->author?>"><?=$v->author?></a>
 					</div>
 				</div>
 				<div class="forum-panel">
@@ -70,10 +72,10 @@ if (!empty($post)):
 				</div>
 				<div class="forum-footer hidden-xs">
 					<ul class="post-action">
-						<li><a href="forum/lockPost/<?=$v->id?>"><i class="fa fa-flag"></i> <?=REPORT_POST?></a></li>
+						<li><a href="Forum/ReportPost/<?=$v->id?>"><i class="fa fa-flag"></i> <?=REPORT_POST?></a></li>
 					</ul>
 					<ul class="post-meta">
-						<li><i class="fa fa-calendar-o"></i> <?=Common::transformDate($v->date_post, 'FULL', 'NONE')?></li>
+						<li><i class="fa fa-calendar-o"></i> <?=Common::transformDate($v->date_post, 'FULL', 'SHORT')?></li>
 						<li>#<?=$k + 1?></li>
 					</ul>
 				</div>
@@ -82,22 +84,23 @@ if (!empty($post)):
 		endforeach;
 		if ($post[0]->options['lock'] == 0):
 		?>
-			<div class="headline">
-				<h4><i class="fa fa-comment"></i> <?=WRITE_A_REPLY?></h4>
-			</div>
-			<form action="Forum/Send" method="post" enctype="multipart/form-data">
-				<div class="forum-post">
+		<form action="Forum/Send" method="post" enctype="multipart/form-data">
+			<div class="card">
+				<div class="card-header"><h3><i class="fa fa-comment"></i> <?=WRITE_A_REPLY?></h3></div>
+				<div class="card-body">
 					<textarea class="bel_cms_textarea_simple" name="info_text"></textarea>
+					<div class="form-group">
+						<label for="file_attachment"><?=FILE_ATTACHMENT?></label>
+						<input type="file" name="file" class="form-control-file" id="file_attachment">
+					</div>
 				</div>
-				<div class="form-group">
-					<label class="btn btn-default btn-file">File attachment
-						<input type="file" name="file" style="display: none;">
-					</label>
+				<div class="card-footer">
+					<input type="hidden" name="id" value="<?=$post[0]->id?>">
+					<input type="hidden" name="send" value="SubmitReply">
+					<input type="submit" value="<?=SUBMIT_POST?>" class="btn btn-primary btn-rounded btn-lg btn-shadow pull-right">
 				</div>
-				<input type="hidden" name="id" value="<?=$post[0]->id?>">
-				<input type="hidden" name="send" value="SubmitReply">
-				<input type="submit" value="<?=SUBMIT_POST?>" class="btn btn-primary btn-rounded btn-lg btn-shadow pull-right">
-			</form>
+			</div>
+		</form>
 		<?php
 		endif;
 		?>
