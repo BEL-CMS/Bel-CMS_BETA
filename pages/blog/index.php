@@ -20,32 +20,29 @@ foreach ($blog as $k => $v):
 $count_comment = new Comment('count', 'blog','readmore', $v->id);
 $count_comment = $count_comment->count;
 ?>
-<div class="row">
-	<div class="col-md-12">
-		<h2><?=$v->name?></h2>
-	</div>
-	<div class="col-md-12">
-		<div class="bel_cms_blog_blog_text">
-			<?=$v->content?>
+<article class="bel_cms_blog">
+	<div class="card">
+		<div class="card-header"><h1><a href="<?php echo $v->link; ?>"><?=$v->name?></a></h1></div>
+		<div class="card-body">
+			<ul class="bel_cms_blog_userdate">
+				<li><?=BY?> : <a href="Members/View/<?=$v->author->username?>" title="<?=POST_BY?> <?=$v->author->username?>"><?=$v->author->username?></a></li>
+				<li><?=DATE?> : <?=Common::transformDate($v->date_create, 'FULL', 'NONE')?></li>
+			</ul>
+			<div class="bel_cms_blog_content">
+				<?=$v->content?>
+			</div>
+		</div>
+		<div class="card-footer">
+			<ul class="bel_cms_blog_infos">
+				<li><i class="ion-chatbox-working"></i> <?=$count_comment?> <?=COMMENTS?></li>
+				<li><i class="ion-ios-eye"></i> <?=$v->view?> <?=SEEN?></li>
+				<li class="bel_cms_blog_infos_last">
+					<a class="btn btn-primary" href="<?=$v->link?>"><i class="ion-link"></i> <?=READ_MORE?></a>
+				</li>
+			</ul>
 		</div>
 	</div>
-	<ul class="col-md-12" id="bel_cms_blog_meta">
-		<li class="meta-author">
-			<span class="fa fa-user"></span>
-			<a href="Members/View/<?=$v->author->username?>" title="Posts by <?=$v->author->username?>"><?=$v->author->username?></a>
-		</li>
-		<li class="meta-date"><span class="fa fa-clock-o"></span><?=Common::transformDate($v->date_create, 'FULL', 'NONE')?></li>
-		<li class="meta-comments">
-			<span class="fa fa-comment-o"></span>
-			<a href="<?=$v->link?>" class="comments-link" title="Comments: <?=$v->name?>"><?=$count_comment?> Comments</a>
-		</li>
-		<li class="meta-button">
-			<a href="<?php echo $v->link; ?>" target="_self">
-				<?=READ_MORE?> <i class="fa fa-arrow-right"></i>
-			</a>
-		</li>
-	</ul>
-</div>
+</article>
 <?php
 endforeach;
 ?>

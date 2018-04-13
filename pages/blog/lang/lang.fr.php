@@ -32,5 +32,7 @@ Common::constant(array(
 	'EDIT_BLOG_SUCCESS'     => 'Edition du blog avec succès',
 	'EDIT_BLOG_ERROR'       => 'Erreur durant l\'edition du blog',
 	'NB_BLOG'               => 'Maximum de blog à afficher',
-	'NB_BLOG_ADMIN'         => 'Maximum de blog à afficher (Admin)'
+	'NB_BLOG_ADMIN'         => 'Maximum de blog à afficher (Admin)',
+	'SEEN'                  => 'Vu',
+	'POST_BY'               => 'Postée par'
 ));
