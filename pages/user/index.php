@@ -17,17 +17,19 @@ if (AutoUser::isLogged() === true):
 ?>
 <section id="bel_cms_page_user">
 
-	<ul class="nav nav-tabs" id="myTab" role="tablist">
+
+	<ul class="nav nav-tabs" role="tablist">
 		<li class="nav-item">
 			<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
 		</li>
 		<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Profils</a>
 			<div class="dropdown-menu">
-				<a class="dropdown-item" id="<?=MY_AVATAR?>-tab" data-toggle="tab" href="#<?=MY_AVATAR?>" role="tab" aria-controls="<?=MY_AVATAR?>" aria-selected="false"><?=MY_AVATAR?></a>
-				<a class="dropdown-item" id="<?=EDIT_PROFIL?>-tab" data-toggle="tab" href="#<?=EDIT_PROFIL?>" role="tab" aria-controls="<?=EDIT_PROFIL?>" aria-selected="false"><?=EDIT_PROFIL?></a>
-				<a class="dropdown-item" id="<?=EDIT_PROFIL_SOCIAL?>-tab" data-toggle="tab" href="#<?=EDIT_PROFIL_SOCIAL?>" role="tab" aria-controls="<?=EDIT_PROFIL_SOCIAL?>" aria-selected="false"><?=EDIT_PROFIL_SOCIAL?></a>
-				<a class="dropdown-item" id="<?=EDIT_MAIL_PASS?>-tab" data-toggle="tab" href="#<?=EDIT_MAIL_PASS?>" role="tab" aria-controls="<?=EDIT_MAIL_PASS?>" aria-selected="false"><?=EDIT_MAIL_PASS?></a>
+				<a class="dropdown-item" href="#dropdown-avatar" role="tab" id="dropdown-avatar-tab" data-toggle="tab" aria-controls="dropdownAvatar"><?=MY_AVATAR?></a>
+				<a class="dropdown-item" href="#dropdown-profil" role="tab" id="dropdown-profil-tab" data-toggle="tab" aria-controls="dropdownProfil"><?=EDIT_PROFIL?></a>
+
+				<a class="dropdown-item" href="#dropdown-social" role="tab" id="dropdown-social-tab" data-toggle="tab" aria-controls="dropdownAvatar"><?=EDIT_PROFIL_SOCIAL?></a>
+				<a class="dropdown-item" href="#dropdown-mail" role="tab" id="dropdown-mail-tab" data-toggle="tab" aria-controls="dropdownAvatar"><?=EDIT_MAIL_PASS?></a>
 			</div>
 		</li>
 		<li class="nav-item">
@@ -35,7 +37,8 @@ if (AutoUser::isLogged() === true):
 		</li>
 	</ul>
 
-	<div style="margin-top: 15px;" class="tab-content" id="myTabContent">
+	<div id="clothing-nav-content" class="tab-content">
+
 		<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 			<div class="card">
 				<div class="card-header"><?=ABOUT?><a class="logout" href="User/Logout" alt="<?=SIGN_OUT?>"><i class="fa fa-sign-out"></i></a></div>
@@ -55,7 +58,7 @@ if (AutoUser::isLogged() === true):
 				</div>
 			</div>
 		</div>
-		<div class="tab-pane fade" id="<?=MY_AVATAR?>" role="tabpanel" aria-labelledby="<?=MY_AVATAR?>-tab">
+		<div role="tabpanel" class="tab-pane fade" id="dropdown-avatar" aria-labelledby="dropdown-avatar-tab">
 			<div class="card">
 				<div class="card-header"><?=MY_AVATAR?></div>
 				<div class="card-body">
@@ -89,7 +92,7 @@ if (AutoUser::isLogged() === true):
 				</div>
 			</div>
 		</div>
-		<div class="tab-pane fade" id="<?=EDIT_PROFIL?>" role="tabpanel" aria-labelledby="<?=EDIT_PROFIL?>-tab">
+		<div role="tabpanel" class="tab-pane fade" id="dropdown-profil" aria-labelledby="dropdown-profil-tab">
 			<?php
 			$user->gender = mb_strtoupper($user->gender);
 			$genderM = strtoupper($user->gender) == strtoupper(constant('MALE')) ? 'checked="checked"' : '';
@@ -151,7 +154,7 @@ if (AutoUser::isLogged() === true):
 				</form>
 			</div>
 		</div>
-		<div class="tab-pane fade" id="<?=EDIT_PROFIL_SOCIAL?>" role="tabpanel" aria-labelledby="<?=EDIT_PROFIL_SOCIAL?>-tab">
+		<div role="tabpanel" class="tab-pane fade" id="dropdown-social" aria-labelledby="dropdown-social-tab">
 			<div class="card">
 				<form action="User/Send" method="post" class="bel_cms">
 					<div class="card-header"><?=EDIT_PROFIL_SOCIAL?></div>
@@ -190,7 +193,7 @@ if (AutoUser::isLogged() === true):
 				</form>
 			</div>
 		</div>
-		<div class="tab-pane fade" id="<?=EDIT_MAIL_PASS?>" role="tabpanel" aria-labelledby="<?=EDIT_MAIL_PASS?>-tab">
+		<div role="tabpanel" class="tab-pane fade" id="dropdown-mail" aria-labelledby="dropdown-mail-tab">
 			<div class="card">
 				<form action="User/Send" method="post">
 					<div class="card-header"><?=EDIT_MAIL_PASS?></div>

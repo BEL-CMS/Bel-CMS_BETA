@@ -308,8 +308,8 @@ class ModelsUser
 					$data['hash_key']          = md5(uniqid(rand(), true));
 					$data['date_registration'] = date('Y-m-d H:i:s');
 					$data['last_visit']        = date('Y-m-d H:i:s');
-					$data['groups']            = (int) 3;
-					$data['main_groups']       = (int) 3;
+					$data['groups']            = (int) 2;
+					$data['main_groups']       = (int) 2;
 					$data['valid']             = (int) 1;
 					$data['ip']                = Common::getIp();
 					$data['token']             = '';

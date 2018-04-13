@@ -95,7 +95,7 @@ class User extends Pages
 	{
 		if ($this->_error === false) {
 			unset($this->data['send']);
-			$return = parent::checkToken($data);
+			$return = $this->ModelsUser->checkToken($this->data);
 			if (!isset($return['pass'])) {
 				$this->error('Password', $return['msg'], $return['type']);
 				$this->redirect('User/LostPassword', 3);

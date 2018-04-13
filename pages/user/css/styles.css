@@ -6,6 +6,9 @@ section#bel_cms_page_user {
 	overflow: hidden;
 	width: 100%;
 }
+	#bel_cms_page_user ul {
+		margin-bottom: 15px;
+	}
 	section#bel_cms_page_user .logout {
 		display: block;
 		float: right;

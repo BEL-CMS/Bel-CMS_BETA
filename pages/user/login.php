@@ -16,44 +16,44 @@ if (!defined('CHECK_INDEX')) {
 
 if (AutoUser::isLogged() === false):
 ?>
-<div class="container relative">
-	<div class="row">
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-none margin-auto">
-			<div class="panel panel-default panel-login">
-				<div class="panel-heading">
-					<h3 class="panel-title"><i class="fa fa-user"></i> Sign In to <?php echo CMS_WEBSITE_NAME; ?></h3>
-				</div>
-				<div class="panel-body">
-					<form action="User/Send" method="post">
-						<div class="form-group input-icon-left">
-							<i class="fa fa-user"></i>
-							<input type="text" class="form-control" name="username" placeholder="Username" required="required">
-						</div>
-						<div class="form-group input-icon-left">
-							<i class="fa fa-lock"></i>
-							<input type="password" class="form-control" name="password" placeholder="Password" required="required">
-						</div>
-
-						<input type="submit" value="Sign In" class="btn btn-primary btn-block">
-
-						<input type="hidden" name="send" value="login">
-
-						<div class="form-actions">
-							<div class="checkbox checkbox-primary">
-								<input name="remember" value="true" type="checkbox" id="checkbox">
-								<label for="checkbox">Remember me</label>
+<form action="User/Send" role="form" class="form-horizontal" method="post">
+	<div class="col-md-12">
+		<div class="row">
+			<div class="col-md-6 mx-auto">
+				<div class="card rounded-0">
+					<div class="card-header">
+						<h3 class="mb-0">Sign In to <?=CMS_WEBSITE_NAME?><a class="btn btn-link float-right" href="user/lostpassword">Reset your password</a></h3>
+					</div>
+					<div class="card-body">
+						<form class="form" role="form" autocomplete="off" id="formLogin" novalidate="" method="POST">
+							<div class="form-group">
+								<label>E-Mail Address or username</label>
+								<input type="text" class="form-control form-control-lg rounded-0" name="username" placeholder="E-Mail Address or name" required="required" autofocus>
+								<div class="invalid-feedback">Oops, you missed this one.</div>
 							</div>
-						</div>
-					</form>
-				</div>
-				<div class="panel-footer">
-					<p>Reset your password or Forgot password ? <a href="user/lostpassword">Recovery</a></p>
-					<p>Don't have <?php echo CMS_WEBSITE_NAME; ?> account? <a href="user/register">Sign Up Now</a></p>
+							<div class="form-group">
+								<label>Password</label>
+								<input type="password" class="form-control form-control-lg rounded-0" name="password" placeholder="Password" required="required">
+								<div class="invalid-feedback">Enter your password too!</div>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="remember" value="true" checked>
+								Remember me on this computer
+								</label>
+							</div>
+						</form>
+					</div>
+					<div class="card-footer">
+						Don't have <?=CMS_WEBSITE_NAME?> account? <a class="btn btn-link" href="user/register">Sign Up Now</a>
+						<button type="submit" class="btn btn-success btn-lg float-right"><i class="fa fa-sign-in"></i> Login</button>
+						<input type="hidden" name="send" value="login">
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</form>
 <?php
 endif;
 ?>
