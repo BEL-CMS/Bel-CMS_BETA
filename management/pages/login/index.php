@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Login - BEL-CMS - MANAGEMENT</title>
 	<link href="assets/styles/global.css" rel="stylesheet">
+	<link rel="stylesheet" href="assets/styles/notification.css">
 	<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<?=ROOT_MANAGEMENT_TPL?>css/simple-line-icons.css">
 	<link rel="stylesheet" href="<?=ROOT_MANAGEMENT_TPL?>css/login.css">

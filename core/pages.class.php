@@ -235,7 +235,7 @@ class Pages
 	#########################################
 	function redirect ($url = null, $time = null)
 	{
-		if ( $url === true) {
+		if ($url === true) {
 			$url = $_SERVER['HTTP_REFERER'];
 			header("refresh:$time;url='$url'");
 		}
@@ -315,6 +315,10 @@ class Pages
 		}
 
 		if (in_array(1, $groups)) {
+			return true;
+		}
+
+		if (GET_PAGE == 'login') {
 			return true;
 		}
 
