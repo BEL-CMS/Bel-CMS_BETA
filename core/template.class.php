@@ -193,6 +193,8 @@ final class Template extends Dispatcher
 			$files[] = 'assets/plugins/bootstrap/js/bootstrap.min.js';
 		}
 
+		$files[] = 'assets/plugins/emojify/emojify.js';
+
 		$files[] = 'assets/plugins/tinymce/jquery.tinymce.min.js';
 		$files[] = 'assets/plugins/tinymce/tinymce.min.js';
 		$files[] = 'assets/plugins/core.js';

@@ -51,7 +51,6 @@ if (is_file(ROOT.'INSTALL'.DS.'index.php')) {
 #########################################
 require_once DIR_CORE.'require_files.class.php';
 new RequireFiles;
-
 try {
 	$bel_cms = new BelCMS;
 	$bel_cms->_init();

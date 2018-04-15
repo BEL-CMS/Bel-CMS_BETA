@@ -10,8 +10,7 @@
         }
     ],
     "require": {
-        "phpunit/php-timer": "^1.0.9",
-        "geoip2/geoip2":"~2.0"
+        "phpunit/php-timer": "^1.0.9"
     },
     "autoload": {
         "psr-4" : {"core\\" : "core"}
