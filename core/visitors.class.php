@@ -26,25 +26,34 @@ final class Visitors extends Dispatcher
 			$visitedPage,
 			$visitedUser;
 
-	function __construct ()
+	function __construct ($json = false)
 	{
 		parent::__construct();
+		# json {Android}
+		if (!empty($json)) {
+			$this->visitorBrowser  = $json->getBrowserType;
+		} else {
+			$this->visitorBrowser  = self::getBrowserType()->name;
+		}
 		# Var
 		$this->visitorHour     = date('G');
 		$this->visitorMinute   = date('i');
 		$this->visitorDay      = date('d');
 		$this->visitorMonth    = date('m');
 		$this->visitorYear     = date('Y');
-		$this->visitorBrowser  = self::getBrowserType()->name;
 		$this->visitorRefferer = gethostbyname(Common::GetIp());
 		$this->visitedPage     = $this->controller;
-		if (AutoUser::isLogged() === true) {
-			$this->visitedUser = $_SESSION['user']->hash_key;
+		if (!empty($json)) {
+			$this->visitedUser = $json->hash_key;
 		} else {
-			if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER["HTTP_USER_AGENT"] )) {
-				$this->visitedUser = $_SERVER["HTTP_USER_AGENT"];
+			if (AutoUser::isLogged() === true) {
+				$this->visitedUser = $_SESSION['user']->hash_key;
 			} else {
-				$this->visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : VISITOR;
+				if (preg_match('/([bB]ot|[sS]pider|[yY]ahoo|[gG]oggle)/i', $_SERVER["HTTP_USER_AGENT"] )) {
+					$this->visitedUser = $_SERVER["HTTP_USER_AGENT"];
+				} else {
+					$this->visitedUser = AutoUser::isLogged() === true ? $_SESSION['user']->hash_key : VISITOR;
+				}
 			}
 		}
 		# data insert

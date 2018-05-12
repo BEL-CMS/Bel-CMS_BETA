@@ -1106,6 +1106,17 @@ final class Secure
 		}
 		return $return;
 	}
+
+	public function isString($data = false)
+	{
+		$return = false;
+		if ($data !== false) {
+			if (is_string($data)) {
+				$return = true;
+			}
+		}
+		return $return;
+	}
 }
 
 function debug ($data = null, $exitAfter = false) {

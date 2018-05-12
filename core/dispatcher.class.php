@@ -28,6 +28,7 @@ class Dispatcher
 		$this->id         = self::RequestId();
 		$this->IsJquery   = self::IsJquery();
 		$this->IsEcho     = self::IsEcho();
+		$this->IsJson     = self::IsJson();
 
 		if (!defined('GET_ACTION'))  {
 			define('GET_ACTION', $this->view);
@@ -157,6 +158,15 @@ class Dispatcher
 		if (isset($_GET['jquery'])) {
 			$return = true;
 		} else if (isset($_GET['ajax'])) {
+			$return = true;
+		}
+		return $return;
+	}
+
+	function IsJson ()
+	{
+		$return = false;
+		if (isset($_GET['json'])) {
 			$return = true;
 		}
 		return $return;

@@ -16,10 +16,13 @@ if (!defined('CHECK_INDEX')) {
 
 class Pages
 {
-	var $vars   = array();
-	var $page   = null;
-	var $intern = false;
-	var $access = true;
+	var $vars    = array();
+	var $page    = null;
+	var $intern  = false;
+	var $access  = true;
+	var $json    = null;
+	var $jquery  = null;
+	var $affiche = null;
 
 	function __construct () {
 		if ($this->intern && !in_array(strtolower(get_class($this)), array('dashboard', 'login', 'logout'))) {
@@ -28,9 +31,10 @@ class Pages
 				self::error('Accès', 'Accès réservé aux administrateurs principal', 'error');
 			}
 		}
-		if (isset($_POST)) {
-			$this->data = $_POST;
-		}
+
+		$request = ($_SERVER['REQUEST_METHOD'] == 'POST') ? $_POST : $_GET;
+		$this->data = $request;
+
 		if (isset($this->models)){
 			foreach($this->models as $v){
 				$this->loadModel($v);
@@ -41,7 +45,9 @@ class Pages
 	function set ($d) {
 		$this->vars = array_merge($this->vars,$d);
 	}
-
+	function json ($d) {
+		$this->json = $d;
+	}
 	function jquery ($d) {
 		$this->jquery = $d;
 	}

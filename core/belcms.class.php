@@ -45,10 +45,13 @@ final class BelCMS extends Dispatcher
 
 		self::loadLang();
 		self::loadController();
-
-		if ($this->IsJquery === true) {
+		if ($this->IsJson === true) {
+			header('Content-Type: application/json');
+			echo json_encode($this->controller->json);
+		} else if ($this->IsJquery === true) {
 			echo json_encode($this->controller->jquery);
 		} else if ($this->IsEcho() === true) {
+			header('Content-Type: text/plain');
 			echo $this->controller->affiche;
 		} else {
 			if (defined('MANAGEMENT')) {
