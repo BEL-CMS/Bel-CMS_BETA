@@ -837,4 +837,53 @@ class ModelsUser
 					</html> ';
 		return $return;
 	}
+	public function GetInfosUser ($usermail = null, $userpass = null)
+	{
+		$return = false;
+
+		if ($usermail !== null && $userpass !== null) {
+			if (Secure::IsMail($usermail) === false) {
+				return false;
+			}
+			if (Secure::isString($userpass) === false) {
+				return false;
+			}
+
+			$sql = New BDD();
+			$sql->table('TABLE_USERS');
+			$sql->where(
+				array(
+					'name'  => 'email',
+					'value' => $usermail
+				)
+			);
+			$sql->queryOne();
+			$results = $sql->data;
+
+			if ($sql->rowCount == 1) {
+				if (password_verify($userpass, $results->password)) {
+					$json = (object) array();
+					$json->getBrowserType = 'Android';
+					$json->hash_key = $results->hash_key;
+					self::addLastVisit($results->hash_key);
+					new Visitors($json);
+					$return = $results;
+				}
+			} else {
+				return false;
+			}
+		}
+
+		return $return;
+	}
+	private function addLastVisit ($hash_key = null)
+	{
+		if (strlen($hash_key) == 32) {
+			$sql = New BDD();
+			$sql->table('TABLE_USERS');
+			$sql->where(array('name' => 'hash_key', 'value' => $hash_key));
+			$sql->sqlData(array('last_visit' => date('Y-m-d H:i:s'), 'ip' => Common::GetIp()));
+			$sql->update();
+		}
+	}
 }

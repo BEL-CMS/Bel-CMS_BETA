@@ -43,7 +43,7 @@ if (!defined('CHECK_INDEX')) {
 							<div class="message_wrap"> <span class="arrow"></span>
 								<div class="info"> <a data-toggle="tooltip" title="<?=$username->username?>" href="Members/View/<?=$username->username?>" class="name"><?=$username->username?></a> <span class="time"><?=$v->date_msg?></span>
 								</div>
-								<div class="text"><?=$msg?></div>
+								<div class="text" id="emojify"><?=$msg?></div>
 							</div>
 						</li>
 						<?php
@@ -59,7 +59,7 @@ if (!defined('CHECK_INDEX')) {
 	?>
 	<div class="card-footer text-muted">
 		<form id="bel_cms_widgets_shoutbox_form" action="shoutbox/send&ajax" method="post">
-			<div class="form-group">
+			<div class="form-group" style="position: relative;">
 				<input type="text" class="form-control" name="text" placeholder="Votre Message...">
 			</div>
 			<div class="form-group">

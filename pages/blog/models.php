@@ -87,6 +87,28 @@ class ModelsBlog
 		return $sql->data;
 	}
 
+	public function GetLastBlog ()
+	{
+		$return = false;
+
+		$sql = New BDD();
+		$sql->table('TABLE_PAGES_BLOG');
+		$sql->orderby(array(array('name' => 'id', 'type' => 'DESC')));
+		$sql->limit('1');
+		$sql->queryOne();
+
+		if (!empty($sql->data)) {
+			$sql->data->link = 'blog/readmore/'.$sql->data->rewrite_name.'?id='.$sql->data->id;
+			if (empty($sql->data->tags)) {
+				$sql->data->tags = array();
+			} else {
+				$sql->data->tags = explode(',', $sql->data->tags);
+			}
+			$return = $sql->data;
+		}
+		return $return;
+	}
+
 	public function NewView ($id = false)
 	{
 		if ($id) {

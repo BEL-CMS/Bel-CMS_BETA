@@ -16,15 +16,10 @@ if (!defined('CHECK_INDEX')) {
 
 class Shoutbox extends Pages
 {
-	var $models = 'ModelsShoutbox';
+	var $models = array('ModelsShoutbox');
 	#####################################
 	# Start Class
 	#####################################
-	public function __construct($id = null)
-	{
-		parent::__construct();
-	}
-
 	public function send ()
 	{
 		$return = self::insertMsg();
@@ -114,5 +109,35 @@ class Shoutbox extends Pages
 
 		return $return;
 
+	}
+
+	public function getMessageJson ($api_key)
+	{
+		if (defined('API_KEY')) {
+			if (!empty($api_key) && $api_key == constant('API_KEY')) {
+				$this->json = array('shoutbox' => $this->ModelsShoutbox->getMsgJson());
+			} else {
+				$return['shoutbox'] = 'Erreur API Key';
+				$this->json = $return;
+			}
+		} else {
+			$return['shoutbox'] = 'Erreur API Key';
+			$this->json = $return;
+		}
+	}
+
+	public function sendMessageJson ($api_key)
+	{
+		if (defined('API_KEY')) {
+			if (!empty($api_key) && $api_key == constant('API_KEY')) {
+				$this->json = $this->ModelsShoutbox->insertMsgJson($this->data['hash_key'], $this->data['text']);
+			} else {
+				$return['text'] = 'Erreur API Key';
+				$this->json = $return;
+			}
+		} else {
+			$return['text'] = 'Erreur API Key';
+			$this->json = $return;
+		}
 	}
 }

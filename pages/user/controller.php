@@ -236,4 +236,16 @@ class User extends Pages
 			}
 		}
 	}
+	public function GetUser($usermail = null, $userpass = null, $api_key = null)
+	{
+		if ($usermail !== null && $userpass !== null && $api_key) {
+			if (defined('API_KEY')) {
+				if (!empty($api_key) && $api_key == constant('API_KEY')) {
+					$this->json = $this->ModelsUser->GetInfosUser($usermail, $userpass);
+				}
+			}
+		} else {
+			$this->json = null;
+		}
+	}
 }

@@ -2,6 +2,10 @@
 #bel_cms_blog_readmore iframe {
 	width: 100% !important;
 }
+#bel_cms_blog_main {
+	display: block;
+	overflow: hidden;
+}
 
 	.bel_cms_blog,
 	.bel_cms_blog_readmore {

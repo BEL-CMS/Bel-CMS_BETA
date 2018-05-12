@@ -57,4 +57,19 @@ class Blog extends Pages
 			$this->render('readmore');
 		}
 	}
+
+	function json ($api_key)
+	{
+		if ($this->_error === false) {
+			if (defined('API_KEY')) {
+				if (!empty($api_key) && $api_key == constant('API_KEY')) {
+					$this->json = $this->ModelsBlog->GetLastBlog();
+				}
+			} else {
+				$this->json = null;
+			}
+		} else {
+			$this->json = null;
+		}
+	}
 }
