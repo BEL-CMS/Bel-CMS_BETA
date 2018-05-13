@@ -31,6 +31,8 @@ Common::constant(array(
 	'TABLE_DOWNLOADS'        => $DB_PREFIX.'downloads',
 	'TABLE_DOWNLOADS_CAT'    => $DB_PREFIX.'downloads_cat',
 	'TABLE_GROUPS'           => $DB_PREFIX.'groups',
+	'TABLE_INBOX'            => $DB_PREFIX.'inbox',
+	'TABLE_INBOX_MSG'        => $DB_PREFIX.'inbox_msg',
 	'TABLE_LINK_OUT'         => $DB_PREFIX.'links_click',
 	'TABLE_MAIL_BLACKLIST'   => $DB_PREFIX.'mails_blacklist',
 	'TABLE_PAGE'             => $DB_PREFIX.'page',

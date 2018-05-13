@@ -14,6 +14,8 @@ jQuery.noConflict();
 						'config',
 						'config_pages',
 						'groups',
+						'inbox',
+						'inbox_msg'
 						'mails_blacklist',
 						'page_blog',
 						'page_forum',
@@ -29,7 +31,7 @@ jQuery.noConflict();
 					);
 	var nbTables = tables.length;
 
-	$("#submit_bdd").click( function() {	// à la soumission du formulaire	
+	$("#submit_bdd").click( function() {	// à la soumission du formulaire
 		var error = false;
 		$(tables).each(function(i, e) {
 
@@ -50,7 +52,7 @@ jQuery.noConflict();
 					if (error === false) {
 						if (i == nbTables) {
 							setTimeout(function() {
-								window.location.href = "?page=user"; 
+								window.location.href = "?page=user";
 							}, 2000);
 						}
 					}

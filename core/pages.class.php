@@ -98,6 +98,8 @@ class Pages
 				require DIR_ASSET_TPL.'error'.DS.'404.php';
 			}
 
+
+
 			$this->page = ob_get_contents();
 
 			if (ob_get_length() != 0) {

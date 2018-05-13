@@ -89,6 +89,30 @@ switch ($table) {
 			(NULL, 'MEMBERS', 2);";
 	break;
 
+
+	case 'inbox':
+		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
+		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
+			`id` int(10) NOT NULL AUTO_INCREMENT,
+			`username` varchar(32) NOT NULL,
+			`usersend` varchar(32) NOT NULL,
+			PRIMARY KEY (`id`),
+		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
+	break;
+
+	case 'inbox_msg':
+		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
+		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`id_msg` int(11) NOT NULL,
+			`username` varchar(32) NOT NULL,
+			`date_msg` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			`message` text NOT NULL,
+			`status` tinyint(1) NOT NULL DEFAULT '0',
+			PRIMARY KEY (`id`)
+		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
+	break;
+
 	case 'mails_blacklist':
 		$drop = 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].$table.'`';
 		$sql  = "CREATE TABLE IF NOT EXISTS `".$_SESSION['prefix'].$table."` (
