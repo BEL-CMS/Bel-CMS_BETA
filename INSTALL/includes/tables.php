@@ -71,7 +71,9 @@ switch ($table) {
 			(NULL, 'team', 1, '0', '1', 'MAX_USER=10'),
 			(NULL, 'shoutbox', 1, '0', '1', 'MAX_MSG=15'),
 			(NULL, 'forum', 1, '0', '1', ''),
-			(NULL, 'user', 1, '0', '1', 'MAX_USER=5|MAX_USER_ADMIN=20');";
+			(NULL, 'user', 1, '0', '1', 'MAX_USER=5|MAX_USER_ADMIN=20'),
+			(NULL, 'page', 1, '0', '1', ''),
+			(NULL, 'inbox', 1, '0', '1', '');";
 	break;
 
 	case 'groups':
@@ -185,13 +187,13 @@ switch ($table) {
 			`rewrite_name` varchar(128) NOT NULL,
 			`name` varchar(128) NOT NULL,
 			`date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			`author` varchar(32) DEFAULT NULL,
-			`authoredit` varchar(32) DEFAULT NULL,
+			`author` varchar(32) NOT NULL,
 			`content` text NOT NULL,
-			`additionalcontent` text DEFAULT NULL,
-			`tags` text DEFAULT NULL,
-			`cat` varchar(16) DEFAULT NULL,
-			`view` int(11) NOT NULL DEFAULT '0',
+			`additionalcontent` text,
+			`tags` text NOT NULL,
+			`cat` varchar(16) NOT NULL,
+			`view` int(11) DEFAULT '0',
+			`authoredit` varchar(32) DEFAULT NULL,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
