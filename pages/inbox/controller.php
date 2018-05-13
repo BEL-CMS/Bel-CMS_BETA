@@ -26,15 +26,21 @@ class Inbox extends Pages
 	public function __construct ()
 	{
 		parent::__construct();
+		$this->isConnected = isset($_SESSION['user']->hash_key) ? true : false;
+		if ($this->isConnected === false) {
+			$this->redirect('User/Login', 0);
+		}
 	}
 	#####################################
 	# Get Index page for inbox
 	#####################################
 	public function index ()
 	{
-		$set['inbox'] = $this->ModelsInbox->getMessages();
-		$this->set($set);
-		$this->render('index');
+		if ($this->isConnected === true) {
+			$set['inbox'] = $this->ModelsInbox->getMessages();
+			$this->set($set);
+			$this->render('index');
+		}
 	}
 	#####################################
 	# Get message for inbox
@@ -71,10 +77,12 @@ class Inbox extends Pages
 	#####################################
 	public function send ()
 	{
-		if ($this->data['send'] == 'new') {
-			self::sendNewMessage();
-		} else if ($this->data['send'] == 'reponse') {
-			self::sendReponse();
+		if ($this->isConnected === true) {
+			if ($this->data['send'] == 'new') {
+				self::sendNewMessage();
+			} else if ($this->data['send'] == 'reponse') {
+				self::sendReponse();
+			}
 		}
 	}
 	#####################################
@@ -101,6 +109,8 @@ class Inbox extends Pages
 	#####################################
 	public function countUnreadMessage()
 	{
-		$this->json = $this->ModelsInbox->countUnreadMessage();
+		if ($this->isConnected === true) {
+			$this->json = $this->ModelsInbox->countUnreadMessage();
+		}
 	}
 }

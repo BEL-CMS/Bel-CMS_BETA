@@ -15,7 +15,7 @@ jQuery.noConflict();
 						'config_pages',
 						'groups',
 						'inbox',
-						'inbox_msg'
+						'inbox_msg',
 						'mails_blacklist',
 						'page_blog',
 						'page_forum',

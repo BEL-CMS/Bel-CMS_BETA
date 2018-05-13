@@ -98,7 +98,7 @@ switch ($table) {
 			`id` int(10) NOT NULL AUTO_INCREMENT,
 			`username` varchar(32) NOT NULL,
 			`usersend` varchar(32) NOT NULL,
-			PRIMARY KEY (`id`),
+			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 	break;
 
@@ -187,13 +187,13 @@ switch ($table) {
 			`rewrite_name` varchar(128) NOT NULL,
 			`name` varchar(128) NOT NULL,
 			`date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			`author` varchar(32) NOT NULL,
+			`author` varchar(32) DEFAULT NULL,
+			`authoredit` varchar(32) DEFAULT NULL,
 			`content` text NOT NULL,
 			`additionalcontent` text,
-			`tags` text NOT NULL,
-			`cat` varchar(16) NOT NULL,
+			`tags` text DEFAULT NULL,
+			`cat` varchar(16) DEFAULT NULL,
 			`view` int(11) DEFAULT '0',
-			`authoredit` varchar(32) DEFAULT NULL,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
