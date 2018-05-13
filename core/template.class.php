@@ -146,8 +146,8 @@ final class Template extends Dispatcher
 		$files[] = 'assets/styles/flag-icon.min.css';
 		/* plugins css */
 		if (CMS_JQUERY_UI == 'on') {
-			$files[] = 'assets/plugins/jquery_ui/jquery-ui.min.css';
-			$files[] = 'assets/plugins/jquery_ui/jquery-ui.structure.min.css';
+			$files[] = 'assets/plugins/jquery_ui/css/jquery-ui.min.css';
+			$files[] = 'assets/plugins/jquery_ui/css/jquery-ui.structure.min.css';
 		}
 		if (CMS_BOOTSTRAP == 'on') {
 			$files[] = 'assets/plugins/bootstrap/css/bootstrap.min.css';

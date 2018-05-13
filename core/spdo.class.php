@@ -66,8 +66,10 @@ class BDD
 				$limit,
 				$type,
 				$rowCount,
-				$sqlData;
+				$sqlData,
+				$lastId;
 	private     $requete,
+				$connect,
 				$isObject = true;
 	protected   $cnx;
 	#########################################
@@ -77,7 +79,8 @@ class BDD
 	{
 		$SqlConnection = SqlConnection::getInstance();
 
-		$this->cnx = $SqlConnection->cnx;
+		$this->cnx     = $SqlConnection->cnx;
+		$this->connect = $this->cnx;
 
 		if ($SqlConnection->isConnected) {
 			self::fields(null);
@@ -85,6 +88,7 @@ class BDD
 			self::limit(false);
 			self::orderby(false);
 			self::where(false);
+			self::whereLike(false);
 		}
 	}
 	#########################################
@@ -185,7 +189,7 @@ class BDD
 
 					$operateur = (isset($v['op']) AND !empty($v['op'])) ? $v['op'] : ' = ';
 					$value = "'".$v['value']."'";
-					$return .= $condition.$v['name'] . $operateur . $value;
+					$return .= $condition.$v['name'] . ' '.$operateur.' ' . $value;
 					if ($count == $k) {
 						break;
 					}
@@ -194,7 +198,7 @@ class BDD
 				$condition = 'AND ';
 				$operateur = (isset($data['op']) AND !empty($data['op'])) ? $data['op'] : ' = ';
 				$value = "'".$data['value']."'";
-				$return .= $condition.$data['name'] . $operateur . $value;
+				$return .= $condition.$data['name'] . ' '.$operateur.' ' . $value;
 			}
 
 		} else {
@@ -202,6 +206,23 @@ class BDD
 		}
 
 		$this->where = $return;
+	}
+	public function whereLike($data = array())
+	{
+		$return = " WHERE 1 ";
+
+		if (isset($data) AND is_array($data)) {
+			if (isset($data['name']) AND isset($data['value'])) {
+				$return .= 'AND ';
+				$return .= $data['name']. ' ';
+				$return .= 'LIKE "%';
+				$return .= $data['value'];
+				$return .= '%"';
+			}
+		}
+
+		$this->where = $return;
+
 	}
 	#########################################
 	# data for update, delete
@@ -228,6 +249,7 @@ class BDD
 			$this->cnx->execute($data);
 			self::rowCount();
 			$GLOBALS['REQUEST_SQL']++;
+			$this->lastId = self::lastId();
 			$return = true;
 		} catch (Exception $e) {
 			$r  = '<pre>'.PHP_EOL;
@@ -243,9 +265,7 @@ class BDD
 			$r .= '</pre>'.PHP_EOL;
 			die($r);
 		}
-
 		return $return;
-
 	}
 	#########################################
 	# return or array
@@ -361,6 +381,13 @@ class BDD
 		} else {
 			$this->data = false;
 		}
+	}
+	#########################################
+	# laist id insert or update
+	#########################################
+	public function lastId ()
+	{
+		return $this->connect->lastInsertId();
 	}
 	#########################################
 	# Update an online database
