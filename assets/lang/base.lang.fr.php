@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -37,6 +37,9 @@ Common::constant(array(
 	'COMMENT_SEND_FALSE'     => 'Le commentaire n\'a pas pu être envoyé.',
 	'ERROR_NO_ID_VALID'      => 'L’ID transmis est incorrecte',
 	'ERROR_NO_ID'            => 'Aucun ID transmis',
+	'ERROR_INSERT_BDD'       => 'Il y a eu une erreur de BDD, lors de l\'insertion',
+	'ERROR_UPDATE_BDD'       => 'Il y a eu une erreur de BDD, lors de la mise à jour',
+	'ERROR_NO_USER'          => 'Utilisateur n\'existe pas',
 	#####################################
 	# COMMUN
 	#####################################

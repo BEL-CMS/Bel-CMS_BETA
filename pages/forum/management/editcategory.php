@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -93,7 +93,7 @@ $checkedOff = $this->data->activate == 0 ? 'checked="checked"' : '';
 									<div class="form-actions">
 										<input type="hidden" name="id" value="<?=$this->data->id?>">
 										<input type="hidden" name="send" value="editcat">
-										<button type="submit" class="btn btn-primary"><?=EDIT?></button> 
+										<button type="submit" class="btn btn-primary"><?=EDIT?></button>
 									</div>
 								</form>
 							</div>

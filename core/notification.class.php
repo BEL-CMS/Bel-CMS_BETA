@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -34,7 +34,7 @@ final class Notification
 		$render  = '<div class="alert-message '.$this->type.'">';
 		$render .= '<div class="box-icon"><span></span></div>';
 		$render .= '<div class="box-msg">';
-		$render .= $this->title == null ? null : '<p><strong>'.$this->title.'</strong></p>'; 
+		$render .= $this->title == null ? null : '<p><strong>'.$this->title.'</strong></p>';
 		$render .= '<p>'.$this->message.'</p>';
 		$render .= '</div></div>';
 
@@ -51,7 +51,7 @@ final class Notification
 		return Common::VarSecure($title, '');
 	}
 
-	function type ($type) 
+	function type ($type)
 	{
 		switch ($type) {
 			case 'success':
@@ -69,7 +69,7 @@ final class Notification
 			case 'error':
 				$return = 'error';
 				break;
-			
+
 			default:
 				$return = 'error';
 				break;

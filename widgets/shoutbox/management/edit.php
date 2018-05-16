@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -32,7 +32,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 								<br>
 								<form action="/shoutbox/send/<?=$this->data->id?>?management" method="post" id="edit-profile" class="form-horizontal">
 									<fieldset>
-										
+
 										<div class="control-group">
 											<label class="control-label" for="username"><?=USERNAME?></label>
 											<div class="controls">

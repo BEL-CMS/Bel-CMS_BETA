@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -82,7 +82,7 @@ class ModelsManagementForum
 				$sql->table('TABLE_FORUM_THREADS');
 				$sql->sqlData($insert);
 				$sql->insert();
-				// SQL RETURN NB INSERT 
+				// SQL RETURN NB INSERT
 				if ($sql->rowCount == 1) {
 					$return = array(
 						'type' => 'success',
@@ -128,7 +128,7 @@ class ModelsManagementForum
 				$sql->where($where);
 				$sql->sqlData($edit);
 				$sql->update();
-				// SQL RETURN NB INSERT 
+				// SQL RETURN NB INSERT
 				if ($sql->rowCount == 1) {
 					$return = array(
 						'type' => 'success',
@@ -161,7 +161,7 @@ class ModelsManagementForum
 			$sql->table('TABLE_FORUM_THREADS');
 			$sql->where($where);
 			$sql->delete();
-			// SQL RETURN NB INSERT 
+			// SQL RETURN NB INSERT
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',
@@ -196,7 +196,7 @@ class ModelsManagementForum
 			$sql->table('TABLE_FORUM');
 			$sql->sqlData($insert);
 			$sql->insert();
-			// SQL RETURN NB INSERT 
+			// SQL RETURN NB INSERT
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',
@@ -234,7 +234,7 @@ class ModelsManagementForum
 			$sql->where($where);
 			$sql->sqlData($edit);
 			$sql->update();
-			// SQL RETURN NB INSERT 
+			// SQL RETURN NB INSERT
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',
@@ -266,7 +266,7 @@ class ModelsManagementForum
 			$sql->table('TABLE_FORUM');
 			$sql->where($where);
 			$sql->delete();
-			// SQL RETURN NB INSERT 
+			// SQL RETURN NB INSERT
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',
@@ -287,7 +287,7 @@ class ModelsManagementForum
 		return $return;
 	}
 
-	protected function isCat () 
+	protected function isCat ()
 	{
 		$sql = New BDD();
 		$sql->table('TABLE_FORUM');

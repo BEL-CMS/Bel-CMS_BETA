@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -49,7 +49,7 @@ if (!defined('CHECK_INDEX')) {
 								$gender = FEMALE;
 							} else {
 								$gender = UNISEXUAL;
-							}	
+							}
 							$birthday = Common::TransformDate($v->profils->birthday);
 							$country  = $v->profils->country;
 							$websites = '<a href="'.$v->profils->websites.'"><i class="fa fa-link"></i></a>';
@@ -77,8 +77,8 @@ if (!defined('CHECK_INDEX')) {
 				?>
 			</tbody>
 		</table>
-	</div>	
+	</div>
 	<?php
 	endforeach;
-	?>	
+	?>
 </section>

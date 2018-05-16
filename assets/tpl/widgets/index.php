@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -15,9 +15,9 @@ if (!defined('CHECK_INDEX')) {
 }
 
 ?>
-<div class="panel panel-default">
-	<div class="panel-heading"><?=$widget_title?></div>
-	<div class="panel-body">
+<div class="card">
+	<div class="card-header"><h3><?=$widget_title?></h3></div>
+	<div class="card-body">
 		<?=$widget_content?>
 	</div>
 </div>

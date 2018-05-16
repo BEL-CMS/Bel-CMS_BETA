@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -89,7 +89,7 @@ if (isset($_SESSION['LOGIN_MANAGEMENT']) && $_SESSION['LOGIN_MANAGEMENT'] === tr
 									</fieldset>
 									<div class="form-actions">
 										<input type="hidden" name="send" value="addcat">
-										<button type="submit" class="btn btn-primary"><?=ADD?></button> 
+										<button type="submit" class="btn btn-primary"><?=ADD?></button>
 									</div>
 								</form>
 							</div>

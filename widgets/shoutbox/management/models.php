@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -49,7 +49,7 @@ class ModelsManagementShoutobx extends ModelsShoutbox
 			$sql->table('TABLE_SHOUTBOX');
 			$sql->where(array('name'=>'id','value' => $delete));
 			$sql->delete();
-			// SQL RETURN NB DELETE 
+			// SQL RETURN NB DELETE
 			if ($sql->rowCount == 1) {
 				$return = array(
 					'type' => 'success',

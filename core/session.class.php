@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -18,7 +18,7 @@ class Session {
 
 	public function __construct(){
 		if(!isset($_SESSION)){
-			session_start(); 
+			session_start();
 		}
 	}
 }

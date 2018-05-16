@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.0.1
+ * @version 0.0.3
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -35,6 +35,6 @@ final class GetHost {
 		$cutoff = strpos($uri, 'index.php');
 		$uri = substr($uri, 0, $cutoff);
 		$serverName = getenv('HOSTNAME')!==false ? getenv('HOSTNAME') : (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '');
-		return "$protocol://{$serverName}$port{$uri}/";	
+		return "$protocol://{$serverName}$port{$uri}/";
 	}
 }
