@@ -149,13 +149,13 @@ class BDD
 					}
 				}
 				if (!empty($tmp)) {
-					$this->orderby = 'ORDER BY '.implode(',', $tmp);
+					$this->orderby = ' ORDER BY '.implode(',', $tmp);
 				}
 			} else {
 				if (!is_object($data)) {
-					$this->orderby = 'ORDER BY id '.$data;
+					$this->orderby = ' ORDER BY id '.$data;
 				} else {
-					$this->orderby = 'ORDER BY '.$data->name.' '.$data->type;
+					$this->orderby = ' ORDER BY '.$data->name.' '.$data->type;
 				}
 			}
 		} else {
