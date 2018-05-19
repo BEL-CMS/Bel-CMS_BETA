@@ -208,7 +208,7 @@ class ModelsUser
 			} else {
 				$userProfil['websites'] = '';
 			}
-			$userProfil['birthday']  = Common::transformDate($data['birthday'], false, 'Y-m-d');
+			$userProfil['birthday']  = Common::DatetimeSQL($data['birthday'], false, 'Y-m-d');
 			$userProfil['country']   = $data['country'];
 			$userProfil['gender']    = $data['gender'];
 			if (!empty($data['info_text'])) {
