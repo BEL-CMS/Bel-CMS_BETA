@@ -17,9 +17,7 @@ if (!defined('CHECK_INDEX')) {
 class Shoutbox extends Pages
 {
 	var $models = array('ModelsShoutbox');
-	#####################################
-	# Start Class
-	#####################################
+
 	public function send ()
 	{
 		$return = self::insertMsg();

@@ -13,7 +13,6 @@ Common::constant(array(
 	#####################################
 	# Fichier lang en français - Inbox
 	#####################################
-	'INBOX'                  => 'Boîte de réception',
 	'TO_WRITE'               => 'Écrire',
 	'ALL_MESSAGE'            => 'Tous les messages',
 	'NEW_MESSAGE'            => 'Nouveau message',

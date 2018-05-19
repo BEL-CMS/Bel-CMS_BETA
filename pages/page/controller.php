@@ -18,17 +18,6 @@ class Page extends Pages
 {
 	var $models     = array('ModelsPage');
 	private $php    = false;
-	private $_error = false;
-	#####################################
-	# Start Class
-	#####################################
-	public function __construct() {
-		parent::__construct();
-		if (parent::accessPage(strtolower(get_class($this))) === false) {
-			$this->error(INFO, 'Désolé, vous n’avez pas accès à cette page', 'info');
-			$this->_error = true;
-		}
-	}
 
 	public function index ($page = false)
 	{

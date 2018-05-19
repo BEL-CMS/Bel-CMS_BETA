@@ -61,12 +61,16 @@ class Pages
 
 	function render($filename) {
 		if (defined('MANAGEMENT')) {
-			if (self::accessManagement(strtolower(get_class($this))) === false) {
+			if (SecureAccess::AccessManagement(strtolower(get_class($this))) === false) {
 				self::error(ERROR, NO_ACCESS_GROUP_PAGE, 'danger');
 				return false;
 			}
 		} else {
-			if (self::accessPage(strtolower(get_class($this))) === false) {
+			if (SecureAccess::ActivePage(strtolower(get_class($this))) === false) {
+				self::error(ERROR, NO_ACCESS_PAGE, 'info');
+				return false;
+			}
+			if (SecureAccess::AccessPage(strtolower(get_class($this))) === false) {
 				self::error(ERROR, NO_ACCESS_GROUP_PAGE, 'danger');
 				return false;
 			}
@@ -97,8 +101,6 @@ class Pages
 				$error_content = '<p><strong>file : '.$filename.' no found</strong><p>';
 				require DIR_ASSET_TPL.'error'.DS.'404.php';
 			}
-
-
 
 			$this->page = ob_get_contents();
 
@@ -266,92 +268,5 @@ class Pages
 			}
 		}
 		header("refresh:$time;url='$url'");
-	}
-
-	#########################################
-	# Access Page
-	#########################################
-	function accessPage ($page)
-	{
-		$access = (bool) false;
-
-		if (AutoUser::isLogged() === true) {
-			$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
-		} else {
-			$groups = array();
-		}
-
-		$sql = New BDD;
-		$sql->table('TABLE_PAGES_CONFIG');
-		$sql->where(array('name' => 'name', 'value' => $page));
-		$sql->queryOne();
-
-		if ($sql->data) {
-
-			$sql->data->access_groups = explode('|', $sql->data->access_groups);
-
-			foreach ($sql->data->access_groups as $k => $v) {
-				if ($v == 0 or in_array(1, $groups)) {
-					$access = (bool) true;
-					break;
-				}
-				if (isset($_SESSION['user'])) {
-					if (in_array($v, $groups)) {
-						$access = (bool) true;
-						break;
-					} else {
-						$access = (bool) false;
-					}
-				}
-			}
-
-		}
-
-		return $access;
-	}
-	#########################################
-	# Access Management
-	#########################################
-	function accessManagement ($page)
-	{
-		$access = (bool) false;
-
-		if (AutoUser::isLogged() === true) {
-			$groups = AutoUser::getInfosUser($_SESSION['user']->hash_key)->groups;
-		} else {
-			$groups = array();
-		}
-
-		if (in_array(1, $groups)) {
-			return true;
-		}
-
-		if (GET_PAGE == 'login') {
-			return true;
-		}
-
-		$sql = New BDD;
-		$sql->table('TABLE_PAGES_CONFIG');
-		$sql->where(array('name' => 'name', 'value' => $page));
-		$sql->queryOne();
-
-		if ($sql->data) {
-
-			$sql->data->access_admin = explode('|', $sql->data->access_admin);
-
-			foreach ($sql->data->access_admin as $k => $v) {
-				if (isset($_SESSION['user'])) {
-					if (in_array($v, $groups)) {
-						$access = (bool) true;
-						break;
-					} else {
-						$access = (bool) false;
-					}
-				}
-			}
-
-		}
-
-		return $access;
 	}
 }

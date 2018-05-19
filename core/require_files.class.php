@@ -30,6 +30,7 @@ class RequireFiles
 			DIR_CONFIG.'config.inc.php',
 			DIR_CONFIG.'config.table.php',
 			DIR_CORE.'spdo.class.php',
+			DIR_CORE.'secureaccess.class.php',
 			DIR_CORE.'visitors.class.php',
 			DIR_CORE.'config.class.php',
 			ROOT_MANAGEMENT.'management.php',
