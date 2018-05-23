@@ -80,7 +80,9 @@ final class BelCMS extends Dispatcher
 			if (in_array($this->controller, $arrayIntern)) {
 				$lang = ROOT_MANAGEMENT.'pages'.DS.$this->controller.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
 			} else {
-				$lang = DIR_PAGES.$this->controller.DS.'management'.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
+				$lang = isset($_GET['widgets']) ?
+					DIR_WIDGETS.$this->controller.DS.'management'.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php' :
+					DIR_PAGES.$this->controller.DS.'management'.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
 			}
 		} else {
 			$lang = DIR_PAGES.$this->controller.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';

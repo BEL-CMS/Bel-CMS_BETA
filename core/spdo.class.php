@@ -20,7 +20,7 @@ class SqlConnection
 	# Variable declaration
 	#########################################
 	protected static  $instance;
-	public            $cnx,
+	public			  $cnx,
 					  $isConnected = false;
 	#########################################
 	# Start Class
@@ -68,10 +68,10 @@ class BDD
 				$rowCount,
 				$sqlData,
 				$lastId;
-	private     $requete,
+	private		$requete,
 				$connect,
 				$isObject = true;
-	protected   $cnx;
+	protected	$cnx;
 	#########################################
 	# Start Class
 	#########################################
@@ -452,6 +452,9 @@ class BDD
 	#########################################
 	public function __destruct ()
 	{
+		if (SHOW_ALL_REQUEST_SQL === true) {
+			debug($this->cnx);
+		}
 		unset($this->cnx);
 	}
 }

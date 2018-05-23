@@ -108,10 +108,6 @@ final class Config extends Dispatcher
 		} else {
 			throw new Exception('ERROR FILE : file ['.$fileLangBase.'] no found', 2);
 		}
-		$fileLangPage = DIR_PAGES.mb_strtolower($this->controller).DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
-		if (is_file($fileLangPage)) {
-			include $fileLangPage;
-		}
 	}
 
 	private function GetLangsWidgets ()
