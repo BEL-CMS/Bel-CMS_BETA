@@ -19,7 +19,7 @@ final class BelCMS extends Dispatcher
 	private $_page,
 			$_template;
 	public  $render = null,
-		    $load;
+			$load;
 
 	function __construct ()
 	{
@@ -100,7 +100,9 @@ final class BelCMS extends Dispatcher
 			if (in_array($this->controller, $arrayIntern)) {
 				$dir = ROOT_MANAGEMENT.'pages'.DS.$this->controller.DS.'controller.php';
 			} else {
-				$dir = DIR_PAGES.$this->controller.DS.'management'.DS.'controller.php';
+				$dir = isset($_GET['widgets']) ?
+					DIR_WIDGETS.$this->controller.DS.'management'.DS.'controller.php':
+					DIR_PAGES.$this->controller.DS.'management'.DS.'controller.php';
 			}
 		} else {
 			$dir = DIR_PAGES.$this->controller.DS.'controller.php';

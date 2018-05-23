@@ -84,7 +84,9 @@ class Pages
 				$custom = null;
 			} else {
 				if (defined('MANAGEMENT')) {
-					$dir = DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.$filename.'.php';
+					$dir = isset($_GET['widgets']) ?
+						$dir = DIR_WIDGETS.strtolower(get_class($this)).DS.'management'.DS.$filename.'.php':
+						$dir = DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.$filename.'.php';
 				} else {
 					$dir = DIR_PAGES.strtolower(get_class($this)).DS.$filename.'.php';
 				}
@@ -131,9 +133,13 @@ class Pages
 		if ($this->intern) {
 			$dir = ROOT_MANAGEMENT.'pages'.DS.strtolower(get_class($this)).DS.'models.php';
 		} else {
-			$dir = defined('MANAGEMENT') ?
-				DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.'models.php' :
-				DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
+			if (defined('MANAGEMENT')) {
+				$dir = isset($_GET['widgets']) ?
+					DIR_WIDGETS.strtolower(get_class($this)).DS.'management'.DS.'models.php':
+					DIR_PAGES.strtolower(get_class($this)).DS.'management'.DS.'models.php';
+			} else {
+				$dir = DIR_PAGES.strtolower(get_class($this)).DS.'models.php';
+			}
 		}
 		if (is_file($dir)) {
 			require_once $dir;

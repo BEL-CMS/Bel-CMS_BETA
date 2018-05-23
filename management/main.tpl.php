@@ -131,7 +131,7 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 							$name = defined(strtoupper($n)) ? constant(strtoupper($n)) : ucfirst($n);
 						?>
 						<li>
-							<a href="<?=$n?>?management"><i class="fa fa-caret-right"></i></i> <?=$name?></a>
+							<a href="<?=$n?>?management&widgets"><i class="fa fa-caret-right"></i></i> <?=$name?></a>
 						</li>
 						<?php
 						endforeach;
@@ -142,7 +142,7 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 					<?=EXTRAS?>
 				</li>
 				<li class="nav-item">
-					<a href="#">
+					<a href="https://bel-cms.be/Page/index/cgu">
 						<?=LISCENCE?>
 						<span class="pull-right-container">
 							<span class="pull-right"><i class="icon-info"></i></span>
@@ -177,7 +177,7 @@ if (defined(strtoupper(get_class($GLOBALS['bel_cms']->controller)))) {
 	</div>
 	<footer class="main-footer">
 		<div class="pull-right hidden-xs">
-			Version 0.0.2
+			Version 0.3.0
 		</div>
 		<strong>Copyright &copy; 2015 - <?=date('Y')?>  <a href="https://bel-cms.be">Bel-CMS</a>  </strong> All rights reserved.
 	</footer>
