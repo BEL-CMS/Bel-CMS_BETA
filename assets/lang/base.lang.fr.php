@@ -169,6 +169,7 @@ Common::constant(array(
 	'COMMENT'                => 'Commentaire',
 	'READMORE'               => 'Lire la suite',
 	'NEWTHREAD'              => 'Nouveau Post',
+	'INBOX'                  => 'Boîte de réception',
 	#####################################
 	# USER
 	#####################################

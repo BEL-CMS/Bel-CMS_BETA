@@ -27,6 +27,7 @@ Common::constant(array(
 	'SAVE_BDD_SUCCESS'              => 'La sauvegarde a été effectué avec succès',
 	'LISCENCE'                      => 'Licence GNU/GPL',
 	'FORUM_OFFICIAL'                => 'Forum officiel',
+	'DATE_INSTALL'                  => 'Date d\'installation',
 	#####################################
 	# _parameter - Admin
 	#####################################
@@ -42,6 +43,8 @@ Common::constant(array(
 	'ADMIN_CMS_JQUERY'              => 'jQuery CMS',
 	'ADMIN_CMS_JQUERY_UI'           => 'jQuery UI CMS',
 	'ADMIN_CMS_BOOTSTRAP'           => 'Bootstrap CMS',
+	'ADMIN_BELCMS_DEBUG'            => 'Mode Debug',
+	'ADMIN_DATE_INSTALL'            => 'Date d\'installation',
 	#####################################
 	# _access - Admin
 	#####################################

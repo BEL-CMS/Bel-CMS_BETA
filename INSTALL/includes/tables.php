@@ -46,11 +46,14 @@ switch ($table) {
 			(NULL, 'CMS_MAIL_WEBSITE', ''),
 			(NULL, 'CMS_WEBSITE_KEYWORDS', ''),
 			(NULL, 'CMS_WEBSITE_LANG', 'fr'),
-			(NULL, 'CMS_TPL_FULL', 'readmore, user, forum, downloads, members, page'),
+			(NULL, 'CMS_TPL_FULL', 'readmore, user, forum, downloads, members, page, inbox'),
 			(NULL, 'BELCMS_DEBUG', '0'),
 			(NULL, 'CMS_JQUERY', 'on'),
 			(NULL, 'CMS_JQUERY_UI', 'on'),
-			(NULL, 'CMS_BOOTSTRAP', 'on');";
+			(NULL, 'CMS_BOOTSTRAP', 'on'),
+			(NULL, 'DATE_INSTALL', '".time()."'),
+			(NULL, 'API_KEY', '".md5(uniqid(rand(), true))."');
+			";
 	break;
 
 	case 'config_pages':

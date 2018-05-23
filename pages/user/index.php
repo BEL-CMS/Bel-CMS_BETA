@@ -33,6 +33,9 @@ if (AutoUser::isLogged() === true):
 			</div>
 		</li>
 		<li class="nav-item">
+			<a class="nav-link" data-toggle="tooltip" title="<?=INBOX?>" href="Inbox" alt="<?=INBOX?>"><?=INBOX?></a>
+		</li>
+		<li class="nav-item">
 			<a class="logout nav-link" data-toggle="tooltip" title="<?=SIGN_OUT?>" href="User/Logout" alt="<?=SIGN_OUT?>"><i class="fa fa-sign-out"></i></a>
 		</li>
 	</ul>
