@@ -229,6 +229,12 @@ final class Common
 	#########################################
 	public static function TransformDate ($date, $d = 'NONE', $t = 'NONE')
 	{
+
+		# fix empty date - 30-11-0001
+		if ($date == '31-11-0001') {
+			$date = date('Y-m-d');
+		}
+
 		if (CMS_WEBSITE_LANG == FRENCH) {
 			$lg = 'fr_FR';
 		} else if (CMS_WEBSITE_LANG == ENGLISH) {
