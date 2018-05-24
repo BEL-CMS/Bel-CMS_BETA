@@ -112,7 +112,7 @@ class ModelsInbox
 			# data
 			$dataMsg = array(
 				'id_msg' => (int) $idInsert,
-				'username' => $isExistUser,
+				'username' => $_SESSION['user']->hash_key,
 				'message' => Common::VarSecure($message, 'html'),
 				'status' => (int) 0
 			);

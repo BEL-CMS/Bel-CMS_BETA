@@ -49,6 +49,7 @@ class Inbox extends Pages
 	{
 		if (!is_numeric($id)) {
 			$this->error(INBOX, ERROR_NO_ID, 'danger');
+			$this->redirect('Inbox', 1);
 		} else {
 			$set = $this->ModelsInbox->showMessage($id);
 			if (array_key_exists('type', $set) && array_key_exists('text', $set)) {

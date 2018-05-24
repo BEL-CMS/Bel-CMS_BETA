@@ -47,10 +47,11 @@ if (!defined('CHECK_INDEX')) {
 function inboxLastMsg($inbox)
 {
 	foreach ($inbox as $v):
+		$usersend = $v->usersend == $_SESSION['user']->username ? $v->username : $v->usersend;
 ?>
 		<a href="Inbox/ShowMessage/<?=$v->id?>" class="list-group-item list-group-item-action flex-column align-items-start bel_cms_inbox_show">
 			<div class="d-flex w-100 justify-content-between">
-				<h5 class="mb-1"><?=$v->lastmessage->username?></h5>
+				<h5 class="mb-1"><?=$usersend?></h5>
 				<small><?=Common::TransformDate($v->lastmessage->date_msg, 'MEDIUM', 'SHORT')?></small>
 			</div>
 			<p class="mb-1" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">
