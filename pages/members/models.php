@@ -95,7 +95,7 @@ class ModelsMembers
 					$update['friends'] = $implode;
 					$sql->sqlData($update);
 					$sql->update();
-					return $sql->rowCount;
+					return true;
 				}
 			}
 		} else {

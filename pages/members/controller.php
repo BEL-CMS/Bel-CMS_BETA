@@ -61,18 +61,17 @@ class Members extends Pages
 		}
 	}
 
-	public function AddFriend ()
+	public function AddFriend ($id)
 	{
-		$id = constant('GET_ID');
-		$user = User::getInfosUser($id, true);
-		if ($user['username'] == DELETE) {
-			$_SESSION['JQUERY'] = array('type' => 'danger', 'text' => UNKNOW_MEMBER);
+		$user = AutoUser::getInfosUser($id, true);
+		if ($user->username == DELETE) {
+			$this->jquery = array('type' => 'danger', 'text' => UNKNOW_MEMBER);
 		} else {
-			parent::addFriendSQL ($user['hash_key']);
-			if (parent::addFriendSQL ($user['hash_key'] == null)) {
-				$_SESSION['JQUERY'] = array('type' => 'danger', 'text' => ADD_FRIEND_ERROR);
+			$return = $this->ModelsMembers->addFriendSQL ($user->hash_key);
+			if ($return == null) {
+				$this->jquery = array('type' => 'danger', 'text' => ADD_FRIEND_ERROR);
 			} else {
-				$_SESSION['JQUERY'] = array('type' => 'success', 'text' => ADD_FRIEND_SUCCESS);
+				$this->jquery = array('type' => 'success', 'text' => ADD_FRIEND_SUCCESS);
 			}
 		}
 	}
