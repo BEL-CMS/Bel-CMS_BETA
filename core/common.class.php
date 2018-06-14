@@ -540,7 +540,7 @@ final class Common
 		return $return;
 	}
 	public static function transformOpt ($data, $reverse = false, $bool = false) {
-		$return = '';
+		$return = array();
 		if ($reverse === false) {
 			$opt = explode('|', $data);
 			foreach ($opt as $k => $v) {
