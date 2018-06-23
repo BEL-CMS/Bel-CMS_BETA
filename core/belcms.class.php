@@ -88,6 +88,10 @@ final class BelCMS extends Dispatcher
 			$lang = DIR_PAGES.$this->controller.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
 		}
 
+		if (is_file(DIR_PAGES.$this->controller.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php')) {
+			require DIR_PAGES.$this->controller.DS.'lang'.DS.'lang.'.CMS_WEBSITE_LANG.'.php';
+		}
+
 		if (is_file($lang)) {
 			require $lang;
 		}
