@@ -23,7 +23,7 @@ if (!defined('CHECK_INDEX')) {
 					<?php
 					$i = 1;
 					foreach ($shoutbox as $k => $v):
-						if (count($v->msg) != 0):
+						if (!empty($v->msg) != 0):
 						$i++;
 						if ($i & 1) {
 							$left_right =  'by_myself right';

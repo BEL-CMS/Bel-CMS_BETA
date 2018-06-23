@@ -17,6 +17,7 @@ setlocale(LC_TIME, 'fr','fr_FR','fr_FR@euro','fr_FR.utf8','fr-FR','fra');
 #########################################
 define ('CHECK_INDEX', true);
 define ('DEBUG', true);
+define ('SHOW_ALL_REQUEST_SQL', false);
 define ('WEB_ROOT',str_replace('index.php','',$_SERVER['SCRIPT_NAME']));
 define ('ROOT',str_replace('index.php','',$_SERVER['SCRIPT_FILENAME']));
 define ('DS', '/');
@@ -35,6 +36,7 @@ define ('DIR_UPLOADS', ROOT.'uploads'.DS);
 define ('ERROR_INDEX', '<!DOCTYPE html>\r\n<html><head>\r\n<title>403 Direct access forbidden</title>\r\n</head><body>\r\n<h1>Direct access forbidden</h1>\r\n<p>The requested URL '.$_SERVER['SCRIPT_NAME'].' is prohibited.</p>\r\n</body></html>');
 define ('ROOT_MANAGEMENT',ROOT.'management'.DS);
 define ('ROOT_MANAGEMENT_TPL','management'.DS);
+define ('SHOW_ALL_REQUEST_SQL', false);
 #########################################
 # Inisialize session
 #########################################
