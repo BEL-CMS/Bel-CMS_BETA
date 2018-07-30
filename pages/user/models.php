@@ -379,7 +379,7 @@ class ModelsUser
 				$sql = New BDD();
 				$sql->table('TABLE_USERS');
 				$sql->where(array('name'=>'hash_key','value'=>$_SESSION['user']->hash_key));
-				$sql->sqlData(array('name' => $data['username']));
+				$sql->sqlData(array('username' => $data['username']));
 				$sql->update();
 				$countRowUpdate = $sql->data;
 			}
