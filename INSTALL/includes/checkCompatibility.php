@@ -14,7 +14,7 @@ require_once ROOT.'INSTALL'.DS.'includes'.DS.'checkCompatibility.php';
 function checkPhp ()
 {
 	$return = false;
-	if (version_compare(PHP_VERSION, '5.4.17') >= 0) {
+	if (version_compare(PHP_VERSION, '7.0.3') >= 0) {
 		$return = true;
 	}
 	return $return;
@@ -41,6 +41,14 @@ function checkPDO ()
 {
 	$return = false;
 	if (class_exists('PDO')) {
+		$return = true;
+	}
+	return $return;
+}
+function checkIntl ()
+{
+	$return = false;
+	if (class_exists('IntlDateFormatter')) {
 		$return = true;
 	}
 	return $return;

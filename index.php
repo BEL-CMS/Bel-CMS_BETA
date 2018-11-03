@@ -36,7 +36,6 @@ define ('DIR_UPLOADS', ROOT.'uploads'.DS);
 define ('ERROR_INDEX', '<!DOCTYPE html>\r\n<html><head>\r\n<title>403 Direct access forbidden</title>\r\n</head><body>\r\n<h1>Direct access forbidden</h1>\r\n<p>The requested URL '.$_SERVER['SCRIPT_NAME'].' is prohibited.</p>\r\n</body></html>');
 define ('ROOT_MANAGEMENT',ROOT.'management'.DS);
 define ('ROOT_MANAGEMENT_TPL','management'.DS);
-define ('SHOW_ALL_REQUEST_SQL', false);
 #########################################
 # Inisialize session
 #########################################

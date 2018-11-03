@@ -1,7 +1,7 @@
 <?php
 /**
  * Bel-CMS [Content management system]
- * @version 0.3.0
+ * @version 0.3.1
  * @link http://www.bel-cms.be
  * @link http://www.stive.eu
  * @license http://opensource.org/licenses/GPL-3.0 copyleft
@@ -15,7 +15,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h4>Bienvenue</h4></div>
 			<div class="panel-body">
-				<p>Bienvenue sur l'installation de BEL-CMS 0.0.1</p>
+				<p>Bienvenue sur l'installation de BEL-CMS 0.3.1</p>
 				<p>Nous vous remercions d'avoir choisis notre CMS et nous espérons qu'il va vous plaire</p>
 				<hr>
 				<?php
@@ -42,7 +42,7 @@
 						<?php $php_class = checkPhp() === false ? 'class="danger"' : ''; ?>
 						<?php $php_ico   = checkPhp() === false ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'; ?>
 						<tr <?=$php_class?>>
-							<td>PHP version ≥ 5.4.17</td>
+							<td>PHP version ≥ 7.0.3</td>
 							<td><span class="<?=$php_ico?>"></span></td>
 						</tr>
 						<?php $sqli_class = checkMysqli() === false ? 'class="danger"' : ''; ?>
@@ -57,6 +57,14 @@
 							<td>Mod Rewrite</td>
 							<td><span class="<?=$rewrite_ico?>"></span></td>
 						</tr>
+
+						<?php $intl_class = checkIntl() === false ? 'class="danger"' : ''; ?>
+						<?php $intl_ico   = checkIntl() === false ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'; ?>
+						<tr <?=$rewrite_class?>>
+							<td>IntlDateFormatter (intl)</td>
+							<td><span class="<?=$intl_ico?>"></span></td>
+						</tr>
+
 						<?php $pdo_class = checkPDO() === false ? 'class="danger"' : ''; ?>
 						<?php $pdo_ico   = checkPDO() === false ? 'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok'; ?>
 						<tr <?=$pdo_class?>>
